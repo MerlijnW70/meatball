@@ -102,7 +102,7 @@ export function FeedPage() {
       <main className="flex-1 p-4 flex flex-col gap-5">
         {/* Jouw teams — altijd bovenaan zodat ze binnen tap-bereik zijn */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-2">jouw teams</h3>
+          <h3 className="font-display text-lg uppercase mb-2">jouw team</h3>
           {myGroups.length === 0 ? (
             <button
               type="button"
