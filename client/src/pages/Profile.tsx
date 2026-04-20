@@ -134,16 +134,6 @@ export function ProfilePage({ userId }: { userId: bigint }) {
           </>
         )}
 
-        {/* Crews shortcut — alleen op eigen profiel */}
-        {isSelf && (
-          <BrutalButton
-            onClick={() => (location.hash = "/groups")}
-            variant="sky" size="md" block
-          >
-            🥩 teams & uitnodigingen
-          </BrutalButton>
-        )}
-
         {/* Social inbox — alleen op eigen profiel */}
         {isSelf && <SocialInbox />}
 
