@@ -5,9 +5,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   ActivityEvent, ActivityKind, City, Club, ClubMembership, ClubMood, Follow,
-  Group, GroupInvite, GroupInviteReveal, GroupMembership,
+  Group, GroupInvite, GroupInviteReveal, GroupMembership, Position,
   Province, Rating, RatingIntent, RatingTag, RatingVote,
-  Session as LiveSession, Snack, SnackLike, SnackStats, User, UserReaction,
+  Session as LiveSession, Snack, SnackLike, SnackStats, User, UserPosition,
+  UserReaction,
 } from "../types";
 
 export function tsToMicros(ts: any): number {
@@ -141,6 +142,12 @@ export const toGroupInvite = (r: any): GroupInvite => ({
 export const toGroupInviteReveal = (r: any): GroupInviteReveal => ({
   invite_id: r.inviteId, code: r.code, invited_by: r.invitedBy,
   expires_at: tsToMicros(r.expiresAt),
+});
+
+export const toUserPosition = (r: any): UserPosition => ({
+  user_id: r.userId,
+  position: r.position as Position,
+  updated_at: tsToMicros(r.updatedAt),
 });
 
 export const toActivity = (r: any): ActivityEvent => ({

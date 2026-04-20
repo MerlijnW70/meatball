@@ -229,6 +229,13 @@ export const User = __t.object("User", {
 });
 export type User = __Infer<typeof User>;
 
+export const UserPosition = __t.object("UserPosition", {
+  userId: __t.u64(),
+  position: __t.string(),
+  updatedAt: __t.timestamp(),
+});
+export type UserPosition = __Infer<typeof UserPosition>;
+
 export const UserReaction = __t.object("UserReaction", {
   id: __t.u64(),
   fromUserId: __t.u64(),

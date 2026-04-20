@@ -1,12 +1,10 @@
 import { useMemo, useState } from "react";
 import { friendlyError } from "../utils/errors";
 import { validateScreenname } from "../utils/screenname";
+import { defaultAvatarFor, TONE_BG } from "../utils/avatar";
 import {
-  defaultAvatarFor, formatDecor, randomAvatar, TONE_BG,
-} from "../utils/avatar";
-import {
-  ALLOWED_AVATAR_COLORS, ALLOWED_AVATAR_ICONS, ALLOWED_AVATAR_PATTERNS,
-  ALLOWED_AVATAR_ROTATIONS,
+  ALLOWED_AVATAR_COLORS, ALLOWED_AVATAR_ICONS, ALLOWED_POSITIONS,
+  type Position,
 } from "../types";
 import { BrutalButton } from "../components/BrutalButton";
 import { BrutalInput } from "../components/BrutalInput";
@@ -15,6 +13,20 @@ import { Avatar } from "../components/Avatar";
 import { go } from "../router";
 import { client } from "../spacetime";
 import { useStore } from "../store";
+
+const POSITION_LABELS: Record<Position, string> = {
+  keeper: "keeper",
+  verdediger: "verdediger",
+  middenvelder: "middenvelder",
+  aanvaller: "aanvaller",
+};
+
+const POSITION_ICON: Record<Position, string> = {
+  keeper: "🧤",
+  verdediger: "🛡",
+  middenvelder: "🎯",
+  aanvaller: "⚽",
+};
 
 export function OnboardScreennamePage() {
   const [name, setName] = useState("");
@@ -27,33 +39,23 @@ export function OnboardScreennamePage() {
   // null betekent: volg deterministische default uit de naam.
   const [color, setColor] = useState<string | null>(null);
   const [icon, setIcon] = useState<string | null>(null);
-  const [pattern, setPattern] = useState<string | null>(null);
-  const [rotation, setRotation] = useState<string | null>(null);
-  // Accent is uitgezet als customisatie — altijd "none".
-  const accent = "none";
+  const [position, setPosition] = useState<Position | null>(null);
 
   const validation = useMemo(
     () => validateScreenname(name, users, session.identity),
     [name, users, session.identity],
   );
   const showClientError = touched && validation.kind === "invalid";
-  const canSubmit = validation.kind === "valid" && !busy;
+  const canSubmit = validation.kind === "valid" && !!position && !busy;
 
   const auto = defaultAvatarFor(name);
   const avatar = {
     color: color ?? auto.color,
     icon: icon ?? auto.icon,
-    pattern: pattern ?? auto.pattern,
-    accent,
-    rotation: rotation ?? auto.rotation,
   };
-  const decor = formatDecor(avatar);
-
-  const shuffle = () => {
-    const r = randomAvatar();
-    setColor(r.color); setIcon(r.icon);
-    setPattern(r.pattern); setRotation(r.rotation);
-  };
+  // Decor blijft "none|none|0" zodat we geen patronen/rotaties meer opleggen,
+  // maar het server-schema hetzelfde blijft.
+  const decor = "none|none|0";
 
   const submit = async () => {
     if (!canSubmit) return;
@@ -62,6 +64,10 @@ export function OnboardScreennamePage() {
       await client().registerUser(name.trim());
       try { await client().setAvatar(avatar.color, avatar.icon, decor); }
       catch { /* avatar non-critical */ }
+      if (position) {
+        try { await client().setPosition(position); }
+        catch { /* positie non-critical */ }
+      }
       if (!useStore.getState().session.me) {
         const id = session.identity;
         const me = Array.from(useStore.getState().users.values())
@@ -131,14 +137,9 @@ export function OnboardScreennamePage() {
             <div className="flex-1 min-w-0">
               <p className="font-display text-xl uppercase leading-tight">jouw avatar</p>
               <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">
-                tap om aan te passen of 🎲 voor random
+                kies een kleur + icoon
               </p>
             </div>
-            <button type="button" onClick={shuffle}
-              aria-label="random avatar"
-              className="brut-btn bg-pop text-ink !py-2 !px-3 text-base">
-              🎲
-            </button>
           </div>
 
           <Sub label="kleur">
@@ -166,33 +167,40 @@ export function OnboardScreennamePage() {
               ))}
             </div>
           </Sub>
+        </section>
 
-          <Sub label="patroon">
-            <div className="grid grid-cols-6 gap-1">
-              {ALLOWED_AVATAR_PATTERNS.map((p) => (
-                <button key={p} type="button" onClick={() => setPattern(p)}
-                  aria-pressed={avatar.pattern === p}
-                  className={`text-[9px] font-bold uppercase tracking-widest
-                    border-2 border-ink py-1.5
-                    ${avatar.pattern === p ? "bg-ink text-paper" : "bg-paper"}
+        {/* Veldpositie */}
+        <section>
+          <p className="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">
+            jouw positie op het veld
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            {ALLOWED_POSITIONS.map((p) => {
+              const active = position === p;
+              return (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setPosition(p)}
+                  aria-pressed={active}
+                  className={`flex items-center gap-2 border-4 border-ink py-2 px-3
+                    font-display uppercase text-sm shadow-brutSm
+                    ${active ? "bg-ink text-paper" : "bg-paper"}
                     active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
-                >{p === "none" ? "geen" : p.replace(/^stripes-/, "lijn-")}</button>
-              ))}
-            </div>
-          </Sub>
-
-          <Sub label="rotatie">
-            <div className="grid grid-cols-4 gap-1">
-              {ALLOWED_AVATAR_ROTATIONS.map((r) => (
-                <button key={r} type="button" onClick={() => setRotation(r)}
-                  aria-pressed={avatar.rotation === r}
-                  className={`text-sm font-bold border-2 border-ink py-2
-                    ${avatar.rotation === r ? "bg-ink text-paper" : "bg-paper"}
-                    active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
-                >{r}°</button>
-              ))}
-            </div>
-          </Sub>
+                >
+                  <span className="text-xl leading-none" aria-hidden>
+                    {POSITION_ICON[p]}
+                  </span>
+                  <span className="truncate">{POSITION_LABELS[p]}</span>
+                </button>
+              );
+            })}
+          </div>
+          {!position && (
+            <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-2">
+              kies een positie om door te gaan
+            </p>
+          )}
         </section>
 
         {err && (

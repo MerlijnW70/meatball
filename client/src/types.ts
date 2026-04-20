@@ -148,6 +148,17 @@ export interface GroupInviteReveal {
   expires_at: Timestamp;
 }
 
+export const ALLOWED_POSITIONS = [
+  "keeper", "verdediger", "middenvelder", "aanvaller",
+] as const;
+export type Position = typeof ALLOWED_POSITIONS[number];
+
+export interface UserPosition {
+  user_id: bigint;
+  position: Position;
+  updated_at: Timestamp;
+}
+
 export interface UserReaction {
   id: bigint;
   from_user_id: bigint;

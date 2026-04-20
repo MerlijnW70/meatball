@@ -46,7 +46,7 @@ export function GroupsPage() {
 
         <BrutalCard tone="pop" className="!p-3">
           <p className="text-xs font-bold uppercase tracking-widest mb-2">
-            Nieuw team maken
+            Team oprichten
           </p>
           <BrutalInput
             placeholder="bv. De Gehaktbal Boys"
@@ -91,12 +91,10 @@ export function GroupsPage() {
           <p className="brut-card bg-hot text-paper p-2 font-bold">{err}</p>
         )}
 
-        <h3 className="font-display text-2xl uppercase mt-2">jouw team</h3>
-        {groups.length === 0 ? (
-          <BrutalCard>
-            <p className="font-bold text-sm">Nog geen team. Maak er één of plak een code.</p>
-          </BrutalCard>
-        ) : (
+        {groups.length > 0 && (
+          <h3 className="font-display text-2xl uppercase mt-2">jouw team</h3>
+        )}
+        {groups.length === 0 ? null : (
           <div className="flex flex-col gap-2">
             {groups.map((g) => (
               <button

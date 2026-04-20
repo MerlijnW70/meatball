@@ -51,8 +51,10 @@ import RegenerateGroupInviteReducer from "./regenerate_group_invite_reducer";
 import RegisterUserReducer from "./register_user_reducer";
 import RenameGroupReducer from "./rename_group_reducer";
 import RevokeGroupInviteReducer from "./revoke_group_invite_reducer";
+import SeedClubsReducer from "./seed_clubs_reducer";
 import SendReactionReducer from "./send_reaction_reducer";
 import SetAvatarReducer from "./set_avatar_reducer";
+import SetPositionReducer from "./set_position_reducer";
 import ShareSeasonWithCrewReducer from "./share_season_with_crew_reducer";
 import SubmitRatingReducer from "./submit_rating_reducer";
 import ToggleFollowReducer from "./toggle_follow_reducer";
@@ -85,6 +87,7 @@ import SnackRow from "./snack_table";
 import SnackLikeRow from "./snack_like_table";
 import SnackStatsRow from "./snack_stats_table";
 import UserRow from "./user_table";
+import UserPositionRow from "./user_position_table";
 import UserReactionRow from "./user_reaction_table";
 
 /** Type-only namespace exports for generated type groups. */
@@ -345,6 +348,17 @@ const tablesSchema = __schema({
       { name: 'user_screen_name_key', constraint: 'unique', columns: ['screenName'] },
     ],
   }, UserRow),
+  user_position: __table({
+    name: 'user_position',
+    indexes: [
+      { accessor: 'user_id', name: 'user_position_user_id_idx_btree', algorithm: 'btree', columns: [
+        'userId',
+      ] },
+    ],
+    constraints: [
+      { name: 'user_position_user_id_key', constraint: 'unique', columns: ['userId'] },
+    ],
+  }, UserPositionRow),
   user_reaction: __table({
     name: 'user_reaction',
     indexes: [
@@ -377,8 +391,10 @@ const reducersSchema = __reducers(
   __reducerSchema("register_user", RegisterUserReducer),
   __reducerSchema("rename_group", RenameGroupReducer),
   __reducerSchema("revoke_group_invite", RevokeGroupInviteReducer),
+  __reducerSchema("seed_clubs", SeedClubsReducer),
   __reducerSchema("send_reaction", SendReactionReducer),
   __reducerSchema("set_avatar", SetAvatarReducer),
+  __reducerSchema("set_position", SetPositionReducer),
   __reducerSchema("share_season_with_crew", ShareSeasonWithCrewReducer),
   __reducerSchema("submit_rating", SubmitRatingReducer),
   __reducerSchema("toggle_follow", ToggleFollowReducer),

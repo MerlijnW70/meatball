@@ -7,7 +7,7 @@ import {
   toActivity, toCity, toClub, toClubMembership, toClubMood, toFollow,
   toGroup, toGroupInvite, toGroupInviteReveal, toGroupMembership,
   toProvince, toRating, toRatingIntent, toRatingTag, toRatingVote, toSession,
-  toSnack, toSnackLike, toSnackStats, toUser, toUserReaction,
+  toSnack, toSnackLike, toSnackStats, toUser, toUserPosition, toUserReaction,
 } from "./mappers";
 
 export function wireTables(conn: any) {
@@ -76,4 +76,5 @@ export function wireTables(conn: any) {
   pipe(db.group_membership, "group_membership", toGroupMembership, s.upsertGroupMembership, (m) => s.deleteGroupMembership(m.id));
   pipe(db.group_invite, "group_invite", toGroupInvite, s.upsertGroupInvite, (i) => s.deleteGroupInvite(i.id));
   pipe(db.group_invite_reveal, "group_invite_reveal", toGroupInviteReveal, s.upsertGroupInviteReveal, (r) => s.deleteGroupInviteReveal(r.invite_id));
+  pipe(db.user_position, "user_position", toUserPosition, s.upsertUserPosition, (p) => s.deleteUserPosition(p.user_id));
 }

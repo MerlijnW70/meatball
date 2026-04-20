@@ -3,12 +3,13 @@
 use spacetimedb::{reducer, ReducerContext, Table};
 
 use crate::constants::{
-    ALLOWED_AVATAR_COLORS, ALLOWED_AVATAR_ICONS, BLOCKED_SUBSTRINGS, RESERVED_NAMES,
+    ALLOWED_AVATAR_COLORS, ALLOWED_AVATAR_ICONS, ALLOWED_POSITIONS,
+    BLOCKED_SUBSTRINGS, RESERVED_NAMES,
 };
 use crate::helpers::{
     default_avatar_for, enforce_rate_limit, push_activity, require_user, validate_decor,
 };
-use crate::tables::{session, user, ActivityKind, User};
+use crate::tables::{session, user, user_position, ActivityKind, User, UserPosition};
 
 /// Registreer of hergebruik screenname voor de huidige identity.
 #[reducer]
@@ -121,5 +122,27 @@ pub fn set_avatar(
     user.avatar_icon = icon;
     user.avatar_decor = decor;
     ctx.db.user().id().update(user);
+    Ok(())
+}
+
+/// Upsert de speler-positie. Position moet één van ALLOWED_POSITIONS zijn.
+#[reducer]
+pub fn set_position(ctx: &ReducerContext, position: String) -> Result<(), String> {
+    let user = require_user(ctx)?;
+    enforce_rate_limit(ctx, "set_position", 2)?;
+    if !ALLOWED_POSITIONS.iter().any(|p| *p == position) {
+        return Err("Ongeldige positie".into());
+    }
+    if let Some(mut existing) = ctx.db.user_position().user_id().find(user.id) {
+        existing.position = position;
+        existing.updated_at = ctx.timestamp;
+        ctx.db.user_position().user_id().update(existing);
+    } else {
+        ctx.db.user_position().insert(UserPosition {
+            user_id: user.id,
+            position,
+            updated_at: ctx.timestamp,
+        });
+    }
     Ok(())
 }

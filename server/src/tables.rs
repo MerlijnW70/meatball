@@ -273,6 +273,17 @@ pub struct GroupInviteReveal {
     pub expires_at: Timestamp,
 }
 
+/// Positie van de speler op het veld: keeper / verdediger / middenvelder /
+/// aanvaller. Één rij per user; upsert bij wijziging. Los van User zodat we
+/// het niet-breaking konden toevoegen.
+#[table(accessor = user_position, public)]
+pub struct UserPosition {
+    #[primary_key]
+    pub user_id: u64,
+    pub position: String,
+    pub updated_at: Timestamp,
+}
+
 /// Per-identity per-action rate limit tracking. Eén rij per (identity, action),
 /// upsert bij elke gerate-limite call.
 #[table(accessor = rate_limit, public)]

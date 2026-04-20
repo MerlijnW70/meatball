@@ -1,18 +1,17 @@
 /**
- * Modal om je eigen avatar te kiezen — kleur, icon, patroon, accent, rotatie.
- * Genoeg combinaties voor honderdduizenden unieke avatars.
+ * Modal om je avatar en positie te kiezen — kleur, icon, veldpositie.
+ * Patroon/accent/rotatie zijn weg; het ingevulde decor blijft intact op
+ * bestaande users maar wordt niet meer getoond of bewerkt.
  */
 import { useEffect, useState } from "react";
 import { useStore } from "../store";
 import {
-  ALLOWED_AVATAR_COLORS, ALLOWED_AVATAR_ICONS, ALLOWED_AVATAR_PATTERNS,
-  ALLOWED_AVATAR_ROTATIONS,
+  ALLOWED_AVATAR_COLORS, ALLOWED_AVATAR_ICONS, ALLOWED_POSITIONS,
+  type Position,
 } from "../types";
 import { client } from "../spacetime";
 import { friendlyError } from "../utils/errors";
-import {
-  formatDecor, parseDecor, randomAvatar, TONE_BG,
-} from "../utils/avatar";
+import { TONE_BG } from "../utils/avatar";
 import { BrutalButton } from "./BrutalButton";
 import { Avatar } from "./Avatar";
 
@@ -20,16 +19,29 @@ interface Props {
   onClose: () => void;
 }
 
+const POSITION_LABELS: Record<Position, string> = {
+  keeper: "keeper",
+  verdediger: "verdediger",
+  middenvelder: "middenvelder",
+  aanvaller: "aanvaller",
+};
+
+const POSITION_ICON: Record<Position, string> = {
+  keeper: "🧤",
+  verdediger: "🛡",
+  middenvelder: "🎯",
+  aanvaller: "⚽",
+};
+
 export function AvatarPicker({ onClose }: Props) {
   const me = useStore((s) => s.session.me);
-  const initialDecor = parseDecor(me?.avatar_decor ?? "none|none|0");
+  const myPosition = useStore((s) =>
+    me ? s.userPositions.get(me.id.toString())?.position ?? null : null,
+  );
 
   const [color, setColor] = useState<string>(me?.avatar_color ?? "pop");
   const [icon, setIcon] = useState<string>(me?.avatar_icon ?? "🥩");
-  const [pattern, setPattern] = useState<string>(initialDecor.pattern);
-  const [rotation, setRotation] = useState<string>(initialDecor.rotation);
-  // Accent uitgeschakeld als optie — altijd "none".
-  const accent = "none";
+  const [position, setPosition] = useState<Position | null>(myPosition ?? null);
 
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -39,22 +51,19 @@ export function AvatarPicker({ onClose }: Props) {
     return () => document.body.classList.remove("modal-open");
   }, []);
 
-  const decor = formatDecor({ pattern, accent, rotation });
-
   const save = async () => {
     setBusy(true); setErr(null);
     try {
+      // Behoud bestaande decor-waarde (server accepteert dezelfde format).
+      const decor = me?.avatar_decor ?? "none|none|0";
       await client().setAvatar(color, icon, decor);
+      if (position && position !== myPosition) {
+        await client().setPosition(position);
+      }
       onClose();
     } catch (e) {
       setErr(friendlyError(e));
     } finally { setBusy(false); }
-  };
-
-  const shuffle = () => {
-    const r = randomAvatar();
-    setColor(r.color); setIcon(r.icon);
-    setPattern(r.pattern); setRotation(r.rotation);
   };
 
   return (
@@ -70,19 +79,15 @@ export function AvatarPicker({ onClose }: Props) {
         style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
       >
         <div className="flex items-center justify-between mb-3">
-          <h2 className="font-display text-2xl uppercase">avatar</h2>
-          <div className="flex gap-2">
-            <button type="button" onClick={shuffle}
-              className="brut-btn bg-pop text-ink !py-2 !px-3 text-base"
-              aria-label="random">🎲</button>
-            <button type="button" onClick={onClose} aria-label="sluiten"
-              className="brut-btn bg-ink text-paper !py-2 !px-4 text-lg">✕</button>
-          </div>
+          <h2 className="font-display text-2xl uppercase">jouw avatar</h2>
+          <button type="button" onClick={onClose} aria-label="sluiten"
+            className="brut-btn bg-ink text-paper !py-2 !px-4 text-lg">✕</button>
         </div>
 
         {/* Preview */}
         <div className="flex justify-center my-3">
-          <Avatar userId={null} size="xl" override={{ color, icon, decor }} />
+          <Avatar userId={null} size="xl"
+            override={{ color, icon, decor: me?.avatar_decor ?? "none|none|0" }} />
         </div>
 
         <div className="overflow-y-auto -mx-1 px-1">
@@ -114,33 +119,32 @@ export function AvatarPicker({ onClose }: Props) {
             </div>
           </Section>
 
-          {/* Patroon */}
-          <Section label="patroon">
-            <div className="grid grid-cols-6 gap-1.5">
-              {ALLOWED_AVATAR_PATTERNS.map((p) => (
-                <button key={p} type="button" onClick={() => setPattern(p)}
-                  aria-pressed={pattern === p}
-                  className={`text-[9px] font-bold uppercase tracking-widest
-                    border-2 border-ink py-1.5
-                    ${pattern === p ? "bg-ink text-paper" : "bg-paper"}
-                    active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
-                >{p === "none" ? "geen" : p}</button>
-              ))}
+          {/* Positie op het veld */}
+          <Section label="jouw positie">
+            <div className="grid grid-cols-2 gap-2">
+              {ALLOWED_POSITIONS.map((p) => {
+                const active = position === p;
+                return (
+                  <button key={p} type="button" onClick={() => setPosition(p)}
+                    aria-pressed={active}
+                    className={`flex items-center gap-2 border-4 border-ink py-2 px-3
+                      font-display uppercase text-sm shadow-brutSm
+                      ${active ? "bg-ink text-paper" : "bg-paper"}
+                      active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
+                  >
+                    <span className="text-xl leading-none" aria-hidden>
+                      {POSITION_ICON[p]}
+                    </span>
+                    <span className="truncate">{POSITION_LABELS[p]}</span>
+                  </button>
+                );
+              })}
             </div>
-          </Section>
-
-          {/* Rotatie */}
-          <Section label="rotatie">
-            <div className="grid grid-cols-4 gap-1.5">
-              {ALLOWED_AVATAR_ROTATIONS.map((r) => (
-                <button key={r} type="button" onClick={() => setRotation(r)}
-                  aria-pressed={rotation === r}
-                  className={`text-sm font-bold border-2 border-ink py-2
-                    ${rotation === r ? "bg-ink text-paper" : "bg-paper"}
-                    active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
-                >{r}°</button>
-              ))}
-            </div>
+            {!position && (
+              <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-2">
+                kies een positie zodat je in de juiste linie komt te staan
+              </p>
+            )}
           </Section>
         </div>
 

@@ -8,7 +8,7 @@ import type {
   ActivityEvent, City, Club, ClubMembership, ClubMood, Follow, Group,
   GroupInvite, GroupInviteReveal, GroupMembership, Province, Rating, RatingIntent,
   RatingTag, RatingVote, Session as LiveSession, Snack, SnackLike, SnackStats,
-  User, UserReaction,
+  User, UserPosition, UserReaction,
 } from "./types";
 
 type IdMap<T> = Map<string, T>;
@@ -45,6 +45,7 @@ interface AppState {
   groupMemberships: IdMap<GroupMembership>;
   groupInvites: IdMap<GroupInvite>;
   groupInviteReveals: IdMap<GroupInviteReveal>;
+  userPositions: IdMap<UserPosition>;
   memberships: IdMap<ClubMembership>;
 
   setSession: (patch: Partial<Session>) => void;
@@ -85,6 +86,8 @@ interface AppState {
   deleteGroupInvite: (id: bigint) => void;
   upsertGroupInviteReveal: (r: GroupInviteReveal) => void;
   deleteGroupInviteReveal: (inviteId: bigint) => void;
+  upsertUserPosition: (p: UserPosition) => void;
+  deleteUserPosition: (userId: bigint) => void;
 }
 
 const LS_KEY = "meatball.session.v1";
@@ -139,6 +142,7 @@ export const useStore = create<AppState>((set, get) => ({
   likes: m(), sessions: m(), intents: m(), reactions: m(),
   follows: m(), moods: m(), votes: m(), memberships: m(),
   groups: m(), groupMemberships: m(), groupInvites: m(), groupInviteReveals: m(),
+  userPositions: m(),
 
   setSession: (patch) => {
     const next = { ...get().session, ...patch };
@@ -189,4 +193,6 @@ export const useStore = create<AppState>((set, get) => ({
   deleteGroupInvite: (id) => set((s) => ({ groupInvites: del(s.groupInvites, id) })),
   upsertGroupInviteReveal: (r) => set((s) => ({ groupInviteReveals: put(s.groupInviteReveals, r.invite_id, r) })),
   deleteGroupInviteReveal: (inviteId) => set((s) => ({ groupInviteReveals: del(s.groupInviteReveals, inviteId) })),
+  upsertUserPosition: (p) => set((s) => ({ userPositions: put(s.userPositions, p.user_id, p) })),
+  deleteUserPosition: (uid) => set((s) => ({ userPositions: del(s.userPositions, uid) })),
 }));
