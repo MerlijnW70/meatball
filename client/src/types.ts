@@ -162,8 +162,14 @@ export const ALLOWED_POSITIONS = [
   "lb", "lcb", "rcb", "rb",
   "lm", "cm", "rm",
   "lw", "st", "rw",
+  "wissel",
 ] as const;
 export type Position = typeof ALLOWED_POSITIONS[number];
+
+/** Veldslots: 11 posities waar max 1 speler per team staat. `wissel` niet. */
+export const FIELD_POSITIONS: Position[] = [
+  "keeper", "lb", "lcb", "rcb", "rb", "lm", "cm", "rm", "lw", "st", "rw",
+];
 
 export const POSITION_LABEL: Record<Position, string> = {
   keeper: "keeper",
@@ -177,6 +183,7 @@ export const POSITION_LABEL: Record<Position, string> = {
   lw: "linksbuiten",
   st: "spits",
   rw: "rechtsbuiten",
+  wissel: "wissel",
 };
 
 export const POSITION_SHORT: Record<Position, string> = {
@@ -184,6 +191,7 @@ export const POSITION_SHORT: Record<Position, string> = {
   lb: "LB", lcb: "LCV", rcb: "RCV", rb: "RB",
   lm: "LM", cm: "CM", rm: "RM",
   lw: "LV", st: "SP", rw: "RV",
+  wissel: "WIS",
 };
 
 export interface UserPosition {

@@ -14,7 +14,7 @@ import { Avatar } from "../components/Avatar";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { GroupManageModal } from "../components/GroupManageModal";
 import { friendlyError } from "../utils/errors";
-import { POSITION_LABEL, POSITION_SHORT, type Position } from "../types";
+import { FIELD_POSITIONS, POSITION_LABEL, POSITION_SHORT, type Position } from "../types";
 
 type RowWithPos = GroupMemberRow & { position: Position | null };
 
@@ -62,10 +62,13 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
     const slotOwner = new Map<Position, RowWithPos>();
     const wissels: RowWithPos[] = [];
 
+    const isField = (p: Position | null): p is Position =>
+      !!p && (FIELD_POSITIONS as Position[]).includes(p);
     for (const r of rows) {
-      if (r.position && !slotOwner.has(r.position)) {
+      if (isField(r.position) && !slotOwner.has(r.position)) {
         slotOwner.set(r.position, r);
       } else {
+        // Inclusief `wissel` (expliciet gekozen bank) + no-position + overflow.
         wissels.push(r);
       }
     }
