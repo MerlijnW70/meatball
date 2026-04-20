@@ -71,7 +71,7 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title={group.name} back="/groups" hideCrews right={manageButton} />
+      <TopBar title="crew" sub={group.name} back="/groups" hideCrews right={manageButton} />
       <main className="flex-1 px-4 py-5 flex flex-col gap-4">
 
         {!isMember && (
@@ -85,7 +85,7 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
 
         <section>
           <h3 className="font-display text-lg uppercase mb-2">
-            leden · {members.length}
+            crew · {members.length}
           </h3>
           <div className="flex flex-col gap-1.5">
             {members.map((m) => (
