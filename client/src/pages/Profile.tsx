@@ -2,12 +2,10 @@
  * Eén profiel-framework voor zowel eigen als andermans profiel.
  * `isSelf` schakelt self-only extras in.
  */
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   markReactionsRead, markFollowsRead,
-  useBadgesFor, useIsFollowing, useUserProfile,
-  TIER_ORDER, TIER_META, TOTAL_BADGES,
-  type Badge, type Tier,
+  useIsFollowing, useUserProfile,
 } from "../hooks";
 import { useStore } from "../store";
 import { client } from "../spacetime";
@@ -17,42 +15,18 @@ import { BrutalButton } from "../components/BrutalButton";
 import { Avatar } from "../components/Avatar";
 import { AvatarPicker } from "../components/AvatarPicker";
 import { SocialInbox } from "../components/SocialInbox";
-import { TierBadgesModal } from "../components/TierBadgesModal";
 import { fmtRelative } from "../utils/format";
 import { friendlyError } from "../utils/errors";
 
 export function ProfilePage({ userId }: { userId: bigint }) {
   const me = useStore((s) => s.session.me);
   const profile = useUserProfile(userId);
-  const badges = useBadgesFor(userId);
   const following = useIsFollowing(userId);
   const isSelf = me?.id === userId;
 
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [avatarOpen, setAvatarOpen] = useState(false);
-  const [openTier, setOpenTier] = useState<Tier | null>(null);
-
-  const unlocked = badges.filter((b) => b.unlocked);
-
-  const byTier = useMemo(() => {
-    const map = new Map<Tier, Badge[]>();
-    for (const t of TIER_ORDER) map.set(t, []);
-    for (const b of badges) map.get(b.tier)!.push(b);
-    return map;
-  }, [badges]);
-
-  const tierStats = useMemo(() =>
-    TIER_ORDER.map((t) => {
-      const list = byTier.get(t)!;
-      return {
-        tier: t,
-        unlocked: list.filter((b) => b.unlocked).length,
-        total: list.length,
-      };
-    }),
-    [byTier],
-  );
 
   // Self-only: markeer alle social-inbox-items als gelezen bij binnenkomst.
   useEffect(() => {
@@ -136,52 +110,9 @@ export function ProfilePage({ userId }: { userId: bigint }) {
 
         {/* Social inbox — alleen op eigen profiel */}
         {isSelf && <SocialInbox />}
-
-        {/* Badges — 5 tier-tegels, klik voor volledige lijst */}
-        <section>
-          <div className="flex items-baseline justify-between mb-2">
-            <h3 className="font-display text-2xl uppercase">badges</h3>
-            <span className="text-xs font-bold uppercase tracking-widest opacity-70">
-              {unlocked.length}/{TOTAL_BADGES}
-            </span>
-          </div>
-          <div className="grid grid-cols-5 gap-2">
-            {tierStats.map(({ tier, unlocked, total }) => {
-              const meta = TIER_META[tier];
-              const done = unlocked === total && total > 0;
-              return (
-                <button
-                  key={tier}
-                  type="button"
-                  onClick={() => setOpenTier(tier)}
-                  aria-label={`bekijk ${meta.label}-badges`}
-                  className={`brut-card !p-2 text-center
-                    ${meta.bg} ${meta.fg}
-                    ${done ? "shadow-brut" : "shadow-brutSm"}
-                    active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
-                >
-                  <p className="font-display text-xl leading-none">
-                    {unlocked}<span className="opacity-60 text-sm">/{total}</span>
-                  </p>
-                  <p className="text-[9px] font-bold uppercase tracking-widest mt-1 leading-none">
-                    {meta.label}
-                  </p>
-                </button>
-              );
-            })}
-          </div>
-        </section>
       </main>
 
       {avatarOpen && <AvatarPicker onClose={() => setAvatarOpen(false)} />}
-      {openTier && (
-        <TierBadgesModal
-          tier={openTier}
-          badges={byTier.get(openTier)!}
-          showLocked={isSelf}
-          onClose={() => setOpenTier(null)}
-        />
-      )}
     </div>
   );
 }
