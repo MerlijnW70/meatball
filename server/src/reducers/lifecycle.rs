@@ -20,10 +20,11 @@ pub fn init(ctx: &ReducerContext) {
 }
 
 /// Idempotent seed voor bestaande databases (init fires alleen op fresh DB).
-/// Anonymous callable (via `spacetime call`) — functie is non-destructief
-/// find-or-create. Rate-limited per identity om spam te voorkomen.
+/// Auth-vereist (anti-spam: anonymous + rotating-identity kon anders de
+/// 4k-club-scan spammen). Per-user rate-limit 60s.
 #[reducer]
 pub fn seed_clubs(ctx: &ReducerContext) -> Result<(), String> {
+    require_user(ctx)?;
     enforce_rate_limit(ctx, "seed_clubs", 60)?;
     seed_cities_and_clubs(ctx);
     Ok(())

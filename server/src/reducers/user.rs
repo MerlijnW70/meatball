@@ -130,17 +130,20 @@ pub fn set_avatar(
 pub fn set_position(ctx: &ReducerContext, position: String) -> Result<(), String> {
     let user = require_user(ctx)?;
     enforce_rate_limit(ctx, "set_position", 2)?;
-    if !ALLOWED_POSITIONS.iter().any(|p| *p == position) {
+    // Normaliseer: trim + lowercase zodat client-varianten ("Keeper", " keeper ")
+    // ook werken. ALLOWED_POSITIONS is lowercase dus dit is canonicaal.
+    let normalized = position.trim().to_ascii_lowercase();
+    if !ALLOWED_POSITIONS.iter().any(|p| *p == normalized) {
         return Err("Ongeldige positie".into());
     }
     if let Some(mut existing) = ctx.db.user_position().user_id().find(user.id) {
-        existing.position = position;
+        existing.position = normalized;
         existing.updated_at = ctx.timestamp;
         ctx.db.user_position().user_id().update(existing);
     } else {
         ctx.db.user_position().insert(UserPosition {
             user_id: user.id,
-            position,
+            position: normalized,
             updated_at: ctx.timestamp,
         });
     }
