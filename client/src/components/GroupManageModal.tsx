@@ -158,7 +158,7 @@ export function GroupManageModal({ group, onClose }: Props) {
 
         {/* Invite sectie */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-2">nodig uit</h3>
+          <h3 className="font-display text-lg uppercase mb-2">koop speler</h3>
           <BrutalCard tone="pop" className="!p-3">
             {reveal ? (
               <>
