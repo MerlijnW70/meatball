@@ -84,6 +84,13 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
     }
   };
 
+  const claimSlot = async (pos: Position) => {
+    setBusy(true); setErr(null);
+    try { await client().setPosition(pos); }
+    catch (e) { setErr(friendlyError(e)); }
+    finally { setBusy(false); }
+  };
+
   if (!group) {
     return (
       <div className="min-h-dvh flex flex-col">
@@ -151,8 +158,8 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
                   key={pos}
                   pos={pos}
                   row={slotOwner.get(pos) ?? null}
-                  canKick={isOwner}
-                  onKick={(id, name) => setKickTarget({ id, name })}
+                  canClaim={isMember}
+                  onClaim={() => claimSlot(pos)}
                 />
               ))}
             </div>
@@ -208,22 +215,41 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
   );
 }
 
-/** Eén slot op het veld — speler of leeg. */
+/** Eén slot op het veld — speler of lege slot die de user kan claimen. */
 function SlotTile({
-  pos, row, canKick, onKick,
+  pos, row, canClaim, onClaim,
 }: {
   pos: Position;
   row: RowWithPos | null;
-  canKick: boolean;
-  onKick: (id: bigint, name: string) => void;
+  canClaim: boolean;
+  onClaim: () => void;
 }) {
   if (!row) {
-    return (
+    // Leeg slot: klikbaar voor leden om de positie te claimen.
+    const empty = (
+      <>
+        <span className="opacity-70 text-[10px]">leeg</span>
+        <span className="mt-1 text-[11px]">{POSITION_SHORT[pos]}</span>
+      </>
+    );
+    return canClaim ? (
+      <button
+        type="button"
+        onClick={onClaim}
+        aria-label={`kies ${POSITION_SHORT[pos]}`}
+        title={`kies ${POSITION_SHORT[pos]}`}
+        className="border-4 border-dashed border-paper/70 py-3 px-1 text-center
+                   font-display uppercase text-paper leading-tight bg-ink/10
+                   hover:bg-ink/20 active:translate-x-[2px] active:translate-y-[2px]
+                   transition-transform flex flex-col items-center justify-center"
+      >
+        {empty}
+      </button>
+    ) : (
       <div className="border-4 border-dashed border-paper/60 py-3 px-1 text-center
-                      font-display uppercase text-paper text-[10px] leading-tight
-                      bg-ink/10">
-        <p className="opacity-70">leeg</p>
-        <p className="mt-1">{POSITION_SHORT[pos]}</p>
+                      font-display uppercase text-paper leading-tight bg-ink/10
+                      flex flex-col items-center justify-center">
+        {empty}
       </div>
     );
   }
@@ -241,21 +267,6 @@ function SlotTile({
       <span className="text-[9px] font-bold uppercase tracking-widest opacity-70">
         {POSITION_SHORT[pos]}
       </span>
-      {row.isOwner && (
-        <span className="brut-chip bg-pop !py-0 !px-1 text-[9px] leading-none">
-          Trainer
-        </span>
-      )}
-      {canKick && !row.isOwner && (
-        <span
-          role="button"
-          onClick={(e) => { e.stopPropagation(); onKick(row.userId, row.name); }}
-          className="brut-chip bg-hot text-paper !py-0 !px-1 text-[9px] leading-none
-                     active:translate-x-[1px] active:translate-y-[1px] transition-transform"
-        >
-          sell
-        </span>
-      )}
     </button>
   );
 }
