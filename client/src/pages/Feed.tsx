@@ -148,9 +148,9 @@ export function FeedPage() {
 
         {/* Andere kantines — lijst verschijnt pas nadat er gezocht wordt */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-2">andere kantines</h3>
+          <h3 className="font-display text-lg uppercase mb-2">zoek kantines</h3>
           <BrutalInput
-            placeholder="zoek je kantine…"
+            placeholder="typ een clubnaam, bv. VV Gruno"
             value={q}
             onChange={(e) => setQ(e.target.value)}
           />
