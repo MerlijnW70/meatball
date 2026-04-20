@@ -221,9 +221,12 @@ function Pitch({
 }) {
   return (
     <div
-      className="relative w-full max-w-sm mx-auto border-4 border-ink shadow-brutSm"
+      className="relative mx-auto border-4 border-ink shadow-brutSm"
       style={{
         aspectRatio: "3 / 5",
+        // Cap hoogte op 55dvh zodat scorebord + pitch + wat events
+        // tegelijk in beeld passen op elk device. Breedte volgt aspect.
+        width: "min(100%, 22rem, calc(55dvh * 3 / 5))",
         background: "#1FAE6B",
         backgroundImage: `repeating-linear-gradient(
           180deg, rgba(255,255,255,0.07) 0 8%, transparent 8% 16%)`,
