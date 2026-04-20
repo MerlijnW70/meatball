@@ -7,7 +7,7 @@ import { useStore } from "../store";
 import { makeClient } from "./client-factory";
 import { installMockSeed } from "./mock";
 import { setClient } from "./singleton";
-import { subscribeClub, subscribeGlobal, unsubscribeClub } from "./subscriptions";
+import { setActiveConnection, subscribeClub, subscribeGlobal, unsubscribeClub } from "./subscriptions";
 import { wireTables } from "./tables";
 import { TOKEN_KEY } from "./types";
 
@@ -42,6 +42,7 @@ export async function connect(): Promise<void> {
       .onConnect((conn: any, identity: any, token: string) => {
         localStorage.setItem(TOKEN_KEY, token);
         setClient(makeClient(conn));
+        setActiveConnection(conn);
         wireTables(conn);
         subscribeGlobal(conn);
 

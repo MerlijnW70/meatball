@@ -8,3 +8,4 @@ pub mod rating;
 pub mod social;
 pub mod membership;
 pub mod groups;
+pub mod match_sim;

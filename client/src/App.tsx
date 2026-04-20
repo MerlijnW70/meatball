@@ -16,6 +16,7 @@ import { ProfilePage } from "./pages/Profile";
 import { GroupsPage } from "./pages/Groups";
 import { GroupDetailPage } from "./pages/GroupDetail";
 import { JoinInvitePage } from "./pages/JoinInvite";
+import { MatchPage } from "./pages/Match";
 
 export default function App() {
   const [route] = useRoute();
@@ -113,6 +114,9 @@ function RouteSwitch({ path }: { path: string }) {
 
   p = match("/group/:id", path);
   if (p) return <GroupDetailPage groupId={BigInt(p.id)} />;
+
+  p = match("/match/:id", path);
+  if (p) return <MatchPage matchId={BigInt(p.id)} />;
 
   p = match("/join/:code", path);
   if (p) return <JoinInvitePage code={p.code} />;

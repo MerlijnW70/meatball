@@ -56,6 +56,7 @@ import SendReactionReducer from "./send_reaction_reducer";
 import SetAvatarReducer from "./set_avatar_reducer";
 import SetPositionReducer from "./set_position_reducer";
 import ShareSeasonWithCrewReducer from "./share_season_with_crew_reducer";
+import SimulateMatchReducer from "./simulate_match_reducer";
 import SubmitRatingReducer from "./submit_rating_reducer";
 import ToggleFollowReducer from "./toggle_follow_reducer";
 import ToggleLikeReducer from "./toggle_like_reducer";
@@ -71,10 +72,13 @@ import ClubRow from "./club_table";
 import ClubMembershipRow from "./club_membership_table";
 import ClubMoodRow from "./club_mood_table";
 import FollowRow from "./follow_table";
+import FootballMatchRow from "./football_match_table";
 import GroupRow from "./group_table";
 import GroupInviteRow from "./group_invite_table";
 import GroupInviteRevealRow from "./group_invite_reveal_table";
 import GroupMembershipRow from "./group_membership_table";
+import MatchEventRow from "./match_event_table";
+import MatchPlayerRow from "./match_player_table";
 import ProvinceRow from "./province_table";
 import RateLimitRow from "./rate_limit_table";
 import RatingRow from "./rating_table";
@@ -160,6 +164,17 @@ const tablesSchema = __schema({
       { name: 'follow_id_key', constraint: 'unique', columns: ['id'] },
     ],
   }, FollowRow),
+  football_match: __table({
+    name: 'football_match',
+    indexes: [
+      { accessor: 'id', name: 'football_match_id_idx_btree', algorithm: 'btree', columns: [
+        'id',
+      ] },
+    ],
+    constraints: [
+      { name: 'football_match_id_key', constraint: 'unique', columns: ['id'] },
+    ],
+  }, FootballMatchRow),
   group: __table({
     name: 'group',
     indexes: [
@@ -204,6 +219,28 @@ const tablesSchema = __schema({
       { name: 'group_membership_id_key', constraint: 'unique', columns: ['id'] },
     ],
   }, GroupMembershipRow),
+  match_event: __table({
+    name: 'match_event',
+    indexes: [
+      { accessor: 'id', name: 'match_event_id_idx_btree', algorithm: 'btree', columns: [
+        'id',
+      ] },
+    ],
+    constraints: [
+      { name: 'match_event_id_key', constraint: 'unique', columns: ['id'] },
+    ],
+  }, MatchEventRow),
+  match_player: __table({
+    name: 'match_player',
+    indexes: [
+      { accessor: 'id', name: 'match_player_id_idx_btree', algorithm: 'btree', columns: [
+        'id',
+      ] },
+    ],
+    constraints: [
+      { name: 'match_player_id_key', constraint: 'unique', columns: ['id'] },
+    ],
+  }, MatchPlayerRow),
   province: __table({
     name: 'province',
     indexes: [
@@ -396,6 +433,7 @@ const reducersSchema = __reducers(
   __reducerSchema("set_avatar", SetAvatarReducer),
   __reducerSchema("set_position", SetPositionReducer),
   __reducerSchema("share_season_with_crew", ShareSeasonWithCrewReducer),
+  __reducerSchema("simulate_match", SimulateMatchReducer),
   __reducerSchema("submit_rating", SubmitRatingReducer),
   __reducerSchema("toggle_follow", ToggleFollowReducer),
   __reducerSchema("toggle_like", ToggleLikeReducer),

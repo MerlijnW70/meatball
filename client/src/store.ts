@@ -5,8 +5,9 @@
  */
 import { create } from "zustand";
 import type {
-  ActivityEvent, City, Club, ClubMembership, ClubMood, Follow, Group,
-  GroupInvite, GroupInviteReveal, GroupMembership, Province, Rating, RatingIntent,
+  ActivityEvent, City, Club, ClubMembership, ClubMood, FootballMatch, Follow,
+  Group, GroupInvite, GroupInviteReveal, GroupMembership, MatchEvent,
+  MatchPlayer, Province, Rating, RatingIntent,
   RatingTag, RatingVote, Session as LiveSession, Snack, SnackLike, SnackStats,
   User, UserPosition, UserReaction,
 } from "./types";
@@ -47,6 +48,9 @@ interface AppState {
   groupInviteReveals: IdMap<GroupInviteReveal>;
   userPositions: IdMap<UserPosition>;
   memberships: IdMap<ClubMembership>;
+  matches: IdMap<FootballMatch>;
+  matchPlayers: IdMap<MatchPlayer>;
+  matchEvents: IdMap<MatchEvent>;
 
   setSession: (patch: Partial<Session>) => void;
   setMe: (u: User | null) => void;
@@ -88,6 +92,12 @@ interface AppState {
   deleteGroupInviteReveal: (inviteId: bigint) => void;
   upsertUserPosition: (p: UserPosition) => void;
   deleteUserPosition: (userId: bigint) => void;
+  upsertMatch: (m: FootballMatch) => void;
+  deleteMatch: (id: bigint) => void;
+  upsertMatchPlayer: (p: MatchPlayer) => void;
+  deleteMatchPlayer: (id: bigint) => void;
+  upsertMatchEvent: (e: MatchEvent) => void;
+  deleteMatchEvent: (id: bigint) => void;
 }
 
 const LS_KEY = "meatball.session.v1";
@@ -143,6 +153,7 @@ export const useStore = create<AppState>((set, get) => ({
   follows: m(), moods: m(), votes: m(), memberships: m(),
   groups: m(), groupMemberships: m(), groupInvites: m(), groupInviteReveals: m(),
   userPositions: m(),
+  matches: m(), matchPlayers: m(), matchEvents: m(),
 
   setSession: (patch) => {
     const next = { ...get().session, ...patch };
@@ -195,4 +206,10 @@ export const useStore = create<AppState>((set, get) => ({
   deleteGroupInviteReveal: (inviteId) => set((s) => ({ groupInviteReveals: del(s.groupInviteReveals, inviteId) })),
   upsertUserPosition: (p) => set((s) => ({ userPositions: put(s.userPositions, p.user_id, p) })),
   deleteUserPosition: (uid) => set((s) => ({ userPositions: del(s.userPositions, uid) })),
+  upsertMatch: (mt) => set((s) => ({ matches: put(s.matches, mt.id, mt) })),
+  deleteMatch: (id) => set((s) => ({ matches: del(s.matches, id) })),
+  upsertMatchPlayer: (p) => set((s) => ({ matchPlayers: put(s.matchPlayers, p.id, p) })),
+  deleteMatchPlayer: (id) => set((s) => ({ matchPlayers: del(s.matchPlayers, id) })),
+  upsertMatchEvent: (e) => set((s) => ({ matchEvents: put(s.matchEvents, e.id, e) })),
+  deleteMatchEvent: (id) => set((s) => ({ matchEvents: del(s.matchEvents, id) })),
 }));

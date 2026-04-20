@@ -30,6 +30,7 @@ export interface MeatballClient {
   leaveGroup(groupId: bigint): Promise<void>;
   kickGroupMember(groupId: bigint, targetUserId: bigint): Promise<void>;
   shareSeasonWithCrew(groupId: bigint): Promise<void>;
+  simulateMatch(homeClubId: bigint, awayClubId: bigint): Promise<void>;
 }
 
 export const TOKEN_KEY = "meatball.spacetime.token.v1";

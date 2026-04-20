@@ -10,6 +10,12 @@ import { friendlyError } from "../utils/errors";
 
 let globalSub: any = null;
 let clubSub: any = null;
+let matchSub: any = null;
+let activeConn: any = null;
+
+/** Wordt gezet in connect.ts zodat ad-hoc scoped subs hun DbConnection kunnen vinden. */
+export function setActiveConnection(conn: any) { activeConn = conn; }
+export function getActiveConnection(): any { return activeConn; }
 
 export function subscribeGlobal(conn: any) {
   if (globalSub) return;
@@ -43,7 +49,32 @@ export function subscribeGlobal(conn: any) {
       "SELECT * FROM group_invite",
       "SELECT * FROM group_invite_reveal",
       "SELECT * FROM user_position",
+      "SELECT * FROM football_match",
     ]);
+}
+
+export function subscribeMatch(conn: any, matchId: bigint) {
+  unsubscribeMatch();
+  const mid = matchId.toString();
+  matchSub = conn.subscriptionBuilder()
+    .onApplied(() => console.log(`[spacetime] match ${mid} snapshot applied`))
+    .onError((_c: any, e: Error) => {
+      console.error("[spacetime] match sub error", e);
+      toast.hot(`match subscription error: ${friendlyError(e)}`);
+    })
+    .subscribe([
+      `SELECT * FROM match_player WHERE match_id = ${mid}`,
+      `SELECT * FROM match_event WHERE match_id = ${mid}`,
+    ]);
+}
+
+export function unsubscribeMatch() {
+  if (matchSub) {
+    try { matchSub.unsubscribe(); } catch (e) {
+      console.warn("[spacetime] unsubscribe match failed", e);
+    }
+    matchSub = null;
+  }
 }
 
 export function subscribeClub(conn: any, clubId: bigint) {

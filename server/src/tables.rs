@@ -1,7 +1,9 @@
 //! Table definities + shared enums. Alles is `public` zodat de client
 //! alle tables direct kan subscriben voor realtime updates.
 
-use spacetimedb::{table, Identity, SpacetimeType, Timestamp};
+use spacetimedb::{table, Identity, ScheduleAt, SpacetimeType, Timestamp};
+
+use crate::reducers::match_sim::{tick_match, tick_positions};
 
 #[table(accessor =user, public)]
 pub struct User {
@@ -295,6 +297,119 @@ pub struct RateLimit {
     pub identity: Identity,
     pub action: String,
     pub last_at: Timestamp,
+}
+
+/// Voetbalwedstrijd tussen twee kantines. Server-authoritative: posities +
+/// bal worden elke ~200ms door `tick_positions` bijgewerkt.
+#[table(accessor = football_match, public)]
+pub struct FootballMatch {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    pub home_club_id: u64,
+    pub away_club_id: u64,
+    pub home_score: u32,
+    pub away_score: u32,
+    pub seed: u64,
+    pub created_by: u64,
+    pub created_at: Timestamp,
+
+    // Bal-positie (0..100 in beide dimensies, geinterpoleerd door tick_positions).
+    pub ball_x: f32,
+    pub ball_y: f32,
+    pub ball_target_x: f32,
+    pub ball_target_y: f32,
+
+    // Wedstrijd-fase — bepaalt hoe teams schuiven.
+    pub phase: String,              // "home_attack" | "away_attack" | "neutral"
+    pub phase_set_at: Timestamp,
+
+    // Wie heeft 'bal' (laatste event speler) — driver voor pressure/support.
+    pub last_action_player_id: u64, // match_player.id, 0 indien n/a
+    pub last_action_side: String,   // "home"|"away"|""
+
+    // Ball-carrier model: continu doorgevoerd door tick_sim. Carrier
+    // dribbelt, passt naar teammate, of verliest de bal aan een opponent.
+    pub ball_carrier_id: u64,       // match_player.id, 0 = bal in flight
+    pub possession_side: String,    // "home"|"away"|""
+    pub next_decision_at: Timestamp,
+    // Als tick_match een highlight-event emit (goal/save/etc) pauzeert hij
+    // de sim tot deze tijd zodat de drama-beweging (bal→doel) af kan spelen.
+    pub sim_paused_until: Timestamp,
+
+    pub is_live: bool,              // false na FullTime; tick_positions stopt dan
+}
+
+/// Eén slot in de opstelling per wedstrijd. `user_id == 0` betekent bot.
+/// Positie (`x`, `y`) wordt continu door `tick_positions` bijgewerkt.
+#[table(accessor = match_player, public)]
+pub struct MatchPlayer {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    pub match_id: u64,
+    pub side: String,            // "home" | "away"
+    pub slot: String,            // position code (keeper/lb/.../rw)
+    pub user_id: u64,            // 0 als bot
+    pub bot_slot: u32,
+    pub display_name: String,
+    pub avatar_color: String,
+    pub avatar_icon: String,
+
+    // Live positie op het veld (procent van veld, 0..100).
+    pub x: f32,
+    pub y: f32,
+}
+
+#[derive(SpacetimeType, Clone)]
+pub enum MatchEventKind {
+    KickOff,
+    Goal,
+    SaveByKeeper,
+    Miss,
+    Corner,
+    Tackle,
+    HalfTime,
+    FullTime,
+}
+
+/// Scheduled tick: één rij per geplande speelminuut. De server vuurt
+/// `tick_match` af zodra `scheduled_at` is bereikt — dat is hoe de
+/// wedstrijd in realtime voortgaat.
+#[table(accessor = match_tick, scheduled(tick_match))]
+pub struct MatchTick {
+    #[primary_key]
+    #[auto_inc]
+    pub scheduled_id: u64,
+    pub scheduled_at: ScheduleAt,
+    pub match_id: u64,
+    pub minute: u32,
+}
+
+/// Scheduled position-tick — vuurt 5×/sec en laat spelers + bal vloeiend
+/// bewegen richting hun door de fase-logic bepaalde target.
+#[table(accessor = match_pos_tick, scheduled(tick_positions))]
+pub struct MatchPosTick {
+    #[primary_key]
+    #[auto_inc]
+    pub scheduled_id: u64,
+    pub scheduled_at: ScheduleAt,
+    pub match_id: u64,
+}
+
+/// Eén event tijdens de wedstrijd-simulatie. Client sorteert op
+/// (match_id, minute, id) en speelt ze terug.
+#[table(accessor = match_event, public)]
+pub struct MatchEvent {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    pub match_id: u64,
+    pub minute: u32,             // 0..=90
+    pub kind: MatchEventKind,
+    pub team_side: String,       // "home" | "away" | ""
+    pub match_player_id: u64,    // 0 als niet persoon-specifiek
+    pub text: String,            // leesbare regel voor het log
 }
 
 #[derive(SpacetimeType, Clone)]

@@ -77,6 +77,31 @@ export const Follow = __t.object("Follow", {
 });
 export type Follow = __Infer<typeof Follow>;
 
+export const FootballMatch = __t.object("FootballMatch", {
+  id: __t.u64(),
+  homeClubId: __t.u64(),
+  awayClubId: __t.u64(),
+  homeScore: __t.u32(),
+  awayScore: __t.u32(),
+  seed: __t.u64(),
+  createdBy: __t.u64(),
+  createdAt: __t.timestamp(),
+  ballX: __t.f32(),
+  ballY: __t.f32(),
+  ballTargetX: __t.f32(),
+  ballTargetY: __t.f32(),
+  phase: __t.string(),
+  phaseSetAt: __t.timestamp(),
+  lastActionPlayerId: __t.u64(),
+  lastActionSide: __t.string(),
+  ballCarrierId: __t.u64(),
+  possessionSide: __t.string(),
+  nextDecisionAt: __t.timestamp(),
+  simPausedUntil: __t.timestamp(),
+  isLive: __t.bool(),
+});
+export type FootballMatch = __Infer<typeof FootballMatch>;
+
 export const Group = __t.object("Group", {
   id: __t.u64(),
   name: __t.string(),
@@ -119,6 +144,62 @@ export const InviteSecret = __t.object("InviteSecret", {
   inviteId: __t.u64(),
 });
 export type InviteSecret = __Infer<typeof InviteSecret>;
+
+export const MatchEvent = __t.object("MatchEvent", {
+  id: __t.u64(),
+  matchId: __t.u64(),
+  minute: __t.u32(),
+  get kind() {
+    return MatchEventKind;
+  },
+  teamSide: __t.string(),
+  matchPlayerId: __t.u64(),
+  text: __t.string(),
+});
+export type MatchEvent = __Infer<typeof MatchEvent>;
+
+// The tagged union or sum type for the algebraic type `MatchEventKind`.
+export const MatchEventKind = __t.enum("MatchEventKind", {
+  KickOff: __t.unit(),
+  Goal: __t.unit(),
+  SaveByKeeper: __t.unit(),
+  Miss: __t.unit(),
+  Corner: __t.unit(),
+  Tackle: __t.unit(),
+  HalfTime: __t.unit(),
+  FullTime: __t.unit(),
+});
+export type MatchEventKind = __Infer<typeof MatchEventKind>;
+
+export const MatchPlayer = __t.object("MatchPlayer", {
+  id: __t.u64(),
+  matchId: __t.u64(),
+  side: __t.string(),
+  slot: __t.string(),
+  userId: __t.u64(),
+  botSlot: __t.u32(),
+  displayName: __t.string(),
+  avatarColor: __t.string(),
+  avatarIcon: __t.string(),
+  x: __t.f32(),
+  y: __t.f32(),
+});
+export type MatchPlayer = __Infer<typeof MatchPlayer>;
+
+export const MatchPosTick = __t.object("MatchPosTick", {
+  scheduledId: __t.u64(),
+  scheduledAt: __t.scheduleAt(),
+  matchId: __t.u64(),
+});
+export type MatchPosTick = __Infer<typeof MatchPosTick>;
+
+export const MatchTick = __t.object("MatchTick", {
+  scheduledId: __t.u64(),
+  scheduledAt: __t.scheduleAt(),
+  matchId: __t.u64(),
+  minute: __t.u32(),
+});
+export type MatchTick = __Infer<typeof MatchTick>;
 
 export const Province = __t.object("Province", {
   id: __t.u64(),

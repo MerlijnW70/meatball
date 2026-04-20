@@ -4,8 +4,10 @@
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
-  ActivityEvent, ActivityKind, City, Club, ClubMembership, ClubMood, Follow,
-  Group, GroupInvite, GroupInviteReveal, GroupMembership, Position,
+  ActivityEvent, ActivityKind, City, Club, ClubMembership, ClubMood,
+  FootballMatch, Follow,
+  Group, GroupInvite, GroupInviteReveal, GroupMembership, MatchEvent,
+  MatchEventKind, MatchPlayer, Position,
   Province, Rating, RatingIntent, RatingTag, RatingVote,
   Session as LiveSession, Snack, SnackLike, SnackStats, User, UserPosition,
   UserReaction,
@@ -148,6 +150,54 @@ export const toUserPosition = (r: any): UserPosition => ({
   user_id: r.userId,
   position: r.position as Position,
   updated_at: tsToMicros(r.updatedAt),
+});
+
+export const toFootballMatch = (r: any): FootballMatch => ({
+  id: r.id,
+  home_club_id: r.homeClubId,
+  away_club_id: r.awayClubId,
+  home_score: r.homeScore,
+  away_score: r.awayScore,
+  seed: r.seed,
+  created_by: r.createdBy,
+  created_at: tsToMicros(r.createdAt),
+  ball_x: r.ballX,
+  ball_y: r.ballY,
+  ball_target_x: r.ballTargetX,
+  ball_target_y: r.ballTargetY,
+  phase: r.phase ?? "neutral",
+  phase_set_at: tsToMicros(r.phaseSetAt),
+  last_action_player_id: r.lastActionPlayerId,
+  last_action_side: r.lastActionSide ?? "",
+  ball_carrier_id: r.ballCarrierId,
+  possession_side: r.possessionSide ?? "",
+  next_decision_at: tsToMicros(r.nextDecisionAt),
+  sim_paused_until: tsToMicros(r.simPausedUntil),
+  is_live: r.isLive,
+});
+
+export const toMatchPlayer = (r: any): MatchPlayer => ({
+  id: r.id,
+  match_id: r.matchId,
+  side: (r.side ?? "home") as MatchPlayer["side"],
+  slot: r.slot,
+  user_id: r.userId,
+  bot_slot: r.botSlot,
+  display_name: r.displayName,
+  avatar_color: r.avatarColor,
+  avatar_icon: r.avatarIcon,
+  x: r.x,
+  y: r.y,
+});
+
+export const toMatchEvent = (r: any): MatchEvent => ({
+  id: r.id,
+  match_id: r.matchId,
+  minute: r.minute,
+  kind: { tag: r.kind?.tag ?? String(r.kind) } as MatchEventKind,
+  team_side: (r.teamSide ?? "") as MatchEvent["team_side"],
+  match_player_id: r.matchPlayerId,
+  text: r.text,
 });
 
 export const toActivity = (r: any): ActivityEvent => ({

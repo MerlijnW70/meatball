@@ -248,6 +248,64 @@ export interface SnackStats {
   last_rated_at: Timestamp;
 }
 
+export interface FootballMatch {
+  id: bigint;
+  home_club_id: bigint;
+  away_club_id: bigint;
+  home_score: number;
+  away_score: number;
+  seed: bigint;
+  created_by: bigint;
+  created_at: Timestamp;
+  ball_x: number;
+  ball_y: number;
+  ball_target_x: number;
+  ball_target_y: number;
+  phase: string;
+  phase_set_at: Timestamp;
+  last_action_player_id: bigint;
+  last_action_side: string;
+  ball_carrier_id: bigint;
+  possession_side: string;
+  next_decision_at: Timestamp;
+  sim_paused_until: Timestamp;
+  is_live: boolean;
+}
+
+export interface MatchPlayer {
+  id: bigint;
+  match_id: bigint;
+  side: "home" | "away";
+  slot: string;
+  user_id: bigint;       // 0n als bot
+  bot_slot: number;
+  display_name: string;
+  avatar_color: string;
+  avatar_icon: string;
+  x: number;             // 0..100, server-authoritative
+  y: number;
+}
+
+export type MatchEventKind =
+  | { tag: "KickOff" }
+  | { tag: "Goal" }
+  | { tag: "SaveByKeeper" }
+  | { tag: "Miss" }
+  | { tag: "Corner" }
+  | { tag: "Tackle" }
+  | { tag: "HalfTime" }
+  | { tag: "FullTime" };
+
+export interface MatchEvent {
+  id: bigint;
+  match_id: bigint;
+  minute: number;
+  kind: MatchEventKind;
+  team_side: "home" | "away" | "";
+  match_player_id: bigint;
+  text: string;
+}
+
 export type ActivityKind =
   | { tag: "UserRegistered" }
   | { tag: "ClubAdded" }

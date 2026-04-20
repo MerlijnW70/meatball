@@ -13,6 +13,7 @@ import { BrutalButton } from "../components/BrutalButton";
 import { ScorePill } from "../components/ScorePill";
 import { Avatar } from "../components/Avatar";
 import { UserMenu } from "../components/UserMenu";
+import { MatchStartModal } from "../components/MatchStartModal";
 import { go } from "../router";
 import type { Club, Group } from "../types";
 
@@ -22,6 +23,8 @@ export function FeedPage() {
 
   const [confirmLeave, setConfirmLeave] = useState<Club | null>(null);
   const [busy, setBusy] = useState(false);
+  const [matchFor, setMatchFor] = useState<Club | null>(null);
+  const [matchOpen, setMatchOpen] = useState(false);
 
   const openClub = (c: Club) => {
     useStore.getState().setSession({
@@ -70,7 +73,20 @@ export function FeedPage() {
 
         {/* Seizoen */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-3">jouw seizoen</h3>
+          <div className="flex items-center justify-between mb-3 gap-2">
+            <h3 className="font-display text-lg uppercase">jouw seizoen</h3>
+            {myClubs.length >= 1 && (
+              <button
+                type="button"
+                onClick={() => { setMatchFor(null); setMatchOpen(true); }}
+                className="brut-btn bg-ink text-paper !py-1.5 !px-3 text-xs uppercase
+                           flex items-center gap-1.5
+                           active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+              >
+                <span aria-hidden>⚽</span> speel wedstrijd
+              </button>
+            )}
+          </div>
 
           {myClubs.length === 0 ? (
             <BrutalCard tone="pop" tilt className="text-center !p-5">
@@ -90,6 +106,7 @@ export function FeedPage() {
                   rank={idx + 1}
                   onTap={openClub}
                   onLeave={askLeave}
+                  onPlayMatch={(c) => { setMatchFor(c); setMatchOpen(true); }}
                 />
               ))}
             </div>
@@ -119,17 +136,25 @@ export function FeedPage() {
           onConfirm={confirmLeaveNow}
         />
       )}
+
+      {matchOpen && (
+        <MatchStartModal
+          preselectHome={matchFor ?? undefined}
+          onClose={() => { setMatchOpen(false); setMatchFor(null); }}
+        />
+      )}
     </div>
   );
 }
 
 function SeasonClubCard({
-  club, rank, onTap, onLeave,
+  club, rank, onTap, onLeave, onPlayMatch,
 }: {
   club: Club;
   rank: number;
   onTap: (c: Club) => void;
   onLeave: (c: Club) => void;
+  onPlayMatch: (c: Club) => void;
 }) {
   const snacks = useStore((s) => s.snacks);
   const gehaktbal = Array.from(snacks.values())
@@ -194,6 +219,18 @@ function SeasonClubCard({
             <span className="font-display text-3xl opacity-40">?</span>
           </div>
         )}
+
+        {/* Speel wedstrijd — full-height strip */}
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onPlayMatch(club); }}
+          aria-label="speel wedstrijd"
+          className="shrink-0 w-12 border-l-4 border-ink bg-ink text-paper
+                     flex items-center justify-center text-xl
+                     active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+        >
+          ⚽
+        </button>
 
         {/* Verwijderen — full-height strip rechts */}
         <button
