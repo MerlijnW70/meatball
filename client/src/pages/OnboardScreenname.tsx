@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { friendlyError } from "../utils/errors";
 import { validateScreenname } from "../utils/screenname";
 import { defaultAvatarFor, randomAvatar } from "../utils/avatar";
-import { ALLOWED_POSITIONS, POSITION_LABEL, type Position } from "../types";
+import { ALLOWED_POSITIONS, POSITION_LABEL, POSITION_SHORT, type Position } from "../types";
 import { BrutalButton } from "../components/BrutalButton";
 import { BrutalInput } from "../components/BrutalInput";
 import { TopBar } from "../components/TopBar";
@@ -182,12 +182,14 @@ function PitchPicker({
                 type="button"
                 onClick={() => onChange(p)}
                 aria-pressed={on}
-                className={`border-4 border-ink py-2 px-1 text-center
-                  font-display uppercase text-[10px] leading-tight shadow-brutSm
+                aria-label={POSITION_LABEL[p]}
+                title={POSITION_LABEL[p]}
+                className={`border-4 border-ink py-3 px-1 text-center
+                  font-display uppercase leading-none shadow-brutSm
                   ${on ? "bg-ink text-paper" : "bg-paper"}
                   active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
               >
-                {POSITION_LABEL[p]}
+                <span className="block text-base">{POSITION_SHORT[p]}</span>
               </button>
             );
           })}

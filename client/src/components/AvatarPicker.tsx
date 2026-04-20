@@ -5,7 +5,7 @@
  */
 import { useEffect, useState } from "react";
 import { useStore } from "../store";
-import { ALLOWED_POSITIONS, POSITION_LABEL, type Position } from "../types";
+import { POSITION_LABEL, POSITION_SHORT, type Position } from "../types";
 import { client } from "../spacetime";
 import { friendlyError } from "../utils/errors";
 import { randomAvatar } from "../utils/avatar";
@@ -136,12 +136,14 @@ export function PitchPicker({
                 type="button"
                 onClick={() => onChange(p)}
                 aria-pressed={on}
-                className={`border-4 border-ink py-2 px-1 text-center
-                  font-display uppercase text-[10px] leading-tight shadow-brutSm
+                aria-label={POSITION_LABEL[p]}
+                title={POSITION_LABEL[p]}
+                className={`border-4 border-ink py-3 px-1 text-center
+                  font-display uppercase leading-none shadow-brutSm
                   ${on ? "bg-ink text-paper" : "bg-paper"}
                   active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
               >
-                {POSITION_LABEL[p]}
+                <span className="block text-base">{POSITION_SHORT[p]}</span>
               </button>
             );
           })}
