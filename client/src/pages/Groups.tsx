@@ -41,12 +41,12 @@ export function GroupsPage() {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title="crews" back="/home" hideCrews />
+      <TopBar title="teams" back="/home" hideCrews />
       <main className="flex-1 p-4 flex flex-col gap-4">
 
         <BrutalCard tone="pop" className="!p-3">
           <p className="text-xs font-bold uppercase tracking-widest mb-2">
-            Nieuwe crew maken
+            Nieuw team maken
           </p>
           <BrutalInput
             placeholder="bv. De Gehaktbal Boys"
@@ -61,7 +61,7 @@ export function GroupsPage() {
             onClick={create}
             className="mt-2"
           >
-            {busy ? "…" : "+ maak crew"}
+            {busy ? "…" : "+ maak team"}
           </BrutalButton>
         </BrutalCard>
 
@@ -91,10 +91,10 @@ export function GroupsPage() {
           <p className="brut-card bg-hot text-paper p-2 font-bold">{err}</p>
         )}
 
-        <h3 className="font-display text-2xl uppercase mt-2">jouw crews</h3>
+        <h3 className="font-display text-2xl uppercase mt-2">jouw teams</h3>
         {groups.length === 0 ? (
           <BrutalCard>
-            <p className="font-bold text-sm">Nog geen crew. Maak er één of plak een code.</p>
+            <p className="font-bold text-sm">Nog geen team. Maak er één of plak een code.</p>
           </BrutalCard>
         ) : (
           <div className="flex flex-col gap-2">

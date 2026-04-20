@@ -1,5 +1,5 @@
 /**
- * Beheer-modal voor een crew. Bevat alle admin-acties die voorheen op de
+ * Beheer-modal voor een team. Bevat alle admin-acties die voorheen op de
  * GroupDetail-pagina stonden: invite-code + delen, seizoen pushen (owner),
  * verlaten / opheffen. Open via het ⚙-icoon op GroupDetail.
  */
@@ -145,7 +145,7 @@ export function GroupManageModal({ group, onClose }: Props) {
         style={{ paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }}
       >
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-2xl uppercase">beheer crew</h2>
+          <h2 className="font-display text-2xl uppercase">beheer team</h2>
           <button
             type="button"
             onClick={onClose}
@@ -231,7 +231,7 @@ export function GroupManageModal({ group, onClose }: Props) {
             variant="sky" size="md" block
             disabled={busy}
           >
-            📋 deel mijn seizoen ({myClubs.length}) met de crew
+            📋 deel mijn seizoen ({myClubs.length}) met het team
           </BrutalButton>
         )}
 
@@ -245,15 +245,15 @@ export function GroupManageModal({ group, onClose }: Props) {
           variant="ink" size="md" block
           disabled={busy} className="mt-2"
         >
-          {isOwner ? "owner — crew opheffen" : "verlaat crew"}
+          {isOwner ? "Trainer — team opheffen" : "verlaat team"}
         </BrutalButton>
       </div>
 
       <ConfirmModal
         open={leaveOpen}
-        title={isOwner ? "crew opheffen?" : "crew verlaten?"}
+        title={isOwner ? "team opheffen?" : "team verlaten?"}
         body={isOwner
-          ? <>Je bent de <span className="bg-pop px-1">owner</span> van <span className="bg-pop px-1">{group.name}</span>. Als je vertrekt en er zijn geen andere leden meer, wordt de crew én alle uitnodigingen definitief opgeheven.</>
+          ? <>Je bent de <span className="bg-pop px-1">Trainer</span> van <span className="bg-pop px-1">{group.name}</span>. Als je vertrekt en er zijn geen andere spelers meer, wordt het team én alle uitnodigingen definitief opgeheven.</>
           : <>Je verdwijnt uit <span className="bg-pop px-1">{group.name}</span>. Je kan later weer mee via een nieuwe uitnodiging.</>
         }
         confirmLabel={isOwner ? "opheffen" : "verlaat"}
@@ -270,7 +270,7 @@ export function GroupManageModal({ group, onClose }: Props) {
         body={
           <>
             Alle <span className="bg-pop px-1">{myClubs.length}</span> kantines uit jouw seizoen
-            worden toegevoegd aan het seizoen van <span className="bg-pop px-1">{members.length}</span> crew-leden (inclusief jezelf).
+            worden toegevoegd aan het seizoen van <span className="bg-pop px-1">{members.length}</span> teamgenoten (inclusief jezelf).
             Bestaande kantines blijven staan.
           </>
         }
@@ -285,7 +285,7 @@ export function GroupManageModal({ group, onClose }: Props) {
       <ConfirmModal
         open={replaceOpen}
         title="vervang code?"
-        body={<>De huidige code wordt ongeldig. Bestaande links werken niet meer. Leden die al lid zijn, blijven lid.</>}
+        body={<>De huidige code wordt ongeldig. Bestaande links werken niet meer. Spelers die al lid zijn, blijven erbij.</>}
         confirmLabel="vervang"
         cancelLabel="laat staan"
         variant="hot"

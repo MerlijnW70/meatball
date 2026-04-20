@@ -1,6 +1,6 @@
 /**
  * Landing bij `/join/:code` — probeert de code direct te accepteren en
- * stuurt daarna door naar de crew. Faalt gracieus met een foutmelding.
+ * stuurt daarna door naar het team. Faalt gracieus met een foutmelding.
  */
 import { useEffect, useState } from "react";
 import { client } from "../spacetime";
@@ -72,7 +72,7 @@ export function JoinInvitePage({ code }: { code: string }) {
               variant="ink" size="md" block className="mt-3"
               onClick={() => go("/groups")}
             >
-              naar crews
+              naar teams
             </BrutalButton>
           </BrutalCard>
         )}

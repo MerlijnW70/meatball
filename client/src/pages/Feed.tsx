@@ -100,9 +100,9 @@ export function FeedPage() {
       <TopBar title="seizoen kantines" />
 
       <main className="flex-1 p-4 flex flex-col gap-5">
-        {/* Jouw crews — altijd bovenaan zodat ze binnen tap-bereik zijn */}
+        {/* Jouw teams — altijd bovenaan zodat ze binnen tap-bereik zijn */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-2">jouw crews</h3>
+          <h3 className="font-display text-lg uppercase mb-2">jouw teams</h3>
           {myGroups.length === 0 ? (
             <button
               type="button"
@@ -110,9 +110,9 @@ export function FeedPage() {
               className="brut-card bg-pop w-full text-left !p-3
                          active:translate-x-[2px] active:translate-y-[2px] transition-transform"
             >
-              <p className="font-display uppercase">🥩 maak je eerste crew</p>
+              <p className="font-display uppercase">🥩 maak je eerste team</p>
               <p className="text-[11px] font-bold mt-1 opacity-80">
-                Nodig vrienden uit om samen gehaktballen te raten.
+                Nodig spelers uit om samen gehaktballen te raten.
               </p>
             </button>
           ) : (
@@ -269,7 +269,7 @@ function CrewStripCard({ group }: { group: Group }) {
   const groupMemberships = useStore((s) => s.groupMemberships);
   const sessions = useStore((s) => s.sessions);
 
-  // Alles voor deze crew in één pass: members + prioritering + online-tellen.
+  // Alles voor dit team in één pass: members + prioritering + online-tellen.
   // Jezelf laten we weg uit de avatar-stack — je kan toch geen popup openen op
   // jezelf (geen reactie naar jezelf, geen volg-actie).
   const { ordered, onlineCount, total } = useMemo(() => {
@@ -317,7 +317,7 @@ function CrewStripCard({ group }: { group: Group }) {
           {group.name}
         </p>
         <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-0.5 flex items-center gap-1.5">
-          <span>{total} {total === 1 ? "lid" : "leden"}</span>
+          <span>{total} {total === 1 ? "speler" : "spelers"}</span>
           {onlineCount > 0 && (
             <span className="flex items-center gap-1 text-ink">
               <span
@@ -336,7 +336,7 @@ function CrewStripCard({ group }: { group: Group }) {
             <UserMenu
               key={m.id.toString()}
               userId={m.user_id}
-              name={u?.screen_name ?? "lid"}
+              name={u?.screen_name ?? "speler"}
               trigger={<Avatar userId={m.user_id} size="sm" />}
               className="active:translate-x-[1px] active:translate-y-[1px] transition-transform"
             />

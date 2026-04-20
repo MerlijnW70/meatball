@@ -11,7 +11,7 @@ interface Props {
   right?: ReactNode;
   /** Verberg de standaard profiel-avatar-knop (bv. op de Profile-page zelf). */
   hideProfile?: boolean;
-  /** Verberg de crews-shortcut (bv. op /groups zelf of op crew-detail). */
+  /** Verberg de teams-shortcut (bv. op /groups zelf of op team-detail). */
   hideCrews?: boolean;
 }
 
@@ -55,7 +55,7 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews }: Prop
         <button
           type="button"
           onClick={() => go("/groups")}
-          aria-label={crewCount > 0 ? `crews (${crewCount})` : "crews"}
+          aria-label={crewCount > 0 ? `teams (${crewCount})` : "teams"}
           className="relative shrink-0 w-10 h-10 border-4 border-ink bg-mint text-ink
                      shadow-brutSm flex items-center justify-center rounded-none
                      active:translate-x-[2px] active:translate-y-[2px] transition-transform"

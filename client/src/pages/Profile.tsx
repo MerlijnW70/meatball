@@ -140,7 +140,7 @@ export function ProfilePage({ userId }: { userId: bigint }) {
             onClick={() => (location.hash = "/groups")}
             variant="sky" size="md" block
           >
-            🥩 crews & uitnodigingen
+            🥩 teams & uitnodigingen
           </BrutalButton>
         )}
 

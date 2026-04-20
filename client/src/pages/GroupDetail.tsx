@@ -1,5 +1,5 @@
 /**
- * Crew-detail: minimale ledenlijst + kick-acties voor de owner.
+ * Team-detail: minimale spelerslijst + sell-acties voor de Trainer.
  * Alle admin-acties (invite delen, seizoen pushen, opheffen/verlaten) zitten
  * in de GroupManageModal, bereikbaar via het ⚙-icoon in de TopBar.
  */
@@ -46,10 +46,10 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
   if (!group) {
     return (
       <div className="min-h-dvh flex flex-col">
-        <TopBar title="crew" back="/groups" hideCrews />
+        <TopBar title="team" back="/groups" hideCrews />
         <main className="flex-1 p-6">
           <BrutalCard>
-            <p className="font-bold">Crew niet gevonden.</p>
+            <p className="font-bold">Team niet gevonden.</p>
           </BrutalCard>
         </main>
       </div>
@@ -71,21 +71,21 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title="crew" sub={group.name} back="/groups" hideCrews right={manageButton} />
+      <TopBar title="team" sub={group.name} back="/groups" hideCrews right={manageButton} />
       <main className="flex-1 px-4 py-5 flex flex-col gap-4">
 
         {!isMember && (
           <BrutalCard tone="hot" className="!p-3 text-paper">
-            <p className="font-display uppercase">je bent geen lid</p>
+            <p className="font-display uppercase">je zit niet in dit team</p>
             <p className="text-[11px] font-bold mt-1 opacity-90">
-              Vraag een lid om een uitnodigingscode.
+              Vraag een speler om een uitnodigingscode.
             </p>
           </BrutalCard>
         )}
 
         <section>
           <h3 className="font-display text-lg uppercase mb-2">
-            crew · {members.length}
+            spelers · {members.length}
           </h3>
           <div className="flex flex-col gap-1.5">
             {members.map((m) => (
@@ -108,16 +108,16 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
                     className="brut-chip bg-hot text-paper !py-0.5 !px-1.5 text-[10px]
                                active:translate-x-[1px] active:translate-y-[1px] transition-transform"
                   >
-                    kick
+                    sell
                   </button>
                 )}
                 {m.isOwner ? (
                   <span className="brut-chip bg-pop !py-0.5 !px-1.5 text-[10px]">
-                    owner
+                    Trainer
                   </span>
                 ) : (
                   <span className="brut-chip bg-sky text-paper !py-0.5 !px-1.5 text-[10px]">
-                    member
+                    speler
                   </span>
                 )}
               </BrutalCard>
@@ -139,11 +139,11 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
 
       <ConfirmModal
         open={!!kickTarget}
-        title="lid eruit?"
+        title="speler verkopen?"
         body={kickTarget && (
-          <><span className="bg-pop px-1">{kickTarget.name}</span> wordt verwijderd uit de crew. Ze kunnen alleen terug met een nieuwe code.</>
+          <><span className="bg-pop px-1">{kickTarget.name}</span> wordt uit het team verkocht. Ze kunnen alleen terug met een nieuwe code.</>
         )}
-        confirmLabel="kick"
+        confirmLabel="sell"
         cancelLabel="annuleer"
         variant="hot"
         busy={busy}

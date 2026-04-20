@@ -1,5 +1,5 @@
 /**
- * Crew-groep hooks. Filtert store-maps op membership van de huidige user.
+ * Team-groep hooks. Filtert store-maps op membership van de huidige user.
  */
 import { useMemo } from "react";
 import { useStore } from "../store";
@@ -80,7 +80,7 @@ export function useGroupInvites(groupId: bigint | null): GroupInvite[] {
 }
 
 /**
- * Mijn eigen meest recente invite voor deze crew (invited_by == me).
+ * Mijn eigen meest recente invite voor dit team (invited_by == me).
  * Per-user model: elk lid heeft zijn eigen code die los staat van anderen.
  */
 export function useMyInviteFor(groupId: bigint | null): GroupInvite | null {
