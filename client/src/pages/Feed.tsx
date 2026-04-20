@@ -273,21 +273,14 @@ function CrewStripCard({ group }: { group: Group }) {
                  bg-paper text-left flex flex-col
                  active:translate-x-[2px] active:translate-y-[2px] transition-transform"
     >
-      {/* Header strip: team naam + Trainer-badge */}
+      {/* Header strip: alleen team-naam */}
       <div
-        className={`px-3 py-2 border-b-4 border-ink flex items-center gap-2
+        className={`px-3 py-2 border-b-4 border-ink
           ${isTrainer ? "bg-pop text-ink" : "bg-ink text-paper"}`}
       >
-        <div className="flex-1 min-w-0">
-          <p className="font-display text-lg uppercase leading-tight truncate">
-            {group.name}
-          </p>
-        </div>
-        {isTrainer && (
-          <span className="shrink-0 brut-chip bg-ink text-paper !py-0.5 !px-1.5 text-[9px]">
-            Trainer
-          </span>
-        )}
+        <p className="font-display text-lg uppercase leading-tight truncate">
+          {group.name}
+        </p>
       </div>
 
       {/* Voortgangs-balk: bezetting van de 11 veld-slots */}
