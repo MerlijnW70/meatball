@@ -43,8 +43,9 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
     [me, group],
   );
 
-  // Verrijk + verdeel: eerste speler per slot op veld, rest naar bench.
-  const { slotOwner, bench, noPosition } = useMemo(() => {
+  // Verrijk + verdeel: eerste speler per slot op veld, rest → wissels
+  // (onbeperkt). Spelers zonder positie gaan ook naar wissels.
+  const { slotOwner, wissels } = useMemo(() => {
     const rows: RowWithPos[] = members
       .map((m) => ({
         ...m,
@@ -59,15 +60,16 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
       });
 
     const slotOwner = new Map<Position, RowWithPos>();
-    const bench: RowWithPos[] = [];
-    const noPosition: RowWithPos[] = [];
+    const wissels: RowWithPos[] = [];
 
     for (const r of rows) {
-      if (!r.position) { noPosition.push(r); continue; }
-      if (slotOwner.has(r.position)) bench.push(r);
-      else slotOwner.set(r.position, r);
+      if (r.position && !slotOwner.has(r.position)) {
+        slotOwner.set(r.position, r);
+      } else {
+        wissels.push(r);
+      }
     }
-    return { slotOwner, bench, noPosition };
+    return { slotOwner, wissels };
   }, [members, userPositions]);
 
   const confirmKick = async () => {
@@ -157,38 +159,15 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
           ))}
         </div>
 
-        {/* Bank */}
-        {bench.length > 0 && (
+        {/* Wissels — onbeperkt. Overschot per slot + spelers zonder positie. */}
+        {wissels.length > 0 && (
           <section>
             <h3 className="font-display text-lg uppercase mb-2 flex items-center gap-2">
               <span aria-hidden>🪑</span>
-              <span>bank · {bench.length}</span>
+              <span>wissels · {wissels.length}</span>
             </h3>
             <div className="flex flex-col gap-1.5">
-              {bench.map((m) => (
-                <BenchRow
-                  key={m.membership.id.toString()}
-                  row={m}
-                  canKick={isOwner}
-                  onKick={(id, name) => setKickTarget({ id, name })}
-                />
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* Geen positie gekozen */}
-        {noPosition.length > 0 && (
-          <section>
-            <h3 className="font-display text-lg uppercase mb-2 flex items-center gap-2">
-              <span aria-hidden>❓</span>
-              <span>geen positie</span>
-            </h3>
-            <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1">
-              deze spelers moeten nog een positie kiezen in hun profiel
-            </p>
-            <div className="flex flex-col gap-1.5">
-              {noPosition.map((m) => (
+              {wissels.map((m) => (
                 <BenchRow
                   key={m.membership.id.toString()}
                   row={m}
@@ -299,9 +278,13 @@ function BenchRow({
       >
         {row.name}
       </button>
-      {row.position && (
+      {row.position ? (
         <span className="brut-chip bg-sky text-paper !py-0.5 !px-1.5 text-[10px]">
           {POSITION_LABEL[row.position]}
+        </span>
+      ) : (
+        <span className="brut-chip bg-ink text-paper !py-0.5 !px-1.5 text-[10px] opacity-70">
+          geen positie
         </span>
       )}
       {row.isOwner && (
