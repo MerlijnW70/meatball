@@ -75,7 +75,7 @@ export function OnboardScreennamePage() {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title="Je naam" back="/" />
+      <TopBar title="speler" back="/" />
       <main className="flex-1 p-5 flex flex-col gap-5 pb-10">
         <h2 className="font-display text-3xl uppercase leading-tight">
           Kies een <span className="bg-pop px-1">spelersnaam</span>
