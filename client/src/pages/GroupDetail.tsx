@@ -87,7 +87,7 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
   if (!group) {
     return (
       <div className="min-h-dvh flex flex-col">
-        <TopBar title="team" back="/groups" hideCrews />
+        <TopBar title="team" back="/home" hideCrews />
         <main className="flex-1 p-6">
           <BrutalCard>
             <p className="font-bold">Team niet gevonden.</p>
@@ -112,7 +112,7 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title="team" sub={group.name} back="/groups" hideCrews right={manageButton} />
+      <TopBar title="team" sub={group.name} back="/home" hideCrews right={manageButton} />
       <main className="flex-1 px-4 py-5 flex flex-col gap-5">
 
         {!isMember && (

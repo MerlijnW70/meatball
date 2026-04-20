@@ -31,13 +31,7 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews }: Prop
       {back !== undefined && (
         <button
           type="button"
-          onClick={() => {
-            // Gebruik browser-history zodat je terug gaat naar waar je vandaan
-            // kwam (bv. /home → /group/:id → ← gaat naar /home, niet altijd /groups).
-            // Fallback naar path bij deep-links zonder history.
-            if (window.history.length > 1) window.history.back();
-            else go(back);
-          }}
+          onClick={() => go(back)}
           className="brut-btn bg-ink text-paper !py-2 !px-3 text-sm shadow-brutSm"
           aria-label="terug"
         >
