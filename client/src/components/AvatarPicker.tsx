@@ -86,7 +86,7 @@ export function AvatarPicker({ onClose }: Props) {
         {/* Positie op het veld */}
         <div className="overflow-y-auto -mx-1 px-1 mt-2">
           <p className="text-xs font-bold uppercase tracking-widest mb-2">
-            jouw positie op het veld
+            jouw positie in de kantine
           </p>
           <PitchPicker value={position} onChange={setPosition} />
         </div>
