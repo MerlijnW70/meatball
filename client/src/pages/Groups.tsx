@@ -65,6 +65,25 @@ export function GroupsPage() {
           </BrutalButton>
         </BrutalCard>
 
+        {/* Aangemaakte teams direct onder 'Team oprichten' — alleen als je er
+            minstens één hebt. */}
+        {groups.length > 0 && (
+          <section className="flex flex-col gap-2">
+            <h3 className="font-display text-lg uppercase">jouw team</h3>
+            {groups.map((g) => (
+              <button
+                key={g.id.toString()}
+                type="button"
+                onClick={() => go(`/group/${g.id}`)}
+                className="brut-card bg-paper p-3 text-left
+                           active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+              >
+                <p className="font-display text-xl uppercase truncate">{g.name}</p>
+              </button>
+            ))}
+          </section>
+        )}
+
         <BrutalCard tone="sky" className="!p-3 text-paper">
           <p className="text-xs font-bold uppercase tracking-widest mb-2">
             Code gekregen?
@@ -89,25 +108,6 @@ export function GroupsPage() {
 
         {err && (
           <p className="brut-card bg-hot text-paper p-2 font-bold">{err}</p>
-        )}
-
-        {groups.length > 0 && (
-          <h3 className="font-display text-2xl uppercase mt-2">jouw team</h3>
-        )}
-        {groups.length === 0 ? null : (
-          <div className="flex flex-col gap-2">
-            {groups.map((g) => (
-              <button
-                key={g.id.toString()}
-                type="button"
-                onClick={() => go(`/group/${g.id}`)}
-                className="brut-card bg-paper p-3 text-left
-                           active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-              >
-                <p className="font-display text-xl uppercase truncate">{g.name}</p>
-              </button>
-            ))}
-          </div>
         )}
       </main>
     </div>
