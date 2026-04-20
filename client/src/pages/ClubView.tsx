@@ -56,7 +56,7 @@ export function ClubViewPage({ clubId }: { clubId: bigint }) {
   if (!club) {
     return (
       <div className="min-h-dvh flex flex-col">
-        <TopBar title="club" back="/home" />
+        <TopBar title="club" back="/home" hideCrews />
         <main className="flex-1 p-6">
           <BrutalCard tone="pop" className="text-center">
             <p className="font-display uppercase">club laden…</p>
@@ -74,7 +74,7 @@ export function ClubViewPage({ clubId }: { clubId: bigint }) {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title={club.name} back="/home" />
+      <TopBar title={club.name} back="/home" hideCrews />
 
       <main className="flex-1 px-4 py-5 flex flex-col gap-4">
         <ClubHero club={club} />
