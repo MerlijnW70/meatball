@@ -63,6 +63,7 @@ export function FeedPage() {
 
   const join = (c: Club) => {
     client().joinClub(c.id);
+    setQ("");
   };
 
   const confirmJoinNow = async () => {
@@ -74,6 +75,7 @@ export function FeedPage() {
     finally {
       setBusy(false);
       setConfirmJoin(null);
+      setQ("");
       openClub(c);
     }
   };
