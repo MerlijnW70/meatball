@@ -1,0 +1,21 @@
+node_modules/
+dist/
+target/
+*.log
+.env
+.env.local
+.env.*.local
+client/src/module_bindings/*
+!client/src/module_bindings/.gitkeep
+
+# Scraped HTML — regenereerbaar via curl loop in seed_data/generate.py
+server/seed_data/hv_pages/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / tooling
+.vscode/
+.idea/
+.claude/

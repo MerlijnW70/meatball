@@ -1,0 +1,5 @@
+# Forceer de resolver om oudere crate-versies te pakken als een nieuwere
+# `rust-version` vraagt die niet beschikbaar is. Zo draait de build ook op
+# een stock `rustup stable` die nog geen 1.95 is.
+[resolver]
+incompatible-rust-versions = "fallback"

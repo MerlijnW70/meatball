@@ -1,0 +1,11726 @@
+[
+  {
+    "name": "AAC Altforst",
+    "city": "Altforst"
+  },
+  {
+    "name": "AAC-Olympia",
+    "city": "Horssen"
+  },
+  {
+    "name": "VV Aalsmeer",
+    "city": "Aalsmeer"
+  },
+  {
+    "name": "FC Aalsmeer",
+    "city": "Aalsmeer"
+  },
+  {
+    "name": "Aardenburg",
+    "city": "Aardenburg"
+  },
+  {
+    "name": "SV Aarlanderveen",
+    "city": "Aarlanderveen"
+  },
+  {
+    "name": "VV Abbenbroek",
+    "city": "Abbenbroek"
+  },
+  {
+    "name": "SV Abbenes",
+    "city": "Abbenes"
+  },
+  {
+    "name": "FC Abcoude",
+    "city": "Abcoude"
+  },
+  {
+    "name": "SV Abdissenbosch",
+    "city": "Landgraaf"
+  },
+  {
+    "name": "ABN Amro",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "ABS",
+    "city": "Bathmen"
+  },
+  {
+    "name": "VV Achates",
+    "city": "Ottersum"
+  },
+  {
+    "name": "Achilles '12",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "Achilles '29",
+    "city": "Groesbeek"
+  },
+  {
+    "name": "Achilles 1894",
+    "city": "Assen"
+  },
+  {
+    "name": "Achilles Enschede",
+    "city": "Enschede"
+  },
+  {
+    "name": "Achilles Reek",
+    "city": "Reek"
+  },
+  {
+    "name": "VV Achilles Veen",
+    "city": "Veen"
+  },
+  {
+    "name": "VV Acht",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "SV Achterveld",
+    "city": "Achterveld"
+  },
+  {
+    "name": "VV Achtmaal",
+    "city": "Achtmaal"
+  },
+  {
+    "name": "VV Actief",
+    "city": "Paterswolde"
+  },
+  {
+    "name": "VV Activia",
+    "city": "Twello"
+  },
+  {
+    "name": "ACV",
+    "city": "Assen"
+  },
+  {
+    "name": "ACVVV",
+    "city": "Tegelen"
+  },
+  {
+    "name": "AD '69",
+    "city": "Aalten"
+  },
+  {
+    "name": "ADO '20",
+    "city": "Heemskerk"
+  },
+  {
+    "name": "ADO Den Haag",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Adorp",
+    "city": "Adorp"
+  },
+  {
+    "name": "ADS",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Aduard 2000",
+    "city": "Aduard"
+  },
+  {
+    "name": "SV ADVENDO",
+    "city": "Breda"
+  },
+  {
+    "name": "Advendo '57",
+    "city": "Ederveen"
+  },
+  {
+    "name": "ADVEO",
+    "city": "Oirsbeek"
+  },
+  {
+    "name": "SVV ADVEO/Schinnen",
+    "city": "Oirsbeek"
+  },
+  {
+    "name": "VV Aengwirden",
+    "city": "Tjalleberd"
+  },
+  {
+    "name": "RKSV Aeolus",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Aerdt",
+    "city": "Aerdt"
+  },
+  {
+    "name": "SSA Aerdt-Carvium",
+    "city": "Aerdt"
+  },
+  {
+    "name": "AFC",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "AFC '34",
+    "city": "Alkmaar"
+  },
+  {
+    "name": "VV AGB",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "AGE",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "rvv AGE-GGK",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "AGOVV",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "AGSV",
+    "city": "Aartswoud"
+  },
+  {
+    "name": "SC AH '78",
+    "city": "Huizen"
+  },
+  {
+    "name": "Ajax",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Ajax B",
+    "city": "Breedenbroek"
+  },
+  {
+    "name": "AJC '96",
+    "city": "Losser"
+  },
+  {
+    "name": "VV Akkrum",
+    "city": "Akkrum"
+  },
+  {
+    "name": "Albatross",
+    "city": "Ugchelen"
+  },
+  {
+    "name": "VV De Alblas",
+    "city": "Alblasserdam"
+  },
+  {
+    "name": "VV Alblasserdam",
+    "city": "Alblasserdam"
+  },
+  {
+    "name": "VV ALC",
+    "city": "Abbekerk"
+  },
+  {
+    "name": "Alcides",
+    "city": "Meppel"
+  },
+  {
+    "name": "Alcmaria Victrix",
+    "city": "Alkmaar"
+  },
+  {
+    "name": "VV Alem",
+    "city": "Alem"
+  },
+  {
+    "name": "WKA Alexandria",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "VV Alexandria '66",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Alfa Sport",
+    "city": "Oirsbeek"
+  },
+  {
+    "name": "VV Alkmaar",
+    "city": "Alkmaar"
+  },
+  {
+    "name": "Alkmaarsche Boys",
+    "city": "Alkmaar"
+  },
+  {
+    "name": "Alkmania",
+    "city": "Roelofarendsveen"
+  },
+  {
+    "name": "Allen Weerbaar",
+    "city": "Bussum"
+  },
+  {
+    "name": "Alliance",
+    "city": "Roosendaal"
+  },
+  {
+    "name": "Alliance '22",
+    "city": "Haarlem"
+  },
+  {
+    "name": "Almania",
+    "city": "Sittard"
+  },
+  {
+    "name": "SV Almelo",
+    "city": "Almelo"
+  },
+  {
+    "name": "SV Almen",
+    "city": "Almen"
+  },
+  {
+    "name": "Almere City FC",
+    "city": "Almere"
+  },
+  {
+    "name": "FC Almere",
+    "city": "Almere"
+  },
+  {
+    "name": "SV Almere",
+    "city": "Almere"
+  },
+  {
+    "name": "VV Almkerk",
+    "city": "Almkerk"
+  },
+  {
+    "name": "AVV Alphen",
+    "city": "Alphen Aan Den Rijn"
+  },
+  {
+    "name": "Alphense Boys",
+    "city": "Alphen Aan Den Rijn"
+  },
+  {
+    "name": "Alphia",
+    "city": "Alphen Aan Den Rijn"
+  },
+  {
+    "name": "VV Altena",
+    "city": "Nieuwendijk"
+  },
+  {
+    "name": "VV Alteveer",
+    "city": "Alteveer"
+  },
+  {
+    "name": "Altior",
+    "city": "Langeraar"
+  },
+  {
+    "name": "Altius",
+    "city": "Hilversum"
+  },
+  {
+    "name": "SV Altweerterheide",
+    "city": "Weert"
+  },
+  {
+    "name": "VV Alverna",
+    "city": "Wijchen"
+  },
+  {
+    "name": "Always Forward",
+    "city": "Hoorn"
+  },
+  {
+    "name": "FC Amboina",
+    "city": "Assen"
+  },
+  {
+    "name": "VV Ameide",
+    "city": "Ameide"
+  },
+  {
+    "name": "SC Amelandia",
+    "city": "Hollum"
+  },
+  {
+    "name": "America",
+    "city": "America"
+  },
+  {
+    "name": "Amicitia VMC",
+    "city": "Groningen"
+  },
+  {
+    "name": "Ammerstolse SV",
+    "city": "Ammerstol"
+  },
+  {
+    "name": "SV Amstelland United",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Amstelveen Heemraad",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "SC Amstelwijck",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "VV Amstenrade",
+    "city": "Amstenrade"
+  },
+  {
+    "name": "FC Amsterdam",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Amsterdam Seref Spor",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "FC Amsterdam United",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "FC Amsterdamse Bos",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "Amsvorde",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "AMVJ",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "VV Anadolu '90",
+    "city": "Eerbeek"
+  },
+  {
+    "name": "Andijk",
+    "city": "Andijk"
+  },
+  {
+    "name": "SC Angelslo",
+    "city": "Emmen"
+  },
+  {
+    "name": "SV Angeren",
+    "city": "Angeren"
+  },
+  {
+    "name": "Angerlo Vooruit",
+    "city": "Angerlo"
+  },
+  {
+    "name": "VV Anjum",
+    "city": "Anjum"
+  },
+  {
+    "name": "FC Ankaraspor",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Annen",
+    "city": "Annen"
+  },
+  {
+    "name": "RSV Antibarbari",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "csv Apeldoorn",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "Apeldoornse Boys",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "APGS",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Apollo '68",
+    "city": "Hensbroek"
+  },
+  {
+    "name": "SV Apollo '69",
+    "city": "S Gravenpolder"
+  },
+  {
+    "name": "VV Appingedam",
+    "city": "Appingedam"
+  },
+  {
+    "name": "APWC",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "VV Aquila",
+    "city": "Dreumel"
+  },
+  {
+    "name": "FC Aramea",
+    "city": "Enschede"
+  },
+  {
+    "name": "SV ARC",
+    "city": "Alphen Aan Den Rijn"
+  },
+  {
+    "name": "HVV Archipel",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "HSV Archipel-Ornas",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "VVU Ardahanspor",
+    "city": "Utrecht"
+  },
+  {
+    "name": "SV Argo",
+    "city": "Obbicht"
+  },
+  {
+    "name": "SV Argon",
+    "city": "Mijdrecht"
+  },
+  {
+    "name": "VV Ariston '80",
+    "city": "Delft"
+  },
+  {
+    "name": "ASV Arkel",
+    "city": "Arkel"
+  },
+  {
+    "name": "VV Armada",
+    "city": "Grevenbicht"
+  },
+  {
+    "name": "VV Arnemuiden",
+    "city": "Arnemuiden"
+  },
+  {
+    "name": "Arnhem AFC",
+    "city": "Arnhem"
+  },
+  {
+    "name": "VV Arnhemia",
+    "city": "Arnhem"
+  },
+  {
+    "name": "Arnhemse Boys Schuytgraaf",
+    "city": "Arnhem"
+  },
+  {
+    "name": "ASV Arsenal",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Arum",
+    "city": "Arum"
+  },
+  {
+    "name": "AS '80",
+    "city": "Almere"
+  },
+  {
+    "name": "ASC",
+    "city": "Oegstgeest"
+  },
+  {
+    "name": "ASC '62",
+    "city": "Dalfsen"
+  },
+  {
+    "name": "SV ASC '75",
+    "city": "Augustinusga"
+  },
+  {
+    "name": "ASC/SVD",
+    "city": "Dalfsen"
+  },
+  {
+    "name": "ASH",
+    "city": "Hellouw"
+  },
+  {
+    "name": "Asonia",
+    "city": "Andijk"
+  },
+  {
+    "name": "VV Asperen",
+    "city": "Asperen"
+  },
+  {
+    "name": "FC Assen",
+    "city": "Assen"
+  },
+  {
+    "name": "VV Assendelft",
+    "city": "Assendelft"
+  },
+  {
+    "name": "Asser Boys",
+    "city": "Assen"
+  },
+  {
+    "name": "Astrantia",
+    "city": "Middelaar"
+  },
+  {
+    "name": "VV Astrea",
+    "city": "Groningen"
+  },
+  {
+    "name": "ASV '33",
+    "city": "Aarle Rixtel"
+  },
+  {
+    "name": "ASV '55",
+    "city": "Venhuizen"
+  },
+  {
+    "name": "ASV '57",
+    "city": "Aadorp"
+  },
+  {
+    "name": "ASV '65",
+    "city": "Ankeveen"
+  },
+  {
+    "name": "VV ASVB",
+    "city": "Blijham"
+  },
+  {
+    "name": "VV ASW",
+    "city": "Waddinxveen"
+  },
+  {
+    "name": "ASWH",
+    "city": "Hendrik Ido Ambacht"
+  },
+  {
+    "name": "ATC '65",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "Atletico Club Amsterdam",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Audacia",
+    "city": "Moergestel"
+  },
+  {
+    "name": "SV Aurora",
+    "city": "Werkhoven"
+  },
+  {
+    "name": "SV Austerlitz",
+    "city": "Austerlitz"
+  },
+  {
+    "name": "SV Avanti '31",
+    "city": "Schijndel"
+  },
+  {
+    "name": "Avanti W",
+    "city": "Glanerbrug"
+  },
+  {
+    "name": "AVC",
+    "city": "Sexbierum"
+  },
+  {
+    "name": "VV Avereest",
+    "city": "Balkbrug"
+  },
+  {
+    "name": "Avesteyn",
+    "city": "Dinther"
+  },
+  {
+    "name": "SV AVIOS",
+    "city": "Alphen Gld"
+  },
+  {
+    "name": "SV AVIOS/DBV",
+    "city": "Alphen Gld"
+  },
+  {
+    "name": "AVS Germinal",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "AVV",
+    "city": "Terschelling"
+  },
+  {
+    "name": "AVW '66",
+    "city": "Westervoort"
+  },
+  {
+    "name": "SV AWC",
+    "city": "Wijchen"
+  },
+  {
+    "name": "VV Axel",
+    "city": "Axel"
+  },
+  {
+    "name": "FC Axel",
+    "city": "Axel"
+  },
+  {
+    "name": "AZ",
+    "city": "Alkmaar"
+  },
+  {
+    "name": "ASV AZ 2000-Elderveld",
+    "city": "Arnhem"
+  },
+  {
+    "name": "AZC",
+    "city": "Zutphen"
+  },
+  {
+    "name": "AZSV",
+    "city": "Aalten"
+  },
+  {
+    "name": "AZVV",
+    "city": "Axel"
+  },
+  {
+    "name": "Baakse Boys",
+    "city": "Baak"
+  },
+  {
+    "name": "VV Baardwijk",
+    "city": "Waalwijk"
+  },
+  {
+    "name": "VV Baarlo",
+    "city": "Baarlo"
+  },
+  {
+    "name": "SV Baarn",
+    "city": "Baarn"
+  },
+  {
+    "name": "SV Babberich",
+    "city": "Babberich"
+  },
+  {
+    "name": "SC Badhoevedorp",
+    "city": "Badhoevedorp"
+  },
+  {
+    "name": "Bakhuizen",
+    "city": "Bakhuizen"
+  },
+  {
+    "name": "VV Bakkeveen",
+    "city": "Bakkeveen"
+  },
+  {
+    "name": "VV Balk",
+    "city": "Balk"
+  },
+  {
+    "name": "SC Balkbrug",
+    "city": "Balkbrug"
+  },
+  {
+    "name": "Banholtia",
+    "city": "Banholt"
+  },
+  {
+    "name": "FC Banlieue",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SC Bant",
+    "city": "Bant"
+  },
+  {
+    "name": "SC Barbaros",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "VV Barça",
+    "city": "Breda"
+  },
+  {
+    "name": "BVV Barendrecht",
+    "city": "Barendrecht"
+  },
+  {
+    "name": "VV Bareveld",
+    "city": "Bareveld"
+  },
+  {
+    "name": "VV Bargeres",
+    "city": "Emmen"
+  },
+  {
+    "name": "VV Barneveld",
+    "city": "Barneveld"
+  },
+  {
+    "name": "VV Baronie",
+    "city": "Breda"
+  },
+  {
+    "name": "BAS",
+    "city": "Biddinghuizen"
+  },
+  {
+    "name": "SV Basteom",
+    "city": "Steenderen"
+  },
+  {
+    "name": "De Bataven",
+    "city": "Gendt"
+  },
+  {
+    "name": "VV Batavia",
+    "city": "Batenburg"
+  },
+  {
+    "name": "Batavia '90",
+    "city": "Lelystad"
+  },
+  {
+    "name": "VV BATO",
+    "city": "Winschoten"
+  },
+  {
+    "name": "VV Bavel",
+    "city": "Bavel"
+  },
+  {
+    "name": "Bavos",
+    "city": "Bakel"
+  },
+  {
+    "name": "VV BBC",
+    "city": "Buinerveen"
+  },
+  {
+    "name": "VV BCV",
+    "city": "Bergum"
+  },
+  {
+    "name": "CVV Be Fair",
+    "city": "Waddinxveen"
+  },
+  {
+    "name": "Be Quick '28",
+    "city": "Zwolle"
+  },
+  {
+    "name": "Be Quick 1887",
+    "city": "Haren Gr"
+  },
+  {
+    "name": "Be Quick Dokkum",
+    "city": "Dokkum"
+  },
+  {
+    "name": "ZVV Be Quick",
+    "city": "Zutphen"
+  },
+  {
+    "name": "Be Ready",
+    "city": "Hank"
+  },
+  {
+    "name": "SV Beatrix",
+    "city": "Hoenderloo"
+  },
+  {
+    "name": "VV Bedum",
+    "city": "Bedum"
+  },
+  {
+    "name": "SV Bedum",
+    "city": "Bedum"
+  },
+  {
+    "name": "Beek Vooruit",
+    "city": "Prinsenbeek"
+  },
+  {
+    "name": "VV Beekbergen",
+    "city": "Beekbergen"
+  },
+  {
+    "name": "SV Beemster",
+    "city": "Middenbeemster"
+  },
+  {
+    "name": "Beerse Boys",
+    "city": "Middelbeers"
+  },
+  {
+    "name": "VV Beesd",
+    "city": "Beesd"
+  },
+  {
+    "name": "VV Beetgum",
+    "city": "Beetgum"
+  },
+  {
+    "name": "VV Beilen",
+    "city": "Beilen"
+  },
+  {
+    "name": "RKSV Bekkerveld",
+    "city": "Heerlen"
+  },
+  {
+    "name": "Belfeldia",
+    "city": "Belfeld"
+  },
+  {
+    "name": "VV Bellingwolde",
+    "city": "Bellingwolde"
+  },
+  {
+    "name": "FC Bemelen",
+    "city": "Bemelen"
+  },
+  {
+    "name": "SC Bemmel",
+    "city": "Ressen"
+  },
+  {
+    "name": "VV Bennekom",
+    "city": "Bennekom"
+  },
+  {
+    "name": "VV Benschop",
+    "city": "Benschop"
+  },
+  {
+    "name": "VV Bentelo",
+    "city": "Bentelo"
+  },
+  {
+    "name": "VV Berdos",
+    "city": "Bergen Nh"
+  },
+  {
+    "name": "VV Berg '28",
+    "city": "Berg En Terblijt"
+  },
+  {
+    "name": "VV Bergambacht",
+    "city": "Bergambacht"
+  },
+  {
+    "name": "Bergeijk",
+    "city": "Bergeijk"
+  },
+  {
+    "name": "Bergen BSV",
+    "city": "Bergen Nh"
+  },
+  {
+    "name": "FC Bergen",
+    "city": "Bergen Op Zoom"
+  },
+  {
+    "name": "VV Bergen",
+    "city": "Bergen Nh"
+  },
+  {
+    "name": "VV Bergentheim",
+    "city": "Bergentheim"
+  },
+  {
+    "name": "FC Bergh",
+    "city": "Sheerenberg"
+  },
+  {
+    "name": "Berghem Sport",
+    "city": "Berghem"
+  },
+  {
+    "name": "FC Berghuizen",
+    "city": "Oldenzaal"
+  },
+  {
+    "name": "VV Bergum",
+    "city": "Bergum"
+  },
+  {
+    "name": "VV Berkdijk",
+    "city": "Kaatsheuvel"
+  },
+  {
+    "name": "CVV Berkel",
+    "city": "Berkel En Rodenrijs"
+  },
+  {
+    "name": "VV Berkhout",
+    "city": "Berkhout"
+  },
+  {
+    "name": "VV Berkum",
+    "city": "Zwolle"
+  },
+  {
+    "name": "SC Berlikum",
+    "city": "Berlikum"
+  },
+  {
+    "name": "SV Bernardus",
+    "city": "Hazerswoude Rijndijk"
+  },
+  {
+    "name": "Bernisse",
+    "city": "Heenvliet"
+  },
+  {
+    "name": "VV BES",
+    "city": "Valkenswaard"
+  },
+  {
+    "name": "SV Besiktas",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "RKVV Best Vooruit",
+    "city": "Best"
+  },
+  {
+    "name": "Beuningse Boys",
+    "city": "Beuningen"
+  },
+  {
+    "name": "VV De Beursbengels",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Bevelanders",
+    "city": "Kamperland"
+  },
+  {
+    "name": "SV Beverwijk",
+    "city": "Beverwijk"
+  },
+  {
+    "name": "BEVO",
+    "city": "Helden Beringe"
+  },
+  {
+    "name": "VV BEW",
+    "city": "Vledder"
+  },
+  {
+    "name": "BFC",
+    "city": "Bussum"
+  },
+  {
+    "name": "VV Biervliet",
+    "city": "Biervliet"
+  },
+  {
+    "name": "Bieslo",
+    "city": "Beesel"
+  },
+  {
+    "name": "SV Bijlmer",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "FC De Bilt",
+    "city": "De Bilt"
+  },
+  {
+    "name": "FC Binnenmaas",
+    "city": "Maasdam"
+  },
+  {
+    "name": "FC Birdaard",
+    "city": "Birdaard"
+  },
+  {
+    "name": "SV BKC",
+    "city": "Anna Paulowna"
+  },
+  {
+    "name": "VV Black Boys",
+    "city": "Sneek"
+  },
+  {
+    "name": "Bladella",
+    "city": "Bladel"
+  },
+  {
+    "name": "FC Blankenburg",
+    "city": "Rozenburg"
+  },
+  {
+    "name": "VV Blankenham",
+    "city": "Blankenham"
+  },
+  {
+    "name": "SV Blauw Geel 1915",
+    "city": "Groningen"
+  },
+  {
+    "name": "Blauw Geel '38",
+    "city": "Veghel"
+  },
+  {
+    "name": "Blauw Geel '55",
+    "city": "Ede"
+  },
+  {
+    "name": "VV Blauw Rood '20",
+    "city": "Bolsward"
+  },
+  {
+    "name": "Blauw Wit '34",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "Blauw Wit '66",
+    "city": "Holten"
+  },
+  {
+    "name": "Blauw Wit '81",
+    "city": "De Moer"
+  },
+  {
+    "name": "SV Blauw Wit",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "Blauw Wit W",
+    "city": "Wormerveer"
+  },
+  {
+    "name": "RKSV Blauw-Zwart",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "FC Blauw-Wit Amsterdam",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "ASV Blauw-Wit",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "FC Blauw-Wit Beursbengels",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Blauwhuis",
+    "city": "Blauwhuis"
+  },
+  {
+    "name": "Blauwwitters BZSV",
+    "city": "Borne"
+  },
+  {
+    "name": "SV BLC",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "SV Blerick",
+    "city": "Venlo"
+  },
+  {
+    "name": "VV De Blesse",
+    "city": "De Blesse"
+  },
+  {
+    "name": "VV Blija",
+    "city": "Blija"
+  },
+  {
+    "name": "RVV Blijdorp",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "BVC Bloemendaal",
+    "city": "Bloemendaal"
+  },
+  {
+    "name": "Bloemenkwartier",
+    "city": "Loosdrecht"
+  },
+  {
+    "name": "De Blokkers",
+    "city": "Blokker"
+  },
+  {
+    "name": "SV Blokzijl",
+    "city": "Blokzijl"
+  },
+  {
+    "name": "VV Blue Boys",
+    "city": "Nij Beets"
+  },
+  {
+    "name": "BMC",
+    "city": "Berlicum"
+  },
+  {
+    "name": "BMR",
+    "city": "Mheer"
+  },
+  {
+    "name": "BMT",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV BNC",
+    "city": "Finsterwolde"
+  },
+  {
+    "name": "BOA JC",
+    "city": "Horssen"
+  },
+  {
+    "name": "De Bocht '80",
+    "city": "Oirschot"
+  },
+  {
+    "name": "VV Bodegraven",
+    "city": "Bodegraven"
+  },
+  {
+    "name": "Boeimeer",
+    "city": "Breda"
+  },
+  {
+    "name": "SJO Boerakker / SVMH",
+    "city": "Niebert"
+  },
+  {
+    "name": "Boekel Sport",
+    "city": "Boekel"
+  },
+  {
+    "name": "VV Boekoel",
+    "city": "Swalmen"
+  },
+  {
+    "name": "VV Boerakker",
+    "city": "Boerakker"
+  },
+  {
+    "name": "Boerdonk",
+    "city": "Erp"
+  },
+  {
+    "name": "CSV BOL",
+    "city": "Broek Op Langedijk"
+  },
+  {
+    "name": "SV Bolnes",
+    "city": "Bolnes"
+  },
+  {
+    "name": "SC Bolsward",
+    "city": "Bolsward"
+  },
+  {
+    "name": "Bolswardia",
+    "city": "Bolsward"
+  },
+  {
+    "name": "Bon Boys",
+    "city": "Haaksbergen"
+  },
+  {
+    "name": "SC Boornbergum '80",
+    "city": "Boornbergum"
+  },
+  {
+    "name": "SV Borger",
+    "city": "Borger"
+  },
+  {
+    "name": "VV Borgercompagnie",
+    "city": "Borgercompagnie"
+  },
+  {
+    "name": "VV Born",
+    "city": "Born"
+  },
+  {
+    "name": "Borne",
+    "city": "Borne"
+  },
+  {
+    "name": "RKSV Bornerbroek",
+    "city": "Bornerbroek"
+  },
+  {
+    "name": "VV Borssele",
+    "city": "Borssele"
+  },
+  {
+    "name": "FC Boshuizen",
+    "city": "Leiden"
+  },
+  {
+    "name": "VV Boskant",
+    "city": "St Oedenrode"
+  },
+  {
+    "name": "SC Botlek",
+    "city": "Spijkenisse"
+  },
+  {
+    "name": "Boxtel",
+    "city": "Boxtel"
+  },
+  {
+    "name": "Boyl",
+    "city": "Boyl"
+  },
+  {
+    "name": "SV De Braak",
+    "city": "Helmond"
+  },
+  {
+    "name": "Braakhuizen",
+    "city": "Geldrop"
+  },
+  {
+    "name": "Brabant United RJO",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "VV Brabantia",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "SC Brachterbeek",
+    "city": "Maasbracht"
+  },
+  {
+    "name": "VV Brakel",
+    "city": "Brakel"
+  },
+  {
+    "name": "Brakkenstein",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "SV Brandevoort",
+    "city": "Helmond"
+  },
+  {
+    "name": "VV BRC",
+    "city": "Beesd"
+  },
+  {
+    "name": "VV Brederodes",
+    "city": "Vianen"
+  },
+  {
+    "name": "SV Bredevoort",
+    "city": "Bredevoort"
+  },
+  {
+    "name": "VV Breskens",
+    "city": "Breskens"
+  },
+  {
+    "name": "FC Breukelen",
+    "city": "Breukelen"
+  },
+  {
+    "name": "Brevendia",
+    "city": "Stramproy"
+  },
+  {
+    "name": "VV Brielle",
+    "city": "Brielle"
+  },
+  {
+    "name": "KS Broekhoven",
+    "city": "Tilburg"
+  },
+  {
+    "name": "SV Broekland",
+    "city": "Broekland"
+  },
+  {
+    "name": "Broekster Boys",
+    "city": "Damwoude"
+  },
+  {
+    "name": "Broekster-Wâlden",
+    "city": "Damwald"
+  },
+  {
+    "name": "Brouwershaven",
+    "city": "Brouwershaven"
+  },
+  {
+    "name": "VV Bruchterveld",
+    "city": "Bruchterveld"
+  },
+  {
+    "name": "VV De Brug",
+    "city": "Haarlem"
+  },
+  {
+    "name": "VV Bruheze",
+    "city": "Helmond"
+  },
+  {
+    "name": "Sportclub Brummen",
+    "city": "Brummen"
+  },
+  {
+    "name": "SV Brunssum",
+    "city": "Brunssum"
+  },
+  {
+    "name": "VV Bruse Boys",
+    "city": "Bruinisse"
+  },
+  {
+    "name": "BSC",
+    "city": "Roosendaal"
+  },
+  {
+    "name": "BSC '68",
+    "city": "Benthuizen"
+  },
+  {
+    "name": "BSC Unisson",
+    "city": "Boekelo"
+  },
+  {
+    "name": "SV BSM",
+    "city": "Bennebroek"
+  },
+  {
+    "name": "BSV Limburgia",
+    "city": "Brunssum"
+  },
+  {
+    "name": "BSVV",
+    "city": "Bovensmilde"
+  },
+  {
+    "name": "SV Budel",
+    "city": "Budel"
+  },
+  {
+    "name": "VV Buinen",
+    "city": "Buinen"
+  },
+  {
+    "name": "VV Buinerveen",
+    "city": "Buinerveen"
+  },
+  {
+    "name": "Buitenboys",
+    "city": "Almere"
+  },
+  {
+    "name": "VV Buitenpost",
+    "city": "Buitenpost"
+  },
+  {
+    "name": "SC Buitenveldert",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Bunde",
+    "city": "Bunde"
+  },
+  {
+    "name": "Bunnik '73",
+    "city": "Bunnik"
+  },
+  {
+    "name": "SV Buren",
+    "city": "Buren G"
+  },
+  {
+    "name": "FC Burgum",
+    "city": "Bergum"
+  },
+  {
+    "name": "Buurse",
+    "city": "Haaksbergen"
+  },
+  {
+    "name": "SVO Buytenpark",
+    "city": "Zoetermeer"
+  },
+  {
+    "name": "BVC '12",
+    "city": "Beek Ubbergen"
+  },
+  {
+    "name": "BVC '28",
+    "city": "Bingelrade"
+  },
+  {
+    "name": "BVCB",
+    "city": "Bergschenhoek"
+  },
+  {
+    "name": "BVV",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "BVV '27",
+    "city": "Blitterswijk"
+  },
+  {
+    "name": "BVV '31",
+    "city": "Blaricum"
+  },
+  {
+    "name": "BVV '63",
+    "city": "Bergen Op Zoom"
+  },
+  {
+    "name": "BWO",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "BZC '13",
+    "city": "Loosdrecht"
+  },
+  {
+    "name": "BZC '14",
+    "city": "Brakel"
+  },
+  {
+    "name": "BZC '95",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "BZC/Zuiderpark",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV BZS",
+    "city": "Beusichem"
+  },
+  {
+    "name": "CAB",
+    "city": "Bolsward"
+  },
+  {
+    "name": "VV Cabauw",
+    "city": "Lopik"
+  },
+  {
+    "name": "VV Cadzand",
+    "city": "Cadzand"
+  },
+  {
+    "name": "Caesar",
+    "city": "Beek Li"
+  },
+  {
+    "name": "VV Callantsoog",
+    "city": "Callantsoog"
+  },
+  {
+    "name": "SC Cambuur",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "Candia '66",
+    "city": "Rhenen"
+  },
+  {
+    "name": "VV Capelle",
+    "city": "Capelle Aan Den Ijssel"
+  },
+  {
+    "name": "SV Capelle",
+    "city": "Sprang Capelle"
+  },
+  {
+    "name": "Carvium",
+    "city": "Herwen"
+  },
+  {
+    "name": "Casteren",
+    "city": "Casteren"
+  },
+  {
+    "name": "FC Castricum",
+    "city": "Castricum"
+  },
+  {
+    "name": "CCW '16",
+    "city": "Wilp"
+  },
+  {
+    "name": "VV CDN",
+    "city": "Driebergen Rijsenburg"
+  },
+  {
+    "name": "CDW",
+    "city": "Wijk Bij Duurstede"
+  },
+  {
+    "name": "VV CEC",
+    "city": "Emmer Compascuum"
+  },
+  {
+    "name": "HSV Celeritas",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Centrum Boys",
+    "city": "Sittard"
+  },
+  {
+    "name": "FC Het Centrum",
+    "city": "Enschede"
+  },
+  {
+    "name": "VV Chaam",
+    "city": "Chaam"
+  },
+  {
+    "name": "FC Chabab",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV Charlois",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV CHC",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "VV Chèvremont",
+    "city": "Chegravevremont"
+  },
+  {
+    "name": "VV CHRC",
+    "city": "Renkum"
+  },
+  {
+    "name": "Chrislandia",
+    "city": "Heijningen"
+  },
+  {
+    "name": "CION",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "RKSV Cito",
+    "city": "Oss"
+  },
+  {
+    "name": "De CJV'ers",
+    "city": "Deventer"
+  },
+  {
+    "name": "CJVV",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "VV CKC",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Clinge",
+    "city": "Clinge"
+  },
+  {
+    "name": "RKSV Cluzona",
+    "city": "Wouw"
+  },
+  {
+    "name": "COAL",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Cobu Boys",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "Colijnsplaatse Boys",
+    "city": "Colijnsplaat"
+  },
+  {
+    "name": "SV Colmschate '33",
+    "city": "Colmschate"
+  },
+  {
+    "name": "AVV Columbia",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "Con Zelo",
+    "city": "Waarland"
+  },
+  {
+    "name": "Concordia",
+    "city": "Delft"
+  },
+  {
+    "name": "SV Concordia",
+    "city": "Hillegom"
+  },
+  {
+    "name": "Concordia Wehl",
+    "city": "Wehl"
+  },
+  {
+    "name": "Constantia",
+    "city": "Wanroij"
+  },
+  {
+    "name": "Conventus '03",
+    "city": "Koningsbosch"
+  },
+  {
+    "name": "Corenos",
+    "city": "Roodeschool"
+  },
+  {
+    "name": "Corn Boys",
+    "city": "Sas Van Gent"
+  },
+  {
+    "name": "FC Cranendonck",
+    "city": "Soerendonk"
+  },
+  {
+    "name": "SC Creil",
+    "city": "Creil"
+  },
+  {
+    "name": "VV Creil-Bant",
+    "city": "Bant"
+  },
+  {
+    "name": "RKTVV Crescentia",
+    "city": "Weert"
+  },
+  {
+    "name": "CSL",
+    "city": "Stiens"
+  },
+  {
+    "name": "CSV '28",
+    "city": "Zwolle"
+  },
+  {
+    "name": "CSVC",
+    "city": "Coevorden"
+  },
+  {
+    "name": "CSVH",
+    "city": "Groningen"
+  },
+  {
+    "name": "CSW",
+    "city": "Wilnis"
+  },
+  {
+    "name": "VV CTO '70",
+    "city": "Duivendrecht"
+  },
+  {
+    "name": "Cupa",
+    "city": "Bussloo"
+  },
+  {
+    "name": "CVC Reeuwijk",
+    "city": "Reeuwijk"
+  },
+  {
+    "name": "CVO",
+    "city": "Vrouwenparochie"
+  },
+  {
+    "name": "CVV",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "CVV Mercurius",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "CVVB",
+    "city": "Bedum"
+  },
+  {
+    "name": "CVVO",
+    "city": "Lemmer"
+  },
+  {
+    "name": "SV CWO",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "VV Daalhof",
+    "city": "Maastricht"
+  },
+  {
+    "name": "Sportclub Daarle",
+    "city": "Daarle"
+  },
+  {
+    "name": "VV Daarlerveen",
+    "city": "Daarlerveen"
+  },
+  {
+    "name": "VV Dalen",
+    "city": "Dalen"
+  },
+  {
+    "name": "SV Dalfsen",
+    "city": "Dalfsen"
+  },
+  {
+    "name": "SJO FC Dalfsen",
+    "city": "Dalfsen"
+  },
+  {
+    "name": "VV Dalto",
+    "city": "Driebergen Rijsenberg"
+  },
+  {
+    "name": "Damacota",
+    "city": "Nieuwe Pekela"
+  },
+  {
+    "name": "FC Dauwendaele",
+    "city": "Middelburg"
+  },
+  {
+    "name": "DAVO",
+    "city": "Deventer"
+  },
+  {
+    "name": "DAW Schaijk",
+    "city": "Schaijk"
+  },
+  {
+    "name": "DBGC",
+    "city": "Oude Tonge"
+  },
+  {
+    "name": "DBN '22",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "VV DBS",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "DBSV",
+    "city": "Maastricht"
+  },
+  {
+    "name": "DBV",
+    "city": "Maasbommel"
+  },
+  {
+    "name": "RKSV DCG",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV DCS",
+    "city": "Zevenaar"
+  },
+  {
+    "name": "DCV",
+    "city": "Krimpen Aan Den Ijssel"
+  },
+  {
+    "name": "DDV '23",
+    "city": "Ooij"
+  },
+  {
+    "name": "VV De Fendert",
+    "city": "Fijnaart"
+  },
+  {
+    "name": "De Held",
+    "city": "Groningen"
+  },
+  {
+    "name": "SV De Marne",
+    "city": "Ulrum"
+  },
+  {
+    "name": "VV De Willy's/SC St. Hubert",
+    "city": "Sint Hubert"
+  },
+  {
+    "name": "De Zwarte Schapen",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV Dedemsvaart",
+    "city": "Dedemsvaart"
+  },
+  {
+    "name": "vv DEES",
+    "city": "Wintelre"
+  },
+  {
+    "name": "DEHMusschen",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SF Deinum",
+    "city": "Deinum"
+  },
+  {
+    "name": "DEK",
+    "city": "Medemblik"
+  },
+  {
+    "name": "SV Delden",
+    "city": "Delden"
+  },
+  {
+    "name": "Delfia",
+    "city": "Delft"
+  },
+  {
+    "name": "VV Delfstrahuizen",
+    "city": "Delfstrahuizen"
+  },
+  {
+    "name": "DVV Delft",
+    "city": "Delft"
+  },
+  {
+    "name": "FC Delta Sports '95",
+    "city": "Houten"
+  },
+  {
+    "name": "SV Deltasport",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "RKVV DEM",
+    "city": "Beverwijk"
+  },
+  {
+    "name": "SV De Dem",
+    "city": "Hoensbroek"
+  },
+  {
+    "name": "VV Den Bommel",
+    "city": "Den Bommel"
+  },
+  {
+    "name": "FC Den Bosch",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "VV Den Dam",
+    "city": "Azewijn"
+  },
+  {
+    "name": "VV Den Dungen",
+    "city": "Den Dungen"
+  },
+  {
+    "name": "VV Den Ham",
+    "city": "Den Ham"
+  },
+  {
+    "name": "FC Den Helder",
+    "city": "Den Helder"
+  },
+  {
+    "name": "SV Den Hoorn",
+    "city": "Den Hoorn"
+  },
+  {
+    "name": "Sportclub Denekamp",
+    "city": "Denekamp"
+  },
+  {
+    "name": "VV DEO",
+    "city": "Borculo"
+  },
+  {
+    "name": "VV DES",
+    "city": "Nijverdal"
+  },
+  {
+    "name": "DES '67",
+    "city": "Dirksland"
+  },
+  {
+    "name": "VV DESK",
+    "city": "Kaatsheuvel"
+  },
+  {
+    "name": "DESM",
+    "city": "Weert"
+  },
+  {
+    "name": "DESO",
+    "city": "Oss"
+  },
+  {
+    "name": "SV DESS",
+    "city": "Benningbroek"
+  },
+  {
+    "name": "COV DESTO",
+    "city": "Vleuten"
+  },
+  {
+    "name": "DESZ",
+    "city": "Zwartsluis"
+  },
+  {
+    "name": "DETO",
+    "city": "Vriezenveen"
+  },
+  {
+    "name": "SV Deurne",
+    "city": "Deurne"
+  },
+  {
+    "name": "DEV Doorn",
+    "city": "Doorn"
+  },
+  {
+    "name": "DEV-Arcen",
+    "city": "Arcen"
+  },
+  {
+    "name": "Sportclub Deventer",
+    "city": "Deventer"
+  },
+  {
+    "name": "DEVJO",
+    "city": "Voorburg"
+  },
+  {
+    "name": "DEVO",
+    "city": "Bosschenhoofd"
+  },
+  {
+    "name": "DEVO '58",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "DFC",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "SJO DFC",
+    "city": "Dronrijp"
+  },
+  {
+    "name": "DFO '20",
+    "city": "Kelpen Oler"
+  },
+  {
+    "name": "SV DFS Burgh Haamstede",
+    "city": "Burgh Haamstede"
+  },
+  {
+    "name": "SV DFS Opheusden",
+    "city": "Opheusden"
+  },
+  {
+    "name": "DHC",
+    "city": "Delft"
+  },
+  {
+    "name": "SV DHL",
+    "city": "Delft"
+  },
+  {
+    "name": "VV DHSC",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV DHV",
+    "city": "Zevenbergschen Hoek"
+  },
+  {
+    "name": "DHZ",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "RKVV DIA",
+    "city": "Teteringen"
+  },
+  {
+    "name": "SV Die Haghe",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV Diemen",
+    "city": "Diemen"
+  },
+  {
+    "name": "VV Diepenheim",
+    "city": "Diepenheim"
+  },
+  {
+    "name": "Diepenveen",
+    "city": "Diepenveen"
+  },
+  {
+    "name": "VV Dieren",
+    "city": "Dieren"
+  },
+  {
+    "name": "Dierensche Boys",
+    "city": "Dieren"
+  },
+  {
+    "name": "VV Diever",
+    "city": "Diever"
+  },
+  {
+    "name": "VV Diever/Wapse",
+    "city": "Diever"
+  },
+  {
+    "name": "Dieze West",
+    "city": "Zwolle"
+  },
+  {
+    "name": "ASV De Dijk",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Dijkse Boys",
+    "city": "Helmond"
+  },
+  {
+    "name": "Dilettant",
+    "city": "Krimpen Aan De Lek"
+  },
+  {
+    "name": "VV DINDUA",
+    "city": "Enkhuizen"
+  },
+  {
+    "name": "VV Dinteloord",
+    "city": "Dinteloord"
+  },
+  {
+    "name": "SV Dinxperlo",
+    "city": "Dinxperlo"
+  },
+  {
+    "name": "FC Dinxperlo",
+    "city": "Dinxperlo"
+  },
+  {
+    "name": "DIO '30",
+    "city": "Afferden"
+  },
+  {
+    "name": "DIO Groningen",
+    "city": "Groningen"
+  },
+  {
+    "name": "DIO Oosterwolde",
+    "city": "Oosterwolde Fr"
+  },
+  {
+    "name": "SV DIO",
+    "city": "Haarlem"
+  },
+  {
+    "name": "SV DIOS",
+    "city": "Nieuw Vennep"
+  },
+  {
+    "name": "SC DIOSA",
+    "city": "Balgoij"
+  },
+  {
+    "name": "DIOZ",
+    "city": "Zegge"
+  },
+  {
+    "name": "VV Dirkshorn",
+    "city": "Dirkshorn"
+  },
+  {
+    "name": "VV Dirksland",
+    "city": "Dirksland"
+  },
+  {
+    "name": "Diva '83",
+    "city": "Groningen"
+  },
+  {
+    "name": "DIVO",
+    "city": "Dinteloord"
+  },
+  {
+    "name": "DJSCR",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV DKB",
+    "city": "De Krim"
+  },
+  {
+    "name": "DKS '17",
+    "city": "Sint Jansteen"
+  },
+  {
+    "name": "DMC Dordrecht",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "VV DOB",
+    "city": "Nigtevecht"
+  },
+  {
+    "name": "RKSV DoCoS",
+    "city": "Leiden"
+  },
+  {
+    "name": "VV Dodewaard",
+    "city": "Dodewaard"
+  },
+  {
+    "name": "RKVV Doenrade",
+    "city": "Doenrade"
+  },
+  {
+    "name": "SC Doesburg",
+    "city": "Doesburg"
+  },
+  {
+    "name": "VV Doetinchem",
+    "city": "Doetinchem"
+  },
+  {
+    "name": "VV Dokkum",
+    "city": "Dokkum"
+  },
+  {
+    "name": "VV Domburg",
+    "city": "Domburg"
+  },
+  {
+    "name": "RKVV Dommelen",
+    "city": "Valkenswaard"
+  },
+  {
+    "name": "Domstad Majella",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Dongen",
+    "city": "Dongen"
+  },
+  {
+    "name": "SV DONK",
+    "city": "Gouda"
+  },
+  {
+    "name": "SV Donkerbroek",
+    "city": "Donkerbroek"
+  },
+  {
+    "name": "FC Dordrecht",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "DOS '19",
+    "city": "Denekamp"
+  },
+  {
+    "name": "DOS '37",
+    "city": "Vriezenveen"
+  },
+  {
+    "name": "DOS '63",
+    "city": "Linde"
+  },
+  {
+    "name": "DOS Kampen",
+    "city": "Kampen"
+  },
+  {
+    "name": "DOSC",
+    "city": "Den Dolder"
+  },
+  {
+    "name": "SV DOSKO",
+    "city": "Bergen Op Zoom"
+  },
+  {
+    "name": "DOSKO '32",
+    "city": "Duizel"
+  },
+  {
+    "name": "DOSL",
+    "city": "Leende"
+  },
+  {
+    "name": "RKSV DOSR",
+    "city": "Roelofarendsveen"
+  },
+  {
+    "name": "DOTO",
+    "city": "Pernis"
+  },
+  {
+    "name": "VV DOVO",
+    "city": "Veenendaal"
+  },
+  {
+    "name": "VV Drachten",
+    "city": "Drachten"
+  },
+  {
+    "name": "Drachtster Boys",
+    "city": "Drachten"
+  },
+  {
+    "name": "DRC",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV DRC '12",
+    "city": "Almelo"
+  },
+  {
+    "name": "VV Drechtstreek",
+    "city": "Papendrecht"
+  },
+  {
+    "name": "SV Overvecht/De Dreef",
+    "city": "Utrecht"
+  },
+  {
+    "name": "SV Dreischor",
+    "city": "Dreischor"
+  },
+  {
+    "name": "Drenthina",
+    "city": "Emmen"
+  },
+  {
+    "name": "DRGS",
+    "city": "Schiedam"
+  },
+  {
+    "name": "FC Driebergen",
+    "city": "Driebergen Rijsenburg"
+  },
+  {
+    "name": "SV Drieborg",
+    "city": "Drieborg"
+  },
+  {
+    "name": "RKSV Driel",
+    "city": "Driel"
+  },
+  {
+    "name": "VV Drienerlo",
+    "city": "Enschede"
+  },
+  {
+    "name": "SV DRL",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Drogeham",
+    "city": "Drogeham"
+  },
+  {
+    "name": "VV Dronrijp",
+    "city": "Dronrijp"
+  },
+  {
+    "name": "ASV Dronten",
+    "city": "Dronten"
+  },
+  {
+    "name": "FC Drunen",
+    "city": "Drunen"
+  },
+  {
+    "name": "VV DSC",
+    "city": "Kerkdriel"
+  },
+  {
+    "name": "DSC '65",
+    "city": "Dalerveen"
+  },
+  {
+    "name": "VV DSE",
+    "city": "Etten Leur"
+  },
+  {
+    "name": "DSK",
+    "city": "Haarlem"
+  },
+  {
+    "name": "SV DSO",
+    "city": "Zoetermeer"
+  },
+  {
+    "name": "DSO/Ultrajectum",
+    "city": "Utrecht"
+  },
+  {
+    "name": "DSOV",
+    "city": "Vijfhuizen"
+  },
+  {
+    "name": "DSS",
+    "city": "Haarlem"
+  },
+  {
+    "name": "DSS '14",
+    "city": "Heesselt"
+  },
+  {
+    "name": "DSV",
+    "city": "Ledeacker"
+  },
+  {
+    "name": "DSV '61",
+    "city": "Doornspijk"
+  },
+  {
+    "name": "DSVD",
+    "city": "Deurningen"
+  },
+  {
+    "name": "DSVP",
+    "city": "Pijnacker"
+  },
+  {
+    "name": "SV DSZ",
+    "city": "Boven Leeuwen"
+  },
+  {
+    "name": "DSZ '16",
+    "city": "Zuidlaren"
+  },
+  {
+    "name": "DTC '07",
+    "city": "Tilligte"
+  },
+  {
+    "name": "VV DTD",
+    "city": "Cornjum"
+  },
+  {
+    "name": "SV DTS",
+    "city": "Oud Karspel"
+  },
+  {
+    "name": "VV DTS Ede",
+    "city": "Ede"
+  },
+  {
+    "name": "VV Dubbeldam",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "Duindorp SV",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Duinrand S",
+    "city": "Schoorl"
+  },
+  {
+    "name": "SV Duiveland",
+    "city": "Oosterland"
+  },
+  {
+    "name": "HSV DUNO",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV DUNO",
+    "city": "Doorwerth"
+  },
+  {
+    "name": "Dussense Boys",
+    "city": "Dussen"
+  },
+  {
+    "name": "DVC",
+    "city": "Delft"
+  },
+  {
+    "name": "DVC '16",
+    "city": "Gronsveld"
+  },
+  {
+    "name": "DVC '26",
+    "city": "Didam"
+  },
+  {
+    "name": "DVC '59",
+    "city": "Nieuw Dordrecht"
+  },
+  {
+    "name": "DVC Appingedam",
+    "city": "Appingedam"
+  },
+  {
+    "name": "dvc Buiksloot",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "DVC Dedemsvaart",
+    "city": "Dedemsvaart"
+  },
+  {
+    "name": "VV DVE-Trajanus",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "DVG",
+    "city": "Liempde"
+  },
+  {
+    "name": "VV DVO",
+    "city": "Sittard"
+  },
+  {
+    "name": "DVO '32",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "DVO '60",
+    "city": "Roosendaal"
+  },
+  {
+    "name": "DVO '71",
+    "city": "Bornerbroek"
+  },
+  {
+    "name": "DVOL",
+    "city": "Lent"
+  },
+  {
+    "name": "DVOV",
+    "city": "Velp Gld"
+  },
+  {
+    "name": "DVS",
+    "city": "Waalre"
+  },
+  {
+    "name": "DVS'33 Ermelo",
+    "city": "Ermelo"
+  },
+  {
+    "name": "DVSA",
+    "city": "Amerongen"
+  },
+  {
+    "name": "DVSG",
+    "city": "Groesbeek"
+  },
+  {
+    "name": "DVSU",
+    "city": "Utrecht"
+  },
+  {
+    "name": "DVSV",
+    "city": "Darp"
+  },
+  {
+    "name": "DVV",
+    "city": "Duiven"
+  },
+  {
+    "name": "DVV '09",
+    "city": "Dirksland"
+  },
+  {
+    "name": "DVVA",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "DVVC",
+    "city": "Dongen"
+  },
+  {
+    "name": "VV DWB",
+    "city": "De Weere"
+  },
+  {
+    "name": "VV Dwingeloo",
+    "city": "Dwingeloo"
+  },
+  {
+    "name": "SV DWO",
+    "city": "Zoetermeer"
+  },
+  {
+    "name": "DwO '15",
+    "city": "Driewegen"
+  },
+  {
+    "name": "DWOW",
+    "city": "Wieringerwerf"
+  },
+  {
+    "name": "VV DWP",
+    "city": "Sint Johannesga"
+  },
+  {
+    "name": "AFC DWS",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "sv DWSH '18",
+    "city": "Wilbertoord"
+  },
+  {
+    "name": "DWSM",
+    "city": "Maarssen"
+  },
+  {
+    "name": "DWSV",
+    "city": "Utrecht"
+  },
+  {
+    "name": "ASV DWV",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV DWZ",
+    "city": "Veendam"
+  },
+  {
+    "name": "SC Dynamo",
+    "city": "Ursem"
+  },
+  {
+    "name": "DZC '09",
+    "city": "Dreischor"
+  },
+  {
+    "name": "DZC '68",
+    "city": "Doetinchem"
+  },
+  {
+    "name": "DZOH",
+    "city": "Emmen"
+  },
+  {
+    "name": "DZS",
+    "city": "Wijdewormer"
+  },
+  {
+    "name": "DZSV",
+    "city": "Dinxperlo"
+  },
+  {
+    "name": "VV Eastermar",
+    "city": "Oostermeer"
+  },
+  {
+    "name": "VV EBC",
+    "city": "Oosterzee"
+  },
+  {
+    "name": "EBOH",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "VV Echteld",
+    "city": "Echteld"
+  },
+  {
+    "name": "Ede/Victoria",
+    "city": "Ede"
+  },
+  {
+    "name": "Edesche Boys",
+    "city": "Ede"
+  },
+  {
+    "name": "EDN '56",
+    "city": "Haghorst"
+  },
+  {
+    "name": "ucs EDO",
+    "city": "Utrecht"
+  },
+  {
+    "name": "hfc EDO",
+    "city": "Haarlem"
+  },
+  {
+    "name": "EDON",
+    "city": "Zwolle"
+  },
+  {
+    "name": "EDS",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SC EDS",
+    "city": "Ellecom"
+  },
+  {
+    "name": "VV EEC",
+    "city": "Ees"
+  },
+  {
+    "name": "VV Sportclub Eefde",
+    "city": "Eefde"
+  },
+  {
+    "name": "Eemboys",
+    "city": "Baarn"
+  },
+  {
+    "name": "VV Eemdijk",
+    "city": "Bunschoten"
+  },
+  {
+    "name": "SV Eemnes",
+    "city": "Eemnes"
+  },
+  {
+    "name": "Eems Boys",
+    "city": "Delfzijl"
+  },
+  {
+    "name": "Eendracht '30",
+    "city": "Mook"
+  },
+  {
+    "name": "Eendracht '82",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Eendracht Arnhem",
+    "city": "Arnhem"
+  },
+  {
+    "name": "VV Eenrum",
+    "city": "Eenrum"
+  },
+  {
+    "name": "Eerbeekse Boys",
+    "city": "Eerbeek"
+  },
+  {
+    "name": "VV Eext",
+    "city": "Eext"
+  },
+  {
+    "name": "EFC",
+    "city": "Eersel"
+  },
+  {
+    "name": "EFC '58",
+    "city": "Ermelo"
+  },
+  {
+    "name": "SV Egchel",
+    "city": "Panningen"
+  },
+  {
+    "name": "De Egelantier Boys",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Egmond",
+    "city": "Egmond Binnen"
+  },
+  {
+    "name": "VV Egmondia",
+    "city": "Egmond Aan Zee"
+  },
+  {
+    "name": "EGS '20",
+    "city": "Escharen"
+  },
+  {
+    "name": "EGVV",
+    "city": "Gelselaar"
+  },
+  {
+    "name": "EHC",
+    "city": "Hoensbroek"
+  },
+  {
+    "name": "EHS '85",
+    "city": "Emmerschans"
+  },
+  {
+    "name": "FC Eibergen",
+    "city": "Eibergen"
+  },
+  {
+    "name": "VV Eijsden",
+    "city": "Eijsden"
+  },
+  {
+    "name": "SV Eikenderveld",
+    "city": "Heerlen"
+  },
+  {
+    "name": "GVV Eilermark",
+    "city": "Enschede"
+  },
+  {
+    "name": "FC Eindhoven AV",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "FC Eindhoven",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "Eindse Boys",
+    "city": "Nederweert"
+  },
+  {
+    "name": "EKC",
+    "city": "Kloosterburen"
+  },
+  {
+    "name": "SC Eland De",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Eldenia",
+    "city": "Arnhem"
+  },
+  {
+    "name": "ELI",
+    "city": "Lieshout"
+  },
+  {
+    "name": "SC Elim",
+    "city": "Elim"
+  },
+  {
+    "name": "Elinkwijk",
+    "city": "Utrecht"
+  },
+  {
+    "name": "SC Elistha",
+    "city": "Elst Gld"
+  },
+  {
+    "name": "VV Elsendorp",
+    "city": "Elsendorp"
+  },
+  {
+    "name": "SC Elshout",
+    "city": "Elshout"
+  },
+  {
+    "name": "VV Elspeet",
+    "city": "Elspeet"
+  },
+  {
+    "name": "Elsweide",
+    "city": "Arnhem"
+  },
+  {
+    "name": "Eminent Boys",
+    "city": "Utrecht"
+  },
+  {
+    "name": "RKVV EMK",
+    "city": "Nuenen"
+  },
+  {
+    "name": "EMM '21",
+    "city": "Roelofarendsveen"
+  },
+  {
+    "name": "EMM Randwijk",
+    "city": "Randwijk"
+  },
+  {
+    "name": "SC EMMA",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "SC Emmeloord",
+    "city": "Emmeloord"
+  },
+  {
+    "name": "FC Emmen",
+    "city": "Emmen"
+  },
+  {
+    "name": "VV Emmen",
+    "city": "Emmen"
+  },
+  {
+    "name": "VV EMMS",
+    "city": "Slagharen"
+  },
+  {
+    "name": "EMOS",
+    "city": "Enschede"
+  },
+  {
+    "name": "Emplina",
+    "city": "Empel"
+  },
+  {
+    "name": "SV EMS",
+    "city": "Roermond"
+  },
+  {
+    "name": "EMS/RFC",
+    "city": "Roermond"
+  },
+  {
+    "name": "VV Emst",
+    "city": "Emst"
+  },
+  {
+    "name": "SV ENC '09",
+    "city": "Nijverdal"
+  },
+  {
+    "name": "VV Engelbert",
+    "city": "Groningen"
+  },
+  {
+    "name": "FC Engelen",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "s.v. Enkhuizen",
+    "city": "Enkhuizen"
+  },
+  {
+    "name": "SV Ens",
+    "city": "Ens"
+  },
+  {
+    "name": "SC Enschede",
+    "city": "Enschede"
+  },
+  {
+    "name": "Enschedese Boys",
+    "city": "Enschede"
+  },
+  {
+    "name": "SV Enter",
+    "city": "Enter"
+  },
+  {
+    "name": "Enter Vooruit",
+    "city": "Enter"
+  },
+  {
+    "name": "SV Epe",
+    "city": "Epe"
+  },
+  {
+    "name": "SV Epen",
+    "city": "Epen"
+  },
+  {
+    "name": "Epse",
+    "city": "Epse"
+  },
+  {
+    "name": "Epse Gorssel Combinatie",
+    "city": "Epse"
+  },
+  {
+    "name": "SV Erasmus",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Erica '76",
+    "city": "Dieren"
+  },
+  {
+    "name": "Erica '86",
+    "city": "Erica"
+  },
+  {
+    "name": "SC Erica",
+    "city": "Erica"
+  },
+  {
+    "name": "VV Erix",
+    "city": "Lievelde"
+  },
+  {
+    "name": "RKVV Erp",
+    "city": "Erp"
+  },
+  {
+    "name": "ESA Rijkerswoerd",
+    "city": "Arnhem"
+  },
+  {
+    "name": "ESC",
+    "city": "Elburg"
+  },
+  {
+    "name": "ESC Glanerbrug",
+    "city": "Enschede"
+  },
+  {
+    "name": "ESCA",
+    "city": "Arnhem"
+  },
+  {
+    "name": "HSV Escamp",
+    "city": "Den Haag"
+  },
+  {
+    "name": "ZVV De Esch",
+    "city": "Oldenzaal"
+  },
+  {
+    "name": "SC Espel",
+    "city": "Espel"
+  },
+  {
+    "name": "Essche Boys",
+    "city": "Esch"
+  },
+  {
+    "name": "ESTO",
+    "city": "Bodegraven"
+  },
+  {
+    "name": "SV Estria",
+    "city": "Escharen"
+  },
+  {
+    "name": "ESV",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "ETS",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "VV Etten",
+    "city": "Etten"
+  },
+  {
+    "name": "EVC",
+    "city": "Edam"
+  },
+  {
+    "name": "De Eversberg",
+    "city": "Nijverdal"
+  },
+  {
+    "name": "SC Everstein",
+    "city": "Everdingen"
+  },
+  {
+    "name": "EVV",
+    "city": "Echt"
+  },
+  {
+    "name": "EVVC",
+    "city": "Vinkel"
+  },
+  {
+    "name": "EWC '46",
+    "city": "Well"
+  },
+  {
+    "name": "VV Ewijk",
+    "city": "Ewijk"
+  },
+  {
+    "name": "VV Excellent",
+    "city": "Oploo"
+  },
+  {
+    "name": "Excelsior '20",
+    "city": "Schiedam"
+  },
+  {
+    "name": "Excelsior '31",
+    "city": "Rijssen"
+  },
+  {
+    "name": "Excelsior Maassluis",
+    "city": "Maassluis"
+  },
+  {
+    "name": "Excelsior Pernis",
+    "city": "Pernis"
+  },
+  {
+    "name": "Excelsior Rotterdam",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Sportclub Excelsior",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Excelsior Zetten",
+    "city": "Zetten"
+  },
+  {
+    "name": "EZC '84",
+    "city": "Epe"
+  },
+  {
+    "name": "VV Ezinge",
+    "city": "Feerwerd"
+  },
+  {
+    "name": "Faja Lobi KDS",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Farmsum",
+    "city": "Farmsum"
+  },
+  {
+    "name": "FC Maense",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "FCB-HWD",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "FCF",
+    "city": "Weesp"
+  },
+  {
+    "name": "FCV",
+    "city": "Venlo"
+  },
+  {
+    "name": "VV FDS",
+    "city": "Havelterberg"
+  },
+  {
+    "name": "VV 't Fean '58",
+    "city": "Surhuisterveen"
+  },
+  {
+    "name": "Feanstars SJO",
+    "city": "Surhuisterveen"
+  },
+  {
+    "name": "SC Fenerbahce",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Festilent",
+    "city": "Zeeland"
+  },
+  {
+    "name": "Feyenoord",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SC Feyenoord",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "FFS",
+    "city": "Vegelinsoord"
+  },
+  {
+    "name": "RKVV Fiducia",
+    "city": "De Rips"
+  },
+  {
+    "name": "RKVV FIOS",
+    "city": "Achthuizen"
+  },
+  {
+    "name": "FIT avv",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Fit Boys",
+    "city": "Beilen"
+  },
+  {
+    "name": "De Fivel",
+    "city": "Zeerijp"
+  },
+  {
+    "name": "Flakkee",
+    "city": "Middelharnis"
+  },
+  {
+    "name": "SC Flamingo",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "ASV De Flamingo's '64",
+    "city": "Alkmaar"
+  },
+  {
+    "name": "VC Fleringen",
+    "city": "Fleringen"
+  },
+  {
+    "name": "VV Flevo",
+    "city": "Middenmeer"
+  },
+  {
+    "name": "Flevo Boys",
+    "city": "Emmeloord"
+  },
+  {
+    "name": "BGC Floreant",
+    "city": "Boskoop"
+  },
+  {
+    "name": "VV Foarút",
+    "city": "Menaldum"
+  },
+  {
+    "name": "FC Fochteloo",
+    "city": "Fochteloo"
+  },
+  {
+    "name": "Focus '07",
+    "city": "Culemborg"
+  },
+  {
+    "name": "LVV Football Factory",
+    "city": "Leiden"
+  },
+  {
+    "name": "HVV Football Factory",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Foreholte",
+    "city": "Voorhout"
+  },
+  {
+    "name": "De Foresters",
+    "city": "Heiloo"
+  },
+  {
+    "name": "Fortissimo KSV",
+    "city": "Ede"
+  },
+  {
+    "name": "asv DTA Fortius",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Fortuna",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "Fortuna '54",
+    "city": "Sittard"
+  },
+  {
+    "name": "Fortuna Be Quick",
+    "city": "Goudswaard"
+  },
+  {
+    "name": "Fortuna Sittard",
+    "city": "Sittard"
+  },
+  {
+    "name": "Fortuna Wormerveer",
+    "city": "Wormerveer"
+  },
+  {
+    "name": "Forum Sport",
+    "city": "Voorburg"
+  },
+  {
+    "name": "GSAVV Forward",
+    "city": "Groningen"
+  },
+  {
+    "name": "Forza Almere",
+    "city": "Almere"
+  },
+  {
+    "name": "SC Franeker",
+    "city": "Franeker"
+  },
+  {
+    "name": "Friese Boys",
+    "city": "Kollumerzwaag"
+  },
+  {
+    "name": "LVV Friesland",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "L.A.C.",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "VV Froombosch",
+    "city": "Froombosch"
+  },
+  {
+    "name": "VV FSG",
+    "city": "Sittard"
+  },
+  {
+    "name": "DSV Full Speed",
+    "city": "Delft"
+  },
+  {
+    "name": "FVC",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "FVV",
+    "city": "Hoogezand"
+  },
+  {
+    "name": "FZO",
+    "city": "Zeist"
+  },
+  {
+    "name": "VV Gassel",
+    "city": "Gassel"
+  },
+  {
+    "name": "VV Gasselternijveen",
+    "city": "Gasselternijveen"
+  },
+  {
+    "name": "SC Gastel",
+    "city": "Oud Gastel"
+  },
+  {
+    "name": "GAVC",
+    "city": "Grou"
+  },
+  {
+    "name": "VV De Gazelle",
+    "city": "Deventer"
+  },
+  {
+    "name": "RKSV GDA",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV GDC",
+    "city": "Eethen"
+  },
+  {
+    "name": "VV Geel Wit",
+    "city": "Nes"
+  },
+  {
+    "name": "Geel Zwart '30",
+    "city": "T Zand"
+  },
+  {
+    "name": "SV Geel Wit '20",
+    "city": "Haarlem"
+  },
+  {
+    "name": "Geel-Zwart '25",
+    "city": "Coevorden"
+  },
+  {
+    "name": "Geertruidse Boys",
+    "city": "Sint Geertruid"
+  },
+  {
+    "name": "SV Geinburgia",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV Geinoord Nieuwegein",
+    "city": "Nieuwegein"
+  },
+  {
+    "name": "SV Gelders Eiland",
+    "city": "Aerdt"
+  },
+  {
+    "name": "VV Geldrop",
+    "city": "Geldrop"
+  },
+  {
+    "name": "FC Geleen Zuid",
+    "city": "Geleen"
+  },
+  {
+    "name": "FC Gelre",
+    "city": "Wehl"
+  },
+  {
+    "name": "VV Gemert",
+    "city": "Gemert"
+  },
+  {
+    "name": "VV Gendringen",
+    "city": "Gendringen"
+  },
+  {
+    "name": "SC Genemuiden",
+    "city": "Genemuiden"
+  },
+  {
+    "name": "VV GEO",
+    "city": "Garmerwolde"
+  },
+  {
+    "name": "De Germaan",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "ASC Germaan/De Eland",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Germania",
+    "city": "Groesbeek"
+  },
+  {
+    "name": "Germanicus",
+    "city": "Coevorden"
+  },
+  {
+    "name": "Gersloot",
+    "city": "Gersloot"
+  },
+  {
+    "name": "RKVV GESTA",
+    "city": "Galder"
+  },
+  {
+    "name": "VV Gestel",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "SV Geuldal",
+    "city": "Wijlre"
+  },
+  {
+    "name": "Geulsche Boys",
+    "city": "Geulle"
+  },
+  {
+    "name": "Geusselt Sport",
+    "city": "Maastricht"
+  },
+  {
+    "name": "GeuzenMiddenmeer",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "GFC",
+    "city": "Goor"
+  },
+  {
+    "name": "GFC '33",
+    "city": "Grubbenvorst"
+  },
+  {
+    "name": "VV GGK",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV GHC",
+    "city": "Leiden"
+  },
+  {
+    "name": "GHVV '13",
+    "city": "Geervliet"
+  },
+  {
+    "name": "VV Giessen",
+    "city": "Giessen"
+  },
+  {
+    "name": "VV Gieten",
+    "city": "Gieten"
+  },
+  {
+    "name": "VV Gieterveen",
+    "city": "Gieterveen"
+  },
+  {
+    "name": "SV Giethoorn SE",
+    "city": "Giethoorn"
+  },
+  {
+    "name": "VV Gilze",
+    "city": "Gilze"
+  },
+  {
+    "name": "ASV Giram",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "GJS",
+    "city": "Dalem"
+  },
+  {
+    "name": "VV GKC",
+    "city": "Gasselte"
+  },
+  {
+    "name": "vv GKC",
+    "city": "Grathem"
+  },
+  {
+    "name": "VV GKC / RKHVC",
+    "city": "Grathem"
+  },
+  {
+    "name": "VV Glanerbrug",
+    "city": "Glanerbrug"
+  },
+  {
+    "name": "VV Glimmen",
+    "city": "Glimmen"
+  },
+  {
+    "name": "SV De Glind",
+    "city": "De Glind"
+  },
+  {
+    "name": "Gloria UC",
+    "city": "Baarle Nassau"
+  },
+  {
+    "name": "GLZ Delfshaven",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "DVV Go-Ahead",
+    "city": "Deventer"
+  },
+  {
+    "name": "Go Ahead Eagles",
+    "city": "Deventer"
+  },
+  {
+    "name": "Go Ahead Kampen",
+    "city": "Kampen"
+  },
+  {
+    "name": "VV Godlinze",
+    "city": "Godlinze"
+  },
+  {
+    "name": "VV Goes",
+    "city": "Goes"
+  },
+  {
+    "name": "GOL Sport",
+    "city": "Leiden"
+  },
+  {
+    "name": "GOMOS",
+    "city": "Norg"
+  },
+  {
+    "name": "GONA",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Good Luck",
+    "city": "Raamsdonksveer"
+  },
+  {
+    "name": "SC 't Gooi",
+    "city": "Hilversum"
+  },
+  {
+    "name": "VV Gorecht",
+    "city": "Haren Gr"
+  },
+  {
+    "name": "VV Gorredijk",
+    "city": "Gorredijk"
+  },
+  {
+    "name": "VV Gorssel",
+    "city": "Gorssel"
+  },
+  {
+    "name": "SV Gouda",
+    "city": "Gouda"
+  },
+  {
+    "name": "VV Gouderak",
+    "city": "Gouderak"
+  },
+  {
+    "name": "Goudswaardse Boys",
+    "city": "Goudswaard"
+  },
+  {
+    "name": "VV 't Goy",
+    "city": "T Goy"
+  },
+  {
+    "name": "VV GOZ",
+    "city": "Mijnsheerenland"
+  },
+  {
+    "name": "GPC Vlissingen",
+    "city": "Vlissingen"
+  },
+  {
+    "name": "Graaf Willem II/VAC",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "De Graafschap",
+    "city": "Doetinchem"
+  },
+  {
+    "name": "VV Graauw",
+    "city": "Graauw"
+  },
+  {
+    "name": "SV Graftdijk",
+    "city": "West Graftdijk"
+  },
+  {
+    "name": "SV Gramsbergen",
+    "city": "Gramsbergen"
+  },
+  {
+    "name": "SV Grashoek",
+    "city": "Grashoek"
+  },
+  {
+    "name": "VV Grasshoppers",
+    "city": "Hoogwoud"
+  },
+  {
+    "name": "VV Grathem",
+    "city": "Grathem"
+  },
+  {
+    "name": "SV 's-Graveland",
+    "city": "S Graveland"
+  },
+  {
+    "name": "VV 's-Gravendeel",
+    "city": "S Gravendeel"
+  },
+  {
+    "name": "FC 's-Gravenzande",
+    "city": "S Gravenzande"
+  },
+  {
+    "name": "'s-Gravenzandse SV",
+    "city": "S Gravenzande"
+  },
+  {
+    "name": "'s-Gravenzandse VV",
+    "city": "S Gravenzande"
+  },
+  {
+    "name": "GRC 14",
+    "city": "Giessen"
+  },
+  {
+    "name": "GRC Groningen",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Grenswachters",
+    "city": "Putte"
+  },
+  {
+    "name": "Griendtsveen",
+    "city": "Griendtsveen"
+  },
+  {
+    "name": "SV De Griffioen",
+    "city": "Oosterwolde Fr"
+  },
+  {
+    "name": "VV Grijpskerk",
+    "city": "Grijpskerk"
+  },
+  {
+    "name": "VV Groede",
+    "city": "Groede"
+  },
+  {
+    "name": "Groen Geel",
+    "city": "Groningen"
+  },
+  {
+    "name": "Groen Wit '62",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "RKSV Groen Wit",
+    "city": "Breda"
+  },
+  {
+    "name": "RKSV Groene Ster",
+    "city": "Heerlerheide"
+  },
+  {
+    "name": "VV Groeneweg",
+    "city": "Zevenhuizen Zh"
+  },
+  {
+    "name": "Groesbeekse Boys",
+    "city": "Groesbeek"
+  },
+  {
+    "name": "Groessen",
+    "city": "Groessen"
+  },
+  {
+    "name": "SV Grol",
+    "city": "Groenlo"
+  },
+  {
+    "name": "SV Grolse Boys",
+    "city": "Groenlo"
+  },
+  {
+    "name": "FC Groningen",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Groningen",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Groninger Boys",
+    "city": "Groningen"
+  },
+  {
+    "name": "Gronitas",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Groot-Ammers",
+    "city": "Groot Ammers"
+  },
+  {
+    "name": "Groote Lindt",
+    "city": "Zwijndrecht"
+  },
+  {
+    "name": "FC. Grootegast",
+    "city": "Doezum"
+  },
+  {
+    "name": "VV Gruno",
+    "city": "Groningen"
+  },
+  {
+    "name": "GSBW",
+    "city": "Goirle"
+  },
+  {
+    "name": "GSC",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "GSC ESDO",
+    "city": "Den Haag"
+  },
+  {
+    "name": "GSC/ODS",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "GSV '28",
+    "city": "Beek Li"
+  },
+  {
+    "name": "GSV '38",
+    "city": "Giesbeek"
+  },
+  {
+    "name": "GSV '63",
+    "city": "Geesteren"
+  },
+  {
+    "name": "GSV Gouda",
+    "city": "Gouda"
+  },
+  {
+    "name": "GSV Grootschermer",
+    "city": "Grootschermer"
+  },
+  {
+    "name": "GSVV",
+    "city": "Gerkesklooster"
+  },
+  {
+    "name": "FC Gulpen",
+    "city": "Gulpen"
+  },
+  {
+    "name": "VV GVA",
+    "city": "Doornenburg"
+  },
+  {
+    "name": "GVAV-Rapiditas",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV GVB",
+    "city": "Doezum"
+  },
+  {
+    "name": "GVC",
+    "city": "Wageningen"
+  },
+  {
+    "name": "GVCG",
+    "city": "Guttecoven"
+  },
+  {
+    "name": "GVV",
+    "city": "Geldermalsen"
+  },
+  {
+    "name": "GVV '57",
+    "city": "Grave"
+  },
+  {
+    "name": "GVV '63",
+    "city": "Gameren"
+  },
+  {
+    "name": "GVVV",
+    "city": "Veenendaal"
+  },
+  {
+    "name": "GWVV",
+    "city": "Varsselder Veldhunten"
+  },
+  {
+    "name": "VV Haaften",
+    "city": "Haaften"
+  },
+  {
+    "name": "Haaglandia",
+    "city": "Rijswijk Zh"
+  },
+  {
+    "name": "VV Haagse Hout",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Haaksbergen",
+    "city": "Haaksbergen"
+  },
+  {
+    "name": "RKVV Haanrade",
+    "city": "Kerkrade"
+  },
+  {
+    "name": "SSA Haanrade/SVA",
+    "city": "Kerkrade"
+  },
+  {
+    "name": "SV Haarle",
+    "city": "Haarle"
+  },
+  {
+    "name": "HFC Haarlem",
+    "city": "Haarlem"
+  },
+  {
+    "name": "Haarlem Kennemerland",
+    "city": "Haarlem"
+  },
+  {
+    "name": "SP Haarlo",
+    "city": "Haarlo"
+  },
+  {
+    "name": "VV Haarsteeg",
+    "city": "Vlijmen"
+  },
+  {
+    "name": "VV Haastrecht",
+    "city": "Haastrecht"
+  },
+  {
+    "name": "Haelen",
+    "city": "Haelen"
+  },
+  {
+    "name": "SV Halle",
+    "city": "Halle"
+  },
+  {
+    "name": "RKSV Halsteren",
+    "city": "Halsteren"
+  },
+  {
+    "name": "VV Handel",
+    "city": "Handel"
+  },
+  {
+    "name": "Hansweertse Boys",
+    "city": "Hansweert"
+  },
+  {
+    "name": "VV Hapert",
+    "city": "Hapert"
+  },
+  {
+    "name": "Hapse Boys",
+    "city": "Haps"
+  },
+  {
+    "name": "SV 't Harde",
+    "city": "T Harde"
+  },
+  {
+    "name": "VV Hardegarijp",
+    "city": "Hardegarijp"
+  },
+  {
+    "name": "Hardenberg '85",
+    "city": "Hardenberg"
+  },
+  {
+    "name": "VV Hardinxveld",
+    "city": "Hardinxveld Giessendam"
+  },
+  {
+    "name": "VV Haren",
+    "city": "Haren Gr"
+  },
+  {
+    "name": "SV Harfsen",
+    "city": "Harfsen"
+  },
+  {
+    "name": "Hargasport",
+    "city": "Schiedam"
+  },
+  {
+    "name": "VV Harkema Opeinde",
+    "city": "Harkema"
+  },
+  {
+    "name": "Harkemase Boys",
+    "city": "Harkema"
+  },
+  {
+    "name": "VV Harkstede",
+    "city": "Harkstede"
+  },
+  {
+    "name": "VV Harlingen",
+    "city": "Harlingen"
+  },
+  {
+    "name": "FC Harlingen",
+    "city": "Harlingen"
+  },
+  {
+    "name": "SV Harskamp",
+    "city": "Harskamp"
+  },
+  {
+    "name": "SV Haslou",
+    "city": "Elsloo"
+  },
+  {
+    "name": "SV Hatert",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "VV Hattem",
+    "city": "Hattem"
+  },
+  {
+    "name": "SV Hatto Heim",
+    "city": "Hattem"
+  },
+  {
+    "name": "VV Haulerwijk",
+    "city": "Haulerwijk"
+  },
+  {
+    "name": "SV Haulerwijk",
+    "city": "Haulerwijk"
+  },
+  {
+    "name": "Haulerwijkse Boys",
+    "city": "Haulerwijk"
+  },
+  {
+    "name": "Hauwert 65",
+    "city": "Hauwert"
+  },
+  {
+    "name": "Havantia",
+    "city": "Elsloo"
+  },
+  {
+    "name": "VV Havelte",
+    "city": "Havelte"
+  },
+  {
+    "name": "HAVO",
+    "city": "Haalderen"
+  },
+  {
+    "name": "V&AV Hazerswoudse Boys",
+    "city": "Hazerswoude Dorp"
+  },
+  {
+    "name": "SV HBC",
+    "city": "Heemstede"
+  },
+  {
+    "name": "HBC '09",
+    "city": "Buchten"
+  },
+  {
+    "name": "HBC '22",
+    "city": "Hoofdplaat"
+  },
+  {
+    "name": "SJO HBDZ '23",
+    "city": "Haps"
+  },
+  {
+    "name": "HBOK",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "HBS",
+    "city": "Den Haag"
+  },
+  {
+    "name": "HBSS",
+    "city": "Schiedam"
+  },
+  {
+    "name": "HBSV",
+    "city": "Venlo"
+  },
+  {
+    "name": "HBV",
+    "city": "Beers"
+  },
+  {
+    "name": "HC '03",
+    "city": "Drempt"
+  },
+  {
+    "name": "HCSC",
+    "city": "Den Helder"
+  },
+  {
+    "name": "VV HDS",
+    "city": "Leersum"
+  },
+  {
+    "name": "VV HDV",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV HEBES",
+    "city": "Beegden"
+  },
+  {
+    "name": "SV Hector",
+    "city": "Goor"
+  },
+  {
+    "name": "VV Hedel",
+    "city": "Hedel"
+  },
+  {
+    "name": "VV Heeg",
+    "city": "Heeg"
+  },
+  {
+    "name": "VV De Heeg",
+    "city": "Maastricht"
+  },
+  {
+    "name": "HFC Heemstede",
+    "city": "Heemstede"
+  },
+  {
+    "name": "RKSV Heer",
+    "city": "Maastricht"
+  },
+  {
+    "name": "VV 's-Heer Arendskerke",
+    "city": "S Heer Arendskerke"
+  },
+  {
+    "name": "VV Heerde",
+    "city": "Heerde"
+  },
+  {
+    "name": "VV 's-Heerenbroek",
+    "city": "S Heerenbroek"
+  },
+  {
+    "name": "SC Heerenveen",
+    "city": "Heerenveen"
+  },
+  {
+    "name": "VV Heerenveen",
+    "city": "Heerenveen"
+  },
+  {
+    "name": "Heerenveense Boys",
+    "city": "Heerenveen"
+  },
+  {
+    "name": "SV Heerewaarden",
+    "city": "Heerewaarden"
+  },
+  {
+    "name": "VV Heerjansdam",
+    "city": "Heerjansdam"
+  },
+  {
+    "name": "RKSV Heerlen",
+    "city": "Heerlen"
+  },
+  {
+    "name": "Heerlen Sport",
+    "city": "Heerlen"
+  },
+  {
+    "name": "VV Hees",
+    "city": "Soest"
+  },
+  {
+    "name": "VV Heeswijk",
+    "city": "Heeswijk Dinther"
+  },
+  {
+    "name": "SV Heeten",
+    "city": "Heeten"
+  },
+  {
+    "name": "Heeze",
+    "city": "Heeze"
+  },
+  {
+    "name": "VV Hegelsom",
+    "city": "Horst"
+  },
+  {
+    "name": "Heidebloem",
+    "city": "Geleen"
+  },
+  {
+    "name": "VV Heijen",
+    "city": "Heijen"
+  },
+  {
+    "name": "VV Heiligerlee",
+    "city": "Heiligerlee"
+  },
+  {
+    "name": "SV Heinenoord",
+    "city": "Heinenoord"
+  },
+  {
+    "name": "SV Heinkenszand",
+    "city": "Heinkenszand"
+  },
+  {
+    "name": "VV Heino",
+    "city": "Heino"
+  },
+  {
+    "name": "VV Hekelingen",
+    "city": "Hekelingen"
+  },
+  {
+    "name": "RKVV Heksenberg",
+    "city": "Hoensbroek"
+  },
+  {
+    "name": "NEC-Heksenberg",
+    "city": "Heerlen"
+  },
+  {
+    "name": "VV Helden",
+    "city": "Helden"
+  },
+  {
+    "name": "SV Helenaveen",
+    "city": "Helenaveen"
+  },
+  {
+    "name": "SV Helenaveen Griendtsveen",
+    "city": "Helenaveen"
+  },
+  {
+    "name": "SV Helios Deventer",
+    "city": "Deventer"
+  },
+  {
+    "name": "Hellas Sport Combinatie",
+    "city": "Zaandam"
+  },
+  {
+    "name": "VV Hellas",
+    "city": "Klimmen"
+  },
+  {
+    "name": "v.v. Hellendoorn",
+    "city": "Hellendoorn"
+  },
+  {
+    "name": "VV Hellevoetsluis",
+    "city": "Hellevoetsluis"
+  },
+  {
+    "name": "HVV Helmond",
+    "city": "Helmond"
+  },
+  {
+    "name": "Helmond Sport",
+    "city": "Helmond"
+  },
+  {
+    "name": "SC Helmondia",
+    "city": "Helmond"
+  },
+  {
+    "name": "VV Helpman",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Helvoirt",
+    "city": "Helvoirt"
+  },
+  {
+    "name": "HVV Hengelo",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "HERA United",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Heracles Almelo",
+    "city": "Almelo"
+  },
+  {
+    "name": "AVC Heracles",
+    "city": "Almelo"
+  },
+  {
+    "name": "SV De Heracliden",
+    "city": "Uithuizermeeden"
+  },
+  {
+    "name": "USV Hercules",
+    "city": "Utrecht"
+  },
+  {
+    "name": "HVV Hercules",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SC Hercules Zaandam",
+    "city": "Zaandam"
+  },
+  {
+    "name": "Herkingen '55",
+    "city": "Herkingen"
+  },
+  {
+    "name": "Hermandad",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Hermes AVK",
+    "city": "Annerveensche Kanaal"
+  },
+  {
+    "name": "Hermes-DVS",
+    "city": "Schiedam"
+  },
+  {
+    "name": "VV Herovina",
+    "city": "Herwijnen"
+  },
+  {
+    "name": "Herpinia",
+    "city": "Herpen"
+  },
+  {
+    "name": "Hertha",
+    "city": "Vinkeveen"
+  },
+  {
+    "name": "VV Heukelum",
+    "city": "Heukelum"
+  },
+  {
+    "name": "SV Heumen",
+    "city": "Heumen"
+  },
+  {
+    "name": "SV Heythuysen",
+    "city": "Heythuyzen"
+  },
+  {
+    "name": "HFC '15",
+    "city": "Groningen"
+  },
+  {
+    "name": "HH '97",
+    "city": "Hollandscheveld"
+  },
+  {
+    "name": "HHC '09",
+    "city": "Heusden"
+  },
+  {
+    "name": "HHC Hardenberg",
+    "city": "Hardenberg"
+  },
+  {
+    "name": "HHCombi",
+    "city": "Hijken"
+  },
+  {
+    "name": "SV Hielpen",
+    "city": "Hindeloopen"
+  },
+  {
+    "name": "v.v. Hierden",
+    "city": "Hierden"
+  },
+  {
+    "name": "VV Hillegersberg",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV Hillegom",
+    "city": "Hillegom"
+  },
+  {
+    "name": "Hillesluis",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Hilvaria",
+    "city": "Hilvarenbeek"
+  },
+  {
+    "name": "FC Hilversum",
+    "city": "Hilversum"
+  },
+  {
+    "name": "RSV HION",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "HJSC",
+    "city": "Hommerts"
+  },
+  {
+    "name": "HKW '21",
+    "city": "Hoedekenskerke"
+  },
+  {
+    "name": "VV HMC",
+    "city": "Den Haag"
+  },
+  {
+    "name": "HMC '17",
+    "city": "Marienvelde"
+  },
+  {
+    "name": "HMC Hattem",
+    "city": "Hattem"
+  },
+  {
+    "name": "HMS",
+    "city": "Utrecht"
+  },
+  {
+    "name": "HMSH",
+    "city": "Den Haag"
+  },
+  {
+    "name": "HMVV",
+    "city": "Hooge Mierde"
+  },
+  {
+    "name": "VV HOC",
+    "city": "Odoorn"
+  },
+  {
+    "name": "SV HODO",
+    "city": "Hollandscheveld"
+  },
+  {
+    "name": "SV Hoedekenskerke",
+    "city": "Hoedekenskerke"
+  },
+  {
+    "name": "ST Hoedekenskerke/ Kwadendamme",
+    "city": "Kwadendamme"
+  },
+  {
+    "name": "HSV Hoek",
+    "city": "Hoek"
+  },
+  {
+    "name": "VV Hoek van Holland",
+    "city": "Hoek Van Holland"
+  },
+  {
+    "name": "RSV Hoekpolder",
+    "city": "Rijswijk Zh"
+  },
+  {
+    "name": "Hoekse Boys",
+    "city": "Hoek Van Holland"
+  },
+  {
+    "name": "FC Hoensbroek",
+    "city": "Hoensbroek"
+  },
+  {
+    "name": "Hoeve Vooruit",
+    "city": "Haaksbergen"
+  },
+  {
+    "name": "SC Hoevelaken",
+    "city": "Hoevelaken"
+  },
+  {
+    "name": "VV Hoeven",
+    "city": "Hoeven"
+  },
+  {
+    "name": "HVV Hollandia",
+    "city": "Hoorn"
+  },
+  {
+    "name": "Hollandia T",
+    "city": "Tuitjenhorn"
+  },
+  {
+    "name": "VV Hollandscheveld",
+    "city": "Hollandscheveld"
+  },
+  {
+    "name": "FC Hollandscheveld",
+    "city": "Hollandscheveld"
+  },
+  {
+    "name": "VV Holten",
+    "city": "Holten"
+  },
+  {
+    "name": "VV Holthees-Smakt",
+    "city": "Holthees"
+  },
+  {
+    "name": "VV Holwerd",
+    "city": "Holwerd"
+  },
+  {
+    "name": "VV Holwierde",
+    "city": "Holwierde"
+  },
+  {
+    "name": "SV Honselersdijk",
+    "city": "Honselersdijk"
+  },
+  {
+    "name": "VV Hontenisse",
+    "city": "Kloosterzande"
+  },
+  {
+    "name": "SV Hoofddorp",
+    "city": "Hoofddorp"
+  },
+  {
+    "name": "VV Hoofdplaat",
+    "city": "Hoofdplaat"
+  },
+  {
+    "name": "VV Hoogeloon",
+    "city": "Hoogeloon"
+  },
+  {
+    "name": "SV Hoogersmilde",
+    "city": "Hoogersmilde"
+  },
+  {
+    "name": "VV Hoogeveen",
+    "city": "Hoogeveen"
+  },
+  {
+    "name": "VV Hoogezand",
+    "city": "Hoogezand"
+  },
+  {
+    "name": "VV Hoogkerk",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Hoogland",
+    "city": "Hoogland"
+  },
+  {
+    "name": "VV Hooglanderveen",
+    "city": "Hooglanderveen"
+  },
+  {
+    "name": "VV Hoograven",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Hoonhorst",
+    "city": "Hoonhorst"
+  },
+  {
+    "name": "KSV Horn",
+    "city": "Horn"
+  },
+  {
+    "name": "FC Horst",
+    "city": "Horst"
+  },
+  {
+    "name": "HOSV",
+    "city": "Spanbroek"
+  },
+  {
+    "name": "SV Houten",
+    "city": "Houten"
+  },
+  {
+    "name": "SV Houtigehage",
+    "city": "Houtigehage"
+  },
+  {
+    "name": "SV Houtwijk",
+    "city": "Den Haag"
+  },
+  {
+    "name": "HOV",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "HOV/DJSCR",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "vv HOVC",
+    "city": "Odoorn"
+  },
+  {
+    "name": "ZVV De Hoven",
+    "city": "Zutphen"
+  },
+  {
+    "name": "HPBC '23",
+    "city": "Biervliet"
+  },
+  {
+    "name": "HPSV",
+    "city": "Den Haag"
+  },
+  {
+    "name": "HRC '14",
+    "city": "Hurwenen"
+  },
+  {
+    "name": "HRC '27",
+    "city": "Afferden"
+  },
+  {
+    "name": "HS '88",
+    "city": "Hoogezand"
+  },
+  {
+    "name": "HS Texas DZS",
+    "city": "Den Haag"
+  },
+  {
+    "name": "HS Texas/DHB",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV HSC",
+    "city": "Sappemeer"
+  },
+  {
+    "name": "HSC '21",
+    "city": "Haaksbergen"
+  },
+  {
+    "name": "HSC '28",
+    "city": "Heerle"
+  },
+  {
+    "name": "HSC Vlaardingen",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "HSE",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "HSSC '61",
+    "city": "Hei En Boeicop"
+  },
+  {
+    "name": "VV HSV",
+    "city": "Heiloo"
+  },
+  {
+    "name": "HSV '69",
+    "city": "De Hoef"
+  },
+  {
+    "name": "HSV Sport 1889",
+    "city": "Zwaag"
+  },
+  {
+    "name": "SV HTC",
+    "city": "Zwolle"
+  },
+  {
+    "name": "Hugo Boys",
+    "city": "Heerhugowaard"
+  },
+  {
+    "name": "SV Huizen",
+    "city": "Huizen"
+  },
+  {
+    "name": "SV Hulsberg",
+    "city": "Hulsberg"
+  },
+  {
+    "name": "VV Hulsel",
+    "city": "Hulsel"
+  },
+  {
+    "name": "VV Hulshorst",
+    "city": "Hulshorst"
+  },
+  {
+    "name": "VV Hulsterloo",
+    "city": "Nieuw Namen"
+  },
+  {
+    "name": "Hulzense Boys",
+    "city": "Nijverdal"
+  },
+  {
+    "name": "VV Hunsingo",
+    "city": "Winsum"
+  },
+  {
+    "name": "Hunso",
+    "city": "Exloo"
+  },
+  {
+    "name": "Hurwenen",
+    "city": "Hurwenen"
+  },
+  {
+    "name": "HVC",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "HVC '10",
+    "city": "Hoek Van Holland"
+  },
+  {
+    "name": "HVCH",
+    "city": "Heesch"
+  },
+  {
+    "name": "VV HVO",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "HVV",
+    "city": "Den Haag"
+  },
+  {
+    "name": "HVV '24",
+    "city": "Hulst"
+  },
+  {
+    "name": "VV HVZ",
+    "city": "Zoeterwoude"
+  },
+  {
+    "name": "VV HWD",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Hyenas FC",
+    "city": "Utrecht"
+  },
+  {
+    "name": "HYS",
+    "city": "Haarlem"
+  },
+  {
+    "name": "VV HZ '75",
+    "city": "Hooge Zwaluwe"
+  },
+  {
+    "name": "HZM '22",
+    "city": "Huizen"
+  },
+  {
+    "name": "HZVV",
+    "city": "Hoogeveen"
+  },
+  {
+    "name": "VV IASON",
+    "city": "Valkenburg Li"
+  },
+  {
+    "name": "IBC '03",
+    "city": "Maastricht"
+  },
+  {
+    "name": "IFC",
+    "city": "Hendrik Ido Ambacht"
+  },
+  {
+    "name": "AFC IJburg",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "IJFC",
+    "city": "Ijsselstein Ut"
+  },
+  {
+    "name": "VV IJhorst",
+    "city": "Ijhorst"
+  },
+  {
+    "name": "vv IJmuiden",
+    "city": "Velsen Zuid"
+  },
+  {
+    "name": "IJsselmeervogels",
+    "city": "Spakenburg"
+  },
+  {
+    "name": "FC IJsselmonde",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "DVV IJsselstreek",
+    "city": "Deventer"
+  },
+  {
+    "name": "IJVC",
+    "city": "Ijlst"
+  },
+  {
+    "name": "IJVV",
+    "city": "Ijsselmuiden"
+  },
+  {
+    "name": "VV IJzendijke",
+    "city": "Ijzendijke"
+  },
+  {
+    "name": "Ilpendam",
+    "city": "Ilpendam"
+  },
+  {
+    "name": "International Football Club",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Internos",
+    "city": "Etten Nb"
+  },
+  {
+    "name": "VV Irene",
+    "city": "Gemonde"
+  },
+  {
+    "name": "Irene '58",
+    "city": "Den Hout"
+  },
+  {
+    "name": "Sportclub Irene",
+    "city": "Tegelen"
+  },
+  {
+    "name": "Irnsum",
+    "city": "Irnsum"
+  },
+  {
+    "name": "ISC",
+    "city": "Ingen"
+  },
+  {
+    "name": "IVO",
+    "city": "Velden"
+  },
+  {
+    "name": "VV IVS",
+    "city": "Urmond"
+  },
+  {
+    "name": "IVV",
+    "city": "Landsmeer"
+  },
+  {
+    "name": "VV Jabeek",
+    "city": "Jabeek"
+  },
+  {
+    "name": "JAC",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "VV Jan van Arckel",
+    "city": "Ammerzoden"
+  },
+  {
+    "name": "JCLE",
+    "city": "Slagharen"
+  },
+  {
+    "name": "JEKA",
+    "city": "Bavel"
+  },
+  {
+    "name": "SC Jekerdal",
+    "city": "Maastricht"
+  },
+  {
+    "name": "FC Jeugd",
+    "city": "Ede"
+  },
+  {
+    "name": "SV JHR",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Jisp",
+    "city": "Jisp"
+  },
+  {
+    "name": "VV Jistrum",
+    "city": "Eestrum"
+  },
+  {
+    "name": "De Jodan Boys",
+    "city": "Gouda"
+  },
+  {
+    "name": "VV Jonathan",
+    "city": "Zeist"
+  },
+  {
+    "name": "Jong Aalsmeer United",
+    "city": "Aalsmeer"
+  },
+  {
+    "name": "Jong Ambon",
+    "city": "Middelburg"
+  },
+  {
+    "name": "Jong Brabant",
+    "city": "Berkel Enschot"
+  },
+  {
+    "name": "Jong Harkema",
+    "city": "Harkema"
+  },
+  {
+    "name": "Jong Hercules",
+    "city": "Beverwijk"
+  },
+  {
+    "name": "CSV Jong Holland",
+    "city": "Alkmaar"
+  },
+  {
+    "name": "Jonge Kracht",
+    "city": "Huissen"
+  },
+  {
+    "name": "De Jonge Spartaan",
+    "city": "Middelharnis"
+  },
+  {
+    "name": "Jonker Boys",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "JOS Watergraafsmeer",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SC Joure",
+    "city": "Joure"
+  },
+  {
+    "name": "JSV Nieuwegein",
+    "city": "Nieuwegein"
+  },
+  {
+    "name": "VV Jubbega",
+    "city": "Jubbega"
+  },
+  {
+    "name": "SV Juliana '31",
+    "city": "Malden"
+  },
+  {
+    "name": "SV Juliana '32",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "Juliana Mill",
+    "city": "Mill"
+  },
+  {
+    "name": "Juventa '12",
+    "city": "Wierden"
+  },
+  {
+    "name": "JuVentaS",
+    "city": "Den Haag"
+  },
+  {
+    "name": "JV Oostenburg",
+    "city": "Oosterwolde Fr"
+  },
+  {
+    "name": "JVC",
+    "city": "Julianadorp"
+  },
+  {
+    "name": "JVC Cuijk",
+    "city": "Cuijk"
+  },
+  {
+    "name": "JVOZ",
+    "city": "Vlissingen"
+  },
+  {
+    "name": "JVV",
+    "city": "Sellingen"
+  },
+  {
+    "name": "JVZ",
+    "city": "Zuidwolde"
+  },
+  {
+    "name": "Kaagvogels",
+    "city": "Kolhorn"
+  },
+  {
+    "name": "SV Kadoelen",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Kagia",
+    "city": "Lisserbroek"
+  },
+  {
+    "name": "Kakertse Boys",
+    "city": "Landgraaf"
+  },
+  {
+    "name": "VV Kamerik",
+    "city": "Kamerik"
+  },
+  {
+    "name": "VV Kampen",
+    "city": "Kampen"
+  },
+  {
+    "name": "Kampong",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Kapelle",
+    "city": "Kapelle"
+  },
+  {
+    "name": "VV Katwijk",
+    "city": "Katwijk"
+  },
+  {
+    "name": "KCC '13",
+    "city": "Heerlen"
+  },
+  {
+    "name": "KCVO",
+    "city": "Vaassen"
+  },
+  {
+    "name": "KDO",
+    "city": "De Kwakel"
+  },
+  {
+    "name": "VV Keer",
+    "city": "Cadier En Keer"
+  },
+  {
+    "name": "Keijenburgse Boys",
+    "city": "Keijenborg"
+  },
+  {
+    "name": "VV Keizerstad",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "RKVV Keldonk",
+    "city": "Erp"
+  },
+  {
+    "name": "Kennemerland",
+    "city": "Haarlem"
+  },
+  {
+    "name": "BVV De Kennemers",
+    "city": "Beverwijk"
+  },
+  {
+    "name": "FC Kerkrade-West",
+    "city": "Kerkrade"
+  },
+  {
+    "name": "VV Kerkwijk",
+    "city": "Kerkwijk"
+  },
+  {
+    "name": "VV Kessel",
+    "city": "Kessel"
+  },
+  {
+    "name": "VV Kesteren",
+    "city": "Kesteren"
+  },
+  {
+    "name": "Kethel Spaland",
+    "city": "Schiedam"
+  },
+  {
+    "name": "KFC",
+    "city": "Koog Aan De Zaan"
+  },
+  {
+    "name": "VV KGB",
+    "city": "Bovenkarspel"
+  },
+  {
+    "name": "KHC",
+    "city": "Kampen"
+  },
+  {
+    "name": "SV Kickers '69",
+    "city": "Leimuiden"
+  },
+  {
+    "name": "De Kieviten",
+    "city": "Voorthuizen"
+  },
+  {
+    "name": "SV Kilder",
+    "city": "Kilder"
+  },
+  {
+    "name": "VV Kismet",
+    "city": "Utrecht"
+  },
+  {
+    "name": "SC Klarenbeek",
+    "city": "Klarenbeek"
+  },
+  {
+    "name": "VV Klazienaveen",
+    "city": "Klazienaveen"
+  },
+  {
+    "name": "FC Klazienaveen",
+    "city": "Klazienaveen"
+  },
+  {
+    "name": "Klein Dochteren",
+    "city": "Lochem"
+  },
+  {
+    "name": "SV Kleine Sluis",
+    "city": "Anna Paulowna"
+  },
+  {
+    "name": "Klimmania TC",
+    "city": "Klimmen"
+  },
+  {
+    "name": "SV KLM",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "VV Kloetinge",
+    "city": "Kloetinge"
+  },
+  {
+    "name": "VV Kloosterburen",
+    "city": "Kloosterburen"
+  },
+  {
+    "name": "VV Kloosterhaar",
+    "city": "Kloosterhaar"
+  },
+  {
+    "name": "VV Klundert",
+    "city": "Klundert"
+  },
+  {
+    "name": "SV KMD",
+    "city": "Wateringen"
+  },
+  {
+    "name": "Knegselse Boys",
+    "city": "Knegsel"
+  },
+  {
+    "name": "The Knickerbockers",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Knollendam",
+    "city": "Oostknollendam"
+  },
+  {
+    "name": "Kocatepe RVV",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Kockengen",
+    "city": "Kockengen"
+  },
+  {
+    "name": "SV Koedijk",
+    "city": "Koedijk"
+  },
+  {
+    "name": "RKVV Koewacht",
+    "city": "Koewacht"
+  },
+  {
+    "name": "VV Kogelvangers",
+    "city": "Willemstad"
+  },
+  {
+    "name": "VV Kollum",
+    "city": "Kollum"
+  },
+  {
+    "name": "Kolping Boys",
+    "city": "Oudorp"
+  },
+  {
+    "name": "Kolping-Dynamo",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "VV Koningslust",
+    "city": "Koningslust"
+  },
+  {
+    "name": "Koninklijke HFC",
+    "city": "Haarlem"
+  },
+  {
+    "name": "Koninklijke UD 1875",
+    "city": "Deventer"
+  },
+  {
+    "name": "SV De Koog",
+    "city": "De Koog"
+  },
+  {
+    "name": "SC Kootstertille",
+    "city": "Kootstertille"
+  },
+  {
+    "name": "KOSC",
+    "city": "Ootmarsum"
+  },
+  {
+    "name": "VV Koudekerk",
+    "city": "Koudekerk Aan Den Rijn"
+  },
+  {
+    "name": "Kozakken Boys",
+    "city": "Werkendam"
+  },
+  {
+    "name": "VV Krabbendijke",
+    "city": "Krabbendijke"
+  },
+  {
+    "name": "FC Kraggenburg",
+    "city": "Kraggenburg"
+  },
+  {
+    "name": "VV Krayenhoff",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "VV KRC",
+    "city": "Kantens"
+  },
+  {
+    "name": "SJO KRC/ZEC",
+    "city": "Zandeweer"
+  },
+  {
+    "name": "SV Kreileroord",
+    "city": "Kreileroord"
+  },
+  {
+    "name": "SVO Krommerijnstreek",
+    "city": "Odijk"
+  },
+  {
+    "name": "SV Kronenberg",
+    "city": "Kronenberg"
+  },
+  {
+    "name": "VV Kruiningen",
+    "city": "Kruiningen"
+  },
+  {
+    "name": "SC Kruisland",
+    "city": "Kruisland"
+  },
+  {
+    "name": "VV KSC",
+    "city": "Schoonoord"
+  },
+  {
+    "name": "VV KSD",
+    "city": "Den Haag"
+  },
+  {
+    "name": "KSD-Marine",
+    "city": "Den Haag"
+  },
+  {
+    "name": "KSH",
+    "city": "Harreveld"
+  },
+  {
+    "name": "KSV Heerhugowaard",
+    "city": "Heerhugowaard"
+  },
+  {
+    "name": "KSV Vragender",
+    "city": "Vragender"
+  },
+  {
+    "name": "VV Kuinre",
+    "city": "Kuinre"
+  },
+  {
+    "name": "FC Kunde",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "KVC Oranje",
+    "city": "Kerkrade"
+  },
+  {
+    "name": "KVVA",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "VV Kwadendamme",
+    "city": "Kwadendamme"
+  },
+  {
+    "name": "VV Kwadijk",
+    "city": "Kwadijk"
+  },
+  {
+    "name": "VV Kwiek",
+    "city": "Hoogezand"
+  },
+  {
+    "name": "Kwiek '78",
+    "city": "Avenhorn"
+  },
+  {
+    "name": "Kwiek Venlo",
+    "city": "Venlo"
+  },
+  {
+    "name": "KZC '08 SJO",
+    "city": "Klazienaveen"
+  },
+  {
+    "name": "AVC La Première",
+    "city": "Almelo"
+  },
+  {
+    "name": "HVV Laakkwartier",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV Laar",
+    "city": "Weert"
+  },
+  {
+    "name": "FC Landgraaf",
+    "city": "Landgraaf"
+  },
+  {
+    "name": "SV Langeberg",
+    "city": "Brunssum"
+  },
+  {
+    "name": "VV Langeveen",
+    "city": "Langeveen"
+  },
+  {
+    "name": "VV Langezwaag",
+    "city": "Langezwaag"
+  },
+  {
+    "name": "VV Langweer",
+    "city": "Langweer"
+  },
+  {
+    "name": "SV Laren '99",
+    "city": "Laren"
+  },
+  {
+    "name": "Laura-Hopel Combinatie",
+    "city": "Eygelshoven"
+  },
+  {
+    "name": "VV De Lauwers",
+    "city": "Warfstermolen"
+  },
+  {
+    "name": "SJO Lebo / Patrijzen / SVN",
+    "city": "Nieuwdorp"
+  },
+  {
+    "name": "Lebo / SVN",
+    "city": "Lewedorp"
+  },
+  {
+    "name": "VV Leek-Rodenburg",
+    "city": "Leek"
+  },
+  {
+    "name": "Leerdam Sport '55",
+    "city": "Leerdam"
+  },
+  {
+    "name": "RKVV De Leeuw",
+    "city": "Brunssum"
+  },
+  {
+    "name": "VV Leeuwarden",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "Leeuwarder Zwaluwen",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "SC Leeuwen",
+    "city": "Roermond"
+  },
+  {
+    "name": "Legmeervogels",
+    "city": "Uithoorn"
+  },
+  {
+    "name": "VV Leiden",
+    "city": "Leiden"
+  },
+  {
+    "name": "VV Leidsche Boys",
+    "city": "Leiden"
+  },
+  {
+    "name": "SV Leidschenveen",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Lekkerkerk",
+    "city": "Lekkerkerk"
+  },
+  {
+    "name": "Lekvogels",
+    "city": "Lexmond"
+  },
+  {
+    "name": "SV Lelystad '67",
+    "city": "Lelystad"
+  },
+  {
+    "name": "Lemele",
+    "city": "Lemele"
+  },
+  {
+    "name": "VV Lemelerveld",
+    "city": "Lemelerveld"
+  },
+  {
+    "name": "vv Lemmer",
+    "city": "Lemmer"
+  },
+  {
+    "name": "VV LEO",
+    "city": "Loon"
+  },
+  {
+    "name": "FC LEO",
+    "city": "Leens"
+  },
+  {
+    "name": "SV Leones",
+    "city": "Beneden Leeuwen"
+  },
+  {
+    "name": "RKSV Leonidas",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Leonidas W",
+    "city": "Maastricht"
+  },
+  {
+    "name": "SC Leovardia",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "Lepelstraatse Boys",
+    "city": "Lepelstraat"
+  },
+  {
+    "name": "VV Lettele",
+    "city": "Lettele"
+  },
+  {
+    "name": "Leunen",
+    "city": "Leunen"
+  },
+  {
+    "name": "SV Leveroy",
+    "city": "Leveroy"
+  },
+  {
+    "name": "LEW",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "VV Lewedorpse Boys",
+    "city": "Lewedorp"
+  },
+  {
+    "name": "FC Lewenborg",
+    "city": "Groningen"
+  },
+  {
+    "name": "LFC",
+    "city": "Leiden"
+  },
+  {
+    "name": "FC Lienden",
+    "city": "Lienden"
+  },
+  {
+    "name": "SV Lierop",
+    "city": "Lierop"
+  },
+  {
+    "name": "RKSV Liessel",
+    "city": "Liessel"
+  },
+  {
+    "name": "VV Limbricht",
+    "city": "Limbricht"
+  },
+  {
+    "name": "VV Limmen",
+    "city": "Limmen"
+  },
+  {
+    "name": "RKFC Lindenheuvel",
+    "city": "Geleen"
+  },
+  {
+    "name": "RKFC Lindenheuvel-Heidebloem Comb.",
+    "city": "Geleen"
+  },
+  {
+    "name": "VV Linne",
+    "city": "Linne"
+  },
+  {
+    "name": "VV Linschoten",
+    "city": "Linschoten"
+  },
+  {
+    "name": "Lions '66",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "FC Lisse",
+    "city": "Lisse"
+  },
+  {
+    "name": "RVV LMO",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Sportclub Lochem",
+    "city": "Lochem"
+  },
+  {
+    "name": "VV Lochuizen",
+    "city": "Neede"
+  },
+  {
+    "name": "VV Loenermark",
+    "city": "Loenen"
+  },
+  {
+    "name": "SV Loil",
+    "city": "Loil"
+  },
+  {
+    "name": "SV Lombardijen",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "LONGA '30",
+    "city": "Lichtenvoorde"
+  },
+  {
+    "name": "SV Loo",
+    "city": "Loo"
+  },
+  {
+    "name": "Sportclub Loosbroek",
+    "city": "Loosbroek"
+  },
+  {
+    "name": "SV Loosdrecht",
+    "city": "Loosdrecht"
+  },
+  {
+    "name": "SV Loosduinen",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV Lopik",
+    "city": "Lopik"
+  },
+  {
+    "name": "SC Loppersum",
+    "city": "Loppersum"
+  },
+  {
+    "name": "KVV Losser",
+    "city": "Losser"
+  },
+  {
+    "name": "S.V. Losser",
+    "city": "Losser"
+  },
+  {
+    "name": "SSA SV Lottum - GFC '33",
+    "city": "Grubbenvorst"
+  },
+  {
+    "name": "SV Lottum",
+    "city": "Lottum"
+  },
+  {
+    "name": "VV LRC Leerdam",
+    "city": "Leerdam"
+  },
+  {
+    "name": "LSC 1890",
+    "city": "Sneek"
+  },
+  {
+    "name": "VV LSV Boxtel",
+    "city": "Boxtel"
+  },
+  {
+    "name": "LSV Lonneker",
+    "city": "Lonneker"
+  },
+  {
+    "name": "LSVV",
+    "city": "Zuid Scharwoude"
+  },
+  {
+    "name": "LSVV '70",
+    "city": "Leiden"
+  },
+  {
+    "name": "VV LTC",
+    "city": "Assen"
+  },
+  {
+    "name": "VV Luctor '88",
+    "city": "Heinkenszand"
+  },
+  {
+    "name": "Luctor et Emergo",
+    "city": "Almelo"
+  },
+  {
+    "name": "Luctor Heinkenszand",
+    "city": "Heinkenszand"
+  },
+  {
+    "name": "LVV Lugdunum",
+    "city": "Leiden"
+  },
+  {
+    "name": "VV Lunteren",
+    "city": "Lunteren"
+  },
+  {
+    "name": "SV De Lutte",
+    "city": "De Lutte"
+  },
+  {
+    "name": "SC Lutten",
+    "city": "Slagharen"
+  },
+  {
+    "name": "SV Lycurgus",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV LYRA",
+    "city": "De Lier"
+  },
+  {
+    "name": "VV Maarheeze",
+    "city": "Maarheeze"
+  },
+  {
+    "name": "VV Maarssen",
+    "city": "Maarssen"
+  },
+  {
+    "name": "VV Maasbracht",
+    "city": "Maasbracht"
+  },
+  {
+    "name": "VV Maasdijk",
+    "city": "Maasdijk"
+  },
+  {
+    "name": "FC Maasgouw",
+    "city": "Thorn"
+  },
+  {
+    "name": "Maaskantse Boys",
+    "city": "Maren Kessel"
+  },
+  {
+    "name": "Maasstad Tediro",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Maastricht West",
+    "city": "Maastricht"
+  },
+  {
+    "name": "VV Macharen",
+    "city": "Macharen"
+  },
+  {
+    "name": "Madese Boys",
+    "city": "Made"
+  },
+  {
+    "name": "SV Madestein",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Magreb '90",
+    "city": "Utrecht"
+  },
+  {
+    "name": "SC Makkinga",
+    "city": "Makkinga"
+  },
+  {
+    "name": "VV Makkum",
+    "city": "Makkum"
+  },
+  {
+    "name": "RKVV Maliskamp",
+    "city": "Rosmalen"
+  },
+  {
+    "name": "VV Mamio",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Manderveen",
+    "city": "Manderveen"
+  },
+  {
+    "name": "RKSV Margriet",
+    "city": "Oss"
+  },
+  {
+    "name": "VV Mariahout",
+    "city": "Mariahout"
+  },
+  {
+    "name": "VV Mariënberg",
+    "city": "Beerzerveld"
+  },
+  {
+    "name": "SV Mariënheem",
+    "city": "Marienheem"
+  },
+  {
+    "name": "VV Mariënveld",
+    "city": "Marienvelde"
+  },
+  {
+    "name": "VV Marine",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Markelo",
+    "city": "Markelo"
+  },
+  {
+    "name": "SV Marken",
+    "city": "Marken"
+  },
+  {
+    "name": "De Markiezaten",
+    "city": "Bergen Op Zoom"
+  },
+  {
+    "name": "VV Marrum",
+    "city": "Marrum"
+  },
+  {
+    "name": "SV Marum",
+    "city": "Marum"
+  },
+  {
+    "name": "Marvilde",
+    "city": "Veldhoven"
+  },
+  {
+    "name": "MASV",
+    "city": "Arnhem"
+  },
+  {
+    "name": "MBC '13",
+    "city": "Maasbracht"
+  },
+  {
+    "name": "VV MEC",
+    "city": "Miste"
+  },
+  {
+    "name": "SV MEC '07",
+    "city": "Maurik"
+  },
+  {
+    "name": "SC Meddo",
+    "city": "Meddo"
+  },
+  {
+    "name": "FC Medemblik",
+    "city": "Medemblik"
+  },
+  {
+    "name": "VV Meeden",
+    "city": "Meeden"
+  },
+  {
+    "name": "VV Meedhuizen",
+    "city": "Meedhuizen"
+  },
+  {
+    "name": "SV De Meer",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Meerburg",
+    "city": "Zoeterwoude"
+  },
+  {
+    "name": "SV Meerkerk",
+    "city": "Meerkerk"
+  },
+  {
+    "name": "VV De Meern",
+    "city": "De Meern"
+  },
+  {
+    "name": "SV Meerssen",
+    "city": "Meerssen"
+  },
+  {
+    "name": "Meervogels '31",
+    "city": "Akersloot"
+  },
+  {
+    "name": "VV De Meeuwen",
+    "city": "Zoutelande"
+  },
+  {
+    "name": "VV Meeuwenplaat",
+    "city": "Hoogvliet"
+  },
+  {
+    "name": "SV Melderslo",
+    "city": "Melderslo"
+  },
+  {
+    "name": "VV Melissant",
+    "city": "Melissant"
+  },
+  {
+    "name": "VV Menos",
+    "city": "Landhorst"
+  },
+  {
+    "name": "FC Meppel",
+    "city": "Meppel"
+  },
+  {
+    "name": "Merefeldia",
+    "city": "Nederweert"
+  },
+  {
+    "name": "De Merino's",
+    "city": "Veenendaal"
+  },
+  {
+    "name": "SV Merselo",
+    "city": "Merselo"
+  },
+  {
+    "name": "SV De Meteoor",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Meterik",
+    "city": "Horst"
+  },
+  {
+    "name": "RKVV METO",
+    "city": "Hoogerheide"
+  },
+  {
+    "name": "VV Middelstum",
+    "city": "Middelstum"
+  },
+  {
+    "name": "SV De Middenpeel",
+    "city": "Elsendorp"
+  },
+  {
+    "name": "RKSV Mierlo-Hout",
+    "city": "Helmond"
+  },
+  {
+    "name": "Mifano",
+    "city": "Mierlo"
+  },
+  {
+    "name": "VV Mildam",
+    "city": "Mildam"
+  },
+  {
+    "name": "Milheezer Boys",
+    "city": "Milheeze"
+  },
+  {
+    "name": "SC Millingen",
+    "city": "Millingen Ad Rijn"
+  },
+  {
+    "name": "SV Milsbeek",
+    "city": "Milsbeek"
+  },
+  {
+    "name": "VV Minnertsga",
+    "city": "Minnertsga"
+  },
+  {
+    "name": "RKSV Minor",
+    "city": "Nuth"
+  },
+  {
+    "name": "RKVV MKV '29",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "MMC Weert",
+    "city": "Weert"
+  },
+  {
+    "name": "MMO",
+    "city": "Hoogmade"
+  },
+  {
+    "name": "VV MOC",
+    "city": "Midwoud"
+  },
+  {
+    "name": "MOC '17",
+    "city": "Bergen Op Zoom"
+  },
+  {
+    "name": "VV Moerkapelle",
+    "city": "Moerkapelle"
+  },
+  {
+    "name": "Moerse Boys",
+    "city": "Zundert"
+  },
+  {
+    "name": "VV Molenschot",
+    "city": "Molenschot"
+  },
+  {
+    "name": "VV Monnickendam",
+    "city": "Monnickendam"
+  },
+  {
+    "name": "VV De Monnik",
+    "city": "Schiermonnikoog"
+  },
+  {
+    "name": "Monster",
+    "city": "Monster"
+  },
+  {
+    "name": "SC Monster",
+    "city": "Monster"
+  },
+  {
+    "name": "Montagnards",
+    "city": "Bergen L"
+  },
+  {
+    "name": "VV Montferland",
+    "city": "Zeddam"
+  },
+  {
+    "name": "VV Montfoort",
+    "city": "Montfoort"
+  },
+  {
+    "name": "Montfoort SV '19",
+    "city": "Montfoort"
+  },
+  {
+    "name": "VV Moordrecht",
+    "city": "Moordrecht"
+  },
+  {
+    "name": "MOSA '14",
+    "city": "Oijen"
+  },
+  {
+    "name": "MOVV",
+    "city": "Midwolda"
+  },
+  {
+    "name": "FC Mozaiek",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "MSC",
+    "city": "Meppel"
+  },
+  {
+    "name": "MSH Maasduinen",
+    "city": "Bergen L"
+  },
+  {
+    "name": "SV MSP '03",
+    "city": "Heerlen"
+  },
+  {
+    "name": "MSV '19",
+    "city": "Montfoort"
+  },
+  {
+    "name": "MSV '71",
+    "city": "Maassluis"
+  },
+  {
+    "name": "SC Muiden",
+    "city": "Muiden"
+  },
+  {
+    "name": "SC Muiderberg",
+    "city": "Muiderberg"
+  },
+  {
+    "name": "SV Mulier",
+    "city": "Witmarsum"
+  },
+  {
+    "name": "MULO",
+    "city": "Helmond"
+  },
+  {
+    "name": "VV Muntendam",
+    "city": "Muntendam"
+  },
+  {
+    "name": "VV Musketiers",
+    "city": "Elst Ut"
+  },
+  {
+    "name": "SV Mussel",
+    "city": "Mussel"
+  },
+  {
+    "name": "VV Musselkanaal",
+    "city": "Musselkanaal"
+  },
+  {
+    "name": "VV MVC",
+    "city": "Mortel"
+  },
+  {
+    "name": "MVC '19",
+    "city": "Maasbree"
+  },
+  {
+    "name": "VV MvR",
+    "city": "Sheerenberg"
+  },
+  {
+    "name": "MVV '27",
+    "city": "Maasland"
+  },
+  {
+    "name": "MVV '29",
+    "city": "Harbrinkhoek"
+  },
+  {
+    "name": "MVV '58",
+    "city": "Meteren"
+  },
+  {
+    "name": "MVV '69",
+    "city": "Hellendoorn"
+  },
+  {
+    "name": "MVV Maastricht",
+    "city": "Maastricht"
+  },
+  {
+    "name": "MZC '11",
+    "city": "Zierikzee"
+  },
+  {
+    "name": "MZVC",
+    "city": "Middelburg"
+  },
+  {
+    "name": "VV Naaldwijk",
+    "city": "Naaldwijk"
+  },
+  {
+    "name": "NAC Breda",
+    "city": "Breda"
+  },
+  {
+    "name": "VV Nagele",
+    "city": "Nagele"
+  },
+  {
+    "name": "Nationale Nederlanden",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Nautilus AFC",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "NBSVV",
+    "city": "Nieuw Beijerland"
+  },
+  {
+    "name": "NEC",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "NEC '92",
+    "city": "Heerlen"
+  },
+  {
+    "name": "NEC Delfzijl",
+    "city": "Delfzijl"
+  },
+  {
+    "name": "VV Nederhorst",
+    "city": "Nederhorst Den Berg"
+  },
+  {
+    "name": "RKVV Nederwetten",
+    "city": "Nederwetten"
+  },
+  {
+    "name": "SP. Neede",
+    "city": "Neede"
+  },
+  {
+    "name": "RKVV Neerbeek",
+    "city": "Beek Li"
+  },
+  {
+    "name": "Neerkandia",
+    "city": "Neerkant"
+  },
+  {
+    "name": "Neerlandia '31",
+    "city": "Dorst"
+  },
+  {
+    "name": "RKSV Nemelaer",
+    "city": "Haaren"
+  },
+  {
+    "name": "RKSV NEO",
+    "city": "Borne"
+  },
+  {
+    "name": "VV NEO '25",
+    "city": "Waalwijk"
+  },
+  {
+    "name": "Neptunia",
+    "city": "Delfzijl"
+  },
+  {
+    "name": "Neptunus",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Neptunus-Schiebroek",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Netersel",
+    "city": "Netersel"
+  },
+  {
+    "name": "SV Nevelo",
+    "city": "Oisterwijk"
+  },
+  {
+    "name": "New Amsterdam",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "NFC",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "VV Nicator",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "Nicolaas Boys",
+    "city": "Nieuwveen"
+  },
+  {
+    "name": "VV Niekerk",
+    "city": "Niekerk"
+  },
+  {
+    "name": "SV Nieuw Balinge",
+    "city": "Nieuw Balinge"
+  },
+  {
+    "name": "RKVV Nieuw Borgvliet",
+    "city": "Bergen Op Zoom"
+  },
+  {
+    "name": "VV Nieuw Buinen",
+    "city": "Nieuw Buinen"
+  },
+  {
+    "name": "SV Nieuw Heeten",
+    "city": "Nieuw Heeten"
+  },
+  {
+    "name": "VV Nieuw Roden",
+    "city": "Roden"
+  },
+  {
+    "name": "Nieuw Sloten",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV Nieuw Utrecht",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Nieuw Woensel",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "VV Nieuw-Lekkerland",
+    "city": "Nieuw Lekkerland"
+  },
+  {
+    "name": "SV Nieuw-West United",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV Nieuwdorp",
+    "city": "Nieuwdorp"
+  },
+  {
+    "name": "VV Nieuwe Niedorp",
+    "city": "Nieuwe Niedorp"
+  },
+  {
+    "name": "Nieuwenhoorn",
+    "city": "Hellevoetsluis"
+  },
+  {
+    "name": "VV Nieuwerkerk",
+    "city": "Nieuwerkerk Ad Ijssel"
+  },
+  {
+    "name": "Nieuweschans",
+    "city": "Nieuweschans"
+  },
+  {
+    "name": "VV Nieuweschoot",
+    "city": "Heerenveen"
+  },
+  {
+    "name": "SV Nieuwkoop",
+    "city": "Nieuwkoop"
+  },
+  {
+    "name": "VV Nieuwkuijk",
+    "city": "Nieuwkuijk"
+  },
+  {
+    "name": "ASC Nieuwland",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "Nieuwland N",
+    "city": "Nieuw En Sint Joosland"
+  },
+  {
+    "name": "SV Nieuwleusen",
+    "city": "Nieuwleusen"
+  },
+  {
+    "name": "VV Nieuwolda",
+    "city": "Nieuwolda"
+  },
+  {
+    "name": "VV Niftrik",
+    "city": "Niftrik"
+  },
+  {
+    "name": "VV Nijland",
+    "city": "Nijland"
+  },
+  {
+    "name": "Nijmeegse Boys",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "SV Nijmegen",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "VV Nijnsel",
+    "city": "Sint Oedenrode"
+  },
+  {
+    "name": "SV Nijswiller",
+    "city": "Nijswiller"
+  },
+  {
+    "name": "Van Nispen",
+    "city": "De Zilk"
+  },
+  {
+    "name": "NiTA osv",
+    "city": "Nieuwer Ter Aa"
+  },
+  {
+    "name": "Nivo Sparta",
+    "city": "Zaltbommel"
+  },
+  {
+    "name": "NKVV",
+    "city": "Dalerpeel"
+  },
+  {
+    "name": "NLC '03",
+    "city": "Lith"
+  },
+  {
+    "name": "TSV NOAD",
+    "city": "Tilburg"
+  },
+  {
+    "name": "NOAD '32",
+    "city": "Wijk En Aalburg"
+  },
+  {
+    "name": "VV NOAD '67",
+    "city": "Sint Philipsland"
+  },
+  {
+    "name": "NOCKralingen",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV NOK",
+    "city": "Oudemirdum"
+  },
+  {
+    "name": "Nooit Gedacht",
+    "city": "Geffen"
+  },
+  {
+    "name": "VV Noorbeek",
+    "city": "Noorbeek"
+  },
+  {
+    "name": "Noord Veluwe Boys",
+    "city": "Hattemerbroek"
+  },
+  {
+    "name": "VV Noordbergum",
+    "city": "Noordbergum"
+  },
+  {
+    "name": "SV Noordeloos",
+    "city": "Noordeloos"
+  },
+  {
+    "name": "Noorderkwartier",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Noordhoek",
+    "city": "Noordhoek"
+  },
+  {
+    "name": "Noordijk",
+    "city": "Neede"
+  },
+  {
+    "name": "Noordpool UFC",
+    "city": "Uithuizen"
+  },
+  {
+    "name": "VV Noordscheschut",
+    "city": "Noordscheschut"
+  },
+  {
+    "name": "VV Noordster",
+    "city": "Oude Pekela"
+  },
+  {
+    "name": "VV Noordwijk",
+    "city": "Noordwijk"
+  },
+  {
+    "name": "VV Noordwolde",
+    "city": "Noordwolde"
+  },
+  {
+    "name": "De Noormannen",
+    "city": "Westkapelle"
+  },
+  {
+    "name": "SV Nootdorp",
+    "city": "Nootdorp"
+  },
+  {
+    "name": "Nordea",
+    "city": "Tilburg"
+  },
+  {
+    "name": "NSC Nijkerk",
+    "city": "Nijkerk"
+  },
+  {
+    "name": "RKVV NSV",
+    "city": "Nispen"
+  },
+  {
+    "name": "NSV '46",
+    "city": "Noorden"
+  },
+  {
+    "name": "NSVV",
+    "city": "Numansdorp"
+  },
+  {
+    "name": "NTVV",
+    "city": "Nieuwe Tonge"
+  },
+  {
+    "name": "RKSV Nuenen",
+    "city": "Nuenen"
+  },
+  {
+    "name": "Nulandia",
+    "city": "Nuland"
+  },
+  {
+    "name": "VV Nunspeet",
+    "city": "Nunspeet"
+  },
+  {
+    "name": "SV NVC",
+    "city": "Naarden"
+  },
+  {
+    "name": "NVC Netterden",
+    "city": "Netterden"
+  },
+  {
+    "name": "NVS",
+    "city": "Nieuw Vossemeer"
+  },
+  {
+    "name": "NWC",
+    "city": "Asten"
+  },
+  {
+    "name": "NWVV",
+    "city": "Nieuw Weerdinge"
+  },
+  {
+    "name": "RKVV Obbicht",
+    "city": "Obbicht"
+  },
+  {
+    "name": "OBW",
+    "city": "Zevenaar"
+  },
+  {
+    "name": "FC Oda",
+    "city": "Weert"
+  },
+  {
+    "name": "ODB",
+    "city": "Den Haag"
+  },
+  {
+    "name": "ODC",
+    "city": "Boxtel"
+  },
+  {
+    "name": "SV Odijk",
+    "city": "Odijk"
+  },
+  {
+    "name": "Odiliapeel",
+    "city": "Odiliapeel"
+  },
+  {
+    "name": "VV ODIN",
+    "city": "Utrecht"
+  },
+  {
+    "name": "ODIN '59",
+    "city": "Heemskerk"
+  },
+  {
+    "name": "ODIO",
+    "city": "Ossendrecht"
+  },
+  {
+    "name": "ODS",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "VV ODV",
+    "city": "Wijnjewoude"
+  },
+  {
+    "name": "Odysseus '91",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Oegstgeest",
+    "city": "Oegstgeest"
+  },
+  {
+    "name": "FC Oegstgeest",
+    "city": "Oegstgeest"
+  },
+  {
+    "name": "Oeken",
+    "city": "Brummen"
+  },
+  {
+    "name": "SJO Oeken-Brummen",
+    "city": "Brummen"
+  },
+  {
+    "name": "VV Oene",
+    "city": "Oene"
+  },
+  {
+    "name": "VV Oerterp",
+    "city": "Ureterp"
+  },
+  {
+    "name": "Oeverzwaluwen",
+    "city": "Koudum"
+  },
+  {
+    "name": "VV OFB",
+    "city": "Ooltgensplaat"
+  },
+  {
+    "name": "OFC",
+    "city": "Oostzaan"
+  },
+  {
+    "name": "OHVV",
+    "city": "Oudenhoorn"
+  },
+  {
+    "name": "Oirschot Vooruit",
+    "city": "Oirschot"
+  },
+  {
+    "name": "RKSV Oisterwijk",
+    "city": "Oisterwijk"
+  },
+  {
+    "name": "VV OJC Rosmalen",
+    "city": "Rosmalen"
+  },
+  {
+    "name": "OKSV",
+    "city": "Overlangel"
+  },
+  {
+    "name": "OKVC",
+    "city": "Oldehove"
+  },
+  {
+    "name": "Old Forward",
+    "city": "Wilhelminaoord"
+  },
+  {
+    "name": "Oldambtster Boys",
+    "city": "Nieuw Scheemda"
+  },
+  {
+    "name": "d'Olde Veste '54",
+    "city": "Steenwijk"
+  },
+  {
+    "name": "VV Oldeboorn",
+    "city": "Oldeboorn"
+  },
+  {
+    "name": "VV Oldeholtpade",
+    "city": "Oldeholtpade"
+  },
+  {
+    "name": "FC Oldemarkt",
+    "city": "Oldemarkt"
+  },
+  {
+    "name": "VV Oldenzaal",
+    "city": "Oldenzaal"
+  },
+  {
+    "name": "OLIVEO",
+    "city": "Pijnacker"
+  },
+  {
+    "name": "SV Olland",
+    "city": "Olland"
+  },
+  {
+    "name": "VV Ollandia",
+    "city": "Olland"
+  },
+  {
+    "name": "Olympia",
+    "city": "Horssen"
+  },
+  {
+    "name": "Olympia '18",
+    "city": "Boxmeer"
+  },
+  {
+    "name": "SV Olympia '25",
+    "city": "Hilversum"
+  },
+  {
+    "name": "Olympia '28",
+    "city": "Hasselt"
+  },
+  {
+    "name": "Olympia '60",
+    "city": "Dongen"
+  },
+  {
+    "name": "GC&FC Olympia",
+    "city": "Gouda"
+  },
+  {
+    "name": "Olympia Boys",
+    "city": "Ommel"
+  },
+  {
+    "name": "Olympia Haarlem",
+    "city": "Haarlem"
+  },
+  {
+    "name": "RKSV Olympia Schinveld",
+    "city": "Schinveld"
+  },
+  {
+    "name": "SC Olympus",
+    "city": "Tilburg"
+  },
+  {
+    "name": "Olyphia",
+    "city": "Noordwolde"
+  },
+  {
+    "name": "OMC",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "VV Omlandia",
+    "city": "Ten Boer"
+  },
+  {
+    "name": "FC Ommen",
+    "city": "Ommen"
+  },
+  {
+    "name": "SV Ommoord",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV ONA",
+    "city": "Gouda"
+  },
+  {
+    "name": "ONA '53",
+    "city": "Wageningen"
+  },
+  {
+    "name": "VV ONB",
+    "city": "Drachten"
+  },
+  {
+    "name": "ONDO",
+    "city": "Heusden Asten"
+  },
+  {
+    "name": "VV ONI",
+    "city": "S Gravenmoer"
+  },
+  {
+    "name": "VV ONR",
+    "city": "Roden"
+  },
+  {
+    "name": "ONS Sneek",
+    "city": "Sneek"
+  },
+  {
+    "name": "ONS VIOS",
+    "city": "Tilburg"
+  },
+  {
+    "name": "Onstwedder Boys",
+    "city": "Onstwedde"
+  },
+  {
+    "name": "VV ONT",
+    "city": "Opeinde"
+  },
+  {
+    "name": "Onze Gezellen",
+    "city": "Haarlem"
+  },
+  {
+    "name": "SV Oostburg",
+    "city": "Oostburg"
+  },
+  {
+    "name": "SV Oosterend",
+    "city": "Oosterend Nh"
+  },
+  {
+    "name": "VV Oostergo",
+    "city": "Ee"
+  },
+  {
+    "name": "SV Oosterheem",
+    "city": "Zoetermeer"
+  },
+  {
+    "name": "VV Oosterhoek",
+    "city": "Delfzijl"
+  },
+  {
+    "name": "VV Oosterhout",
+    "city": "Oosterhout"
+  },
+  {
+    "name": "VV Oosterlittens",
+    "city": "Oosterlittens"
+  },
+  {
+    "name": "VV Oosterparkers",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Oosterstreek",
+    "city": "Oosterstreek"
+  },
+  {
+    "name": "SSA Oosterstreek Zandhuizen",
+    "city": "Oosterstreek"
+  },
+  {
+    "name": "SV Oosterwolde",
+    "city": "Oosterwolde Fr"
+  },
+  {
+    "name": "VV Oosthuizen",
+    "city": "Oosthuizen"
+  },
+  {
+    "name": "VV Oostkapelle",
+    "city": "Oostkapelle"
+  },
+  {
+    "name": "ST Oostkapelle/Domburg",
+    "city": "Oostkapelle"
+  },
+  {
+    "name": "SV Oostrum",
+    "city": "Oostrum"
+  },
+  {
+    "name": "VV Opende",
+    "city": "Opende"
+  },
+  {
+    "name": "VV Ophemert",
+    "city": "Ophemert"
+  },
+  {
+    "name": "VV Opijnen",
+    "city": "Opijnen"
+  },
+  {
+    "name": "VV Opperdoes",
+    "city": "Opperdoes"
+  },
+  {
+    "name": "Oranje Blauw '15",
+    "city": "Posterholt"
+  },
+  {
+    "name": "CSV Oranje Blauw",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "RKVV Oranje Boys",
+    "city": "Eijsden"
+  },
+  {
+    "name": "CVV Oranje Nassau",
+    "city": "Almelo"
+  },
+  {
+    "name": "Oranje Nassau",
+    "city": "Groningen"
+  },
+  {
+    "name": "SC Oranje Arnhem",
+    "city": "Arnhem"
+  },
+  {
+    "name": "Oranje Wit",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "VV Oranje Wit Elst",
+    "city": "Elst Ut"
+  },
+  {
+    "name": "VV Oranje Zwart",
+    "city": "Wanneperveen"
+  },
+  {
+    "name": "Oranje Zwart Helmond",
+    "city": "Helmond"
+  },
+  {
+    "name": "VV Oranje-Blauw '14",
+    "city": "Heijningen"
+  },
+  {
+    "name": "Oranjeplein-Postduiven",
+    "city": "Den Haag"
+  },
+  {
+    "name": "sv Orderbos",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "VV Oring",
+    "city": "Odoorn"
+  },
+  {
+    "name": "SV Orion",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "VV Ornas",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "OSC '45",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "OSC (A)",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV OSC (N)",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "OSM '75",
+    "city": "Maarssen"
+  },
+  {
+    "name": "OSO",
+    "city": "Loosdrecht"
+  },
+  {
+    "name": "OSS '20",
+    "city": "Oss"
+  },
+  {
+    "name": "FC Oss",
+    "city": "Oss"
+  },
+  {
+    "name": "OSV",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV Otterlo",
+    "city": "Otterlo"
+  },
+  {
+    "name": "VV OSV Oud Beijerland",
+    "city": "Oud Beijerland"
+  },
+  {
+    "name": "VV Oude Maas",
+    "city": "Poortugaal"
+  },
+  {
+    "name": "VV Oudega",
+    "city": "Oudega"
+  },
+  {
+    "name": "VV Oudehaske",
+    "city": "Oudehaske"
+  },
+  {
+    "name": "VV Oudemolen",
+    "city": "Oudemolen"
+  },
+  {
+    "name": "SV Ouderkerk",
+    "city": "Ouderkerk Aan De Amstel"
+  },
+  {
+    "name": "VV Oudesluis",
+    "city": "Oudesluis"
+  },
+  {
+    "name": "FC Oudewater",
+    "city": "Oudewater"
+  },
+  {
+    "name": "OVS Oudewater",
+    "city": "Oudewater"
+  },
+  {
+    "name": "DSVV Ouwe Schoen",
+    "city": "Delft"
+  },
+  {
+    "name": "VV Ouwe Syl",
+    "city": "Oudebildtzijl"
+  },
+  {
+    "name": "Ouwerkerk",
+    "city": "Ouwerkerk"
+  },
+  {
+    "name": "OVC '21",
+    "city": "Ommen"
+  },
+  {
+    "name": "OVC '26",
+    "city": "Tilburg"
+  },
+  {
+    "name": "OVC '63",
+    "city": "Oijen"
+  },
+  {
+    "name": "OVC '85",
+    "city": "Oosterbeek"
+  },
+  {
+    "name": "OVCS",
+    "city": "Sittard"
+  },
+  {
+    "name": "SC Overamstel",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Overasseltse Boys",
+    "city": "Overasselt"
+  },
+  {
+    "name": "SV Overbos",
+    "city": "Hoofddorp"
+  },
+  {
+    "name": "RV&AV Overmaas",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "RVV Overschie",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Overwetering",
+    "city": "Olst"
+  },
+  {
+    "name": "OVV",
+    "city": "Oostvoorne"
+  },
+  {
+    "name": "OVV '67",
+    "city": "Oosteind"
+  },
+  {
+    "name": "OWIOS",
+    "city": "Oldebroek"
+  },
+  {
+    "name": "OWZ '24",
+    "city": "Kloosterhaar"
+  },
+  {
+    "name": "OZC",
+    "city": "Zorgvlied"
+  },
+  {
+    "name": "VV OZC Ommen",
+    "city": "Ommen"
+  },
+  {
+    "name": "OZW",
+    "city": "Groningen"
+  },
+  {
+    "name": "P en T",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV De Paasberg",
+    "city": "Arnhem"
+  },
+  {
+    "name": "VV Paddepoel",
+    "city": "Groningen"
+  },
+  {
+    "name": "RKSV Pancratius",
+    "city": "Badhoevedorp"
+  },
+  {
+    "name": "SV Panningen",
+    "city": "Panningen"
+  },
+  {
+    "name": "SV Panter",
+    "city": "Veenendaal"
+  },
+  {
+    "name": "SVA Papendorp",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Papendrecht",
+    "city": "Papendrecht"
+  },
+  {
+    "name": "SV Parkhout",
+    "city": "Nieuwegein"
+  },
+  {
+    "name": "SV Parkstad",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Partij",
+    "city": "Wittem"
+  },
+  {
+    "name": "Passart-VKC",
+    "city": "Hoensbroek"
+  },
+  {
+    "name": "ZSC Patria",
+    "city": "Zeist"
+  },
+  {
+    "name": "VV De Patrijzen",
+    "city": "S Heerenhoek"
+  },
+  {
+    "name": "Pax",
+    "city": "Hengelo Gd"
+  },
+  {
+    "name": "PCP",
+    "city": "Breda"
+  },
+  {
+    "name": "PEC '20",
+    "city": "Panningen"
+  },
+  {
+    "name": "SJO PEC '20",
+    "city": "Panningen"
+  },
+  {
+    "name": "PEC Zwolle",
+    "city": "Zwolle"
+  },
+  {
+    "name": "RKSV 't Peeske",
+    "city": "Beek Gld"
+  },
+  {
+    "name": "VV Peize",
+    "city": "Peize"
+  },
+  {
+    "name": "SC Pekela 2000",
+    "city": "Nieuwe Pekela"
+  },
+  {
+    "name": "VV Pekela",
+    "city": "Nieuwe Pekela"
+  },
+  {
+    "name": "VV Pekelder Boys",
+    "city": "Nieuwe Pekela"
+  },
+  {
+    "name": "VV Pelikaan",
+    "city": "Zwijndrecht"
+  },
+  {
+    "name": "VV Pelikaan S",
+    "city": "Oostwold Westerkwartier"
+  },
+  {
+    "name": "VV De Pelikanen",
+    "city": "Appingedam"
+  },
+  {
+    "name": "FC Perkouw",
+    "city": "Berkenwoude"
+  },
+  {
+    "name": "VV Pernis",
+    "city": "Pernis"
+  },
+  {
+    "name": "SV Pesse",
+    "city": "Pesse"
+  },
+  {
+    "name": "SV Petten",
+    "city": "Petten"
+  },
+  {
+    "name": "VV Peursum",
+    "city": "Giessenburg"
+  },
+  {
+    "name": "PFC",
+    "city": "Geervliet"
+  },
+  {
+    "name": "SC PGEM",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "PGS-VOGEL",
+    "city": "Den Haag"
+  },
+  {
+    "name": "PH Almelo",
+    "city": "Almelo"
+  },
+  {
+    "name": "EVV Phenix",
+    "city": "Enschede"
+  },
+  {
+    "name": "VV Philippine",
+    "city": "Philippine"
+  },
+  {
+    "name": "SV Piershil",
+    "city": "Piershil"
+  },
+  {
+    "name": "VV PJC",
+    "city": "Nieuwe Pekela"
+  },
+  {
+    "name": "PKC '83",
+    "city": "Groningen"
+  },
+  {
+    "name": "PKC '85",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV Polanen",
+    "city": "Monster"
+  },
+  {
+    "name": "VV Poolster",
+    "city": "Spijk Gr"
+  },
+  {
+    "name": "PSV Poortugaal",
+    "city": "Poortugaal"
+  },
+  {
+    "name": "SV Poortugaal",
+    "city": "Poortugaal"
+  },
+  {
+    "name": "FC Portugal Amsterdam",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Postalia",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "VV De Posthoorn",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "VV Potetos",
+    "city": "Groningen"
+  },
+  {
+    "name": "PPSC",
+    "city": "Schiedam"
+  },
+  {
+    "name": "FC Presikhaaf",
+    "city": "Arnhem"
+  },
+  {
+    "name": "FC Pretoria R.",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Prins Bernhard",
+    "city": "Uddel"
+  },
+  {
+    "name": "Prinsenland SJO",
+    "city": "Dinteloord"
+  },
+  {
+    "name": "VV Prinsenland",
+    "city": "Dinteloord"
+  },
+  {
+    "name": "RKSV Prinses Irene",
+    "city": "Nistelrode"
+  },
+  {
+    "name": "VV Protos",
+    "city": "Steenwijksmoer"
+  },
+  {
+    "name": "PSC",
+    "city": "Pannerden"
+  },
+  {
+    "name": "PSCK",
+    "city": "Wijdewormer"
+  },
+  {
+    "name": "PSV",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "PSV '35",
+    "city": "Posterholt"
+  },
+  {
+    "name": "VV PSZ",
+    "city": "Zaandam"
+  },
+  {
+    "name": "FC Purmerend",
+    "city": "Purmerend"
+  },
+  {
+    "name": "SC Purmerland",
+    "city": "Purmerland"
+  },
+  {
+    "name": "Purmersteijn",
+    "city": "Purmerend"
+  },
+  {
+    "name": "ESVV Pusphaira",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "VV Puth",
+    "city": "Puth"
+  },
+  {
+    "name": "PVC",
+    "city": "Utrecht"
+  },
+  {
+    "name": "PVCV",
+    "city": "Vleuten"
+  },
+  {
+    "name": "EFC PW 1885",
+    "city": "Enschede"
+  },
+  {
+    "name": "Quick '20",
+    "city": "Oldenzaal"
+  },
+  {
+    "name": "HV & CV Quick",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Quick 1888",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "AFC Quick 1890",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "Quick Boys",
+    "city": "Katwijk"
+  },
+  {
+    "name": "Quick Boys '31",
+    "city": "Venlo"
+  },
+  {
+    "name": "Quick Steps",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Quintus",
+    "city": "Kwintsheul"
+  },
+  {
+    "name": "VV QVC",
+    "city": "Stavoren"
+  },
+  {
+    "name": "SV Raalte",
+    "city": "Raalte"
+  },
+  {
+    "name": "VV Raamsdonk",
+    "city": "Raamsdonk"
+  },
+  {
+    "name": "VV Racing Boys",
+    "city": "Deurne"
+  },
+  {
+    "name": "FC de Rakt",
+    "city": "Uden"
+  },
+  {
+    "name": "SV RAP",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "RAPID",
+    "city": "Maastricht"
+  },
+  {
+    "name": "VV Raptim",
+    "city": "Coevorden"
+  },
+  {
+    "name": "Raptim GVV",
+    "city": "Gorinchem"
+  },
+  {
+    "name": "HVV RAS",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV Ratti",
+    "city": "Vorden"
+  },
+  {
+    "name": "SSA Ratti-Sociï",
+    "city": "Wichmond"
+  },
+  {
+    "name": "RAVA Houtwijk",
+    "city": "Den Haag"
+  },
+  {
+    "name": "RAVA PEC Combinatie",
+    "city": "Den Haag"
+  },
+  {
+    "name": "De Raven",
+    "city": "Luyksgestel"
+  },
+  {
+    "name": "VV Ravenstein",
+    "city": "Ravenstein"
+  },
+  {
+    "name": "RBC",
+    "city": "Roosendaal"
+  },
+  {
+    "name": "RBC Roosendaal",
+    "city": "Roosendaal"
+  },
+  {
+    "name": "RKSV RCD",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "RCH",
+    "city": "Heemstede"
+  },
+  {
+    "name": "RCL",
+    "city": "Leiderdorp"
+  },
+  {
+    "name": "VV RCS",
+    "city": "Oost Souburg"
+  },
+  {
+    "name": "RCZ",
+    "city": "Zaandam"
+  },
+  {
+    "name": "RDC",
+    "city": "Deventer"
+  },
+  {
+    "name": "FC RDC",
+    "city": "Deventer"
+  },
+  {
+    "name": "SV RDM",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Reaal Dronten",
+    "city": "Dronten"
+  },
+  {
+    "name": "Read Swart",
+    "city": "De Knipe"
+  },
+  {
+    "name": "Real Lunet",
+    "city": "Vught"
+  },
+  {
+    "name": "Real Parbo",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV Real Sranang",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Real United",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Real Zoetermeer",
+    "city": "Zoetermeer"
+  },
+  {
+    "name": "CVV Redichem",
+    "city": "Renkum"
+  },
+  {
+    "name": "SV Reeshof",
+    "city": "Tilburg"
+  },
+  {
+    "name": "Reiger Boys",
+    "city": "Heerhugowaard"
+  },
+  {
+    "name": "Sportclub Rekken",
+    "city": "Rekken"
+  },
+  {
+    "name": "SC REMO",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Renado",
+    "city": "Stnicolaasga"
+  },
+  {
+    "name": "SV Renesse",
+    "city": "Renesse"
+  },
+  {
+    "name": "VV Renswoude",
+    "city": "Renswoude"
+  },
+  {
+    "name": "RES",
+    "city": "Bolsward"
+  },
+  {
+    "name": "VV RESIA '42",
+    "city": "Wellerlooi"
+  },
+  {
+    "name": "VV Reünie",
+    "city": "Borculo"
+  },
+  {
+    "name": "Reusel Sport",
+    "city": "Reusel"
+  },
+  {
+    "name": "VV Reutum",
+    "city": "Reutum"
+  },
+  {
+    "name": "VV Reuver",
+    "city": "Reuver"
+  },
+  {
+    "name": "RFC",
+    "city": "Raamsdonksveer"
+  },
+  {
+    "name": "RFC 2000",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SC Rheden",
+    "city": "Rheden"
+  },
+  {
+    "name": "VV Rheden",
+    "city": "Rheden"
+  },
+  {
+    "name": "RVV Rhelico",
+    "city": "Rumpt"
+  },
+  {
+    "name": "Rhode",
+    "city": "St Oedenrode"
+  },
+  {
+    "name": "VV Rhoon",
+    "city": "Rhoon"
+  },
+  {
+    "name": "FC Ria",
+    "city": "Nieuwstadt"
+  },
+  {
+    "name": "RIA W",
+    "city": "Westdorpe"
+  },
+  {
+    "name": "VV Riel",
+    "city": "Riel"
+  },
+  {
+    "name": "VV Riethoven",
+    "city": "Riethoven"
+  },
+  {
+    "name": "VV Rietmolen",
+    "city": "Rietmolen"
+  },
+  {
+    "name": "Rietvogels",
+    "city": "Almelo"
+  },
+  {
+    "name": "Right 'Oh",
+    "city": "Geertruidenberg"
+  },
+  {
+    "name": "Rigtersbleek",
+    "city": "Enschede"
+  },
+  {
+    "name": "VV Rijen",
+    "city": "Rijen"
+  },
+  {
+    "name": "FC Rijnland",
+    "city": "Leiden"
+  },
+  {
+    "name": "SC Rijnland",
+    "city": "Tolkamer"
+  },
+  {
+    "name": "Rijnmond/Hoogvliet Sport",
+    "city": "Hoogvliet"
+  },
+  {
+    "name": "Rijnsburgse Boys",
+    "city": "Rijnsburg"
+  },
+  {
+    "name": "VV De Rijnstreek",
+    "city": "Nieuwerbrug Aan Den Rijn"
+  },
+  {
+    "name": "FC Rijnvogels",
+    "city": "Katwijk"
+  },
+  {
+    "name": "SV De Rijp",
+    "city": "De Rijp"
+  },
+  {
+    "name": "VV Rijperkerk",
+    "city": "Rijperkerk"
+  },
+  {
+    "name": "VV Rijsoord",
+    "city": "Ridderkerk"
+  },
+  {
+    "name": "SC Rijssen",
+    "city": "Rijssen"
+  },
+  {
+    "name": "SV Rijssen",
+    "city": "Rijssen"
+  },
+  {
+    "name": "Rijssen Vooruit",
+    "city": "Rijssen"
+  },
+  {
+    "name": "VV Rijswijkse Boys",
+    "city": "Rijswijk Nb"
+  },
+  {
+    "name": "VV Rillandia",
+    "city": "Rilland"
+  },
+  {
+    "name": "RKVV Rimboe",
+    "city": "Wouwse Plantage"
+  },
+  {
+    "name": "RKVV Rimburg",
+    "city": "Landgraaf"
+  },
+  {
+    "name": "RIOS '31",
+    "city": "Pey"
+  },
+  {
+    "name": "Ripperda",
+    "city": "Haarlem"
+  },
+  {
+    "name": "SV Rivierwijkers",
+    "city": "Utrecht"
+  },
+  {
+    "name": "RKASV",
+    "city": "Maastricht"
+  },
+  {
+    "name": "RKAV Aalsmeer",
+    "city": "Aalsmeer"
+  },
+  {
+    "name": "RKAVC",
+    "city": "Asenray"
+  },
+  {
+    "name": "RKAVIC",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "RKAVV",
+    "city": "Leidschendam"
+  },
+  {
+    "name": "RKBFC",
+    "city": "Maastricht"
+  },
+  {
+    "name": "RKC Waalwijk",
+    "city": "Waalwijk"
+  },
+  {
+    "name": "SV RKDEO",
+    "city": "Nootdorp"
+  },
+  {
+    "name": "RKDES",
+    "city": "Kudelstaart"
+  },
+  {
+    "name": "RKDFC",
+    "city": "Merkelbeek"
+  },
+  {
+    "name": "RKDSO",
+    "city": "Lomm"
+  },
+  {
+    "name": "RKDSV",
+    "city": "Diessen"
+  },
+  {
+    "name": "RKDVC",
+    "city": "Drunen"
+  },
+  {
+    "name": "RKEDO",
+    "city": "Avenhorn"
+  },
+  {
+    "name": "RKESV",
+    "city": "Ell"
+  },
+  {
+    "name": "RKGSV",
+    "city": "Gerwen"
+  },
+  {
+    "name": "RKHBS",
+    "city": "Heerlen"
+  },
+  {
+    "name": "RKHSV",
+    "city": "Maastricht"
+  },
+  {
+    "name": "RKHVC",
+    "city": "Hunsel"
+  },
+  {
+    "name": "RKHVV",
+    "city": "Huissen"
+  },
+  {
+    "name": "RKIVV",
+    "city": "Ingber"
+  },
+  {
+    "name": "RKJVV",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "RKKSV",
+    "city": "Rosmalen"
+  },
+  {
+    "name": "RKMSV",
+    "city": "Meijel"
+  },
+  {
+    "name": "RKMVC",
+    "city": "Mechelen"
+  },
+  {
+    "name": "RKO",
+    "city": "Rutten"
+  },
+  {
+    "name": "RKPSC",
+    "city": "Pannerden"
+  },
+  {
+    "name": "RKPVV",
+    "city": "Helmond"
+  },
+  {
+    "name": "RKSV",
+    "city": "Rijssen"
+  },
+  {
+    "name": "RKSVB",
+    "city": "Voerendaal"
+  },
+  {
+    "name": "RKSVM",
+    "city": "Monster"
+  },
+  {
+    "name": "RKSVN",
+    "city": "Neer"
+  },
+  {
+    "name": "RKSVO",
+    "city": "Ospel"
+  },
+  {
+    "name": "RKSVV",
+    "city": "Weert"
+  },
+  {
+    "name": "RKTSV",
+    "city": "Kerkrade"
+  },
+  {
+    "name": "RKTVC",
+    "city": "Tiel"
+  },
+  {
+    "name": "RKTVV",
+    "city": "Tilburg"
+  },
+  {
+    "name": "RKUVC",
+    "city": "Ulestraten"
+  },
+  {
+    "name": "RKVB",
+    "city": "Baexem"
+  },
+  {
+    "name": "RKVCL",
+    "city": "Maastricht"
+  },
+  {
+    "name": "RKVSC",
+    "city": "Velddriel"
+  },
+  {
+    "name": "RKVVL/Polaris",
+    "city": "Maastricht"
+  },
+  {
+    "name": "RKVVM",
+    "city": "Margraten"
+  },
+  {
+    "name": "RKVVO",
+    "city": "Veldhoven"
+  },
+  {
+    "name": "RKWIK",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "RKZVC",
+    "city": "Zieuwent"
+  },
+  {
+    "name": "SV ROAC",
+    "city": "Rijpwetering"
+  },
+  {
+    "name": "SV Robinhood",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Robur et Velocitas",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "Robur Goes",
+    "city": "Goes"
+  },
+  {
+    "name": "Robur Harlingen",
+    "city": "Harlingen"
+  },
+  {
+    "name": "VV Rockanje",
+    "city": "Rockanje"
+  },
+  {
+    "name": "RKSV RODA '23",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "RODA '28",
+    "city": "Winssen"
+  },
+  {
+    "name": "RODA '46",
+    "city": "Leusden"
+  },
+  {
+    "name": "VV Roda Boys/Bommelerwaard",
+    "city": "Aalst"
+  },
+  {
+    "name": "Roda JC",
+    "city": "Kerkrade"
+  },
+  {
+    "name": "VV Roden",
+    "city": "Roden"
+  },
+  {
+    "name": "FC Roerdalen",
+    "city": "Melick"
+  },
+  {
+    "name": "RFC Roermond",
+    "city": "Roermond"
+  },
+  {
+    "name": "SV Roggel",
+    "city": "Roggel"
+  },
+  {
+    "name": "Rohda '76",
+    "city": "Bodegraven"
+  },
+  {
+    "name": "Rohda Raalte",
+    "city": "Raalte"
+  },
+  {
+    "name": "Rolder Boys",
+    "city": "Rolde"
+  },
+  {
+    "name": "Rood Geel",
+    "city": "Leeuwarden"
+  },
+  {
+    "name": "Rood Groen LVC '01",
+    "city": "Vaals"
+  },
+  {
+    "name": "Rood Wit",
+    "city": "Groesbeek"
+  },
+  {
+    "name": "Rood Wit '58",
+    "city": "Putten"
+  },
+  {
+    "name": "Rood Wit '62",
+    "city": "Helmond"
+  },
+  {
+    "name": "Rood Wit '67",
+    "city": "Budel"
+  },
+  {
+    "name": "Rood-Wit V",
+    "city": "Veldhoven"
+  },
+  {
+    "name": "Rood Wit W",
+    "city": "St Willebrord"
+  },
+  {
+    "name": "Rood Zwart",
+    "city": "Delden"
+  },
+  {
+    "name": "Rood Zwart Baflo",
+    "city": "Baflo"
+  },
+  {
+    "name": "SV Rood-Wit Zaanstad",
+    "city": "Zaandam"
+  },
+  {
+    "name": "LV Roodenburg",
+    "city": "Leiden"
+  },
+  {
+    "name": "RKVV Roosendaal",
+    "city": "Roosendaal"
+  },
+  {
+    "name": "VV Roosteren",
+    "city": "Roosteren"
+  },
+  {
+    "name": "Ropta Boys",
+    "city": "Oosternijkerk"
+  },
+  {
+    "name": "Rossum",
+    "city": "Rossum"
+  },
+  {
+    "name": "Sportclub Roswinkel",
+    "city": "Roswinkel"
+  },
+  {
+    "name": "SV Rotterdam United",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Rottevalle",
+    "city": "Rottevalle"
+  },
+  {
+    "name": "SC Rouveen",
+    "city": "Rouveen"
+  },
+  {
+    "name": "VV Rozenburg",
+    "city": "Rozenburg"
+  },
+  {
+    "name": "RPC",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "RSC",
+    "city": "Rossum"
+  },
+  {
+    "name": "RSM",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV RSV",
+    "city": "Rucphen"
+  },
+  {
+    "name": "RUC",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Ruinen",
+    "city": "Ruinen"
+  },
+  {
+    "name": "VV Ruinerwold",
+    "city": "Ruinerwold"
+  },
+  {
+    "name": "Rust Roest",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "VV Ruurlo",
+    "city": "Ruurlo"
+  },
+  {
+    "name": "SV Ruwaard",
+    "city": "Oss"
+  },
+  {
+    "name": "VV RVA",
+    "city": "Den Haag"
+  },
+  {
+    "name": "RVC '33",
+    "city": "Reeuwijk"
+  },
+  {
+    "name": "RVC Celeritas",
+    "city": "Rijswijk Zh"
+  },
+  {
+    "name": "SJO RVC",
+    "city": "Stnicolaasga"
+  },
+  {
+    "name": "SJO RVLC",
+    "city": "Stnicolaasga"
+  },
+  {
+    "name": "RVU",
+    "city": "Meerssen"
+  },
+  {
+    "name": "RVVH",
+    "city": "Ridderkerk"
+  },
+  {
+    "name": "RVW",
+    "city": "Renkum"
+  },
+  {
+    "name": "RWB",
+    "city": "Waalwijk"
+  },
+  {
+    "name": "SV RWF",
+    "city": "Friesche Palen"
+  },
+  {
+    "name": "Saasveldia",
+    "city": "Saasveld"
+  },
+  {
+    "name": "SAB",
+    "city": "Breda"
+  },
+  {
+    "name": "RKVV Saenden",
+    "city": "Wormerveer"
+  },
+  {
+    "name": "Saestum",
+    "city": "Zeist"
+  },
+  {
+    "name": "DVV Sallandia",
+    "city": "Deventer"
+  },
+  {
+    "name": "VV Sambeek",
+    "city": "Sambeek"
+  },
+  {
+    "name": "VV Sanderbout",
+    "city": "Sittard"
+  },
+  {
+    "name": "Sarto",
+    "city": "Tilburg"
+  },
+  {
+    "name": "VV SBC",
+    "city": "Son"
+  },
+  {
+    "name": "SBC-05",
+    "city": "Baak"
+  },
+  {
+    "name": "RKVV SBV",
+    "city": "Haren Nb"
+  },
+  {
+    "name": "SCD '33",
+    "city": "Deest"
+  },
+  {
+    "name": "SCD '83",
+    "city": "Dedemsvaart"
+  },
+  {
+    "name": "SCE",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "SCG",
+    "city": "Gronsveld"
+  },
+  {
+    "name": "SCG '18",
+    "city": "Sint Michielsgestel"
+  },
+  {
+    "name": "SCH",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "SCH '44",
+    "city": "Harmelen"
+  },
+  {
+    "name": "FC Schadewijk",
+    "city": "Oss"
+  },
+  {
+    "name": "VV Schaesberg",
+    "city": "Landgraaf"
+  },
+  {
+    "name": "VV Schagen",
+    "city": "Schagen"
+  },
+  {
+    "name": "Schagen United",
+    "city": "Schagen"
+  },
+  {
+    "name": "SV Schalkhaar",
+    "city": "Schalkhaar"
+  },
+  {
+    "name": "VV Schalkwijk",
+    "city": "Schalkwijk"
+  },
+  {
+    "name": "Scharn",
+    "city": "Maastricht"
+  },
+  {
+    "name": "VV Scharnegoutum '70",
+    "city": "Scharnegoutum"
+  },
+  {
+    "name": "SC Scheemda",
+    "city": "Scheemda"
+  },
+  {
+    "name": "VV Scheerwolde",
+    "city": "Scheerwolde"
+  },
+  {
+    "name": "VV Schelluinen",
+    "city": "Schelluinen"
+  },
+  {
+    "name": "VV Scherpenzeel",
+    "city": "Scherpenzeel"
+  },
+  {
+    "name": "SVV Scheveningen",
+    "city": "Scheveningen"
+  },
+  {
+    "name": "Schiebroek '94",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Schijf",
+    "city": "Schijf"
+  },
+  {
+    "name": "RKSV Schijndel",
+    "city": "Schijndel"
+  },
+  {
+    "name": "VV Schimmert",
+    "city": "Schimmert"
+  },
+  {
+    "name": "SV Schinnen",
+    "city": "Oirsbeek"
+  },
+  {
+    "name": "VV Schipluiden",
+    "city": "Schipluiden"
+  },
+  {
+    "name": "VV Schoondijke",
+    "city": "Schoondijke"
+  },
+  {
+    "name": "VV Schoonebeek",
+    "city": "Nieuw Schoonebeek"
+  },
+  {
+    "name": "VV Schoonhoven",
+    "city": "Schoonhoven"
+  },
+  {
+    "name": "vv Schoten",
+    "city": "Haarlem"
+  },
+  {
+    "name": "De Schutters",
+    "city": "Stampersgat"
+  },
+  {
+    "name": "VV SCI",
+    "city": "Sint Michielsgestel"
+  },
+  {
+    "name": "SCKR",
+    "city": "Ransdaal"
+  },
+  {
+    "name": "VV SCM",
+    "city": "Maastricht"
+  },
+  {
+    "name": "SCMH",
+    "city": "Veghel"
+  },
+  {
+    "name": "SCN",
+    "city": "Nieuwlande"
+  },
+  {
+    "name": "SCO",
+    "city": "Oosterhout"
+  },
+  {
+    "name": "SCO '63",
+    "city": "Spijkenisse"
+  },
+  {
+    "name": "VV SCP",
+    "city": "Puiflijk"
+  },
+  {
+    "name": "SCPB '22",
+    "city": "Badhoevedorp"
+  },
+  {
+    "name": "VV SCR",
+    "city": "Rijswijk Gld"
+  },
+  {
+    "name": "SCS",
+    "city": "Laag Soeren"
+  },
+  {
+    "name": "SCV '58",
+    "city": "Velp Nb"
+  },
+  {
+    "name": "SCW",
+    "city": "Rijsenhout"
+  },
+  {
+    "name": "SCW ’23",
+    "city": "Heelsum"
+  },
+  {
+    "name": "SCZ",
+    "city": "Zoelen"
+  },
+  {
+    "name": "SDC '12",
+    "city": "Denekamp"
+  },
+  {
+    "name": "SDC Putten",
+    "city": "Putten"
+  },
+  {
+    "name": "SDDL",
+    "city": "Demen"
+  },
+  {
+    "name": "SDO",
+    "city": "Bussum"
+  },
+  {
+    "name": "SDO '39",
+    "city": "Lage Mierde"
+  },
+  {
+    "name": "SDO '63",
+    "city": "Lamswaarde"
+  },
+  {
+    "name": "SDOB",
+    "city": "Broek In Waterland"
+  },
+  {
+    "name": "SV SDOL",
+    "city": "Luttenberg"
+  },
+  {
+    "name": "SDOO",
+    "city": "Heteren"
+  },
+  {
+    "name": "SDOUC",
+    "city": "Ulft"
+  },
+  {
+    "name": "VV SDS",
+    "city": "Oosterend Fr"
+  },
+  {
+    "name": "SDS '55",
+    "city": "Wekerom"
+  },
+  {
+    "name": "VV SDV",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SDV Barneveld",
+    "city": "Barneveld"
+  },
+  {
+    "name": "ASC SDW",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SDZ",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SDZZ",
+    "city": "Zevenaar"
+  },
+  {
+    "name": "VV SEC",
+    "city": "Soest"
+  },
+  {
+    "name": "VV SEH",
+    "city": "Heerde"
+  },
+  {
+    "name": "VV Sellingen",
+    "city": "Sellingen"
+  },
+  {
+    "name": "Semper Altius",
+    "city": "Rijswijk Zh"
+  },
+  {
+    "name": "SEOLTO",
+    "city": "Zevenbergen"
+  },
+  {
+    "name": "VV SEP",
+    "city": "Delft"
+  },
+  {
+    "name": "VV Serooskerke",
+    "city": "Serooskerke"
+  },
+  {
+    "name": "SES",
+    "city": "Langenboom"
+  },
+  {
+    "name": "VV SETA",
+    "city": "Musselkanaal"
+  },
+  {
+    "name": "SEV",
+    "city": "Leidschendam"
+  },
+  {
+    "name": "SEW",
+    "city": "Nibbixwoud"
+  },
+  {
+    "name": "SGO",
+    "city": "Grolloo"
+  },
+  {
+    "name": "VV SGV",
+    "city": "Schildwolde"
+  },
+  {
+    "name": "VV SHE",
+    "city": "Hall"
+  },
+  {
+    "name": "SHH",
+    "city": "Herten"
+  },
+  {
+    "name": "VV SHO",
+    "city": "Oud Beijerland"
+  },
+  {
+    "name": "SV Sibbe",
+    "city": "Valkenburg Li"
+  },
+  {
+    "name": "VV Siddeburen",
+    "city": "Siddeburen"
+  },
+  {
+    "name": "Spcl Silvolde",
+    "city": "Silvolde"
+  },
+  {
+    "name": "SV Simonshaven",
+    "city": "Simonshaven"
+  },
+  {
+    "name": "SV Simpelveld",
+    "city": "Simpelveld"
+  },
+  {
+    "name": "VV Sint Adelbert",
+    "city": "Egmond Binnen"
+  },
+  {
+    "name": "VV Sint Annaparochie",
+    "city": "Stannaparochie"
+  },
+  {
+    "name": "Sint Boys",
+    "city": "Sint Maarten"
+  },
+  {
+    "name": "RKSV Sint George",
+    "city": "Spierdijk"
+  },
+  {
+    "name": "Sint Jacob",
+    "city": "St Jacobiparochie"
+  },
+  {
+    "name": "VV Sint Joost",
+    "city": "Sint Joost"
+  },
+  {
+    "name": "VV Sint Joris",
+    "city": "Braamt"
+  },
+  {
+    "name": "RKVV Sint Odiliënberg",
+    "city": "Sint Odilienberg"
+  },
+  {
+    "name": "RKVV Sint-Michielsgestel",
+    "city": "Sint Michielsgestel"
+  },
+  {
+    "name": "VV SIOL",
+    "city": "Cuijk"
+  },
+  {
+    "name": "VV SIOS",
+    "city": "Sauwerd"
+  },
+  {
+    "name": "VV Sittard",
+    "city": "Sittard"
+  },
+  {
+    "name": "SIVEO '60",
+    "city": "Zegveld"
+  },
+  {
+    "name": "vv SIZO",
+    "city": "Hillegom"
+  },
+  {
+    "name": "VV SJC",
+    "city": "Noordwijk"
+  },
+  {
+    "name": "VV SJN",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "VV SJS",
+    "city": "Stadskanaal"
+  },
+  {
+    "name": "SJVV",
+    "city": "Deurne"
+  },
+  {
+    "name": "VV SJZ",
+    "city": "Zoeterwoude"
+  },
+  {
+    "name": "FC Skillz",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SSA FC Skillz Wateringse Veld",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SKNWK",
+    "city": "Nieuwerkerk"
+  },
+  {
+    "name": "SKV",
+    "city": "Wageningen"
+  },
+  {
+    "name": "SKV/Wageningen",
+    "city": "Wageningen"
+  },
+  {
+    "name": "SKVW",
+    "city": "Winterswijk"
+  },
+  {
+    "name": "VV Sleat",
+    "city": "Sloten"
+  },
+  {
+    "name": "VV Sleen",
+    "city": "Sleen"
+  },
+  {
+    "name": "VV Sleeuwijk",
+    "city": "Sleeuwijk"
+  },
+  {
+    "name": "Slekker Boys",
+    "city": "Echt"
+  },
+  {
+    "name": "SP Slenaken '63",
+    "city": "Slenaken"
+  },
+  {
+    "name": "VV Sliedrecht",
+    "city": "Sliedrecht"
+  },
+  {
+    "name": "SV Slikkerveer",
+    "city": "Ridderkerk"
+  },
+  {
+    "name": "Sloterdijk AVV",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV Sluis",
+    "city": "Sluis"
+  },
+  {
+    "name": "VV Sluiskil",
+    "city": "Sluiskil"
+  },
+  {
+    "name": "Smerdiek",
+    "city": "Sint Maartensdijk"
+  },
+  {
+    "name": "Smilde '94",
+    "city": "Smilde"
+  },
+  {
+    "name": "VV Smitshoek",
+    "city": "Barendrecht"
+  },
+  {
+    "name": "SML",
+    "city": "Arnhem"
+  },
+  {
+    "name": "SMVC Fair Play",
+    "city": "Culemborg"
+  },
+  {
+    "name": "VV SNA Montfort",
+    "city": "Montfort"
+  },
+  {
+    "name": "SNC '14",
+    "city": "Noorbeek"
+  },
+  {
+    "name": "VV Sneek",
+    "city": "Sneek"
+  },
+  {
+    "name": "VV Sneek Wit Zwart",
+    "city": "Sneek"
+  },
+  {
+    "name": "VV SNS",
+    "city": "Stad Aan T Haringvliet"
+  },
+  {
+    "name": "SO Soest",
+    "city": "Soest"
+  },
+  {
+    "name": "SV Soccer Boys",
+    "city": "Bleiswijk"
+  },
+  {
+    "name": "SV Sociï",
+    "city": "Wichmond"
+  },
+  {
+    "name": "FC Socrates",
+    "city": "Haarlem"
+  },
+  {
+    "name": "SV Someren",
+    "city": "Someren"
+  },
+  {
+    "name": "ST SV Someren/NWC",
+    "city": "Someren"
+  },
+  {
+    "name": "SV Spaarnwoude",
+    "city": "Spaarndam"
+  },
+  {
+    "name": "Spakenburg",
+    "city": "Spakenburg"
+  },
+  {
+    "name": "SC Spaland",
+    "city": "Schiedam"
+  },
+  {
+    "name": "Sparta Rotterdam",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Sparta '18",
+    "city": "Sevenum"
+  },
+  {
+    "name": "Sparta '25",
+    "city": "Beek En Donk"
+  },
+  {
+    "name": "Sparta '30",
+    "city": "Andel"
+  },
+  {
+    "name": "Sparta '59",
+    "city": "Deinum"
+  },
+  {
+    "name": "CVV Sparta E",
+    "city": "Enschede"
+  },
+  {
+    "name": "VV Sparta Nijkerk",
+    "city": "Nijkerk"
+  },
+  {
+    "name": "RV&AV Sparta",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "RKSV Spartaan '20",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV Spartanen",
+    "city": "Wognum"
+  },
+  {
+    "name": "VV Spaubeek",
+    "city": "Spaubeek"
+  },
+  {
+    "name": "SV Spero",
+    "city": "Elst Gld"
+  },
+  {
+    "name": "Spijk Vooruit",
+    "city": "Spijk Rijnwaarden Gld"
+  },
+  {
+    "name": "VV Spijkenisse",
+    "city": "Spijkenisse"
+  },
+  {
+    "name": "VV Spirit",
+    "city": "Ouderkerk Aan Den Ijssel"
+  },
+  {
+    "name": "SC Spirit '30",
+    "city": "Hoogkarspel"
+  },
+  {
+    "name": "Spoordonkse Boys",
+    "city": "Oirschot"
+  },
+  {
+    "name": "VV Sport Vereent",
+    "city": "Oldeberkoop"
+  },
+  {
+    "name": "Sportclub '25",
+    "city": "Bocholtz"
+  },
+  {
+    "name": "Sportclub Caberg",
+    "city": "Maastricht"
+  },
+  {
+    "name": "Sportclub Overdinkel",
+    "city": "Overdinkel"
+  },
+  {
+    "name": "VV Sportief",
+    "city": "Noorden"
+  },
+  {
+    "name": "Sporting '70",
+    "city": "Utrecht"
+  },
+  {
+    "name": "Sporting Adrichem",
+    "city": "Beverwijk"
+  },
+  {
+    "name": "Sporting Almere",
+    "city": "Almere"
+  },
+  {
+    "name": "Sporting Andijk",
+    "city": "Andijk"
+  },
+  {
+    "name": "Sporting H.A.C.",
+    "city": "Kerkrade"
+  },
+  {
+    "name": "Sporting Heerlen",
+    "city": "Heerlen"
+  },
+  {
+    "name": "Sporting Krommenie",
+    "city": "Krommenie"
+  },
+  {
+    "name": "Sporting Leiden",
+    "city": "Leiden"
+  },
+  {
+    "name": "Sporting Martinus",
+    "city": "Amstelveen"
+  },
+  {
+    "name": "SV Sporting S",
+    "city": "Schermerhorn"
+  },
+  {
+    "name": "Sporting Sittard '13",
+    "city": "Sittard"
+  },
+  {
+    "name": "Sporting ST",
+    "city": "Swolgen"
+  },
+  {
+    "name": "Sportlust '46",
+    "city": "Woerden"
+  },
+  {
+    "name": "SV Sportlust Glanerbrug",
+    "city": "Glanerbrug"
+  },
+  {
+    "name": "Sportlust Vroomshoop",
+    "city": "Vroomshoop"
+  },
+  {
+    "name": "Sprinkhanen",
+    "city": "Didam"
+  },
+  {
+    "name": "SV Sprundel",
+    "city": "Sprundel"
+  },
+  {
+    "name": "SPS",
+    "city": "Poortvliet"
+  },
+  {
+    "name": "VV Spui",
+    "city": "Spui"
+  },
+  {
+    "name": "SPV",
+    "city": "Vlierden"
+  },
+  {
+    "name": "SPV '81",
+    "city": "Polsbroek"
+  },
+  {
+    "name": "VV SPW",
+    "city": "Stadskanaal"
+  },
+  {
+    "name": "VV SRC",
+    "city": "Schagen"
+  },
+  {
+    "name": "SRC '24",
+    "city": "Vorden"
+  },
+  {
+    "name": "SSC '55",
+    "city": "Sprang Capelle"
+  },
+  {
+    "name": "SSE",
+    "city": "Someren"
+  },
+  {
+    "name": "SSOC",
+    "city": "Sittard"
+  },
+  {
+    "name": "SSS",
+    "city": "Klaaswaal"
+  },
+  {
+    "name": "SSS '18",
+    "city": "Overloon"
+  },
+  {
+    "name": "SSS '68",
+    "city": "Marssum"
+  },
+  {
+    "name": "SSV",
+    "city": "Stompetoren"
+  },
+  {
+    "name": "SSV '65",
+    "city": "Goes"
+  },
+  {
+    "name": "VV SSW",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "SC St. Hubert",
+    "city": "Sint Hubert"
+  },
+  {
+    "name": "SC Stadskanaal",
+    "city": "Stadskanaal"
+  },
+  {
+    "name": "SC Stadspark",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Standaard",
+    "city": "Maastricht"
+  },
+  {
+    "name": "VV Stânfries",
+    "city": "Appelscha"
+  },
+  {
+    "name": "VV Staphorst",
+    "city": "Staphorst"
+  },
+  {
+    "name": "SC Stavenisse",
+    "city": "Stavenisse"
+  },
+  {
+    "name": "STB",
+    "city": "Wezep"
+  },
+  {
+    "name": "SteDoCo",
+    "city": "Hoornaar"
+  },
+  {
+    "name": "VV Stedum",
+    "city": "Stedum"
+  },
+  {
+    "name": "RV&AV Steeds Hooger",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Steen",
+    "city": "Sint Jansteen"
+  },
+  {
+    "name": "VV Steenbergen",
+    "city": "Steenbergen"
+  },
+  {
+    "name": "SV Steenderen",
+    "city": "Steenderen"
+  },
+  {
+    "name": "VV Steensel",
+    "city": "Steensel"
+  },
+  {
+    "name": "VV Steenwijk",
+    "city": "Steenwijk"
+  },
+  {
+    "name": "Steenwijker Boys",
+    "city": "Steenwijk"
+  },
+  {
+    "name": "SV Steenwijkerwold",
+    "city": "Steenwijkerwold"
+  },
+  {
+    "name": "VV Stellendam",
+    "city": "Stellendam"
+  },
+  {
+    "name": "SCSV De Ster",
+    "city": "Den Haag"
+  },
+  {
+    "name": "RKSV De Ster",
+    "city": "Stein"
+  },
+  {
+    "name": "RKSV Sterksel",
+    "city": "Sterksel"
+  },
+  {
+    "name": "VV Sterrenwijk",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Stevensweert",
+    "city": "Stevensweert"
+  },
+  {
+    "name": "Stevo",
+    "city": "Geesteren"
+  },
+  {
+    "name": "SC Stiens",
+    "city": "Stiens"
+  },
+  {
+    "name": "Stiphout Vooruit",
+    "city": "Helmond"
+  },
+  {
+    "name": "VV Stokkum",
+    "city": "Stokkum"
+  },
+  {
+    "name": "VV Stolwijk",
+    "city": "Stolwijk"
+  },
+  {
+    "name": "Stompwijk '92",
+    "city": "Leidschendam"
+  },
+  {
+    "name": "HFC Storica",
+    "city": "Zwolle"
+  },
+  {
+    "name": "Stormvogels '28",
+    "city": "Siebengewald"
+  },
+  {
+    "name": "Stormvogels '64",
+    "city": "Achlum"
+  },
+  {
+    "name": "Stormvogels IJVV",
+    "city": "Ijmuiden"
+  },
+  {
+    "name": "Stormvogels Telstar",
+    "city": "Ijmuiden"
+  },
+  {
+    "name": "Strandvogels",
+    "city": "Wervershoof"
+  },
+  {
+    "name": "VV Streefkerk",
+    "city": "Streefkerk"
+  },
+  {
+    "name": "VV Strijen",
+    "city": "Strijen"
+  },
+  {
+    "name": "VV Stroe",
+    "city": "Stroe"
+  },
+  {
+    "name": "Struchter Boys",
+    "city": "Schin Op Geul"
+  },
+  {
+    "name": "VV Suameer",
+    "city": "Suameer"
+  },
+  {
+    "name": "Suawoude",
+    "city": "Suawoude"
+  },
+  {
+    "name": "VV Succes",
+    "city": "Hippolytushoef"
+  },
+  {
+    "name": "VV Surhuisterveen",
+    "city": "Surhuisterveen"
+  },
+  {
+    "name": "FC Surhústerfean",
+    "city": "Surhuisterveen"
+  },
+  {
+    "name": "FC Suryoye-Mediterraneo",
+    "city": "Enschede"
+  },
+  {
+    "name": "SC Susteren",
+    "city": "Susteren"
+  },
+  {
+    "name": "Susterse Boys",
+    "city": "Susteren"
+  },
+  {
+    "name": "SV '35",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "SVA",
+    "city": "Assendelft"
+  },
+  {
+    "name": "SVA Bleijerheide",
+    "city": "Kerkrade"
+  },
+  {
+    "name": "SVAP '74",
+    "city": "Anna Paulowna"
+  },
+  {
+    "name": "VV SVBC",
+    "city": "Barger Compascuum"
+  },
+  {
+    "name": "VV SVBO",
+    "city": "Barger Oosterveld"
+  },
+  {
+    "name": "SVBS '77",
+    "city": "Belt Schutsloot"
+  },
+  {
+    "name": "SVBV",
+    "city": "Barchem"
+  },
+  {
+    "name": "VV SVC",
+    "city": "Standdaarbuiten"
+  },
+  {
+    "name": "SVC '08",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "SVC 2000",
+    "city": "Roermond"
+  },
+  {
+    "name": "SVD Driewegen",
+    "city": "Driewegen"
+  },
+  {
+    "name": "SVD/Volharding ST",
+    "city": "Driewegen"
+  },
+  {
+    "name": "SVDB",
+    "city": "Ekehaar"
+  },
+  {
+    "name": "SVDPW",
+    "city": "Schiedam"
+  },
+  {
+    "name": "SVDW '75",
+    "city": "Doetinchem"
+  },
+  {
+    "name": "SVE",
+    "city": "Einighausen"
+  },
+  {
+    "name": "SVEB",
+    "city": "Broekhuizenvorst"
+  },
+  {
+    "name": "SJO/SSA SVEB-Sporting ST",
+    "city": "Broekhuizenvorst"
+  },
+  {
+    "name": "SVF",
+    "city": "Cothen"
+  },
+  {
+    "name": "VV SVG",
+    "city": "Tilburg"
+  },
+  {
+    "name": "SVGG",
+    "city": "Megchelen"
+  },
+  {
+    "name": "SVH",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SVH 39",
+    "city": "Herkenbosch"
+  },
+  {
+    "name": "SVHA",
+    "city": "Herveld"
+  },
+  {
+    "name": "VV SVI",
+    "city": "Zwolle"
+  },
+  {
+    "name": "SVIJ",
+    "city": "Ijmuiden"
+  },
+  {
+    "name": "SVL",
+    "city": "Langbroek"
+  },
+  {
+    "name": "SVM Maartensdijk",
+    "city": "Maartensdijk"
+  },
+  {
+    "name": "SVM Marknesse",
+    "city": "Marknesse"
+  },
+  {
+    "name": "VV SVM Munstergeleen",
+    "city": "Munstergeleen"
+  },
+  {
+    "name": "SVME",
+    "city": "Eijsden"
+  },
+  {
+    "name": "SVMH",
+    "city": "Niebert"
+  },
+  {
+    "name": "SVMM",
+    "city": "Maarn"
+  },
+  {
+    "name": "SVN '69",
+    "city": "Nijeveen"
+  },
+  {
+    "name": "SVN Landgraaf",
+    "city": "Landgraaf"
+  },
+  {
+    "name": "SVO '68",
+    "city": "Ooij"
+  },
+  {
+    "name": "SVO VVZ",
+    "city": "Zwolle"
+  },
+  {
+    "name": "SVOC '01",
+    "city": "Oirlo"
+  },
+  {
+    "name": "SVOD '22",
+    "city": "Oostkapelle"
+  },
+  {
+    "name": "SVOW",
+    "city": "Weteringbrug"
+  },
+  {
+    "name": "SVS '65",
+    "city": "Spijk Lingewaal Gld"
+  },
+  {
+    "name": "SVS Capelle",
+    "city": "Capelle Aan Den Ijssel"
+  },
+  {
+    "name": "SVS Stevensbeek",
+    "city": "Stevensbeek"
+  },
+  {
+    "name": "SVSH",
+    "city": "Someren"
+  },
+  {
+    "name": "SVSOS",
+    "city": "Biest Houtakker"
+  },
+  {
+    "name": "SVSSS",
+    "city": "Udenhout"
+  },
+  {
+    "name": "SVV",
+    "city": "Schiedam"
+  },
+  {
+    "name": "SVV '04",
+    "city": "Schoonebeek"
+  },
+  {
+    "name": "SVV '56",
+    "city": "Sibculo"
+  },
+  {
+    "name": "SVV '91",
+    "city": "Enschede"
+  },
+  {
+    "name": "SVVH",
+    "city": "Heibloem"
+  },
+  {
+    "name": "SVVN",
+    "city": "Nijverdal"
+  },
+  {
+    "name": "SVVSMC",
+    "city": "Schiedam"
+  },
+  {
+    "name": "VV SVW",
+    "city": "Gorinchem"
+  },
+  {
+    "name": "SVW '27",
+    "city": "Heerhugowaard"
+  },
+  {
+    "name": "SVZ",
+    "city": "Zeijen"
+  },
+  {
+    "name": "SVZW",
+    "city": "Wierden"
+  },
+  {
+    "name": "DES Swalmen",
+    "city": "Swalmen"
+  },
+  {
+    "name": "De Sweach",
+    "city": "Beetsterzwaag"
+  },
+  {
+    "name": "VV Sweel",
+    "city": "Zweeloo"
+  },
+  {
+    "name": "AVV Swift",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Swift '64",
+    "city": "Swifterbant"
+  },
+  {
+    "name": "RVV Swift Boys",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "RKSV Sylvia",
+    "city": "Landgraaf"
+  },
+  {
+    "name": "AFC TABA",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "TAC '90",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SVVV Taurus",
+    "city": "Delft"
+  },
+  {
+    "name": "TAVV",
+    "city": "Ter Aar"
+  },
+  {
+    "name": "Taxandria",
+    "city": "Oisterwijk"
+  },
+  {
+    "name": "SV TEC",
+    "city": "Tiel"
+  },
+  {
+    "name": "Teisterbanders",
+    "city": "Kerk Avezaath"
+  },
+  {
+    "name": "Telstar",
+    "city": "Velsen Zuid"
+  },
+  {
+    "name": "SV TEO",
+    "city": "Ten Post"
+  },
+  {
+    "name": "FC Ter Apel '96",
+    "city": "Ter Apel"
+  },
+  {
+    "name": "Ter Leede",
+    "city": "Sassenheim"
+  },
+  {
+    "name": "VV Terborg",
+    "city": "Terborg"
+  },
+  {
+    "name": "SV Terheijden",
+    "city": "Terheijden"
+  },
+  {
+    "name": "VV Terhole",
+    "city": "Kuitaart"
+  },
+  {
+    "name": "Terlo",
+    "city": "Bergeyk"
+  },
+  {
+    "name": "VV Ternaard",
+    "city": "Ternaard"
+  },
+  {
+    "name": "VV Terneuzen",
+    "city": "Terneuzen"
+  },
+  {
+    "name": "VV Terneuzense Boys",
+    "city": "Terneuzen"
+  },
+  {
+    "name": "SV Terrasvogels",
+    "city": "Santpoort Zuid"
+  },
+  {
+    "name": "SC Terschelling",
+    "city": "Midsland"
+  },
+  {
+    "name": "Terschuurse Boys",
+    "city": "Terschuur"
+  },
+  {
+    "name": "SV Terwolde",
+    "city": "Terwolde"
+  },
+  {
+    "name": "SP Teuge",
+    "city": "Teuge"
+  },
+  {
+    "name": "TEVV",
+    "city": "Tweede Exloermond"
+  },
+  {
+    "name": "Texas DZS",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Texel '94",
+    "city": "Den Burg"
+  },
+  {
+    "name": "Teylingen",
+    "city": "Sassenheim"
+  },
+  {
+    "name": "VV TFS",
+    "city": "Drachtstercompagnie"
+  },
+  {
+    "name": "VV TGG",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "THB",
+    "city": "Haarlem"
+  },
+  {
+    "name": "The Gunners",
+    "city": "Breda"
+  },
+  {
+    "name": "Theole",
+    "city": "Tiel"
+  },
+  {
+    "name": "Tholense Boys",
+    "city": "Tholen"
+  },
+  {
+    "name": "SV THOR",
+    "city": "Lippenhuizen"
+  },
+  {
+    "name": "SV THOS",
+    "city": "Beerta"
+  },
+  {
+    "name": "VV Tiendeveen",
+    "city": "Tiendeveen"
+  },
+  {
+    "name": "VV Tijnje",
+    "city": "Tijnje"
+  },
+  {
+    "name": "FC Tilburg",
+    "city": "Tilburg"
+  },
+  {
+    "name": "VV Titan",
+    "city": "Nieuw Weerdinge"
+  },
+  {
+    "name": "SV Tivoli",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "VV TKA",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "VV TLC",
+    "city": "Leek"
+  },
+  {
+    "name": "RKSV TOB",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "AVV TOG",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "TOGB",
+    "city": "Berkel En Rodenrijs"
+  },
+  {
+    "name": "TOGR",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Tolbert",
+    "city": "Tolbert"
+  },
+  {
+    "name": "VV Tollebeek",
+    "city": "Tollebeek"
+  },
+  {
+    "name": "TONEGIDO Voorburg",
+    "city": "Voorburg"
+  },
+  {
+    "name": "sv TONEGO",
+    "city": "Luttelgeest"
+  },
+  {
+    "name": "SV Tongelre",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "SSV Toofan",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV TOP",
+    "city": "Oss"
+  },
+  {
+    "name": "TOP '63",
+    "city": "Oppenhuizen"
+  },
+  {
+    "name": "TOP Oss",
+    "city": "Oss"
+  },
+  {
+    "name": "Tos Actief",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "TOV",
+    "city": "Baarn"
+  },
+  {
+    "name": "Toxandria",
+    "city": "Rijkevoort"
+  },
+  {
+    "name": "VV TPO",
+    "city": "Moerdijk"
+  },
+  {
+    "name": "TransvaliaZW",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV De Treffer '16",
+    "city": "Tweede Exloermond"
+  },
+  {
+    "name": "De Treffers",
+    "city": "Groesbeek"
+  },
+  {
+    "name": "VV Trekvogels",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "FC Trias",
+    "city": "Winterswijk"
+  },
+  {
+    "name": "VV Tricht",
+    "city": "Tricht"
+  },
+  {
+    "name": "VV Trinitas",
+    "city": "Boyl"
+  },
+  {
+    "name": "VV Trinitas Oisterwijk",
+    "city": "Oisterwijk"
+  },
+  {
+    "name": "SJO Triville",
+    "city": "Ijhorst"
+  },
+  {
+    "name": "VC Trynwâlden",
+    "city": "Oenkerk"
+  },
+  {
+    "name": "TSB",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "VV TSC",
+    "city": "Oosterhout"
+  },
+  {
+    "name": "TSC '04",
+    "city": "Tegelen"
+  },
+  {
+    "name": "TSC Irene",
+    "city": "Tegelen"
+  },
+  {
+    "name": "TSV Gudok",
+    "city": "Tilburg"
+  },
+  {
+    "name": "TSVV Merlijn",
+    "city": "Tilburg"
+  },
+  {
+    "name": "De Tubanters 1897",
+    "city": "Enschede"
+  },
+  {
+    "name": "Tubantia",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "De Tukkers",
+    "city": "Albergen"
+  },
+  {
+    "name": "Tuldania",
+    "city": "Esbeek"
+  },
+  {
+    "name": "FC Türkiyemspor Amsterdam",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV Turkse Kracht",
+    "city": "Deventer"
+  },
+  {
+    "name": "TVC '28",
+    "city": "Tubbergen"
+  },
+  {
+    "name": "TVC/Breda",
+    "city": "Breda"
+  },
+  {
+    "name": "SV TVO",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "TVV",
+    "city": "Enschede"
+  },
+  {
+    "name": "Twedo",
+    "city": "Veenoord"
+  },
+  {
+    "name": "SV Twello",
+    "city": "Twello"
+  },
+  {
+    "name": "FC Twente",
+    "city": "Enschede"
+  },
+  {
+    "name": "VV Twenthe",
+    "city": "Goor"
+  },
+  {
+    "name": "SC Twijzel",
+    "city": "Twijzel"
+  },
+  {
+    "name": "Twisk",
+    "city": "Twisk"
+  },
+  {
+    "name": "SV Tynaarlo",
+    "city": "Tynaarlo"
+  },
+  {
+    "name": "VV Tzum",
+    "city": "Tzum"
+  },
+  {
+    "name": "Tzummarum",
+    "city": "Tzummarum"
+  },
+  {
+    "name": "Uchta",
+    "city": "Ijzendoorn"
+  },
+  {
+    "name": "UD W",
+    "city": "Weerselo"
+  },
+  {
+    "name": "FC Uden",
+    "city": "Uden"
+  },
+  {
+    "name": "UDI",
+    "city": "Enschede"
+  },
+  {
+    "name": "UDI '19",
+    "city": "Uden"
+  },
+  {
+    "name": "UDIROS",
+    "city": "Nieuwehorne"
+  },
+  {
+    "name": "VV UDO",
+    "city": "Oegstgeest"
+  },
+  {
+    "name": "VV Uffelte",
+    "city": "Uffelte"
+  },
+  {
+    "name": "VV UHC",
+    "city": "Hernen"
+  },
+  {
+    "name": "FC Uitgeest",
+    "city": "Uitgeest"
+  },
+  {
+    "name": "Ulftse Boys",
+    "city": "Ulft"
+  },
+  {
+    "name": "SV Ulicoten",
+    "city": "Ulicoten"
+  },
+  {
+    "name": "FC Ulu Spor",
+    "city": "Zwolle"
+  },
+  {
+    "name": "RKSV Ulysses",
+    "city": "Megen"
+  },
+  {
+    "name": "VV UNA",
+    "city": "Veldhoven"
+  },
+  {
+    "name": "VV Uni",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "VV Unicum",
+    "city": "Lelystad"
+  },
+  {
+    "name": "UNIO",
+    "city": "Oudewater"
+  },
+  {
+    "name": "VV Union",
+    "city": "Malden"
+  },
+  {
+    "name": "GVV Unitas",
+    "city": "Gorinchem"
+  },
+  {
+    "name": "Unitas '28",
+    "city": "Wamel"
+  },
+  {
+    "name": "Unitas '30",
+    "city": "Etten Leur"
+  },
+  {
+    "name": "SV Unitas '48",
+    "city": "Veenendaal"
+  },
+  {
+    "name": "Unitas '59",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "SV United",
+    "city": "Wanssum"
+  },
+  {
+    "name": "SV United-DAVO",
+    "city": "Haarlem"
+  },
+  {
+    "name": "Uno Animo",
+    "city": "Loon Op Zand"
+  },
+  {
+    "name": "vv UNO",
+    "city": "Hoofddorp"
+  },
+  {
+    "name": "UOW '02",
+    "city": "Landgraaf"
+  },
+  {
+    "name": "SC Urban Talent",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV Urk",
+    "city": "Urk"
+  },
+  {
+    "name": "Urmondia",
+    "city": "Urmond"
+  },
+  {
+    "name": "Usquert",
+    "city": "Usquert"
+  },
+  {
+    "name": "USV",
+    "city": "Nieuwleusen"
+  },
+  {
+    "name": "FC Utrecht",
+    "city": "Utrecht"
+  },
+  {
+    "name": "SV Utrecht United",
+    "city": "Utrecht"
+  },
+  {
+    "name": "UVS",
+    "city": "Leiden"
+  },
+  {
+    "name": "ASV UVV",
+    "city": "Utrecht"
+  },
+  {
+    "name": "UVV '40",
+    "city": "Ulvenhout"
+  },
+  {
+    "name": "SV V en L",
+    "city": "De Vecht"
+  },
+  {
+    "name": "V en V '68",
+    "city": "Garijp"
+  },
+  {
+    "name": "SV Vaassen",
+    "city": "Vaassen"
+  },
+  {
+    "name": "RKVV Vaesrade",
+    "city": "Nuth"
+  },
+  {
+    "name": "VAKO",
+    "city": "Vries"
+  },
+  {
+    "name": "Val Aan",
+    "city": "Heen"
+  },
+  {
+    "name": "SC Valburg",
+    "city": "Valburg"
+  },
+  {
+    "name": "VV De Valk",
+    "city": "Valkenswaard"
+  },
+  {
+    "name": "Valken '68",
+    "city": "Valkenburg Zh"
+  },
+  {
+    "name": "De Valken",
+    "city": "Venhuizen"
+  },
+  {
+    "name": "SV Valkenswaard",
+    "city": "Valkenswaard"
+  },
+  {
+    "name": "De Valleivogels",
+    "city": "Scherpenzeel"
+  },
+  {
+    "name": "Valther Boys",
+    "city": "Valthe"
+  },
+  {
+    "name": "VV Valthermond",
+    "city": "Valthermond"
+  },
+  {
+    "name": "SC Varsseveld",
+    "city": "Varsseveld"
+  },
+  {
+    "name": "SV Vasse",
+    "city": "Vasse"
+  },
+  {
+    "name": "VBC '25",
+    "city": "Vianen Nb"
+  },
+  {
+    "name": "VCA",
+    "city": "Sint Agatha"
+  },
+  {
+    "name": "VCB",
+    "city": "Biezenmortel"
+  },
+  {
+    "name": "VCG",
+    "city": "Geesbrug"
+  },
+  {
+    "name": "VCH",
+    "city": "Venlo"
+  },
+  {
+    "name": "VCK",
+    "city": "Koudekerke"
+  },
+  {
+    "name": "VCO",
+    "city": "Zeeland"
+  },
+  {
+    "name": "VCR",
+    "city": "Rinsumageest"
+  },
+  {
+    "name": "VCS",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VCW",
+    "city": "Wagenberg"
+  },
+  {
+    "name": "VDL",
+    "city": "Maassluis"
+  },
+  {
+    "name": "VDS '25",
+    "city": "Hernen"
+  },
+  {
+    "name": "VDZ",
+    "city": "Arnhem"
+  },
+  {
+    "name": "SV De Vecht",
+    "city": "Loenen Aan De Vecht"
+  },
+  {
+    "name": "SV Vechtzoom",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Veelerveen",
+    "city": "Veelerveen"
+  },
+  {
+    "name": "VV Veendam 1894",
+    "city": "Veendam"
+  },
+  {
+    "name": "BV Veendam",
+    "city": "Veendam"
+  },
+  {
+    "name": "SC Veendam",
+    "city": "Veendam"
+  },
+  {
+    "name": "VV Veenendaal",
+    "city": "Veenendaal"
+  },
+  {
+    "name": "VV Veenhuizen",
+    "city": "Veenhuizen"
+  },
+  {
+    "name": "SV Veensche Boys",
+    "city": "Nijkerkerveen"
+  },
+  {
+    "name": "SC Veenwouden",
+    "city": "Veenwouden"
+  },
+  {
+    "name": "VV Veere",
+    "city": "Veere"
+  },
+  {
+    "name": "Veerse Boys",
+    "city": "Raamsdonksveer"
+  },
+  {
+    "name": "VELO",
+    "city": "Wateringen"
+  },
+  {
+    "name": "Velocitas 1897",
+    "city": "Groningen"
+  },
+  {
+    "name": "RKVV Velsen",
+    "city": "Driehuis"
+  },
+  {
+    "name": "FC Velsenoord",
+    "city": "Velsen Noord"
+  },
+  {
+    "name": "SC Veluwezoom",
+    "city": "Rozendaal"
+  },
+  {
+    "name": "VV De Veluwse Boys",
+    "city": "Garderen"
+  },
+  {
+    "name": "RKSV Venhorst",
+    "city": "Venhorst"
+  },
+  {
+    "name": "Venlo",
+    "city": "Venlo"
+  },
+  {
+    "name": "Venlosche Boys",
+    "city": "Venlo"
+  },
+  {
+    "name": "SV VENO",
+    "city": "Vollenhove"
+  },
+  {
+    "name": "SV Venray",
+    "city": "Venray"
+  },
+  {
+    "name": "VEP",
+    "city": "Woerden"
+  },
+  {
+    "name": "VV Verburch",
+    "city": "Poeldijk"
+  },
+  {
+    "name": "Veritas",
+    "city": "Neeritter"
+  },
+  {
+    "name": "Vesdo",
+    "city": "Schagerbrug"
+  },
+  {
+    "name": "VV Vessem",
+    "city": "Vessem"
+  },
+  {
+    "name": "VV Vesta",
+    "city": "Melick"
+  },
+  {
+    "name": "Vesta '19",
+    "city": "Demen"
+  },
+  {
+    "name": "VV VEV",
+    "city": "Barger Compascuum"
+  },
+  {
+    "name": "VEV '67",
+    "city": "Leek"
+  },
+  {
+    "name": "VEVO",
+    "city": "Veessen"
+  },
+  {
+    "name": "VEW",
+    "city": "Heemstede"
+  },
+  {
+    "name": "VFC",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "SV VHK",
+    "city": "Sint Jansklooster"
+  },
+  {
+    "name": "VV Vianen",
+    "city": "Vianen"
+  },
+  {
+    "name": "Vianen Vooruit",
+    "city": "Vianen Nb"
+  },
+  {
+    "name": "Viboa",
+    "city": "Winsum"
+  },
+  {
+    "name": "Victoria",
+    "city": "Loosdrecht"
+  },
+  {
+    "name": "VV Victoria '03",
+    "city": "Oudenbosch"
+  },
+  {
+    "name": "SC Victoria '04",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "Victoria '25",
+    "city": "Afferden"
+  },
+  {
+    "name": "Victoria '28",
+    "city": "Enschede"
+  },
+  {
+    "name": "Victoria Boys",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "Victoria O",
+    "city": "Obdam"
+  },
+  {
+    "name": "Vierhouten '82",
+    "city": "Vierhouten"
+  },
+  {
+    "name": "VV Vierpolders",
+    "city": "Vierpolders"
+  },
+  {
+    "name": "RKVV Vijlen",
+    "city": "Vijlen"
+  },
+  {
+    "name": "VV Vilsteren",
+    "city": "Vilsteren"
+  },
+  {
+    "name": "SV Vilt",
+    "city": "Berg En Terblijt"
+  },
+  {
+    "name": "FC Vinkenslag",
+    "city": "Maastricht"
+  },
+  {
+    "name": "VV VIOD Doetinchem",
+    "city": "Doetinchem"
+  },
+  {
+    "name": "VIOD Driesum",
+    "city": "Driesum"
+  },
+  {
+    "name": "VIOD Tienhoven",
+    "city": "Tienhoven"
+  },
+  {
+    "name": "VV Viola",
+    "city": "Alphen Nb"
+  },
+  {
+    "name": "VIOS '38",
+    "city": "Beugen"
+  },
+  {
+    "name": "VIOS B",
+    "city": "Beltrum"
+  },
+  {
+    "name": "VIOS O",
+    "city": "Oosterhesselen"
+  },
+  {
+    "name": "VIOS V",
+    "city": "Vaassen"
+  },
+  {
+    "name": "VIOS W",
+    "city": "Warmenhuizen"
+  },
+  {
+    "name": "VV Virtus",
+    "city": "Zevenbergen"
+  },
+  {
+    "name": "VITA",
+    "city": "Megen"
+  },
+  {
+    "name": "Vitesse",
+    "city": "Arnhem"
+  },
+  {
+    "name": "Vitesse '08",
+    "city": "Gennep"
+  },
+  {
+    "name": "Vitesse '22",
+    "city": "Castricum"
+  },
+  {
+    "name": "VV Vitesse '63",
+    "city": "Koekange"
+  },
+  {
+    "name": "Vitesse 1892",
+    "city": "Arnhem"
+  },
+  {
+    "name": "Vitesse Delft",
+    "city": "Delft"
+  },
+  {
+    "name": "VIVOO",
+    "city": "Huijbergen"
+  },
+  {
+    "name": "VKW",
+    "city": "Westerbork"
+  },
+  {
+    "name": "FC Vlaardingen '74",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "VV 't Vliegdorp",
+    "city": "Soesterberg"
+  },
+  {
+    "name": "Vlijmense Boys",
+    "city": "Vlijmen"
+  },
+  {
+    "name": "VC Vlissingen",
+    "city": "Vlissingen"
+  },
+  {
+    "name": "VV Vlodrop",
+    "city": "Vlodrop"
+  },
+  {
+    "name": "FC Vlotbrug",
+    "city": "Hellevoetsluis"
+  },
+  {
+    "name": "CVV Vlug en Vaardig",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VOAB",
+    "city": "Goirle"
+  },
+  {
+    "name": "VOB",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VOC",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "RKVV Voerendaal",
+    "city": "Voerendaal"
+  },
+  {
+    "name": "VOG",
+    "city": "Munnekeburen"
+  },
+  {
+    "name": "SV Vogelenzang",
+    "city": "Vogelenzang"
+  },
+  {
+    "name": "VV De Vogels",
+    "city": "Groningen"
+  },
+  {
+    "name": "VV Vogelwaarde",
+    "city": "Vogelwaarde"
+  },
+  {
+    "name": "VOGIDO",
+    "city": "Enschede"
+  },
+  {
+    "name": "FC Volendam",
+    "city": "Volendam"
+  },
+  {
+    "name": "RKAV Volendam",
+    "city": "Volendam"
+  },
+  {
+    "name": "AVV De Volewijckers",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "ASC De Volewijckers",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Volharding '32",
+    "city": "Ovezande"
+  },
+  {
+    "name": "RKVV Volharding",
+    "city": "Vierlingsbeek"
+  },
+  {
+    "name": "Volkel",
+    "city": "Volkel"
+  },
+  {
+    "name": "SV Voorburg",
+    "city": "Voorburg"
+  },
+  {
+    "name": "SC Voorland",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Voorschoten '97",
+    "city": "Voorschoten"
+  },
+  {
+    "name": "VV Voorst",
+    "city": "Voorst"
+  },
+  {
+    "name": "Voorwaarts RSC",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Voorwaarts T",
+    "city": "Twello"
+  },
+  {
+    "name": "Voorwaarts U",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Voorwaarts V",
+    "city": "Westerhaar"
+  },
+  {
+    "name": "VV VOP",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "VV Vorden",
+    "city": "Vorden"
+  },
+  {
+    "name": "Vorstenbossche Boys",
+    "city": "Vorstenbosch"
+  },
+  {
+    "name": "VOS",
+    "city": "Venlo"
+  },
+  {
+    "name": "VV Vosmeer",
+    "city": "Oud Vossemeer"
+  },
+  {
+    "name": "VV Vosseveld",
+    "city": "Winterswijk"
+  },
+  {
+    "name": "Vosta",
+    "city": "Enschede"
+  },
+  {
+    "name": "VV VOV",
+    "city": "Langeweg"
+  },
+  {
+    "name": "VOW",
+    "city": "Zijtaart"
+  },
+  {
+    "name": "VV VRC",
+    "city": "Veenendaal"
+  },
+  {
+    "name": "KRSV Vredenburch",
+    "city": "Rijswijk Zh"
+  },
+  {
+    "name": "VV Vrederust",
+    "city": "Halsteren"
+  },
+  {
+    "name": "VSV Vreeswijk",
+    "city": "Nieuwegein"
+  },
+  {
+    "name": "CVV Vriendenschaar",
+    "city": "Culemborg"
+  },
+  {
+    "name": "SV Vrone",
+    "city": "Sint Pancras"
+  },
+  {
+    "name": "VV Vroomshoopse Boys",
+    "city": "Vroomshoop"
+  },
+  {
+    "name": "VSC",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VSCO '61",
+    "city": "Oosterwolde Gld"
+  },
+  {
+    "name": "VSV",
+    "city": "Velserbroek"
+  },
+  {
+    "name": "VSV '31",
+    "city": "Vlieland"
+  },
+  {
+    "name": "VSW",
+    "city": "Zwolle"
+  },
+  {
+    "name": "VUC",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Vuren",
+    "city": "Vuren"
+  },
+  {
+    "name": "VVA '71",
+    "city": "Achterberg"
+  },
+  {
+    "name": "VVA Achterberg",
+    "city": "Achterberg"
+  },
+  {
+    "name": "VVA/Spartaan",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VVAC",
+    "city": "Ottoland"
+  },
+  {
+    "name": "VVAK",
+    "city": "Kerkenveld"
+  },
+  {
+    "name": "VVC '68",
+    "city": "Halsteren"
+  },
+  {
+    "name": "FC VVC",
+    "city": "Nieuw Vennep"
+  },
+  {
+    "name": "VVG '25",
+    "city": "Gaanderen"
+  },
+  {
+    "name": "VVGA",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VVGZ",
+    "city": "Zwijndrecht"
+  },
+  {
+    "name": "VVH/Velserbroek",
+    "city": "Haarlem"
+  },
+  {
+    "name": "VVI",
+    "city": "Idskenhuizen"
+  },
+  {
+    "name": "VVIJ",
+    "city": "Ijsselstein Ut"
+  },
+  {
+    "name": "VVJ",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VVK",
+    "city": "Groningen"
+  },
+  {
+    "name": "VVK '68",
+    "city": "Schiedam"
+  },
+  {
+    "name": "VVL",
+    "city": "Lengel"
+  },
+  {
+    "name": "VVLK",
+    "city": "Leuth"
+  },
+  {
+    "name": "VVO",
+    "city": "Rozendaal"
+  },
+  {
+    "name": "VVOG Harderwijk",
+    "city": "Harderwijk"
+  },
+  {
+    "name": "VVOO",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VVOP",
+    "city": "Voorthuizen"
+  },
+  {
+    "name": "VVOR",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VVR",
+    "city": "Rijsbergen"
+  },
+  {
+    "name": "VVS '46",
+    "city": "Spanbroek"
+  },
+  {
+    "name": "VVS Oostwold",
+    "city": "Oostwold Oldambt"
+  },
+  {
+    "name": "VVSB",
+    "city": "Noordwijkerhout"
+  },
+  {
+    "name": "VVSV '09",
+    "city": "Ulrum"
+  },
+  {
+    "name": "VVT",
+    "city": "Twijzelerheide"
+  },
+  {
+    "name": "VVV '03",
+    "city": "Venlo"
+  },
+  {
+    "name": "VVV Venlo",
+    "city": "Venlo"
+  },
+  {
+    "name": "VVW",
+    "city": "Wervershoof"
+  },
+  {
+    "name": "VVZ",
+    "city": "Zaandam"
+  },
+  {
+    "name": "VVZ '49",
+    "city": "Soest"
+  },
+  {
+    "name": "VVZA",
+    "city": "Amersfoort"
+  },
+  {
+    "name": "VWC",
+    "city": "Munnekeburen"
+  },
+  {
+    "name": "VZV",
+    "city": "T Veld"
+  },
+  {
+    "name": "Waalkanters",
+    "city": "Heesselt"
+  },
+  {
+    "name": "Waalre",
+    "city": "Waalre"
+  },
+  {
+    "name": "SV Waalstad",
+    "city": "Nijmegen"
+  },
+  {
+    "name": "SC Waarde",
+    "city": "Waarde"
+  },
+  {
+    "name": "VV Wacker",
+    "city": "De Wijk"
+  },
+  {
+    "name": "VV Wadenoijen",
+    "city": "Wadenoijen"
+  },
+  {
+    "name": "VV Wagenborger Boys",
+    "city": "Wagenborgen"
+  },
+  {
+    "name": "Wageningen",
+    "city": "Wageningen"
+  },
+  {
+    "name": "RKVV Walburgia",
+    "city": "Ohe En Laak"
+  },
+  {
+    "name": "SV Walcheren",
+    "city": "Vlissingen"
+  },
+  {
+    "name": "De Wâlde",
+    "city": "Oudegaelahuizen"
+  },
+  {
+    "name": "VV De Wâlden",
+    "city": "Damwoude"
+  },
+  {
+    "name": "VV Walram",
+    "city": "Valkenburg Li"
+  },
+  {
+    "name": "SCS Wanica Star",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Wapenveld",
+    "city": "Wapenveld"
+  },
+  {
+    "name": "VV Wapserveen",
+    "city": "Wapserveen"
+  },
+  {
+    "name": "Wardy",
+    "city": "Ferwerd"
+  },
+  {
+    "name": "VV Warffum",
+    "city": "Warffum"
+  },
+  {
+    "name": "VV Warga",
+    "city": "Warga"
+  },
+  {
+    "name": "SV Warmunda",
+    "city": "Warmond"
+  },
+  {
+    "name": "Warnsveldse Boys",
+    "city": "Warnsveld"
+  },
+  {
+    "name": "Wartburgia",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "VV Waskemeer",
+    "city": "Waskemeer"
+  },
+  {
+    "name": "HSV Wasmeer",
+    "city": "Hilversum"
+  },
+  {
+    "name": "VV Waspik",
+    "city": "Waspik"
+  },
+  {
+    "name": "SV Wassenaar",
+    "city": "Wassenaar"
+  },
+  {
+    "name": "SV Wateringse Veld",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV Wateringse Veld GONA",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV Wateringse Veld Kranenburg",
+    "city": "Den Haag"
+  },
+  {
+    "name": "VV Waterloo",
+    "city": "Driehuis"
+  },
+  {
+    "name": "Waterpoort Boys",
+    "city": "Sneek"
+  },
+  {
+    "name": "Watervogels",
+    "city": "Den Helder"
+  },
+  {
+    "name": "ASC Waterwijk",
+    "city": "Almere"
+  },
+  {
+    "name": "WAVV",
+    "city": "Wageningen"
+  },
+  {
+    "name": "VV WBSV",
+    "city": "Westbeemster"
+  },
+  {
+    "name": "SV WCR",
+    "city": "Rhoon"
+  },
+  {
+    "name": "VV WDS",
+    "city": "Driebruggen"
+  },
+  {
+    "name": "WDS '19",
+    "city": "Breda"
+  },
+  {
+    "name": "VV WDZ",
+    "city": "Bocholtz"
+  },
+  {
+    "name": "WEC",
+    "city": "Wijbosch"
+  },
+  {
+    "name": "VV Wedde",
+    "city": "Wedde"
+  },
+  {
+    "name": "De Weebosch",
+    "city": "Bergeyk"
+  },
+  {
+    "name": "VV Weerdinge",
+    "city": "Weerdinge"
+  },
+  {
+    "name": "FC Weesp",
+    "city": "Weesp"
+  },
+  {
+    "name": "VV De Weide",
+    "city": "Hoogeveen"
+  },
+  {
+    "name": "Weiteveense Boys",
+    "city": "Weiteveen"
+  },
+  {
+    "name": "SC Welberg",
+    "city": "Welberg"
+  },
+  {
+    "name": "Well",
+    "city": "Well"
+  },
+  {
+    "name": "Weltania",
+    "city": "Heerlen"
+  },
+  {
+    "name": "VV Wemeldinge",
+    "city": "Wemeldinge"
+  },
+  {
+    "name": "VV WEO",
+    "city": "Woldendorp"
+  },
+  {
+    "name": "Were Di",
+    "city": "Tilburg"
+  },
+  {
+    "name": "VV Wernhout",
+    "city": "Wernhout"
+  },
+  {
+    "name": "HVV Te Werve",
+    "city": "Rijswijk Zh"
+  },
+  {
+    "name": "Wesepe",
+    "city": "Wesepe"
+  },
+  {
+    "name": "VV West Frisia",
+    "city": "Enkhuizen"
+  },
+  {
+    "name": "SSA West United",
+    "city": "Maastricht"
+  },
+  {
+    "name": "Westendorp",
+    "city": "Westendorp"
+  },
+  {
+    "name": "VV Westerbroek",
+    "city": "Westerbroek"
+  },
+  {
+    "name": "VV Westerkwartier",
+    "city": "Niebert"
+  },
+  {
+    "name": "VV Westerlee",
+    "city": "Westerlee"
+  },
+  {
+    "name": "SC Westervoort",
+    "city": "Westervoort"
+  },
+  {
+    "name": "VV Westerwolde",
+    "city": "Vlagtwedde"
+  },
+  {
+    "name": "Westfriezen",
+    "city": "Zwaag"
+  },
+  {
+    "name": "VV De Westhoek",
+    "city": "Munnekeburen"
+  },
+  {
+    "name": "FC De Westhoek",
+    "city": "Burgh Haamstede"
+  },
+  {
+    "name": "RKVV Westlandia",
+    "city": "Naaldwijk"
+  },
+  {
+    "name": "VV Westzaan",
+    "city": "Westzaan"
+  },
+  {
+    "name": "VV WFB",
+    "city": "Ouddorp"
+  },
+  {
+    "name": "WGW",
+    "city": "Den Helder"
+  },
+  {
+    "name": "WHC",
+    "city": "Wezep"
+  },
+  {
+    "name": "De Wherevogels",
+    "city": "Purmerend"
+  },
+  {
+    "name": "The White Boys",
+    "city": "Waspik"
+  },
+  {
+    "name": "WHS",
+    "city": "Sint Annaland"
+  },
+  {
+    "name": "WHV",
+    "city": "Loosbroek"
+  },
+  {
+    "name": "Wieldrecht",
+    "city": "Dordrecht"
+  },
+  {
+    "name": "Wieringermeer",
+    "city": "Slootdorp"
+  },
+  {
+    "name": "VV Wieringerwaard",
+    "city": "Wieringerwaard"
+  },
+  {
+    "name": "SJO WIJC",
+    "city": "De Wijk"
+  },
+  {
+    "name": "Wijhe '92",
+    "city": "Wijhe"
+  },
+  {
+    "name": "SV Wijk aan Zee",
+    "city": "Wijk Aan Zee"
+  },
+  {
+    "name": "VV Wijlre",
+    "city": "Wijlre"
+  },
+  {
+    "name": "RKVV Wijnandia",
+    "city": "Wijnandsrade"
+  },
+  {
+    "name": "Wijster",
+    "city": "Wijster"
+  },
+  {
+    "name": "VV Wijthmen",
+    "city": "Zwolle"
+  },
+  {
+    "name": "WIK",
+    "city": "Den Haag"
+  },
+  {
+    "name": "SV WIK '57",
+    "city": "Kerkwerve"
+  },
+  {
+    "name": "VV Wildervank",
+    "city": "Wildervank"
+  },
+  {
+    "name": "RKVV Wilhelmina",
+    "city": "Den Bosch"
+  },
+  {
+    "name": "Wilhelmina '08",
+    "city": "Weert"
+  },
+  {
+    "name": "Wilhelmina '26",
+    "city": "Wijk En Aalburg"
+  },
+  {
+    "name": "Wilhelmina Boys",
+    "city": "Best"
+  },
+  {
+    "name": "Wilhelminaschool",
+    "city": "Hengelo Ov"
+  },
+  {
+    "name": "VV Wilhelmus",
+    "city": "Voorburg"
+  },
+  {
+    "name": "VV Willem I",
+    "city": "Maastricht"
+  },
+  {
+    "name": "Willem II",
+    "city": "Tilburg"
+  },
+  {
+    "name": "Willem II bvo",
+    "city": "Tilburg"
+  },
+  {
+    "name": "VV Willemsoord",
+    "city": "Willemsoord"
+  },
+  {
+    "name": "VV De Willy's",
+    "city": "Wilbertoord"
+  },
+  {
+    "name": "SV Wilp",
+    "city": "Wilp"
+  },
+  {
+    "name": "De Wilper Boys",
+    "city": "De Wilp"
+  },
+  {
+    "name": "VV Wilsum",
+    "city": "Wilsum"
+  },
+  {
+    "name": "VV Winkel",
+    "city": "Winkel"
+  },
+  {
+    "name": "VV Winsum",
+    "city": "Winsum"
+  },
+  {
+    "name": "VV Winterswijk",
+    "city": "Winterswijk"
+  },
+  {
+    "name": "FC Winterswijk",
+    "city": "Winterswijk"
+  },
+  {
+    "name": "SV Wippolder",
+    "city": "Delft"
+  },
+  {
+    "name": "VV Wiron",
+    "city": "Den Oever"
+  },
+  {
+    "name": "SV Wisch",
+    "city": "Terborg"
+  },
+  {
+    "name": "VV Wispolia",
+    "city": "Terwispel"
+  },
+  {
+    "name": "SV Wissel",
+    "city": "Epe"
+  },
+  {
+    "name": "Witkampers",
+    "city": "Laren"
+  },
+  {
+    "name": "RKSV Wittenhorst",
+    "city": "Horst"
+  },
+  {
+    "name": "Witteveense Boys '87",
+    "city": "Witteveen"
+  },
+  {
+    "name": "VV WKE",
+    "city": "Emmen"
+  },
+  {
+    "name": "WKE-16",
+    "city": "Emmen"
+  },
+  {
+    "name": "SV WMC",
+    "city": "Heerhugowaard"
+  },
+  {
+    "name": "WNBC '09 SJO",
+    "city": "Nieuw Balinge"
+  },
+  {
+    "name": "VV WNC",
+    "city": "Waardenburg"
+  },
+  {
+    "name": "Woander Forest",
+    "city": "Merkelbeek"
+  },
+  {
+    "name": "VV Wodan",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "SV Wodanseck",
+    "city": "Wolfheze"
+  },
+  {
+    "name": "Woenselse Boys",
+    "city": "Eindhoven"
+  },
+  {
+    "name": "SC Woerden",
+    "city": "Woerden"
+  },
+  {
+    "name": "SC Woezik",
+    "city": "Wijchen"
+  },
+  {
+    "name": "VV Wolfaartsdijk",
+    "city": "Wolphaartsdijk"
+  },
+  {
+    "name": "VV Wolfersveen",
+    "city": "Zelhem"
+  },
+  {
+    "name": "SV Woltersum",
+    "city": "Woltersum"
+  },
+  {
+    "name": "FC Wolvega",
+    "city": "Wolvega"
+  },
+  {
+    "name": "VV Workum",
+    "city": "Workum"
+  },
+  {
+    "name": "Worth Rheden",
+    "city": "Rheden"
+  },
+  {
+    "name": "VV Woubrugge",
+    "city": "Woubrugge"
+  },
+  {
+    "name": "VV Woudenberg",
+    "city": "Woudenberg"
+  },
+  {
+    "name": "VV Woudia",
+    "city": "Westwoud"
+  },
+  {
+    "name": "VV Woudrichem",
+    "city": "Woudrichem"
+  },
+  {
+    "name": "VV Woudsend",
+    "city": "Woudsend"
+  },
+  {
+    "name": "WSC",
+    "city": "Waalwijk"
+  },
+  {
+    "name": "WSE",
+    "city": "Waddinxveen"
+  },
+  {
+    "name": "RKTSV WSJ",
+    "city": "Tilburg"
+  },
+  {
+    "name": "WSV",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "WSV '30",
+    "city": "Wormer"
+  },
+  {
+    "name": "WSW",
+    "city": "Wijdenes"
+  },
+  {
+    "name": "WSW Winterswijk",
+    "city": "Winterswijk"
+  },
+  {
+    "name": "WTOC",
+    "city": "Oudwoude"
+  },
+  {
+    "name": "WTTC SJO",
+    "city": "Terwispel"
+  },
+  {
+    "name": "WV-HEDW",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "SV WVC",
+    "city": "Roelofarendsveen"
+  },
+  {
+    "name": "WVC Winterswijk",
+    "city": "Winterswijk"
+  },
+  {
+    "name": "WVF",
+    "city": "Zwolle"
+  },
+  {
+    "name": "WVV",
+    "city": "Winschoten"
+  },
+  {
+    "name": "Sportclub WVV '28",
+    "city": "Maastricht"
+  },
+  {
+    "name": "WVV '34",
+    "city": "Hengevelde"
+  },
+  {
+    "name": "WVV '67",
+    "city": "Woensdrecht"
+  },
+  {
+    "name": "WVW",
+    "city": "Weurt"
+  },
+  {
+    "name": "WWNA",
+    "city": "Wenum Wiesel"
+  },
+  {
+    "name": "VV WWS",
+    "city": "Wirdum"
+  },
+  {
+    "name": "WWV",
+    "city": "Deventer"
+  },
+  {
+    "name": "SV Wykels Hallum",
+    "city": "Hallum"
+  },
+  {
+    "name": "WZC Wapenveld",
+    "city": "Wapenveld"
+  },
+  {
+    "name": "VV WZS",
+    "city": "Sneek"
+  },
+  {
+    "name": "XerxesDZB",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV Yde de Punt",
+    "city": "Yde"
+  },
+  {
+    "name": "VV Yerseke",
+    "city": "Yerseke"
+  },
+  {
+    "name": "Young Boys",
+    "city": "Haarlem"
+  },
+  {
+    "name": "SV Ysselsteyn",
+    "city": "Ysselsteyn Li"
+  },
+  {
+    "name": "VV Zaamslag",
+    "city": "Zaamslag"
+  },
+  {
+    "name": "FC Zaandam",
+    "city": "Zaandam"
+  },
+  {
+    "name": "ZVV Zaandijk",
+    "city": "Zaandijk"
+  },
+  {
+    "name": "ZVV Zaanlandia",
+    "city": "Zaandam"
+  },
+  {
+    "name": "ZAC",
+    "city": "Zwolle"
+  },
+  {
+    "name": "SV Zalk",
+    "city": "Zalk"
+  },
+  {
+    "name": "VV Zaltbommel",
+    "city": "Zaltbommel"
+  },
+  {
+    "name": "SC 't Zand",
+    "city": "Tilburg"
+  },
+  {
+    "name": "VV Zandhuizen",
+    "city": "Zandhuizen"
+  },
+  {
+    "name": "VV Zandpol",
+    "city": "Zandpol"
+  },
+  {
+    "name": "VV 't Zandt",
+    "city": "T Zandt"
+  },
+  {
+    "name": "SV Zandvoort",
+    "city": "Zandvoort"
+  },
+  {
+    "name": "ZAP",
+    "city": "Breezand"
+  },
+  {
+    "name": "ZBC",
+    "city": "Zweeloo"
+  },
+  {
+    "name": "ZBC '97",
+    "city": "Zwijndrecht"
+  },
+  {
+    "name": "ZVV ZBC",
+    "city": "Zutphen"
+  },
+  {
+    "name": "ZBVH",
+    "city": "Zuid Beijerland"
+  },
+  {
+    "name": "ZCFC",
+    "city": "Zaandam"
+  },
+  {
+    "name": "SV ZDH",
+    "city": "Den Hoorn"
+  },
+  {
+    "name": "HVV De Zebra's",
+    "city": "Hilversum"
+  },
+  {
+    "name": "vv ZEC",
+    "city": "Zandeweer"
+  },
+  {
+    "name": "VV Zeddam",
+    "city": "Zeddam"
+  },
+  {
+    "name": "Zeddam/Sint Joris SJO",
+    "city": "Braamt"
+  },
+  {
+    "name": "SV Zeddam/Sint Joris",
+    "city": "Braamt"
+  },
+  {
+    "name": "Zeeburgia",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "Zeeland Sport",
+    "city": "Vlissingen"
+  },
+  {
+    "name": "Zeelandia-Middelburg",
+    "city": "Middelburg"
+  },
+  {
+    "name": "Zeemacht",
+    "city": "Den Helder"
+  },
+  {
+    "name": "Zeerobben",
+    "city": "Harlingen"
+  },
+  {
+    "name": "VV Zeester",
+    "city": "Zoutkamp"
+  },
+  {
+    "name": "VV Zeevogels",
+    "city": "Egmond Binnen"
+  },
+  {
+    "name": "VV Zeewolde",
+    "city": "Zeewolde"
+  },
+  {
+    "name": "SV Zeist",
+    "city": "Huis Ter Heide"
+  },
+  {
+    "name": "VV Zelhem",
+    "city": "Zelhem"
+  },
+  {
+    "name": "ZSV Zelos",
+    "city": "Zelhem"
+  },
+  {
+    "name": "Zenderen Vooruit",
+    "city": "Zenderen"
+  },
+  {
+    "name": "RCSV Zestienhoven",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV Zevenhoven",
+    "city": "Zevenhoven"
+  },
+  {
+    "name": "VV Zevenhuizen",
+    "city": "Zevenhuizen Gr"
+  },
+  {
+    "name": "ZFC Zuidlaren",
+    "city": "Zuidlaren"
+  },
+  {
+    "name": "VV ZIGO",
+    "city": "Tilburg"
+  },
+  {
+    "name": "ZVV Zilvermeeuwen",
+    "city": "Zaandam"
+  },
+  {
+    "name": "Zinkwegse Boys",
+    "city": "Oud Beijerland"
+  },
+  {
+    "name": "VV ZNC",
+    "city": "Zuidbroek"
+  },
+  {
+    "name": "VV ZOB",
+    "city": "Zuidoostbeemster"
+  },
+  {
+    "name": "FC Zoetermeer",
+    "city": "Zoetermeer"
+  },
+  {
+    "name": "VV De Zouaven",
+    "city": "Grootebroek"
+  },
+  {
+    "name": "ZRC Herenmarkt",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "ZSC",
+    "city": "Westerhoven"
+  },
+  {
+    "name": "ZSC '62",
+    "city": "Scharendijke"
+  },
+  {
+    "name": "ZSGOWMS",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "ZSV",
+    "city": "Deurne"
+  },
+  {
+    "name": "vv ZTS",
+    "city": "Zaandam"
+  },
+  {
+    "name": "ASV Zuid Arnhem",
+    "city": "Arnhem"
+  },
+  {
+    "name": "Zuid Eschmarke",
+    "city": "Enschede"
+  },
+  {
+    "name": "SV Zuid West DH",
+    "city": "Den Haag"
+  },
+  {
+    "name": "Zuidermeer",
+    "city": "Zuidermeer"
+  },
+  {
+    "name": "SC Zuiderpark",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Zuidhorn",
+    "city": "Zuidhorn"
+  },
+  {
+    "name": "Zuidlaarderveen",
+    "city": "Zuidlaarderveen"
+  },
+  {
+    "name": "VV Zuidland",
+    "city": "Zuidland"
+  },
+  {
+    "name": "FC Zuidlaren",
+    "city": "Zuidlaren"
+  },
+  {
+    "name": "Zuidoost United",
+    "city": "Amsterdam"
+  },
+  {
+    "name": "HSV De Zuidvogels",
+    "city": "Huizen"
+  },
+  {
+    "name": "VV Zuidwolde",
+    "city": "Zuidwolde"
+  },
+  {
+    "name": "FC Zuidwolde",
+    "city": "Zuidwolde"
+  },
+  {
+    "name": "VV Zuilichem",
+    "city": "Zuilichem"
+  },
+  {
+    "name": "VV Zundert",
+    "city": "Zundert"
+  },
+  {
+    "name": "ZVV Zutphania",
+    "city": "Zutphen"
+  },
+  {
+    "name": "FC Zutphen",
+    "city": "Zutphen"
+  },
+  {
+    "name": "ZVC '22",
+    "city": "Zaandam"
+  },
+  {
+    "name": "ZVV '56",
+    "city": "Apeldoorn"
+  },
+  {
+    "name": "RKVV Zwaagdijk",
+    "city": "Zwaagdijk"
+  },
+  {
+    "name": "VV Zwaagwesteinde",
+    "city": "Zwaagwesteinde"
+  },
+  {
+    "name": "VV De Zwaluw",
+    "city": "Oeffelt"
+  },
+  {
+    "name": "Zwaluw VFC",
+    "city": "Vught"
+  },
+  {
+    "name": "VV Zwaluwe",
+    "city": "Lage Zwaluwe"
+  },
+  {
+    "name": "HCSV Zwaluwen '30",
+    "city": "Hoorn"
+  },
+  {
+    "name": "Zwaluwen Utrecht 1911",
+    "city": "Utrecht"
+  },
+  {
+    "name": "VV Zwaluwen",
+    "city": "Vlaardingen"
+  },
+  {
+    "name": "VV Zwammerdam",
+    "city": "Zwammerdam"
+  },
+  {
+    "name": "VV Zwanenburg",
+    "city": "Zwanenburg"
+  },
+  {
+    "name": "SV Zwart-Wit '19",
+    "city": "Eys"
+  },
+  {
+    "name": "RCVV Zwart-Wit '28",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "Zwart-Wit '63",
+    "city": "Harderwijk"
+  },
+  {
+    "name": "CSV Zwarte Pijl",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "VV Zwartemeer",
+    "city": "Klazienaveen"
+  },
+  {
+    "name": "SC Zwartemeerse Boys",
+    "city": "Zwartemeer"
+  },
+  {
+    "name": "VV Zwartewaal",
+    "city": "Zwartewaal"
+  },
+  {
+    "name": "De Zweef",
+    "city": "Nijverdal"
+  },
+  {
+    "name": "Sportclub Zweeloo",
+    "city": "Zweeloo"
+  },
+  {
+    "name": "VV Zwentibold",
+    "city": "Limbricht"
+  },
+  {
+    "name": "VV De Zwerver",
+    "city": "Kinderdijk"
+  },
+  {
+    "name": "CVV Zwervers",
+    "city": "Capelle Aan Den Ijssel"
+  },
+  {
+    "name": "IJVV de Zwervers",
+    "city": "Rotterdam"
+  },
+  {
+    "name": "SV Zwolle",
+    "city": "Zwolle"
+  },
+  {
+    "name": "Zwolsche Boys",
+    "city": "Zwolle"
+  },
+  {
+    "name": "ZZC '20",
+    "city": "Zelhem"
+  },
+  {
+    "name": "ZZVV",
+    "city": "Zuidwolde"
+  }
+]
