@@ -225,8 +225,11 @@ function CrewStripCard({ group }: { group: Group }) {
   const users = useStore((s) => s.users);
   const groupMemberships = useStore((s) => s.groupMemberships);
   const sessions = useStore((s) => s.sessions);
+  const userPositions = useStore((s) => s.userPositions);
 
-  const { ordered, onlineCount, total } = useMemo(() => {
+  const {
+    ordered, onlineCount, total, bezetCount, isTrainer,
+  } = useMemo(() => {
     const onlineUserIds = new Set<string>();
     for (const s of sessions.values()) {
       if (s.user_id !== 0n) onlineUserIds.add(s.user_id.toString());
@@ -235,76 +238,118 @@ function CrewStripCard({ group }: { group: Group }) {
       .filter((m) => m.group_id === group.id);
     const total = mine.length;
     const others = me ? mine.filter((m) => m.user_id !== me.id) : mine;
+    const isTrainer = !!me && group.owner_user_id === me.id;
 
     const ownerId = group.owner_user_id;
-    const rank = (uid: bigint) => {
+    const rankFn = (uid: bigint) => {
       if (onlineUserIds.has(uid.toString())) return 0;
       if (uid === ownerId) return 1;
       return 2;
     };
     const ordered = others.slice().sort((a, b) => {
-      const ra = rank(a.user_id), rb = rank(b.user_id);
+      const ra = rankFn(a.user_id), rb = rankFn(b.user_id);
       if (ra !== rb) return ra - rb;
       return Number(a.joined_at) - Number(b.joined_at);
     });
+
+    // Hoeveel unieke veld-slots bezet (max 11 in 4-3-3).
+    const slots = new Set<string>();
+    for (const m of mine) {
+      const pos = userPositions.get(m.user_id.toString())?.position;
+      if (pos) slots.add(pos);
+    }
+
     let online = 0;
     for (const m of mine) {
       if (onlineUserIds.has(m.user_id.toString())) online++;
     }
-    return { ordered, onlineCount: online, total };
-  }, [group.id, group.owner_user_id, groupMemberships, sessions, me]);
+    return {
+      ordered, onlineCount: online, total,
+      bezetCount: slots.size, isTrainer,
+    };
+  }, [group.id, group.owner_user_id, groupMemberships, sessions, me, userPositions]);
 
   const overflow = Math.max(0, ordered.length - CREW_VISIBLE);
+  const filledPct = Math.round((bezetCount / 11) * 100);
 
   return (
-    <div className="shrink-0 brut-card bg-paper !p-3 min-w-[14rem] max-w-[17rem]
-                    flex flex-col gap-2">
-      <button
-        type="button"
-        onClick={() => go(`/group/${group.id}`)}
-        className="text-left active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+    <button
+      type="button"
+      onClick={() => go(`/group/${group.id}`)}
+      className="shrink-0 brut-card !p-0 overflow-hidden min-w-[15rem] max-w-[18rem]
+                 bg-paper text-left flex flex-col
+                 active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+    >
+      {/* Header strip: team naam + Trainer-badge */}
+      <div
+        className={`px-3 py-2 border-b-4 border-ink flex items-center gap-2
+          ${isTrainer ? "bg-pop text-ink" : "bg-ink text-paper"}`}
       >
-        <p className="font-display text-lg uppercase leading-tight truncate">
-          {group.name}
-        </p>
-        <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-0.5 flex items-center gap-1.5">
-          <span>{total} {total === 1 ? "speler" : "spelers"}</span>
+        <div className="flex-1 min-w-0">
+          <p className="font-display text-lg uppercase leading-tight truncate">
+            {group.name}
+          </p>
+        </div>
+        {isTrainer && (
+          <span className="shrink-0 brut-chip bg-ink text-paper !py-0.5 !px-1.5 text-[9px]">
+            Trainer
+          </span>
+        )}
+      </div>
+
+      {/* Voortgangs-balk: bezetting van de 11 veld-slots */}
+      <div className="relative h-2 bg-ink/10">
+        <div
+          className="absolute inset-y-0 left-0 bg-mint border-r-2 border-ink"
+          style={{ width: `${filledPct}%` }}
+        />
+      </div>
+
+      {/* Body: spelers row + meta */}
+      <div className="px-3 py-2.5 flex flex-col gap-2">
+        <div className="flex items-center gap-0.5 flex-wrap">
+          {ordered.slice(0, CREW_VISIBLE).map((m) => {
+            const u = users.get(m.user_id.toString());
+            return (
+              <UserMenu
+                key={m.id.toString()}
+                userId={m.user_id}
+                name={u?.screen_name ?? "speler"}
+                trigger={<Avatar userId={m.user_id} size="sm" />}
+                className="active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+              />
+            );
+          })}
+          {overflow > 0 && (
+            <span
+              className="ml-1 brut-chip bg-ink text-paper !py-0.5 !px-1.5 text-[10px]"
+            >
+              +{overflow}
+            </span>
+          )}
+          {ordered.length === 0 && (
+            <span className="text-[10px] font-bold uppercase opacity-60">
+              alleen jij
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-widest opacity-70">
+            {bezetCount}/11 opstelling · {total} {total === 1 ? "speler" : "spelers"}
+          </span>
           {onlineCount > 0 && (
-            <span className="flex items-center gap-1 text-ink">
+            <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest">
               <span
                 className="inline-block w-1.5 h-1.5 bg-mint border border-ink"
                 style={{ animation: "livepulse 1.4s ease-in-out infinite" }}
               />
-              {onlineCount} online
+              {onlineCount}
             </span>
           )}
-        </p>
-      </button>
-      <div className="flex items-center gap-0.5 flex-wrap">
-        {ordered.slice(0, CREW_VISIBLE).map((m) => {
-          const u = users.get(m.user_id.toString());
-          return (
-            <UserMenu
-              key={m.id.toString()}
-              userId={m.user_id}
-              name={u?.screen_name ?? "speler"}
-              trigger={<Avatar userId={m.user_id} size="sm" />}
-              className="active:translate-x-[1px] active:translate-y-[1px] transition-transform"
-            />
-          );
-        })}
-        {overflow > 0 && (
-          <button
-            type="button"
-            onClick={() => go(`/group/${group.id}`)}
-            className="ml-1 brut-chip bg-ink text-paper !py-0.5 !px-1.5 text-[10px]
-                       active:translate-x-[1px] active:translate-y-[1px] transition-transform"
-          >
-            +{overflow}
-          </button>
-        )}
+        </div>
       </div>
-    </div>
+    </button>
   );
 }
 
