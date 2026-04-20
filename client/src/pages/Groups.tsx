@@ -44,7 +44,7 @@ export function GroupsPage() {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title="teams" back="/home" hideCrews />
+      <TopBar title="team" back="/home" hideCrews />
       <main className="flex-1 p-4 flex flex-col gap-4">
 
         {!ownsTeam && (
