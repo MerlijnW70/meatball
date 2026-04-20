@@ -1,6 +1,7 @@
 /**
- * Eén kantines-scherm: seizoen-feed (lid) + andere kantines (zoek/+)
- * + CTA om een nieuwe te maken. Vervangt de oude /clubs picker.
+ * Wedstrijd — hoofdscherm: team-strip + jouw seizoens-kantines gesorteerd op
+ * gehaktbal-score. Sticky "+ Kantine toevoegen" onderaan; zoeken gebeurt op
+ * /clubs/new (dedup-suggesties daar).
  */
 import { useEffect, useMemo, useState } from "react";
 import { useLikesFor, useMyClubs, useMyGroups, useStatsFor } from "../hooks";
@@ -9,75 +10,24 @@ import { client } from "../spacetime";
 import { TopBar } from "../components/TopBar";
 import { BrutalCard } from "../components/BrutalCard";
 import { BrutalButton } from "../components/BrutalButton";
-import { BrutalInput } from "../components/BrutalInput";
 import { ScorePill } from "../components/ScorePill";
 import { Avatar } from "../components/Avatar";
 import { UserMenu } from "../components/UserMenu";
 import { go } from "../router";
-import { normalizeName, similarity } from "../utils/normalize";
 import type { Club, Group } from "../types";
 
 export function FeedPage() {
-  const me = useStore((s) => s.session.me);
-  const clubs = useStore((s) => s.clubs);
-  const memberships = useStore((s) => s.memberships);
   const myClubs = useMyClubs(50);
   const myGroups = useMyGroups();
 
-  const [q, setQ] = useState("");
   const [confirmLeave, setConfirmLeave] = useState<Club | null>(null);
-  const [confirmJoin, setConfirmJoin] = useState<Club | null>(null);
   const [busy, setBusy] = useState(false);
-
-  const myClubIds = useMemo(() => {
-    const ids = new Set<string>();
-    if (!me) return ids;
-    for (const m of memberships.values()) {
-      if (m.user_id === me.id) ids.add(m.club_id.toString());
-    }
-    return ids;
-  }, [me, memberships]);
-
-  const otherClubs = useMemo(() => {
-    const all = Array.from(clubs.values())
-      .filter((c) => !myClubIds.has(c.id.toString()));
-    const key = normalizeName(q);
-    if (!key) return all.sort((a, b) => a.name.localeCompare(b.name, "nl"));
-    return all
-      .map((c) => ({ club: c, s: similarity(c.name, q) }))
-      .filter((x) => x.s > 0.25 || x.club.name_key.includes(key))
-      .sort((a, b) => b.s - a.s)
-      .map((x) => x.club);
-  }, [clubs, myClubIds, q]);
 
   const openClub = (c: Club) => {
     useStore.getState().setSession({
       clubId: c.id, cityId: c.city_id, provinceId: c.province_id,
     });
     go(`/club/${c.id}`);
-  };
-
-  // Tap op een non-member kantine: vraag eerst of'ie toegevoegd moet worden
-  // aan het seizoen — pas dan navigeren naar de club-page.
-  const tapOther = (c: Club) => setConfirmJoin(c);
-
-  const join = (c: Club) => {
-    client().joinClub(c.id);
-    setQ("");
-  };
-
-  const confirmJoinNow = async () => {
-    if (!confirmJoin) return;
-    const c = confirmJoin;
-    setBusy(true);
-    try { await client().joinClub(c.id); }
-    catch { /* idempotent */ }
-    finally {
-      setBusy(false);
-      setConfirmJoin(null);
-      setQ("");
-      openClub(c);
-    }
   };
 
   const askLeave = (c: Club) => setConfirmLeave(c);
@@ -89,31 +39,23 @@ export function FeedPage() {
     finally { setBusy(false); setConfirmLeave(null); }
   };
 
-  const startAdd = () => {
-    if (q.trim()) sessionStorage.setItem("meatball.draftClubName", q.trim());
-    else sessionStorage.removeItem("meatball.draftClubName");
-    go("/clubs/new");
-  };
-
-  const noOtherResults = q.trim().length >= 2 && otherClubs.length === 0;
-
   return (
-    <div className="min-h-dvh flex flex-col pb-24">
+    <div className="min-h-dvh flex flex-col">
       <TopBar title="Wedstrijd" />
 
-      <main className="flex-1 p-4 flex flex-col gap-5">
-        {/* Jouw teams — altijd bovenaan zodat ze binnen tap-bereik zijn */}
+      <main className="flex-1 px-4 pt-5 pb-4 flex flex-col gap-6">
+        {/* Team-strip */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-2">jouw team</h3>
+          <h3 className="font-display text-lg uppercase mb-3">jouw team</h3>
           {myGroups.length === 0 ? (
             <button
               type="button"
               onClick={() => go("/groups")}
-              className="brut-card bg-pop w-full text-left !p-3
+              className="brut-card bg-pop w-full text-left !p-4
                          active:translate-x-[2px] active:translate-y-[2px] transition-transform"
             >
-              <p className="font-display uppercase">🥩 maak je eerste team</p>
-              <p className="text-[11px] font-bold mt-1 opacity-80">
+              <p className="font-display text-xl uppercase">🥩 maak je eerste team</p>
+              <p className="text-xs font-bold mt-1 opacity-80">
                 Nodig spelers uit om samen gehaktballen te raten.
               </p>
             </button>
@@ -126,62 +68,55 @@ export function FeedPage() {
           )}
         </section>
 
-        {/* Seizoen kantines */}
+        {/* Seizoen */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-2">jouw seizoen</h3>
+          <div className="flex items-baseline justify-between mb-3">
+            <h3 className="font-display text-lg uppercase">jouw seizoen</h3>
+            {myClubs.length > 0 && (
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+                top op gehaktbal-score
+              </span>
+            )}
+          </div>
+
           {myClubs.length === 0 ? (
             <BrutalCard tone="pop" tilt className="text-center !p-5">
-              <p className="font-display uppercase">Nog geen kantines</p>
-              <p className="text-sm font-bold mt-2">
+              <p className="font-display text-2xl uppercase leading-tight">
+                nog geen kantines
+              </p>
+              <p className="text-sm font-bold mt-2 opacity-80">
                 Voeg je eerste kantine toe en rate de gehaktbal.
               </p>
             </BrutalCard>
           ) : (
-            <div className="flex flex-col gap-3">
-              {myClubs.map(({ club }) => (
+            <div className="flex flex-col gap-2.5">
+              {myClubs.map(({ club }, idx) => (
                 <SeasonClubCard
-                  key={club.id.toString()} club={club}
-                  onTap={openClub} onLeave={askLeave}
+                  key={club.id.toString()}
+                  club={club}
+                  rank={idx + 1}
+                  onTap={openClub}
+                  onLeave={askLeave}
                 />
               ))}
             </div>
           )}
         </section>
-
-        {/* Andere kantines — lijst verschijnt pas nadat er gezocht wordt */}
-        <section>
-          <h3 className="font-display text-lg uppercase mb-2">zoek kantines</h3>
-          <BrutalInput
-            placeholder="typ een clubnaam, bv. VV Gruno"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-          />
-          {q.trim().length > 0 && (
-            <div className="flex flex-col gap-2 mt-2">
-              {otherClubs.slice(0, 30).map((c) => (
-                <OtherClubRow
-                  key={c.id.toString()} club={c}
-                  onOpen={tapOther} onJoin={join}
-                />
-              ))}
-              {otherClubs.length === 0 && (
-                <p className="text-xs font-bold opacity-60 mt-2">
-                  Geen kantines gevonden voor "{q.trim()}" —
-                  maak 'm hieronder aan.
-                </p>
-              )}
-            </div>
-          )}
-        </section>
-
-        <div className="mt-auto pt-2">
-          <BrutalButton onClick={startAdd} variant="hot" block size="lg">
-            {noOtherResults
-              ? `＋ nieuwe kantine "${q.trim()}"`
-              : "＋ nieuwe kantine"}
-          </BrutalButton>
-        </div>
       </main>
+
+      {/* Sticky bottom CTA — altijd binnen tap-bereik */}
+      <div
+        className="sticky bottom-0 px-4 pt-3 border-t-4 border-ink bg-paper/95
+                   backdrop-blur-sm z-10"
+        style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
+      >
+        <BrutalButton
+          onClick={() => go("/clubs/new")}
+          variant="hot" block size="lg"
+        >
+          ＋ Kantine toevoegen
+        </BrutalButton>
+      </div>
 
       {confirmLeave && (
         <ConfirmLeaveModal
@@ -191,28 +126,26 @@ export function FeedPage() {
           onConfirm={confirmLeaveNow}
         />
       )}
-
-      {confirmJoin && (
-        <ConfirmJoinModal
-          club={confirmJoin}
-          busy={busy}
-          onCancel={() => setConfirmJoin(null)}
-          onConfirm={confirmJoinNow}
-        />
-      )}
-
     </div>
   );
 }
 
 function SeasonClubCard({
-  club, onTap, onLeave,
-}: { club: Club; onTap: (c: Club) => void; onLeave: (c: Club) => void }) {
+  club, rank, onTap, onLeave,
+}: {
+  club: Club;
+  rank: number;
+  onTap: (c: Club) => void;
+  onLeave: (c: Club) => void;
+}) {
   const snacks = useStore((s) => s.snacks);
   const gehaktbal = Array.from(snacks.values())
     .find((s) => s.club_id === club.id && s.name_key === "gehaktbal");
   const stats = useStatsFor(gehaktbal?.id ?? null);
   const { count: likes } = useLikesFor(gehaktbal?.id ?? null);
+
+  const hasRating = stats != null && stats.rating_count > 0n;
+  const isTop = rank === 1 && hasRating;
 
   return (
     <div
@@ -221,44 +154,66 @@ function SeasonClubCard({
       onClick={() => onTap(club)}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onTap(club); }}
       aria-label={`open ${club.name}`}
-      className="brut-card bg-paper p-3 flex items-center gap-3 cursor-pointer
-                 active:translate-x-[2px] active:translate-y-[2px] transition-transform
-                 relative"
+      className={`brut-card !p-0 overflow-hidden cursor-pointer
+                  active:translate-x-[3px] active:translate-y-[3px] transition-transform
+                  ${isTop ? "bg-pop" : "bg-paper"}`}
     >
-      <div className="flex-1 min-w-0">
-        <p className="font-display text-xl uppercase leading-tight truncate">
-          {club.name}
-        </p>
-        <p className="text-[10px] font-bold uppercase tracking-widest opacity-70 mt-0.5">
-          {stats ? (
-            <>
-              gehaktbal · {stats.rating_count.toString()}× gescoord
-              {likes > 0 && (
-                <span aria-label={`${likes} likes`}>
-                  {" · "}
-                  <span className="text-hot">♥</span> {likes}
-                </span>
-              )}
-            </>
-          ) : (
-            "gehaktbal · nog niet beoordeeld"
-          )}
-        </p>
+      <div className="flex items-stretch">
+        {/* Rank */}
+        <div
+          className={`shrink-0 w-12 flex items-center justify-center border-r-4 border-ink
+            font-display text-3xl leading-none
+            ${isTop ? "bg-hot text-paper" : "bg-ink text-paper"}`}
+        >
+          {rank}
+        </div>
+
+        {/* Name + stats */}
+        <div className="flex-1 min-w-0 py-3 px-3">
+          <p className="font-display text-lg sm:text-xl uppercase leading-tight truncate">
+            {club.name}
+          </p>
+          <p className="text-[10px] font-bold uppercase tracking-widest opacity-70 mt-1">
+            {hasRating ? (
+              <>
+                {stats.rating_count.toString()}× gescoord
+                {likes > 0 && (
+                  <>
+                    {" · "}
+                    <span className="text-hot">♥</span> {likes}
+                  </>
+                )}
+              </>
+            ) : (
+              "nog niet beoordeeld"
+            )}
+          </p>
+        </div>
+
+        {/* Score */}
+        {hasRating ? (
+          <div className="shrink-0 flex items-center justify-center pr-3 pl-1">
+            <ScorePill x100={stats.avg_score_x100} size="md" />
+          </div>
+        ) : (
+          <div className="shrink-0 w-14 flex items-center justify-center
+                          border-l-4 border-ink/20 bg-ink/5">
+            <span className="font-display text-3xl opacity-40">?</span>
+          </div>
+        )}
+
+        {/* Verwijderen — full-height strip rechts */}
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onLeave(club); }}
+          aria-label="verwijder uit seizoen"
+          className="shrink-0 w-12 border-l-4 border-ink bg-hot text-paper
+                     flex items-center justify-center font-display text-2xl
+                     active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+        >
+          −
+        </button>
       </div>
-      {stats?.avg_score_x100 != null && (
-        <ScorePill x100={stats.avg_score_x100} size="md" />
-      )}
-      {/* Verwijder-knop: aparte click target */}
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onLeave(club); }}
-        aria-label="verwijder uit seizoen"
-        className="shrink-0 w-10 h-10 flex items-center justify-center
-          font-display text-2xl border-4 border-ink bg-hot text-paper shadow-brutSm
-          active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-      >
-        −
-      </button>
     </div>
   );
 }
@@ -271,9 +226,6 @@ function CrewStripCard({ group }: { group: Group }) {
   const groupMemberships = useStore((s) => s.groupMemberships);
   const sessions = useStore((s) => s.sessions);
 
-  // Alles voor dit team in één pass: members + prioritering + online-tellen.
-  // Jezelf laten we weg uit de avatar-stack — je kan toch geen popup openen op
-  // jezelf (geen reactie naar jezelf, geen volg-actie).
   const { ordered, onlineCount, total } = useMemo(() => {
     const onlineUserIds = new Set<string>();
     for (const s of sessions.values()) {
@@ -286,7 +238,6 @@ function CrewStripCard({ group }: { group: Group }) {
 
     const ownerId = group.owner_user_id;
     const rank = (uid: bigint) => {
-      // Lager = eerder zichtbaar. Online > owner > rest.
       if (onlineUserIds.has(uid.toString())) return 0;
       if (uid === ownerId) return 1;
       return 2;
@@ -306,10 +257,8 @@ function CrewStripCard({ group }: { group: Group }) {
   const overflow = Math.max(0, ordered.length - CREW_VISIBLE);
 
   return (
-    <div
-      className="shrink-0 brut-card bg-paper !p-3 min-w-[13rem] max-w-[16rem]
-                 flex flex-col gap-2"
-    >
+    <div className="shrink-0 brut-card bg-paper !p-3 min-w-[14rem] max-w-[17rem]
+                    flex flex-col gap-2">
       <button
         type="button"
         onClick={() => go(`/group/${group.id}`)}
@@ -354,78 +303,6 @@ function CrewStripCard({ group }: { group: Group }) {
             +{overflow}
           </button>
         )}
-      </div>
-    </div>
-  );
-}
-
-function OtherClubRow({
-  club, onOpen, onJoin,
-}: { club: Club; onOpen: (c: Club) => void; onJoin: (c: Club) => void }) {
-  return (
-    <div
-      role="button"
-      tabIndex={0}
-      onClick={() => onOpen(club)}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onOpen(club); }}
-      aria-label={`open ${club.name}`}
-      className="brut-card bg-paper p-3 flex items-center gap-2 cursor-pointer
-                 active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-    >
-      <span className="font-display uppercase text-base leading-tight truncate flex-1 min-w-0">
-        {club.name}
-      </span>
-      <span className="font-display text-xl shrink-0 opacity-50" aria-hidden>→</span>
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onJoin(club); }}
-        aria-label="voeg toe aan seizoen"
-        className="shrink-0 w-10 h-10 flex items-center justify-center
-          font-display text-2xl border-4 border-ink bg-mint text-ink shadow-brutSm
-          active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-      >
-        ＋
-      </button>
-    </div>
-  );
-}
-
-function ConfirmJoinModal({
-  club, busy, onCancel, onConfirm,
-}: {
-  club: Club; busy: boolean;
-  onCancel: () => void; onConfirm: () => void;
-}) {
-  useEffect(() => {
-    document.body.classList.add("modal-open");
-    return () => document.body.classList.remove("modal-open");
-  }, []);
-  return (
-    <div
-      onClick={onCancel}
-      className="fixed inset-0 z-50 bg-ink/70 flex items-end sm:items-center
-                 justify-center p-0 sm:p-6"
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-md brut-card bg-paper shadow-brutLg p-5 rounded-none"
-        style={{ paddingBottom: "max(1.25rem, env(safe-area-inset-bottom))" }}
-      >
-        <h2 className="font-display text-2xl uppercase leading-tight">
-          nog niet in jouw seizoen
-        </h2>
-        <p className="text-sm font-bold mt-2">
-          <span className="bg-pop px-1">{club.name}</span> staat nog niet in je
-          seizoens-feed. Voeg'm toe om de gehaktbal te kunnen raten.
-        </p>
-        <div className="flex gap-2 mt-5">
-          <BrutalButton onClick={onCancel} variant="paper" block disabled={busy}>
-            annuleer
-          </BrutalButton>
-          <BrutalButton onClick={onConfirm} variant="hot" block disabled={busy}>
-            {busy ? "toevoegen…" : "＋ voeg toe"}
-          </BrutalButton>
-        </div>
       </div>
     </div>
   );
