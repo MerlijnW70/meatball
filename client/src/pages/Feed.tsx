@@ -70,14 +70,7 @@ export function FeedPage() {
 
         {/* Seizoen */}
         <section>
-          <div className="flex items-baseline justify-between mb-3">
-            <h3 className="font-display text-lg uppercase">jouw seizoen</h3>
-            {myClubs.length > 0 && (
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-60">
-                top op gehaktbal-score
-              </span>
-            )}
-          </div>
+          <h3 className="font-display text-lg uppercase mb-3">jouw seizoen</h3>
 
           {myClubs.length === 0 ? (
             <BrutalCard tone="pop" tilt className="text-center !p-5">
