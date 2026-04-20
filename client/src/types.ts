@@ -148,10 +148,43 @@ export interface GroupInviteReveal {
   expires_at: Timestamp;
 }
 
+/**
+ * 4-3-3 slot-codes. Zelfde volgorde als op het veld van achter naar voren:
+ *   keeper
+ *   lb  lcb  rcb  rb   (linie van verdedigers)
+ *   lm  cm   rm        (middenveld)
+ *   lw  st   rw        (voorlijn)
+ * Per team wordt uniqueness visueel afgedwongen — 1e speler met dat slot
+ * staat in het veld, rest gaat naar de bank.
+ */
 export const ALLOWED_POSITIONS = [
-  "keeper", "verdediger", "middenvelder", "aanvaller",
+  "keeper",
+  "lb", "lcb", "rcb", "rb",
+  "lm", "cm", "rm",
+  "lw", "st", "rw",
 ] as const;
 export type Position = typeof ALLOWED_POSITIONS[number];
+
+export const POSITION_LABEL: Record<Position, string> = {
+  keeper: "keeper",
+  lb: "linksback",
+  lcb: "centr. verdediger L",
+  rcb: "centr. verdediger R",
+  rb: "rechtsback",
+  lm: "linksmid",
+  cm: "spelmaker",
+  rm: "rechtsmid",
+  lw: "linksbuiten",
+  st: "spits",
+  rw: "rechtsbuiten",
+};
+
+export const POSITION_SHORT: Record<Position, string> = {
+  keeper: "KPR",
+  lb: "LB", lcb: "LCV", rcb: "RCV", rb: "RB",
+  lm: "LM", cm: "CM", rm: "RM",
+  lw: "LV", st: "SP", rw: "RV",
+};
 
 export interface UserPosition {
   user_id: bigint;

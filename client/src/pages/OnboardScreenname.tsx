@@ -1,11 +1,8 @@
 import { useMemo, useState } from "react";
 import { friendlyError } from "../utils/errors";
 import { validateScreenname } from "../utils/screenname";
-import { defaultAvatarFor, TONE_BG } from "../utils/avatar";
-import {
-  ALLOWED_AVATAR_COLORS, ALLOWED_AVATAR_ICONS, ALLOWED_POSITIONS,
-  type Position,
-} from "../types";
+import { defaultAvatarFor, randomAvatar } from "../utils/avatar";
+import { ALLOWED_POSITIONS, POSITION_LABEL, type Position } from "../types";
 import { BrutalButton } from "../components/BrutalButton";
 import { BrutalInput } from "../components/BrutalInput";
 import { TopBar } from "../components/TopBar";
@@ -13,20 +10,6 @@ import { Avatar } from "../components/Avatar";
 import { go } from "../router";
 import { client } from "../spacetime";
 import { useStore } from "../store";
-
-const POSITION_LABELS: Record<Position, string> = {
-  keeper: "keeper",
-  verdediger: "verdediger",
-  middenvelder: "middenvelder",
-  aanvaller: "aanvaller",
-};
-
-const POSITION_ICON: Record<Position, string> = {
-  keeper: "🧤",
-  verdediger: "🛡",
-  middenvelder: "🎯",
-  aanvaller: "⚽",
-};
 
 export function OnboardScreennamePage() {
   const [name, setName] = useState("");
@@ -36,7 +19,6 @@ export function OnboardScreennamePage() {
   const session = useStore((s) => s.session);
   const users = useStore((s) => s.users);
 
-  // null betekent: volg deterministische default uit de naam.
   const [color, setColor] = useState<string | null>(null);
   const [icon, setIcon] = useState<string | null>(null);
   const [position, setPosition] = useState<Position | null>(null);
@@ -53,9 +35,13 @@ export function OnboardScreennamePage() {
     color: color ?? auto.color,
     icon: icon ?? auto.icon,
   };
-  // Decor blijft "none|none|0" zodat we geen patronen/rotaties meer opleggen,
-  // maar het server-schema hetzelfde blijft.
   const decor = "none|none|0";
+
+  const shuffle = () => {
+    const r = randomAvatar();
+    setColor(r.color);
+    setIcon(r.icon);
+  };
 
   const submit = async () => {
     if (!canSubmit) return;
@@ -92,7 +78,7 @@ export function OnboardScreennamePage() {
       <TopBar title="Je naam" back="/" />
       <main className="flex-1 p-5 flex flex-col gap-5 pb-10">
         <h2 className="font-display text-3xl uppercase leading-tight">
-          Kies een <span className="bg-pop px-1">screenname</span>
+          Kies een <span className="bg-pop px-1">spelersnaam</span>
         </h2>
 
         <div>
@@ -128,74 +114,22 @@ export function OnboardScreennamePage() {
           )}
         </div>
 
-        {/* Avatar */}
-        <section className="flex flex-col gap-3">
-          <div className="flex items-center gap-3">
-            <Avatar userId={null} size="xl" override={{
-              color: avatar.color, icon: avatar.icon, decor,
-            }} />
-            <div className="flex-1 min-w-0">
-              <p className="font-display text-xl uppercase leading-tight">jouw avatar</p>
-              <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">
-                kies een kleur + icoon
-              </p>
-            </div>
-          </div>
-
-          <Sub label="kleur">
-            <div className="grid grid-cols-8 gap-1">
-              {ALLOWED_AVATAR_COLORS.map((c) => (
-                <button key={c} type="button" onClick={() => setColor(c)}
-                  aria-label={c}
-                  className={`${TONE_BG[c]} aspect-square border-4 border-ink
-                    ${avatar.color === c ? "ring-4 ring-ink" : "shadow-brutSm"}
-                    active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
-                />
-              ))}
-            </div>
-          </Sub>
-
-          <Sub label="icoon">
-            <div className="grid grid-cols-8 gap-1">
-              {ALLOWED_AVATAR_ICONS.map((i) => (
-                <button key={i} type="button" onClick={() => setIcon(i)}
-                  aria-pressed={avatar.icon === i}
-                  className={`aspect-square border-2 border-ink text-lg
-                    ${avatar.icon === i ? "bg-ink text-paper" : "bg-paper"}
-                    active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
-                >{i}</button>
-              ))}
-            </div>
-          </Sub>
+        {/* Avatar preview + shuffle */}
+        <section className="flex flex-col items-center gap-3">
+          <Avatar userId={null} size="xl" override={{
+            color: avatar.color, icon: avatar.icon, decor,
+          }} />
+          <BrutalButton onClick={shuffle} variant="pop" size="md">
+            🎲 nieuwe look
+          </BrutalButton>
         </section>
 
-        {/* Veldpositie */}
+        {/* Veldpositie — 4-3-3 pitch */}
         <section>
-          <p className="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-2">
+          <p className="text-xs font-bold uppercase tracking-widest mb-2">
             jouw positie op het veld
           </p>
-          <div className="grid grid-cols-2 gap-2">
-            {ALLOWED_POSITIONS.map((p) => {
-              const active = position === p;
-              return (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => setPosition(p)}
-                  aria-pressed={active}
-                  className={`flex items-center gap-2 border-4 border-ink py-2 px-3
-                    font-display uppercase text-sm shadow-brutSm
-                    ${active ? "bg-ink text-paper" : "bg-paper"}
-                    active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
-                >
-                  <span className="text-xl leading-none" aria-hidden>
-                    {POSITION_ICON[p]}
-                  </span>
-                  <span className="truncate">{POSITION_LABELS[p]}</span>
-                </button>
-              );
-            })}
-          </div>
+          <PitchPicker value={position} onChange={setPosition} />
           {!position && (
             <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-2">
               kies een positie om door te gaan
@@ -219,13 +153,46 @@ export function OnboardScreennamePage() {
   );
 }
 
-function Sub({ label, children }: { label: string; children: React.ReactNode }) {
+/** 4-3-3 keuze-raster in de vorm van een voetbalveld van boven gezien. */
+function PitchPicker({
+  value, onChange,
+}: {
+  value: Position | null;
+  onChange: (p: Position) => void;
+}) {
+  const rows: Position[][] = [
+    ["lw", "st", "rw"],
+    ["lm", "cm", "rm"],
+    ["lb", "lcb", "rcb", "rb"],
+    ["keeper"],
+  ];
+
   return (
-    <div>
-      <p className="text-[10px] font-bold uppercase tracking-widest opacity-70 mb-1">
-        {label}
-      </p>
-      {children}
+    <div className="brut-card bg-mint/70 !p-3 flex flex-col gap-2">
+      {rows.map((row, i) => (
+        <div key={i}
+          className="grid gap-2"
+          style={{ gridTemplateColumns: `repeat(${row.length}, minmax(0, 1fr))` }}
+        >
+          {ALLOWED_POSITIONS.includes("keeper") /* type-guard */ && row.map((p) => {
+            const on = value === p;
+            return (
+              <button
+                key={p}
+                type="button"
+                onClick={() => onChange(p)}
+                aria-pressed={on}
+                className={`border-4 border-ink py-2 px-1 text-center
+                  font-display uppercase text-[10px] leading-tight shadow-brutSm
+                  ${on ? "bg-ink text-paper" : "bg-paper"}
+                  active:translate-x-[2px] active:translate-y-[2px] transition-transform`}
+              >
+                {POSITION_LABEL[p]}
+              </button>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 }

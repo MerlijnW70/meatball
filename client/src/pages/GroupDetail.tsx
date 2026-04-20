@@ -1,8 +1,7 @@
 /**
- * Team-detail: spelerslijst gegroepeerd per linie (keeper / verdedigers /
- * middenvelders / aanvallers) + Bank voor overschot per linie. Admin-acties
- * (invite delen, seizoen pushen, opheffen/verlaten) zitten in GroupManageModal
- * achter het ⚙-icoon in de TopBar.
+ * Team-detail: 4-3-3 opstelling. Elk slot is uniek per team — eerste speler
+ * met dat positie-slot krijgt 'm, rest gaat naar de bank. Admin-acties
+ * (invite, deel seizoen, opheffen) zitten in GroupManageModal via ⚙.
  */
 import { useMemo, useState } from "react";
 import { useGroup, useGroupMembers, useIsGroupMember, type GroupMemberRow } from "../hooks";
@@ -15,34 +14,17 @@ import { Avatar } from "../components/Avatar";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { GroupManageModal } from "../components/GroupManageModal";
 import { friendlyError } from "../utils/errors";
-import type { Position } from "../types";
-
-// Standaard 4-3-3 formatie: hoeveel per linie "in het veld" staan.
-// De rest gaat naar de bank, per-linie-overflow.
-const LINE_CAPS: Record<Position, number> = {
-  keeper: 1,
-  verdediger: 4,
-  middenvelder: 3,
-  aanvaller: 3,
-};
-
-const LINE_ORDER: Position[] = ["keeper", "verdediger", "middenvelder", "aanvaller"];
-
-const LINE_LABEL: Record<Position, string> = {
-  keeper: "keeper",
-  verdediger: "verdedigers",
-  middenvelder: "middenvelders",
-  aanvaller: "aanvallers",
-};
-
-const LINE_ICON: Record<Position, string> = {
-  keeper: "🧤",
-  verdediger: "🛡",
-  middenvelder: "🎯",
-  aanvaller: "⚽",
-};
+import { POSITION_LABEL, POSITION_SHORT, type Position } from "../types";
 
 type RowWithPos = GroupMemberRow & { position: Position | null };
+
+// 4-3-3 opstelling van voorlijn → keeper (zoals je op een tactiek-bord kijkt).
+const FORMATION: Position[][] = [
+  ["lw", "st", "rw"],
+  ["lm", "cm", "rm"],
+  ["lb", "lcb", "rcb", "rb"],
+  ["keeper"],
+];
 
 export function GroupDetailPage({ groupId }: { groupId: bigint }) {
   const me = useStore((s) => s.session.me);
@@ -61,35 +43,31 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
     [me, group],
   );
 
-  // Verrijk members met hun positie en verdeel over linies + bank.
-  const { byLine, bench, noPosition } = useMemo(() => {
-    const rows: RowWithPos[] = members.map((m) => ({
-      ...m,
-      position: (userPositions.get(m.userId.toString())?.position as Position | undefined) ?? null,
-    }));
-    // Trainer (owner) eerst binnen elke linie, dan joined_at volgorde (al gesorteerd).
-    const sorted = [...rows].sort((a, b) => {
-      if (a.isOwner && !b.isOwner) return -1;
-      if (!a.isOwner && b.isOwner) return 1;
-      return 0;
-    });
+  // Verrijk + verdeel: eerste speler per slot op veld, rest naar bench.
+  const { slotOwner, bench, noPosition } = useMemo(() => {
+    const rows: RowWithPos[] = members
+      .map((m) => ({
+        ...m,
+        position:
+          (userPositions.get(m.userId.toString())?.position as Position | undefined) ?? null,
+      }))
+      // Trainer eerst, dan joined_at volgorde.
+      .sort((a, b) => {
+        if (a.isOwner && !b.isOwner) return -1;
+        if (!a.isOwner && b.isOwner) return 1;
+        return 0;
+      });
 
-    const byLine: Record<Position, RowWithPos[]> = {
-      keeper: [], verdediger: [], middenvelder: [], aanvaller: [],
-    };
+    const slotOwner = new Map<Position, RowWithPos>();
     const bench: RowWithPos[] = [];
     const noPosition: RowWithPos[] = [];
 
-    for (const r of sorted) {
-      if (!r.position) {
-        noPosition.push(r);
-        continue;
-      }
-      const cap = LINE_CAPS[r.position];
-      if (byLine[r.position].length < cap) byLine[r.position].push(r);
-      else bench.push(r);
+    for (const r of rows) {
+      if (!r.position) { noPosition.push(r); continue; }
+      if (slotOwner.has(r.position)) bench.push(r);
+      else slotOwner.set(r.position, r);
     }
-    return { byLine, bench, noPosition };
+    return { slotOwner, bench, noPosition };
   }, [members, userPositions]);
 
   const confirmKick = async () => {
@@ -130,37 +108,6 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
     </button>
   ) : undefined;
 
-  const renderRow = (m: RowWithPos, { showKick }: { showKick: boolean }) => (
-    <BrutalCard
-      key={m.membership.id.toString()}
-      className="!p-2 flex items-center gap-2"
-    >
-      <Avatar userId={m.userId} size="sm" />
-      <button
-        type="button"
-        onClick={() => go(`/u/${m.userId}`)}
-        className="font-display uppercase truncate flex-1 text-left"
-      >
-        {m.name}
-      </button>
-      {showKick && isOwner && !m.isOwner && (
-        <button
-          type="button"
-          onClick={() => setKickTarget({ id: m.userId, name: m.name })}
-          className="brut-chip bg-hot text-paper !py-0.5 !px-1.5 text-[10px]
-                     active:translate-x-[1px] active:translate-y-[1px] transition-transform"
-        >
-          sell
-        </button>
-      )}
-      {m.isOwner && (
-        <span className="brut-chip bg-pop !py-0.5 !px-1.5 text-[10px]">
-          Trainer
-        </span>
-      )}
-    </BrutalCard>
-  );
-
   return (
     <div className="min-h-dvh flex flex-col">
       <TopBar title="team" sub={group.name} back="/groups" hideCrews right={manageButton} />
@@ -179,20 +126,36 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
           opstelling · 4-3-3 · {members.length} {members.length === 1 ? "speler" : "spelers"}
         </p>
 
-        {/* Linies */}
-        {LINE_ORDER.map((pos) => {
-          const rows = byLine[pos];
-          if (rows.length === 0) return (
-            <Line key={pos} pos={pos} empty />
-          );
-          return (
-            <Line key={pos} pos={pos}>
-              <div className="flex flex-col gap-1.5">
-                {rows.map((m) => renderRow(m, { showKick: true }))}
-              </div>
-            </Line>
-          );
-        })}
+        {/* Pitch */}
+        <div
+          className="brut-card !p-3 flex flex-col gap-2"
+          style={{
+            background: "#00D2A0",
+            backgroundImage: `repeating-linear-gradient(
+              180deg,
+              rgba(255,255,255,0.08) 0 24px,
+              transparent 24px 48px
+            )`,
+          }}
+        >
+          {FORMATION.map((row, rIdx) => (
+            <div
+              key={rIdx}
+              className="grid gap-2"
+              style={{ gridTemplateColumns: `repeat(${row.length}, minmax(0, 1fr))` }}
+            >
+              {row.map((pos) => (
+                <SlotTile
+                  key={pos}
+                  pos={pos}
+                  row={slotOwner.get(pos) ?? null}
+                  canKick={isOwner}
+                  onKick={(id, name) => setKickTarget({ id, name })}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
 
         {/* Bank */}
         {bench.length > 0 && (
@@ -202,7 +165,14 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
               <span>bank · {bench.length}</span>
             </h3>
             <div className="flex flex-col gap-1.5">
-              {bench.map((m) => renderRow(m, { showKick: true }))}
+              {bench.map((m) => (
+                <BenchRow
+                  key={m.membership.id.toString()}
+                  row={m}
+                  canKick={isOwner}
+                  onKick={(id, name) => setKickTarget({ id, name })}
+                />
+              ))}
             </div>
           </section>
         )}
@@ -218,7 +188,14 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
               deze spelers moeten nog een positie kiezen in hun profiel
             </p>
             <div className="flex flex-col gap-1.5">
-              {noPosition.map((m) => renderRow(m, { showKick: true }))}
+              {noPosition.map((m) => (
+                <BenchRow
+                  key={m.membership.id.toString()}
+                  row={m}
+                  canKick={isOwner}
+                  onKick={(id, name) => setKickTarget({ id, name })}
+                />
+              ))}
             </div>
           </section>
         )}
@@ -252,22 +229,94 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
   );
 }
 
-function Line({ pos, empty, children }: {
+/** Eén slot op het veld — speler of leeg. */
+function SlotTile({
+  pos, row, canKick, onKick,
+}: {
   pos: Position;
-  empty?: boolean;
-  children?: React.ReactNode;
+  row: RowWithPos | null;
+  canKick: boolean;
+  onKick: (id: bigint, name: string) => void;
+}) {
+  if (!row) {
+    return (
+      <div className="border-4 border-dashed border-paper/60 py-3 px-1 text-center
+                      font-display uppercase text-paper text-[10px] leading-tight
+                      bg-ink/10">
+        <p className="opacity-70">leeg</p>
+        <p className="mt-1">{POSITION_SHORT[pos]}</p>
+      </div>
+    );
+  }
+  return (
+    <button
+      type="button"
+      onClick={() => go(`/u/${row.userId}`)}
+      className="border-4 border-ink py-2 px-1 bg-paper text-ink text-center
+                 shadow-brutSm flex flex-col items-center gap-1
+                 active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+    >
+      <Avatar userId={row.userId} size="sm" />
+      <span className="font-display uppercase text-[10px] leading-none truncate w-full">
+        {row.name}
+      </span>
+      <span className="text-[9px] font-bold uppercase tracking-widest opacity-70">
+        {POSITION_SHORT[pos]}
+      </span>
+      {row.isOwner && (
+        <span className="brut-chip bg-pop !py-0 !px-1 text-[9px] leading-none">
+          Trainer
+        </span>
+      )}
+      {canKick && !row.isOwner && (
+        <span
+          role="button"
+          onClick={(e) => { e.stopPropagation(); onKick(row.userId, row.name); }}
+          className="brut-chip bg-hot text-paper !py-0 !px-1 text-[9px] leading-none
+                     active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+        >
+          sell
+        </span>
+      )}
+    </button>
+  );
+}
+
+function BenchRow({
+  row, canKick, onKick,
+}: {
+  row: RowWithPos;
+  canKick: boolean;
+  onKick: (id: bigint, name: string) => void;
 }) {
   return (
-    <section>
-      <h3 className="font-display text-lg uppercase mb-2 flex items-center gap-2">
-        <span aria-hidden>{LINE_ICON[pos]}</span>
-        <span>{LINE_LABEL[pos]}</span>
-      </h3>
-      {empty ? (
-        <p className="text-[11px] font-bold uppercase tracking-widest opacity-50">
-          nog niemand in deze linie
-        </p>
-      ) : children}
-    </section>
+    <BrutalCard className="!p-2 flex items-center gap-2">
+      <Avatar userId={row.userId} size="sm" />
+      <button
+        type="button"
+        onClick={() => go(`/u/${row.userId}`)}
+        className="font-display uppercase truncate flex-1 text-left"
+      >
+        {row.name}
+      </button>
+      {row.position && (
+        <span className="brut-chip bg-sky text-paper !py-0.5 !px-1.5 text-[10px]">
+          {POSITION_LABEL[row.position]}
+        </span>
+      )}
+      {row.isOwner && (
+        <span className="brut-chip bg-pop !py-0.5 !px-1.5 text-[10px]">Trainer</span>
+      )}
+      {canKick && !row.isOwner && (
+        <button
+          type="button"
+          onClick={() => onKick(row.userId, row.name)}
+          className="brut-chip bg-hot text-paper !py-0.5 !px-1.5 text-[10px]
+                     active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+        >
+          sell
+        </button>
+      )}
+    </BrutalCard>
   );
 }

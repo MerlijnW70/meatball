@@ -273,9 +273,10 @@ pub struct GroupInviteReveal {
     pub expires_at: Timestamp,
 }
 
-/// Positie van de speler op het veld: keeper / verdediger / middenvelder /
-/// aanvaller. Één rij per user; upsert bij wijziging. Los van User zodat we
-/// het niet-breaking konden toevoegen.
+/// Positie van de speler — één van de 11 slots in het 4-3-3 schema
+/// (keeper, lb, lcb, rcb, rb, lm, cm, rm, lw, st, rw). Eén rij per user;
+/// upsert bij wijziging. Per team wordt uniqueness visueel afgedwongen
+/// (eerste speler met dat slot op het veld, rest op de bank).
 #[table(accessor = user_position, public)]
 pub struct UserPosition {
     #[primary_key]

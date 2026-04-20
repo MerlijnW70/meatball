@@ -49,10 +49,13 @@ pub const ALLOWED_ACCENT_COLORS: &[&str] = &["pop","hot","mint","sky","bruise","
 pub const ALLOWED_ACCENT_POSITIONS: &[&str] = &["tl","tr","bl","br"];
 pub const ALLOWED_ROTATIONS: &[&str] = &["0","90","180","270"];
 
-/// Speler-posities op het veld. "wissel" niet in deze lijst — overflow per
-/// linie in de UI-presentatie wordt de bank.
+/// 4-3-3 slot-codes. Elk slot kan door max één speler per team bezet worden.
+/// Bench = spelers zonder gekozen slot.
 pub const ALLOWED_POSITIONS: &[&str] = &[
-    "keeper", "verdediger", "middenvelder", "aanvaller",
+    "keeper",
+    "lb", "lcb", "rcb", "rb",
+    "lm", "cm", "rm",
+    "lw", "st", "rw",
 ];
 
 pub const DEDUP_THRESHOLD: f32 = 0.85;
