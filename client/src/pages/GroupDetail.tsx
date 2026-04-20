@@ -231,14 +231,13 @@ function SlotTile({
     <button
       type="button"
       onClick={() => go(`/u/${row.userId}`)}
+      aria-label={row.name}
+      title={row.name}
       className="border-4 border-ink py-2 px-1 bg-paper text-ink text-center
                  shadow-brutSm flex flex-col items-center gap-1
                  active:translate-x-[2px] active:translate-y-[2px] transition-transform"
     >
       <Avatar userId={row.userId} size="sm" />
-      <span className="font-display uppercase text-[10px] leading-none truncate w-full">
-        {row.name}
-      </span>
       <span className="text-[9px] font-bold uppercase tracking-widest opacity-70">
         {POSITION_SHORT[pos]}
       </span>
