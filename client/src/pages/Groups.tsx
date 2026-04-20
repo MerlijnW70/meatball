@@ -10,10 +10,13 @@ import { TopBar } from "../components/TopBar";
 import { BrutalCard } from "../components/BrutalCard";
 import { BrutalButton } from "../components/BrutalButton";
 import { BrutalInput } from "../components/BrutalInput";
+import { useStore } from "../store";
 import { friendlyError } from "../utils/errors";
 
 export function GroupsPage() {
   const groups = useMyGroups();
+  const me = useStore((s) => s.session.me);
+  const ownsTeam = !!me && groups.some((g) => g.owner_user_id === me.id);
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
@@ -44,26 +47,28 @@ export function GroupsPage() {
       <TopBar title="teams" back="/home" hideCrews />
       <main className="flex-1 p-4 flex flex-col gap-4">
 
-        <BrutalCard tone="pop" className="!p-3">
-          <p className="text-xs font-bold uppercase tracking-widest mb-2">
-            Team oprichten
-          </p>
-          <BrutalInput
-            placeholder="bv. De Gehaktbal Boys"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && canCreate() && create()}
-            maxLength={40}
-          />
-          <BrutalButton
-            variant="hot" size="md" block
-            disabled={!canCreate()}
-            onClick={create}
-            className="mt-2"
-          >
-            {busy ? "…" : "+ maak team"}
-          </BrutalButton>
-        </BrutalCard>
+        {!ownsTeam && (
+          <BrutalCard tone="pop" className="!p-3">
+            <p className="text-xs font-bold uppercase tracking-widest mb-2">
+              Team oprichten
+            </p>
+            <BrutalInput
+              placeholder="bv. De Gehaktbal Boys"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && canCreate() && create()}
+              maxLength={40}
+            />
+            <BrutalButton
+              variant="hot" size="md" block
+              disabled={!canCreate()}
+              onClick={create}
+              className="mt-2"
+            >
+              {busy ? "…" : "+ maak team"}
+            </BrutalButton>
+          </BrutalCard>
+        )}
 
         {/* Aangemaakte teams direct onder 'Team oprichten' — alleen als je er
             minstens één hebt. */}

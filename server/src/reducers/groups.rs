@@ -23,17 +23,15 @@ pub fn create_group(ctx: &ReducerContext, name: String) -> Result<(), String> {
     enforce_rate_limit(ctx, "create_group", 10)?;
     let trimmed = name.trim();
     let char_count = trimmed.chars().count();
-    if char_count < 3 { return Err("Crew-naam te kort".into()); }
-    if char_count > 40 { return Err("Crew-naam te lang".into()); }
+    if char_count < 3 { return Err("Team-naam te kort".into()); }
+    if char_count > 40 { return Err("Team-naam te lang".into()); }
+
+    // Maximaal één team per user (je kan wel extra teams joinen via invite).
+    if ctx.db.group().iter().any(|g| g.owner_user_id == user.id) {
+        return Err("Je hebt al een team opgericht".into());
+    }
 
     let key = normalize(trimmed);
-
-    // Exacte dedup binnen één owner — voorkomt dat één user 50× dezelfde crew maakt.
-    if ctx.db.group().iter().any(|g| g.owner_user_id == user.id && g.name_key == key) {
-        return Err("Je hebt al een crew met deze naam".into());
-    }
-    // Globale fuzzy dedup zou crews van anderen blokkeren — niet doen. Owners
-    // mogen dezelfde naam als anderen gebruiken; alleen jouw eigen lijst is uniek.
 
     let group = ctx.db.group().insert(Group {
         id: 0,
