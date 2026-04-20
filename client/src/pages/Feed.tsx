@@ -97,7 +97,7 @@ export function FeedPage() {
 
   return (
     <div className="min-h-dvh flex flex-col pb-24">
-      <TopBar title="seizoen kantines" />
+      <TopBar title="Wedstrijd" />
 
       <main className="flex-1 p-4 flex flex-col gap-5">
         {/* Jouw teams — altijd bovenaan zodat ze binnen tap-bereik zijn */}
