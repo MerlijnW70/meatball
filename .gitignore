@@ -5,8 +5,9 @@ target/
 .env
 .env.local
 .env.*.local
-client/src/module_bindings/*
-!client/src/module_bindings/.gitkeep
+# Module bindings worden per `spacetime publish` + `npm run generate` ververst,
+# maar moeten in git zitten zodat Vercel ze kan bouwen zonder spacetime CLI.
+# Voor lokale dev: na server-publish `npm run generate` draaien en committen.
 
 # Scraped HTML — regenereerbaar via curl loop in seed_data/generate.py
 server/seed_data/hv_pages/
