@@ -102,17 +102,7 @@ export function FeedPage() {
       <main className="flex-1 p-4 flex flex-col gap-5">
         {/* Jouw crews — altijd bovenaan zodat ze binnen tap-bereik zijn */}
         <section>
-          <div className="flex items-baseline justify-between mb-2">
-            <h3 className="font-display text-lg uppercase">jouw crews</h3>
-            <button
-              type="button"
-              onClick={() => go("/groups")}
-              className="text-[10px] font-bold uppercase tracking-widest opacity-70
-                         active:opacity-100"
-            >
-              alles →
-            </button>
-          </div>
+          <h3 className="font-display text-lg uppercase mb-2">jouw crews</h3>
           {myGroups.length === 0 ? (
             <button
               type="button"
@@ -130,15 +120,6 @@ export function FeedPage() {
               {myGroups.map((g) => (
                 <CrewStripCard key={g.id.toString()} group={g} />
               ))}
-              <button
-                type="button"
-                onClick={() => go("/groups")}
-                aria-label="nieuwe crew"
-                className="shrink-0 brut-card bg-ink text-paper !p-3 min-w-[4rem] flex items-center justify-center
-                           active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-              >
-                <span className="font-display text-2xl leading-none">+</span>
-              </button>
             </div>
           )}
         </section>
