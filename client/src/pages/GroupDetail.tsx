@@ -169,6 +169,21 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
           ))}
         </div>
 
+        {/* Ga-zelf-op-de-bank — leden kunnen altijd naar de bank */}
+        {isMember && (
+          <button
+            type="button"
+            onClick={() => claimSlot("wissel")}
+            disabled={busy}
+            className="border-4 border-ink py-2 px-3 bg-paper font-display uppercase text-sm
+                       shadow-brutSm flex items-center justify-center gap-2
+                       active:translate-x-[2px] active:translate-y-[2px] transition-transform
+                       disabled:opacity-50"
+          >
+            <span aria-hidden>🪑</span> zet mezelf op de bank
+          </button>
+        )}
+
         {/* Wissels — onbeperkt. Overschot per slot + spelers zonder positie. */}
         {wissels.length > 0 && (
           <section>
