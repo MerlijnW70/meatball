@@ -318,8 +318,9 @@ function CreateTeamCard() {
 
   return (
     <div className="brut-card bg-pop !p-4 flex flex-col gap-2">
-      <p className="font-display text-xl uppercase leading-tight">
-        🥩 richt jouw team op
+      <p className="font-display text-xl uppercase leading-tight flex items-center gap-2">
+        <GehaktbalLogo size={28} className="shrink-0" />
+        richt jouw team op
       </p>
       <p className="text-xs font-bold opacity-80 leading-snug">
         Nodig mede-ouders uit om samen gehaktballen te raten.
