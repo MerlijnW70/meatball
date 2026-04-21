@@ -33,6 +33,11 @@ pub fn create_group(ctx: &ReducerContext, name: String) -> Result<(), String> {
 
     let key = normalize(trimmed);
 
+    // Globale uniqueness: geen twee teams met dezelfde (genormaliseerde) naam.
+    if ctx.db.group().iter().any(|g| g.name_key == key) {
+        return Err("Deze teamnaam bestaat al — kies een andere".into());
+    }
+
     let group = ctx.db.group().insert(Group {
         id: 0,
         name: trimmed.to_string(),
@@ -365,20 +370,17 @@ pub fn rename_group(ctx: &ReducerContext, group_id: u64, name: String) -> Result
     if char_count > 40 { return Err("Crew-naam te lang".into()); }
 
     let key = normalize(trimmed);
-    // Owner mag dezelfde key niet twee keer hebben.
-    if ctx.db.group().iter().any(|g| g.id != group_id
-        && g.owner_user_id == user.id
-        && g.name_key == key)
-    {
-        return Err("Je hebt al een crew met deze naam".into());
+    // Globale uniqueness: geen andere group mag dezelfde key hebben.
+    if ctx.db.group().iter().any(|g| g.id != group_id && g.name_key == key) {
+        return Err("Deze teamnaam bestaat al — kies een andere".into());
     }
-    // Fuzzy: als nieuwe naam ≥0.85 lijkt op de oude, ok (gewoon stylefix).
+    // Fuzzy-check tegen andere teams: als de nieuwe naam veel lijkt op een
+    // bestaand team (≥0.85 similarity) en niet op de oude naam zelf, blok.
     if similarity(&group.name, trimmed) < DEDUP_THRESHOLD
         && ctx.db.group().iter().any(|g| g.id != group_id
-            && g.owner_user_id == user.id
             && similarity(&g.name, trimmed) >= DEDUP_THRESHOLD)
     {
-        return Err("Te veel lijkend op je andere crew".into());
+        return Err("Te lijkend op een bestaand team".into());
     }
     group.name = trimmed.to_string();
     group.name_key = key;
