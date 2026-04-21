@@ -14,6 +14,8 @@ export default __t.row({
   id: __t.u64().primaryKey(),
   homeClubId: __t.u64().name("home_club_id"),
   awayClubId: __t.u64().name("away_club_id"),
+  homeIsGroup: __t.bool().name("home_is_group"),
+  awayIsGroup: __t.bool().name("away_is_group"),
   homeScore: __t.u32().name("home_score"),
   awayScore: __t.u32().name("away_score"),
   seed: __t.u64(),

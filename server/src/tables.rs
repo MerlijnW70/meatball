@@ -306,8 +306,11 @@ pub struct FootballMatch {
     #[primary_key]
     #[auto_inc]
     pub id: u64,
+    // Entity-IDs: als *_is_group == true is dit een Group.id, anders Club.id.
     pub home_club_id: u64,
     pub away_club_id: u64,
+    pub home_is_group: bool,
+    pub away_is_group: bool,
     pub home_score: u32,
     pub away_score: u32,
     pub seed: u64,

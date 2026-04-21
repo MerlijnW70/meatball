@@ -81,6 +81,8 @@ export const FootballMatch = __t.object("FootballMatch", {
   id: __t.u64(),
   homeClubId: __t.u64(),
   awayClubId: __t.u64(),
+  homeIsGroup: __t.bool(),
+  awayIsGroup: __t.bool(),
   homeScore: __t.u32(),
   awayScore: __t.u32(),
   seed: __t.u64(),

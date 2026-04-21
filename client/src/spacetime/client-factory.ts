@@ -63,7 +63,7 @@ export function makeClient(conn: any): MeatballClient {
       call("kickGroupMember", { groupId, targetUserId }),
     shareSeasonWithCrew: (groupId) =>
       call("shareSeasonWithCrew", { groupId }),
-    simulateMatch: (homeClubId, awayClubId) =>
-      call("simulateMatch", { homeClubId, awayClubId }),
+    simulateMatch: (homeId, homeIsGroup, awayId, awayIsGroup) =>
+      call("simulateMatch", { homeId, homeIsGroup, awayId, awayIsGroup }),
   };
 }

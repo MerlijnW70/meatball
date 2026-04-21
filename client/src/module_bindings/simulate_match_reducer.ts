@@ -11,6 +11,8 @@ import {
 } from "spacetimedb";
 
 export default {
-  homeClubId: __t.u64(),
-  awayClubId: __t.u64(),
+  homeId: __t.u64(),
+  homeIsGroup: __t.bool(),
+  awayId: __t.u64(),
+  awayIsGroup: __t.bool(),
 };

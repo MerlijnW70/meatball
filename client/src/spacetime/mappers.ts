@@ -156,6 +156,8 @@ export const toFootballMatch = (r: any): FootballMatch => ({
   id: r.id,
   home_club_id: r.homeClubId,
   away_club_id: r.awayClubId,
+  home_is_group: !!r.homeIsGroup,
+  away_is_group: !!r.awayIsGroup,
   home_score: r.homeScore,
   away_score: r.awayScore,
   seed: r.seed,

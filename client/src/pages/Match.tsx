@@ -62,6 +62,7 @@ export function MatchPage({ matchId }: { matchId: bigint }) {
   const matchEvents = useStore((s) => s.matchEvents);
   const matchPlayers = useStore((s) => s.matchPlayers);
   const clubs = useStore((s) => s.clubs);
+  const groups = useStore((s) => s.groups);
 
   useEffect(() => {
     const conn = getActiveConnection();
@@ -82,8 +83,17 @@ export function MatchPage({ matchId }: { matchId: bigint }) {
       .filter((p) => p.match_id.toString() === mid);
   }, [matchPlayers, matchId]);
 
-  const homeName = matchRow ? clubs.get(matchRow.home_club_id.toString())?.name ?? "thuis" : "thuis";
-  const awayName = matchRow ? clubs.get(matchRow.away_club_id.toString())?.name ?? "uit" : "uit";
+  const entityName = (id: bigint, isGroup: boolean, fallback: string) => {
+    const key = id.toString();
+    if (isGroup) return groups.get(key)?.name ?? fallback;
+    return clubs.get(key)?.name ?? fallback;
+  };
+  const homeName = matchRow
+    ? entityName(matchRow.home_club_id, matchRow.home_is_group, "thuis")
+    : "thuis";
+  const awayName = matchRow
+    ? entityName(matchRow.away_club_id, matchRow.away_is_group, "uit")
+    : "uit";
 
   const lastEvent = events[events.length - 1];
   const currentMinute = lastEvent?.minute ?? 0;

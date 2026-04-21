@@ -15,9 +15,9 @@ use spacetimedb::{reducer, ReducerContext, ScheduleAt, Table, TimeDuration, Time
 
 use crate::helpers::{enforce_rate_limit, require_user};
 use crate::tables::{
-    club, club_membership, football_match, match_event, match_player, match_pos_tick,
-    match_tick, user, user_position, FootballMatch, MatchEvent, MatchEventKind, MatchPlayer,
-    MatchPosTick, MatchTick,
+    club, club_membership, football_match, group, group_membership, match_event,
+    match_player, match_pos_tick, match_tick, user, user_position, FootballMatch,
+    MatchEvent, MatchEventKind, MatchPlayer, MatchPosTick, MatchTick,
 };
 
 const MATCH_MINUTES: u32 = 90;
@@ -153,9 +153,16 @@ fn rebuild_lineup(ctx: &ReducerContext, match_id: u64, side: &str) -> Lineup {
 
 // ── Opbouw lineup + initial positions ───────────────────────────
 
-fn build_and_insert_lineup(ctx: &ReducerContext, match_id: u64, club_id: u64, side: &str) {
-    let mut member_ids: Vec<u64> = ctx.db.club_membership().iter()
-        .filter(|m| m.club_id == club_id).map(|m| m.user_id).collect();
+fn build_and_insert_lineup(
+    ctx: &ReducerContext, match_id: u64, entity_id: u64, is_group: bool, side: &str,
+) {
+    let mut member_ids: Vec<u64> = if is_group {
+        ctx.db.group_membership().iter()
+            .filter(|m| m.group_id == entity_id).map(|m| m.user_id).collect()
+    } else {
+        ctx.db.club_membership().iter()
+            .filter(|m| m.club_id == entity_id).map(|m| m.user_id).collect()
+    };
     member_ids.sort_unstable();
 
     let mut slot_owner: [Option<u64>; 11] = [None; 11];
@@ -201,17 +208,19 @@ fn build_and_insert_lineup(ctx: &ReducerContext, match_id: u64, club_id: u64, si
 
 #[reducer]
 pub fn simulate_match(
-    ctx: &ReducerContext, home_club_id: u64, away_club_id: u64,
+    ctx: &ReducerContext,
+    home_id: u64, home_is_group: bool,
+    away_id: u64, away_is_group: bool,
 ) -> Result<(), String> {
     let user = require_user(ctx)?;
     enforce_rate_limit(ctx, "simulate_match", 10)?;
-    if home_club_id == away_club_id {
-        return Err("Kies een andere kantine als tegenstander".into());
+    if home_id == away_id && home_is_group == away_is_group {
+        return Err("Kies een andere tegenstander".into());
     }
-    let home_club = ctx.db.club().id().find(home_club_id)
-        .ok_or("Thuis-kantine niet gevonden")?;
-    let away_club = ctx.db.club().id().find(away_club_id)
-        .ok_or("Uit-kantine niet gevonden")?;
+    let home_name = entity_name(ctx, home_id, home_is_group)
+        .ok_or("Thuis-team/kantine niet gevonden")?;
+    let away_name = entity_name(ctx, away_id, away_is_group)
+        .ok_or("Uit-team/kantine niet gevonden")?;
 
     let now_micros = ctx.timestamp.to_micros_since_unix_epoch();
     let day_ago = now_micros.saturating_sub(86_400 * 1_000_000);
@@ -223,9 +232,11 @@ pub fn simulate_match(
         return Err("Je hebt vandaag al genoeg wedstrijden gespeeld".into());
     }
 
-    let seed = seed_from(home_club_id, away_club_id, now_micros);
+    let seed = seed_from(home_id, away_id, now_micros);
     let match_row = ctx.db.football_match().insert(FootballMatch {
-        id: 0, home_club_id, away_club_id,
+        id: 0,
+        home_club_id: home_id, away_club_id: away_id,
+        home_is_group, away_is_group,
         home_score: 0, away_score: 0, seed,
         created_by: user.id, created_at: ctx.timestamp,
         ball_x: 50.0, ball_y: 50.0, ball_target_x: 50.0, ball_target_y: 50.0,
@@ -238,11 +249,11 @@ pub fn simulate_match(
     });
     let match_id = match_row.id;
 
-    build_and_insert_lineup(ctx, match_id, home_club_id, "home");
-    build_and_insert_lineup(ctx, match_id, away_club_id, "away");
+    build_and_insert_lineup(ctx, match_id, home_id, home_is_group, "home");
+    build_and_insert_lineup(ctx, match_id, away_id, away_is_group, "away");
 
     insert_event(ctx, match_id, 0, MatchEventKind::KickOff, "", 0,
-        &format!("Aftrap: {} – {}", home_club.name, away_club.name));
+        &format!("Aftrap: {} – {}", home_name, away_name));
 
     // Geef home team possessie bij aftrap (center mid).
     if let Some(cm) = ctx.db.match_player().iter()
@@ -280,8 +291,8 @@ pub fn tick_match(ctx: &ReducerContext, tick: MatchTick) -> Result<(), String> {
     let mut rng = Rng::new(seed_for_minute(match_row.seed, minute));
 
     if minute == 45 {
-        let home_name = club_name(ctx, match_row.home_club_id);
-        let away_name = club_name(ctx, match_row.away_club_id);
+        let home_name = match_entity_name(ctx, &match_row, true);
+        let away_name = match_entity_name(ctx, &match_row, false);
         insert_event(ctx, match_id, 45, MatchEventKind::HalfTime, "", 0,
             &format!("Rust: {} {}-{} {}",
                 home_name, match_row.home_score, match_row.away_score, away_name));
@@ -310,8 +321,8 @@ pub fn tick_match(ctx: &ReducerContext, tick: MatchTick) -> Result<(), String> {
     if minute < MATCH_MINUTES {
         schedule_match_tick(ctx, match_id, minute + 1);
     } else {
-        let home_name = club_name(ctx, match_row.home_club_id);
-        let away_name = club_name(ctx, match_row.away_club_id);
+        let home_name = match_entity_name(ctx, &match_row, true);
+        let away_name = match_entity_name(ctx, &match_row, false);
         insert_event(ctx, match_id, MATCH_MINUTES, MatchEventKind::FullTime, "", 0,
             &format!("Einde: {} {}-{} {}",
                 home_name, home_score, away_score, away_name));
@@ -320,6 +331,7 @@ pub fn tick_match(ctx: &ReducerContext, tick: MatchTick) -> Result<(), String> {
             ctx.db.football_match().id().update(upd);
         }
     }
+    let _ = club_name; // helper blijft beschikbaar voor andere events
     Ok(())
 }
 
@@ -746,6 +758,24 @@ fn set_phase(ctx: &ReducerContext, match_id: u64, phase: &str,
 
 fn club_name(ctx: &ReducerContext, club_id: u64) -> String {
     ctx.db.club().id().find(club_id).map(|c| c.name).unwrap_or_else(|| "club".into())
+}
+
+/// Naam van een wedstrijd-entiteit (kantine óf team).
+fn entity_name(ctx: &ReducerContext, id: u64, is_group: bool) -> Option<String> {
+    if is_group {
+        ctx.db.group().id().find(id).map(|g| g.name)
+    } else {
+        ctx.db.club().id().find(id).map(|c| c.name)
+    }
+}
+
+fn match_entity_name(ctx: &ReducerContext, match_row: &FootballMatch, is_home: bool) -> String {
+    let (id, is_group) = if is_home {
+        (match_row.home_club_id, match_row.home_is_group)
+    } else {
+        (match_row.away_club_id, match_row.away_is_group)
+    };
+    entity_name(ctx, id, is_group).unwrap_or_else(|| "team".into())
 }
 
 fn pick_attacker(rng: &mut Rng, lu: &Lineup) -> Option<LineupRow> {

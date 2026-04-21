@@ -250,8 +250,11 @@ export interface SnackStats {
 
 export interface FootballMatch {
   id: bigint;
+  /** Entity-id voor de thuis-zijde. Kantine als home_is_group=false, anders team. */
   home_club_id: bigint;
   away_club_id: bigint;
+  home_is_group: boolean;
+  away_is_group: boolean;
   home_score: number;
   away_score: number;
   seed: bigint;
