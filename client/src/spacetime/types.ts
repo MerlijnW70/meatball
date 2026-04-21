@@ -37,6 +37,17 @@ export interface MeatballClient {
   requestTeamInvite(groupId: bigint): Promise<void>;
   approveInviteRequest(requestId: bigint): Promise<void>;
   rejectInviteRequest(requestId: bigint): Promise<void>;
+  createMatchFixture(
+    groupId: bigint, opponentClubId: bigint,
+    weAreHome: boolean, kickoffAtMicros: bigint,
+  ): Promise<void>;
+  submitPrediction(
+    fixtureId: bigint, homeScore: number, awayScore: number,
+  ): Promise<void>;
+  enterMatchResult(
+    fixtureId: bigint, homeScore: number, awayScore: number,
+  ): Promise<void>;
+  deleteMatchFixture(fixtureId: bigint): Promise<void>;
 }
 
 export const TOKEN_KEY = "meatball.spacetime.token.v1";

@@ -7,7 +7,8 @@ import type {
   ActivityEvent, ActivityKind, City, Club, ClubMembership, ClubMood,
   FootballMatch, Follow,
   Group, GroupInvite, GroupInviteReveal, GroupMembership, InviteRequest,
-  MatchEvent, MatchEventKind, MatchPlayer, Position,
+  MatchEvent, MatchEventKind, MatchFixture, MatchPlayer, MatchPrediction,
+  Position,
   Province, Rating, RatingIntent, RatingTag, RatingVote,
   Session as LiveSession, Snack, SnackLike, SnackStats, User, UserPosition,
   UserReaction,
@@ -151,6 +152,30 @@ export const toInviteRequest = (r: any): InviteRequest => ({
   group_id: r.groupId,
   from_user_id: r.fromUserId,
   requested_at: tsToMicros(r.requestedAt),
+});
+
+export const toMatchFixture = (r: any): MatchFixture => ({
+  id: r.id,
+  group_id: r.groupId,
+  opponent_club_id: r.opponentClubId,
+  we_are_home: !!r.weAreHome,
+  kickoff_at: tsToMicros(r.kickoffAt),
+  created_by: r.createdBy,
+  created_at: tsToMicros(r.createdAt),
+  final_home_score: r.finalHomeScore,
+  final_away_score: r.finalAwayScore,
+  final_entered: !!r.finalEntered,
+});
+
+export const toMatchPrediction = (r: any): MatchPrediction => ({
+  id: r.id,
+  fixture_id: r.fixtureId,
+  user_id: r.userId,
+  home_score: r.homeScore,
+  away_score: r.awayScore,
+  points_awarded: r.pointsAwarded,
+  scored: !!r.scored,
+  submitted_at: tsToMicros(r.submittedAt),
 });
 
 export const toUserPosition = (r: any): UserPosition => ({

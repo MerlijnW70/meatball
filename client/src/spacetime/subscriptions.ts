@@ -53,6 +53,8 @@ export function subscribeGlobal(conn: any) {
       "SELECT * FROM user_position",
       "SELECT * FROM invite_request",
       "SELECT * FROM football_match",
+      "SELECT * FROM match_fixture",
+      "SELECT * FROM match_prediction",
     ]);
 }
 

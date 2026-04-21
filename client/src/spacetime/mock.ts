@@ -82,6 +82,10 @@ export function installMockSeed() {
     requestTeamInvite: async () => {},
     approveInviteRequest: async () => {},
     rejectInviteRequest: async () => {},
+    createMatchFixture: async () => {},
+    submitPrediction: async () => {},
+    enterMatchResult: async () => {},
+    deleteMatchFixture: async () => {},
     toggleLike: async (sid) => {
       const me = useStore.getState().session.me;
       if (!me) return;

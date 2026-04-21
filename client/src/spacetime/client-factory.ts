@@ -71,5 +71,17 @@ export function makeClient(conn: any): MeatballClient {
       call("approveInviteRequest", { requestId }),
     rejectInviteRequest: (requestId) =>
       call("rejectInviteRequest", { requestId }),
+    createMatchFixture: (groupId, opponentClubId, weAreHome, kickoffAtMicros) =>
+      call("createMatchFixture", {
+        groupId, opponentClubId, weAreHome,
+        // SpacetimeDB Timestamp wordt geaccepteerd als object met deze key.
+        kickoffAt: { __timestamp_micros_since_unix_epoch__: kickoffAtMicros },
+      }),
+    submitPrediction: (fixtureId, homeScore, awayScore) =>
+      call("submitPrediction", { fixtureId, homeScore, awayScore }),
+    enterMatchResult: (fixtureId, homeScore, awayScore) =>
+      call("enterMatchResult", { fixtureId, homeScore, awayScore }),
+    deleteMatchFixture: (fixtureId) =>
+      call("deleteMatchFixture", { fixtureId }),
   };
 }

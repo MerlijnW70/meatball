@@ -6,7 +6,8 @@ import { useStore } from "../store";
 import {
   toActivity, toCity, toClub, toClubMembership, toClubMood, toFollow,
   toFootballMatch, toGroup, toGroupInvite, toGroupInviteReveal,
-  toGroupMembership, toInviteRequest, toMatchEvent, toMatchPlayer,
+  toGroupMembership, toInviteRequest, toMatchEvent, toMatchFixture,
+  toMatchPlayer, toMatchPrediction,
   toProvince, toRating, toRatingIntent, toRatingTag, toRatingVote, toSession,
   toSnack, toSnackLike, toSnackStats, toUser, toUserPosition, toUserReaction,
 } from "./mappers";
@@ -79,6 +80,8 @@ export function wireTables(conn: any) {
   pipe(db.group_invite_reveal, "group_invite_reveal", toGroupInviteReveal, s.upsertGroupInviteReveal, (r) => s.deleteGroupInviteReveal(r.invite_id));
   pipe(db.user_position, "user_position", toUserPosition, s.upsertUserPosition, (p) => s.deleteUserPosition(p.user_id));
   pipe(db.invite_request, "invite_request", toInviteRequest, s.upsertInviteRequest, (r) => s.deleteInviteRequest(r.id));
+  pipe(db.match_fixture, "match_fixture", toMatchFixture, s.upsertMatchFixture, (f) => s.deleteMatchFixture(f.id));
+  pipe(db.match_prediction, "match_prediction", toMatchPrediction, s.upsertMatchPrediction, (p) => s.deleteMatchPrediction(p.id));
   pipe(db.football_match, "football_match", toFootballMatch, s.upsertMatch, (mt) => s.deleteMatch(mt.id));
   pipe(db.match_player, "match_player", toMatchPlayer, s.upsertMatchPlayer, (p) => s.deleteMatchPlayer(p.id));
   pipe(db.match_event, "match_event", toMatchEvent, s.upsertMatchEvent, (e) => s.deleteMatchEvent(e.id));

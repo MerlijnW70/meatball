@@ -155,6 +155,30 @@ export interface InviteRequest {
   requested_at: Timestamp;
 }
 
+export interface MatchFixture {
+  id: bigint;
+  group_id: bigint;
+  opponent_club_id: bigint;
+  we_are_home: boolean;
+  kickoff_at: Timestamp;
+  created_by: bigint;
+  created_at: Timestamp;
+  final_home_score: number;
+  final_away_score: number;
+  final_entered: boolean;
+}
+
+export interface MatchPrediction {
+  id: bigint;
+  fixture_id: bigint;
+  user_id: bigint;
+  home_score: number;
+  away_score: number;
+  points_awarded: number;
+  scored: boolean;
+  submitted_at: Timestamp;
+}
+
 /**
  * 4-3-3 slot-codes. Zelfde volgorde als op het veld van achter naar voren:
  *   keeper

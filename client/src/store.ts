@@ -7,7 +7,8 @@ import { create } from "zustand";
 import type {
   ActivityEvent, City, Club, ClubMembership, ClubMood, FootballMatch, Follow,
   Group, GroupInvite, GroupInviteReveal, GroupMembership, InviteRequest,
-  MatchEvent, MatchPlayer, Province, Rating, RatingIntent,
+  MatchEvent, MatchFixture, MatchPlayer, MatchPrediction,
+  Province, Rating, RatingIntent,
   RatingTag, RatingVote, Session as LiveSession, Snack, SnackLike, SnackStats,
   User, UserPosition, UserReaction,
 } from "./types";
@@ -52,6 +53,8 @@ interface AppState {
   matches: IdMap<FootballMatch>;
   matchPlayers: IdMap<MatchPlayer>;
   matchEvents: IdMap<MatchEvent>;
+  matchFixtures: IdMap<MatchFixture>;
+  matchPredictions: IdMap<MatchPrediction>;
 
   setSession: (patch: Partial<Session>) => void;
   setMe: (u: User | null) => void;
@@ -101,6 +104,10 @@ interface AppState {
   deleteMatchPlayer: (id: bigint) => void;
   upsertMatchEvent: (e: MatchEvent) => void;
   deleteMatchEvent: (id: bigint) => void;
+  upsertMatchFixture: (f: MatchFixture) => void;
+  deleteMatchFixture: (id: bigint) => void;
+  upsertMatchPrediction: (p: MatchPrediction) => void;
+  deleteMatchPrediction: (id: bigint) => void;
 }
 
 const LS_KEY = "meatball.session.v1";
@@ -157,6 +164,7 @@ export const useStore = create<AppState>((set, get) => ({
   groups: m(), groupMemberships: m(), groupInvites: m(), groupInviteReveals: m(),
   userPositions: m(), inviteRequests: m(),
   matches: m(), matchPlayers: m(), matchEvents: m(),
+  matchFixtures: m(), matchPredictions: m(),
 
   setSession: (patch) => {
     const next = { ...get().session, ...patch };
@@ -217,4 +225,8 @@ export const useStore = create<AppState>((set, get) => ({
   deleteMatchPlayer: (id) => set((s) => ({ matchPlayers: del(s.matchPlayers, id) })),
   upsertMatchEvent: (e) => set((s) => ({ matchEvents: put(s.matchEvents, e.id, e) })),
   deleteMatchEvent: (id) => set((s) => ({ matchEvents: del(s.matchEvents, id) })),
+  upsertMatchFixture: (f) => set((s) => ({ matchFixtures: put(s.matchFixtures, f.id, f) })),
+  deleteMatchFixture: (id) => set((s) => ({ matchFixtures: del(s.matchFixtures, id) })),
+  upsertMatchPrediction: (p) => set((s) => ({ matchPredictions: put(s.matchPredictions, p.id, p) })),
+  deleteMatchPrediction: (id) => set((s) => ({ matchPredictions: del(s.matchPredictions, id) })),
 }));
