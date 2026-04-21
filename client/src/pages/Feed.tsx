@@ -73,7 +73,7 @@ export function FeedPage() {
 
         {/* Seizoen */}
         <section>
-          <div className="flex items-center justify-between mb-3 gap-2">
+          <div className="flex items-center justify-between mb-1 gap-2">
             <h3 className="font-display text-lg uppercase">jouw seizoen</h3>
             {myClubs.length >= 1 && (
               <button
@@ -87,6 +87,9 @@ export function FeedPage() {
               </button>
             )}
           </div>
+          <p className="text-[11px] font-bold uppercase tracking-widest opacity-70 mb-3">
+            Voeg alle clubs toe waar je kind dit seizoen tegen voetbalt
+          </p>
 
           {myClubs.length === 0 ? (
             <button
@@ -99,8 +102,10 @@ export function FeedPage() {
                 <p className="font-display text-2xl uppercase leading-tight">
                   nog geen kantines
                 </p>
-                <p className="text-sm font-bold mt-2 opacity-80">
-                  Tik om je eerste kantine toe te voegen
+                <p className="text-sm font-bold mt-2 opacity-80 leading-snug">
+                  Voeg elke tegenstander-club van<br />
+                  je kind toe aan je seizoen.<br />
+                  <span className="bg-ink text-paper px-1 mt-1 inline-block">tik om te starten</span>
                 </p>
               </BrutalCard>
             </button>
