@@ -57,19 +57,35 @@ export function OnboardScreennamePage() {
       }
       if (!useStore.getState().session.me) {
         const id = session.identity;
-        const me = Array.from(useStore.getState().users.values())
+        const meUser = Array.from(useStore.getState().users.values())
           .find((u) => u.identity === id);
-        if (me) useStore.getState().setMe(me);
+        if (meUser) useStore.getState().setMe(meUser);
       }
-      // Als de user via een WhatsApp-invite hier belandde, terug naar /join
-      // zodat acceptGroupInvite alsnog uitgevoerd wordt nu we een user zijn.
+
+      // WhatsApp-invite flow: accepteer de code DIRECT hier zodat we niet
+      // afhankelijk zijn van redirect-timing + subscription-sync. Daarna
+      // landen op de team-page i.p.v. home.
       const pendingInvite = sessionStorage.getItem("meatball.pendingInvite");
       if (pendingInvite) {
         sessionStorage.removeItem("meatball.pendingInvite");
-        go(`/join/${pendingInvite}`);
-      } else {
-        go("/home");
+        try { await client().acceptGroupInvite(pendingInvite); }
+        catch (e) {
+          // Al een error-UX tonen is overkill bij onboarding — log en ga door.
+          console.warn("[onboard] invite accept failed", friendlyError(e));
+        }
+        // Wacht kort op de nieuwe group_membership via subscription.
+        const meNow = useStore.getState().session.me;
+        let teamId: bigint | null = null;
+        for (let i = 0; i < 20 && meNow; i++) {
+          const latest = Array.from(useStore.getState().groupMemberships.values())
+            .filter((m) => m.user_id === meNow.id)
+            .sort((a, b) => Number(b.joined_at) - Number(a.joined_at))[0];
+          if (latest) { teamId = latest.group_id; break; }
+          await new Promise((r) => setTimeout(r, 150));
+        }
+        if (teamId) { go(`/group/${teamId}`); return; }
       }
+      go("/home");
     } catch (e) {
       setErr(friendlyError(e));
     } finally {
