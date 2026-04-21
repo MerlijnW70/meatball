@@ -85,7 +85,13 @@ export function GroupManageModal({ group, onClose }: Props) {
 
   const shareWhatsapp = () => {
     if (!reveal) return;
-    const msg = `Doe mee met ${group.name} op Meatball 🥩\n${shareUrl}`;
+    const msg =
+      `⚽ Doe mee met *${group.name}* op Meatball!\n\n` +
+      `We beoordelen samen de gehaktballen bij elke kantine waar we tegen ` +
+      `spelen dit seizoen.\n\n` +
+      `Tik de link → kies een spelersnaam → jij zit er direct in, met alle ` +
+      `kantines er al bij.\n\n` +
+      `${shareUrl}`;
     const nav = navigator as Navigator & {
       share?: (d: { title?: string; text?: string; url?: string }) => Promise<void>;
     };
@@ -173,8 +179,11 @@ export function GroupManageModal({ group, onClose }: Props) {
                   variant="mint" size="lg" block
                   className="mt-3"
                 >
-                  💬 deel uitnodiging
+                  💬 deel in WhatsApp-groep
                 </BrutalButton>
+                <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-1 text-center">
+                  Ouders tikken → kiezen naam → zitten in team + seizoen
+                </p>
                 <div className="flex gap-2 mt-2">
                   <BrutalButton
                     onClick={copyLink}

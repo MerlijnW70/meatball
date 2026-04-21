@@ -236,6 +236,18 @@ pub fn accept_group_invite(ctx: &ReducerContext, code: String) -> Result<(), Str
         joined_at: ctx.timestamp,
     });
 
+    // Push het seizoen van de inviter naar de nieuwe speler zodat ze direct
+    // dezelfde tegenstander-kantines zien. Maakt de WhatsApp-share voor
+    // voetbalouders écht zero-input: tap link, kies naam, klaar.
+    let inviter_id = invite.invited_by;
+    let inviter_clubs: Vec<u64> = ctx.db.club_membership().iter()
+        .filter(|m| m.user_id == inviter_id)
+        .map(|m| m.club_id)
+        .collect();
+    for club_id in inviter_clubs {
+        ensure_membership(ctx, user.id, club_id);
+    }
+
     invite.uses = invite.uses.saturating_add(1);
     ctx.db.group_invite().id().update(invite);
     Ok(())
