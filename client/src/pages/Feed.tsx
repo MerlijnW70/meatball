@@ -23,7 +23,6 @@ export function FeedPage() {
 
   const [confirmLeave, setConfirmLeave] = useState<Club | null>(null);
   const [busy, setBusy] = useState(false);
-  const [matchFor, setMatchFor] = useState<Club | null>(null);
   const [matchOpen, setMatchOpen] = useState(false);
 
   const openClub = (c: Club) => {
@@ -78,7 +77,7 @@ export function FeedPage() {
             {myClubs.length >= 1 && (
               <button
                 type="button"
-                onClick={() => { setMatchFor(null); setMatchOpen(true); }}
+                onClick={() => setMatchOpen(true)}
                 className="brut-btn bg-ink text-paper !py-1.5 !px-3 text-xs uppercase
                            flex items-center gap-1.5
                            active:translate-x-[2px] active:translate-y-[2px] transition-transform"
@@ -118,7 +117,6 @@ export function FeedPage() {
                   rank={idx + 1}
                   onTap={openClub}
                   onLeave={askLeave}
-                  onPlayMatch={(c) => { setMatchFor(c); setMatchOpen(true); }}
                 />
               ))}
             </div>
@@ -151,8 +149,7 @@ export function FeedPage() {
 
       {matchOpen && (
         <MatchStartModal
-          preselectHome={matchFor ?? undefined}
-          onClose={() => { setMatchOpen(false); setMatchFor(null); }}
+          onClose={() => setMatchOpen(false)}
         />
       )}
     </div>
@@ -160,13 +157,12 @@ export function FeedPage() {
 }
 
 function SeasonClubCard({
-  club, rank, onTap, onLeave, onPlayMatch,
+  club, rank, onTap, onLeave,
 }: {
   club: Club;
   rank: number;
   onTap: (c: Club) => void;
   onLeave: (c: Club) => void;
-  onPlayMatch: (c: Club) => void;
 }) {
   const snacks = useStore((s) => s.snacks);
   const gehaktbal = Array.from(snacks.values())
@@ -188,73 +184,51 @@ function SeasonClubCard({
                   active:translate-x-[3px] active:translate-y-[3px] transition-transform
                   ${isTop ? "bg-pop" : "bg-paper"}`}
     >
-      <div className="flex items-stretch">
-        {/* Rank */}
+      {/* Top: rank + naam (full-width, leesbaar op mobile) + delete */}
+      <div className="flex items-stretch border-b-4 border-ink">
         <div
-          className={`shrink-0 w-12 flex items-center justify-center border-r-4 border-ink
-            font-display text-3xl leading-none
+          className={`shrink-0 w-10 flex items-center justify-center border-r-4 border-ink
+            font-display text-xl leading-none
             ${isTop ? "bg-hot text-paper" : "bg-ink text-paper"}`}
         >
           {rank}
         </div>
-
-        {/* Name + stats */}
-        <div className="flex-1 min-w-0 py-3 px-3">
-          <p className="font-display text-lg sm:text-xl uppercase leading-tight truncate">
-            {club.name}
-          </p>
-          <p className="text-[10px] font-bold uppercase tracking-widest opacity-70 mt-1">
-            {hasRating ? (
-              <>
-                {stats.rating_count.toString()}× gescoord
-                {likes > 0 && (
-                  <>
-                    {" · "}
-                    <span className="text-hot">♥</span> {likes}
-                  </>
-                )}
-              </>
-            ) : (
-              "nog niet beoordeeld"
-            )}
-          </p>
-        </div>
-
-        {/* Score */}
-        {hasRating ? (
-          <div className="shrink-0 flex items-center justify-center pr-3 pl-1">
-            <ScorePill x100={stats.avg_score_x100} size="md" />
-          </div>
-        ) : (
-          <div className="shrink-0 w-14 flex items-center justify-center
-                          border-l-4 border-ink/20 bg-ink/5">
-            <span className="font-display text-3xl opacity-40">?</span>
-          </div>
-        )}
-
-        {/* Speel wedstrijd — full-height strip */}
-        <button
-          type="button"
-          onClick={(e) => { e.stopPropagation(); onPlayMatch(club); }}
-          aria-label="speel wedstrijd"
-          className="shrink-0 w-12 border-l-4 border-ink bg-ink text-paper
-                     flex items-center justify-center text-xl
-                     active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-        >
-          ⚽
-        </button>
-
-        {/* Verwijderen — full-height strip rechts */}
+        <p className="flex-1 min-w-0 px-3 py-2 font-display text-base sm:text-lg uppercase
+                      leading-tight self-center">
+          {club.name}
+        </p>
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); onLeave(club); }}
           aria-label="verwijder uit seizoen"
-          className="shrink-0 w-12 border-l-4 border-ink bg-hot text-paper
-                     flex items-center justify-center font-display text-2xl
+          className="shrink-0 w-10 border-l-4 border-ink bg-hot text-paper
+                     flex items-center justify-center font-display text-xl
                      active:translate-x-[2px] active:translate-y-[2px] transition-transform"
         >
           −
         </button>
+      </div>
+
+      {/* Bottom: stats + score */}
+      <div className="flex items-center gap-2 px-3 py-2">
+        <p className="flex-1 text-[10px] font-bold uppercase tracking-widest opacity-70">
+          {hasRating ? (
+            <>
+              {stats.rating_count.toString()}× gescoord
+              {likes > 0 && (
+                <>
+                  {" · "}
+                  <span className="text-hot">♥</span> {likes}
+                </>
+              )}
+            </>
+          ) : (
+            "nog niet beoordeeld"
+          )}
+        </p>
+        {hasRating && (
+          <ScorePill x100={stats.avg_score_x100} size="md" />
+        )}
       </div>
     </div>
   );
