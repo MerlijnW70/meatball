@@ -53,7 +53,7 @@ export function GroupsPage() {
               Team oprichten
             </p>
             <BrutalInput
-              placeholder="bv. De Gehaktbal Boys"
+              placeholder="bv. VV Gehaktbal"
               value={name}
               onChange={(e) => setName(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && canCreate() && create()}
