@@ -55,11 +55,15 @@ export function AddClubPage() {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title="Nieuwe kantine" back="/home" />
+      <TopBar title="Seizoen kantine" back="/home" />
       <main className="flex-1 p-4 flex flex-col gap-4">
-        <h2 className="font-display text-2xl uppercase">
-          Voeg <span className="bg-pop px-1">jouw kantine</span> toe
+        <h2 className="font-display text-2xl uppercase leading-tight">
+          Kantine voor<br />
+          <span className="bg-pop px-1">jouw seizoen</span>
         </h2>
+        <p className="text-xs font-bold uppercase tracking-widest opacity-70 -mt-2">
+          Zoek bestaande of type nieuwe naam
+        </p>
 
         <BrutalInput
           autoFocus
@@ -100,7 +104,7 @@ export function AddClubPage() {
           disabled={!canSubmit}
           onClick={submit}
         >
-          {busy ? "opslaan…" : "🏟 kantine toevoegen"}
+          {busy ? "opslaan…" : "toevoegen"}
         </BrutalButton>
       </main>
     </div>
