@@ -18,7 +18,6 @@ export function GroupsPage() {
   const me = useStore((s) => s.session.me);
   const ownsTeam = !!me && groups.some((g) => g.owner_user_id === me.id);
   const [name, setName] = useState("");
-  const [code, setCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -27,17 +26,6 @@ export function GroupsPage() {
     try {
       await client().createGroup(name.trim());
       setName("");
-    } catch (e) { setErr(friendlyError(e)); }
-    finally { setBusy(false); }
-  };
-
-  const accept = async () => {
-    const c = code.trim();
-    if (!c) return;
-    setBusy(true); setErr(null);
-    try {
-      await client().acceptGroupInvite(c);
-      setCode("");
     } catch (e) { setErr(friendlyError(e)); }
     finally { setBusy(false); }
   };
@@ -88,28 +76,6 @@ export function GroupsPage() {
             ))}
           </section>
         )}
-
-        <BrutalCard tone="sky" className="!p-3 text-paper">
-          <p className="text-xs font-bold uppercase tracking-widest mb-2">
-            Code gekregen?
-          </p>
-          <BrutalInput
-            placeholder="XXXXXX"
-            value={code}
-            onChange={(e) => setCode(e.target.value.toUpperCase())}
-            onKeyDown={(e) => e.key === "Enter" && code.trim() && accept()}
-            maxLength={16}
-            className="!text-lg tracking-widest uppercase"
-          />
-          <BrutalButton
-            variant="ink" size="md" block
-            disabled={busy || !code.trim()}
-            onClick={accept}
-            className="mt-2"
-          >
-            {busy ? "…" : "doe mee"}
-          </BrutalButton>
-        </BrutalCard>
 
         {err && (
           <p className="brut-card bg-hot text-paper p-2 font-bold">{err}</p>
