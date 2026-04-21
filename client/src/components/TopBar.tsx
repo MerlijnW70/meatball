@@ -32,7 +32,10 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews }: Prop
         <button
           type="button"
           onClick={() => go(back)}
-          className="brut-btn bg-ink text-paper !py-2 !px-3 text-sm shadow-brutSm"
+          className="shrink-0 w-10 h-10 border-4 border-ink bg-paper text-ink
+                     shadow-brutSm flex items-center justify-center font-display
+                     text-2xl leading-none rounded-none
+                     active:translate-x-[2px] active:translate-y-[2px] transition-transform"
           aria-label="terug"
         >
           ←

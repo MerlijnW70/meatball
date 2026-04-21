@@ -79,7 +79,7 @@ export function OnboardScreennamePage() {
       <TopBar title="speler" back="/" />
       <main className="flex-1 p-5 flex flex-col gap-5 pb-10">
         <h2 className="font-display text-3xl uppercase leading-tight">
-          Kies een <span className="bg-pop px-1">spelersnaam</span>
+          <span className="bg-pop px-1">spelersnaam</span>
         </h2>
 
         <div>
@@ -115,14 +115,22 @@ export function OnboardScreennamePage() {
           )}
         </div>
 
-        {/* Avatar preview + shuffle */}
-        <section className="flex flex-col items-center gap-3">
-          <Avatar userId={null} size="xl" override={{
-            color: avatar.color, icon: avatar.icon, decor,
-          }} />
-          <BrutalButton onClick={shuffle} variant="pop" size="md">
-            🎲 nieuwe look
-          </BrutalButton>
+        {/* Avatar preview — tik om te shufflen */}
+        <section className="flex flex-col items-center gap-2">
+          <button
+            type="button"
+            onClick={shuffle}
+            aria-label="shuffle avatar"
+            className="rounded-none active:translate-x-[2px] active:translate-y-[2px]
+                       transition-transform cursor-pointer"
+          >
+            <Avatar userId={null} size="xl" override={{
+              color: avatar.color, icon: avatar.icon, decor,
+            }} />
+          </button>
+          <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+            🎲 tik voor nieuwe look
+          </p>
         </section>
 
         {/* Veldpositie — 4-3-3 pitch */}

@@ -75,13 +75,21 @@ export function AvatarPicker({ onClose }: Props) {
             className="brut-btn bg-ink text-paper !py-2 !px-4 text-lg">✕</button>
         </div>
 
-        {/* Preview + shuffle */}
-        <div className="flex flex-col items-center gap-3 my-3">
-          <Avatar userId={null} size="xl"
-            override={{ color, icon, decor: "none|none|0" }} />
-          <BrutalButton onClick={shuffle} variant="pop" size="md">
-            🎲 nieuwe look
-          </BrutalButton>
+        {/* Preview — tik avatar om te shufflen */}
+        <div className="flex flex-col items-center gap-2 my-3">
+          <button
+            type="button"
+            onClick={shuffle}
+            aria-label="shuffle avatar"
+            className="rounded-none active:translate-x-[2px] active:translate-y-[2px]
+                       transition-transform cursor-pointer"
+          >
+            <Avatar userId={null} size="xl"
+              override={{ color, icon, decor: "none|none|0" }} />
+          </button>
+          <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+            🎲 tik voor nieuwe look
+          </p>
         </div>
 
         {/* Positie op het veld */}
