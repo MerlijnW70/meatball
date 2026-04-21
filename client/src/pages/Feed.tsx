@@ -14,8 +14,9 @@ import { ScorePill } from "../components/ScorePill";
 import { Avatar } from "../components/Avatar";
 import { UserMenu } from "../components/UserMenu";
 import { MatchStartModal } from "../components/MatchStartModal";
+import { RatingModal } from "../components/RatingModal";
 import { go } from "../router";
-import type { Club, Group } from "../types";
+import type { Club, Group, Snack } from "../types";
 
 export function FeedPage() {
   const myClubs = useMyClubs(50);
@@ -24,6 +25,15 @@ export function FeedPage() {
   const [confirmLeave, setConfirmLeave] = useState<Club | null>(null);
   const [busy, setBusy] = useState(false);
   const [matchOpen, setMatchOpen] = useState(false);
+  const [ratingSnack, setRatingSnack] = useState<Snack | null>(null);
+  const ratings = useStore((s) => s.ratings);
+  const me = useStore((s) => s.session.me);
+  const myRatingForSnack = (snackId: bigint | null | undefined) => {
+    if (!me || !snackId) return null;
+    return Array.from(ratings.values())
+      .filter((r) => r.user_id === me.id && r.snack_id === snackId)
+      .sort((a, b) => Number(b.created_at) - Number(a.created_at))[0] ?? null;
+  };
 
   const openClub = (c: Club) => {
     useStore.getState().setSession({
@@ -117,6 +127,7 @@ export function FeedPage() {
                   rank={idx + 1}
                   onTap={openClub}
                   onLeave={askLeave}
+                  onRate={(snack) => setRatingSnack(snack)}
                 />
               ))}
             </div>
@@ -152,17 +163,29 @@ export function FeedPage() {
           onClose={() => setMatchOpen(false)}
         />
       )}
+
+      {ratingSnack && (() => {
+        const mine = myRatingForSnack(ratingSnack.id);
+        return (
+          <RatingModal
+            snack={ratingSnack}
+            onClose={() => setRatingSnack(null)}
+            initial={mine ? { score: mine.score } : null}
+          />
+        );
+      })()}
     </div>
   );
 }
 
 function SeasonClubCard({
-  club, rank, onTap, onLeave,
+  club, rank, onTap, onLeave, onRate,
 }: {
   club: Club;
   rank: number;
   onTap: (c: Club) => void;
   onLeave: (c: Club) => void;
+  onRate: (snack: Snack) => void;
 }) {
   const snacks = useStore((s) => s.snacks);
   const gehaktbal = Array.from(snacks.values())
@@ -172,31 +195,34 @@ function SeasonClubCard({
 
   const hasRating = stats != null && stats.rating_count > 0n;
   const isTop = rank === 1 && hasRating;
+  const canRate = !!gehaktbal;
 
   return (
     <div
-      role="button"
-      tabIndex={0}
-      onClick={() => onTap(club)}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onTap(club); }}
-      aria-label={`open ${club.name}`}
-      className={`brut-card !p-0 overflow-hidden cursor-pointer
-                  active:translate-x-[3px] active:translate-y-[3px] transition-transform
+      className={`brut-card !p-0 overflow-hidden
                   ${isTop ? "bg-pop" : "bg-paper"}`}
     >
-      {/* Top: rank + naam (full-width, leesbaar op mobile) + delete */}
+      {/* Top: tap → ga naar kantine-page */}
       <div className="flex items-stretch border-b-4 border-ink">
-        <div
-          className={`shrink-0 w-10 flex items-center justify-center border-r-4 border-ink
-            font-display text-xl leading-none
-            ${isTop ? "bg-hot text-paper" : "bg-ink text-paper"}`}
+        <button
+          type="button"
+          onClick={() => onTap(club)}
+          aria-label={`open ${club.name}`}
+          className="flex-1 min-w-0 flex items-stretch text-left
+                     active:translate-x-[2px] active:translate-y-[2px] transition-transform"
         >
-          {rank}
-        </div>
-        <p className="flex-1 min-w-0 px-3 py-2 font-display text-base sm:text-lg uppercase
-                      leading-tight self-center">
-          {club.name}
-        </p>
+          <div
+            className={`shrink-0 w-10 flex items-center justify-center border-r-4 border-ink
+              font-display text-xl leading-none
+              ${isTop ? "bg-hot text-paper" : "bg-ink text-paper"}`}
+          >
+            {rank}
+          </div>
+          <p className="flex-1 min-w-0 px-3 py-2 font-display text-base sm:text-lg uppercase
+                        leading-tight self-center truncate">
+            {club.name}
+          </p>
+        </button>
         <button
           type="button"
           onClick={(e) => { e.stopPropagation(); onLeave(club); }}
@@ -209,27 +235,46 @@ function SeasonClubCard({
         </button>
       </div>
 
-      {/* Bottom: stats + score */}
-      <div className="flex items-center gap-2 px-3 py-2">
-        <p className="flex-1 text-[10px] font-bold uppercase tracking-widest opacity-70">
-          {hasRating ? (
-            <>
-              {stats.rating_count.toString()}× gescoord
-              {likes > 0 && (
-                <>
-                  {" · "}
-                  <span className="text-hot">♥</span> {likes}
-                </>
-              )}
-            </>
-          ) : (
-            "nog niet beoordeeld"
-          )}
-        </p>
-        {hasRating && (
+      {/* Bottom: tap → open gehaktbal rating. CTA-visueel als nog niet
+          beoordeeld, compacte stats-row als wel gescoord. */}
+      {!hasRating ? (
+        <button
+          type="button"
+          onClick={() => canRate && gehaktbal && onRate(gehaktbal)}
+          disabled={!canRate}
+          className="w-full bg-mint text-ink flex items-center gap-2 px-3 py-2.5
+                     active:translate-x-[2px] active:translate-y-[2px] transition-transform
+                     disabled:opacity-50"
+        >
+          <span className="text-2xl leading-none" aria-hidden>🥩</span>
+          <span className="flex-1 text-left font-display text-sm uppercase leading-tight">
+            beoordeel de gehaktbal
+          </span>
+          <span className="brut-chip bg-ink text-paper !py-0.5 !px-2 text-[10px] font-display">
+            tik hier ⚡
+          </span>
+        </button>
+      ) : (
+        <button
+          type="button"
+          onClick={() => canRate && gehaktbal && onRate(gehaktbal)}
+          disabled={!canRate}
+          className="w-full flex items-center gap-2 px-3 py-2 text-left
+                     active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+        >
+          <span className="flex-1 text-[10px] font-bold uppercase tracking-widest opacity-70">
+            {stats.rating_count.toString()}× gescoord
+            {likes > 0 && (
+              <>
+                {" · "}
+                <span className="text-hot">♥</span> {likes}
+              </>
+            )}
+            <span className="ml-1.5 opacity-60">· tik om te beoordelen</span>
+          </span>
           <ScorePill x100={stats.avg_score_x100} size="md" />
-        )}
-      </div>
+        </button>
+      )}
     </div>
   );
 }
