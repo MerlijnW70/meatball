@@ -20,8 +20,10 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews }: Prop
   const unread = useUnreadReactionsCount();
   const myGroups = useMyGroups();
   const showAvatar = !hideProfile && me;
-  const showCrews = !hideCrews && me;
   const crewCount = myGroups.length;
+  // Icoon is alleen nuttig om een team op te richten. Als je er al één hebt
+  // staat je team op de home-page; de shortcut is dan ruis.
+  const showCrews = !hideCrews && me && crewCount === 0;
 
   return (
     <header
