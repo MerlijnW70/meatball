@@ -55,35 +55,47 @@ export function OnboardScreennamePage() {
         try { await client().setPosition(position); }
         catch { /* positie non-critical */ }
       }
-      if (!useStore.getState().session.me) {
+      // Wacht op user-row sync via subscription zodat session.me beschikbaar
+      // is voor de vervolgstappen (invite-accept + membership-polling).
+      let meNow = useStore.getState().session.me;
+      for (let i = 0; i < 30 && !meNow; i++) {
         const id = session.identity;
-        const meUser = Array.from(useStore.getState().users.values())
+        const found = Array.from(useStore.getState().users.values())
           .find((u) => u.identity === id);
-        if (meUser) useStore.getState().setMe(meUser);
+        if (found) {
+          useStore.getState().setMe(found);
+          meNow = found;
+          break;
+        }
+        await new Promise((r) => setTimeout(r, 100));
       }
 
-      // WhatsApp-invite flow: accepteer de code DIRECT hier zodat we niet
-      // afhankelijk zijn van redirect-timing + subscription-sync. Daarna
-      // landen op de team-page i.p.v. home.
+      // WhatsApp-invite flow: accepteer de code DIRECT hier. Na accept wacht
+      // op de nieuwe group_membership via subscription → team-page.
       const pendingInvite = sessionStorage.getItem("meatball.pendingInvite");
       if (pendingInvite) {
         sessionStorage.removeItem("meatball.pendingInvite");
+        let inviteErr: string | null = null;
         try { await client().acceptGroupInvite(pendingInvite); }
         catch (e) {
-          // Al een error-UX tonen is overkill bij onboarding — log en ga door.
-          console.warn("[onboard] invite accept failed", friendlyError(e));
+          inviteErr = friendlyError(e);
+          console.warn("[onboard] invite accept failed:", inviteErr);
         }
-        // Wacht kort op de nieuwe group_membership via subscription.
-        const meNow = useStore.getState().session.me;
-        let teamId: bigint | null = null;
-        for (let i = 0; i < 20 && meNow; i++) {
-          const latest = Array.from(useStore.getState().groupMemberships.values())
-            .filter((m) => m.user_id === meNow.id)
-            .sort((a, b) => Number(b.joined_at) - Number(a.joined_at))[0];
-          if (latest) { teamId = latest.group_id; break; }
-          await new Promise((r) => setTimeout(r, 150));
+        if (!inviteErr && meNow) {
+          let teamId: bigint | null = null;
+          for (let i = 0; i < 40; i++) {
+            const latest = Array.from(useStore.getState().groupMemberships.values())
+              .filter((m) => m.user_id === meNow!.id)
+              .sort((a, b) => Number(b.joined_at) - Number(a.joined_at))[0];
+            if (latest) { teamId = latest.group_id; break; }
+            await new Promise((r) => setTimeout(r, 150));
+          }
+          if (teamId) { go(`/group/${teamId}`); return; }
         }
-        if (teamId) { go(`/group/${teamId}`); return; }
+        if (inviteErr) {
+          setErr(`Team niet gekoppeld: ${inviteErr}`);
+          return;
+        }
       }
       go("/home");
     } catch (e) {
