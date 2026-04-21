@@ -422,7 +422,8 @@ pub fn request_team_invite(ctx: &ReducerContext, group_id: u64) -> Result<(), St
     Ok(())
 }
 
-/// Trainer keurt een invite-request goed → user wordt lid, request verdwijnt.
+/// Trainer keurt een invite-request goed → user wordt lid, Trainer's seizoen
+/// wordt gepusht naar de nieuwe speler, request verdwijnt.
 #[reducer]
 pub fn approve_invite_request(ctx: &ReducerContext, request_id: u64) -> Result<(), String> {
     let user = require_user(ctx)?;
@@ -443,6 +444,17 @@ pub fn approve_invite_request(ctx: &ReducerContext, request_id: u64) -> Result<(
             joined_at: ctx.timestamp,
         });
     }
+
+    // Push het hele seizoen van de Trainer naar de nieuwe speler zodat ze
+    // direct dezelfde tegenstander-kantines zien zonder handmatig kopiëren.
+    let trainer_clubs: Vec<u64> = ctx.db.club_membership().iter()
+        .filter(|m| m.user_id == user.id)
+        .map(|m| m.club_id)
+        .collect();
+    for club_id in trainer_clubs {
+        ensure_membership(ctx, req.from_user_id, club_id);
+    }
+
     ctx.db.invite_request().id().delete(request_id);
     Ok(())
 }
