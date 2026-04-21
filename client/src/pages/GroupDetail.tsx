@@ -7,10 +7,10 @@ import { useMemo, useState } from "react";
 import { useGroup, useGroupMembers, useIsGroupMember, type GroupMemberRow } from "../hooks";
 import { useStore } from "../store";
 import { client } from "../spacetime";
-import { go } from "../router";
 import { TopBar } from "../components/TopBar";
 import { BrutalCard } from "../components/BrutalCard";
 import { Avatar } from "../components/Avatar";
+import { UserMenu } from "../components/UserMenu";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { GroupManageModal } from "../components/GroupManageModal";
 import { friendlyError } from "../utils/errors";
@@ -32,6 +32,16 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
   const members = useGroupMembers(groupId);
   const isMember = useIsGroupMember(groupId);
   const userPositions = useStore((s) => s.userPositions);
+  const sessions = useStore((s) => s.sessions);
+
+  // Set van online user-ids voor snelle lookup in de speler-cards.
+  const onlineSet = useMemo(() => {
+    const s = new Set<string>();
+    for (const sess of sessions.values()) {
+      if (sess.user_id !== 0n) s.add(sess.user_id.toString());
+    }
+    return s;
+  }, [sessions]);
 
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -184,25 +194,61 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
           </button>
         )}
 
-        {/* Wissels — onbeperkt. Overschot per slot + spelers zonder positie. */}
-        {wissels.length > 0 && (
-          <section>
-            <h3 className="font-display text-lg uppercase mb-2 flex items-center gap-2">
-              <span aria-hidden>🪑</span>
-              <span>wissels · {wissels.length}</span>
-            </h3>
-            <div className="flex flex-col gap-1.5">
-              {wissels.map((m) => (
-                <BenchRow
-                  key={m.membership.id.toString()}
-                  row={m}
-                  canKick={isOwner}
-                  onKick={(id, name) => setKickTarget({ id, name })}
-                />
-              ))}
-            </div>
-          </section>
-        )}
+        {/* Spelers — interactieve cards. Tap op kaart opent reactie/volg/profiel
+            popup via UserMenu; alles frictionless, één tap.  */}
+        {(() => {
+          const fieldPlayers: RowWithPos[] = FIELD_POSITIONS
+            .map((pos) => slotOwner.get(pos))
+            .filter((r): r is RowWithPos => !!r);
+          if (fieldPlayers.length === 0 && wissels.length === 0) return null;
+          return (
+            <section>
+              <h3 className="font-display text-lg uppercase mb-2">
+                spelers · {members.length}
+              </h3>
+
+              {fieldPlayers.length > 0 && (
+                <>
+                  <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1.5 flex items-center gap-1.5">
+                    <span className="inline-block w-2 h-2 bg-mint border border-ink" />
+                    in het veld · {fieldPlayers.length}
+                  </p>
+                  <div className="flex flex-col gap-1.5 mb-3">
+                    {fieldPlayers.map((m) => (
+                      <PlayerCard
+                        key={m.membership.id.toString()}
+                        row={m}
+                        isOnline={onlineSet.has(m.userId.toString())}
+                        canKick={isOwner}
+                        onKick={(id, name) => setKickTarget({ id, name })}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {wissels.length > 0 && (
+                <>
+                  <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mb-1.5 flex items-center gap-1.5">
+                    <span aria-hidden>🪑</span>
+                    op de bank · {wissels.length}
+                  </p>
+                  <div className="flex flex-col gap-1.5">
+                    {wissels.map((m) => (
+                      <PlayerCard
+                        key={m.membership.id.toString()}
+                        row={m}
+                        isOnline={onlineSet.has(m.userId.toString())}
+                        canKick={isOwner}
+                        onKick={(id, name) => setKickTarget({ id, name })}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </section>
+          );
+        })()}
 
         {err && (
           <p className="brut-card bg-hot text-paper p-2 font-bold">{err}</p>
@@ -233,7 +279,7 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
   );
 }
 
-/** Eén slot op het veld — speler of lege slot die de user kan claimen. */
+/** Eén slot op het veld — speler (tap → UserMenu popup) of leeg slot. */
 function SlotTile({
   pos, row, canClaim, onClaim,
 }: {
@@ -243,7 +289,6 @@ function SlotTile({
   onClaim: () => void;
 }) {
   if (!row) {
-    // Leeg slot: klikbaar voor leden om de positie te claimen.
     const empty = (
       <>
         <span className="opacity-70 text-[10px]">leeg</span>
@@ -272,57 +317,79 @@ function SlotTile({
     );
   }
   return (
-    <button
-      type="button"
-      onClick={() => go(`/u/${row.userId}`)}
-      aria-label={row.name}
-      title={row.name}
-      className="border-4 border-ink py-2 px-1 bg-paper text-ink text-center
-                 shadow-brutSm flex flex-col items-center gap-1
-                 active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-    >
-      <Avatar userId={row.userId} size="sm" />
-      <span className="text-[9px] font-bold uppercase tracking-widest opacity-70">
-        {POSITION_SHORT[pos]}
-      </span>
-    </button>
+    <UserMenu
+      userId={row.userId}
+      name={row.name}
+      bare
+      trigger={
+        <div className="border-4 border-ink py-2 px-1 bg-paper text-ink text-center
+                        shadow-brutSm flex flex-col items-center gap-1 w-full
+                        active:translate-x-[2px] active:translate-y-[2px] transition-transform">
+          <Avatar userId={row.userId} size="sm" />
+          <span className="text-[9px] font-bold uppercase tracking-widest opacity-70">
+            {POSITION_SHORT[pos]}
+          </span>
+        </div>
+      }
+    />
   );
 }
 
-function BenchRow({
-  row, canKick, onKick,
+/** Kaart per speler — hele kaart is tappable → UserMenu popup met
+ *  reacties/volg/profiel. Kick-knop blijft apart voor de trainer. */
+function PlayerCard({
+  row, isOnline, canKick, onKick,
 }: {
   row: RowWithPos;
+  isOnline: boolean;
   canKick: boolean;
   onKick: (id: bigint, name: string) => void;
 }) {
   return (
-    <BrutalCard className="!p-2 flex items-center gap-2">
-      <Avatar userId={row.userId} size="sm" />
-      <button
-        type="button"
-        onClick={() => go(`/u/${row.userId}`)}
-        className="font-display uppercase truncate flex-1 text-left"
-      >
-        {row.name}
-      </button>
-      {row.position ? (
-        <span className="brut-chip bg-sky text-paper !py-0.5 !px-1.5 text-[10px]">
-          {POSITION_LABEL[row.position]}
-        </span>
-      ) : (
-        <span className="brut-chip bg-ink text-paper !py-0.5 !px-1.5 text-[10px] opacity-70">
-          geen positie
-        </span>
-      )}
-      {row.isOwner && (
-        <span className="brut-chip bg-pop !py-0.5 !px-1.5 text-[10px]">Trainer</span>
-      )}
+    <BrutalCard className="!p-0 flex items-stretch">
+      <UserMenu
+        userId={row.userId}
+        name={row.name}
+        bare
+        className="flex-1 min-w-0"
+        trigger={
+          <div className="w-full flex items-center gap-2 p-2 text-left
+                          active:translate-x-[1px] active:translate-y-[1px] transition-transform">
+            <div className="relative shrink-0">
+              <Avatar userId={row.userId} size="sm" />
+              {isOnline && (
+                <span
+                  className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-mint
+                             border-2 border-ink rounded-full"
+                  style={{ animation: "livepulse 1.4s ease-in-out infinite" }}
+                  aria-label="online"
+                />
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-display uppercase truncate leading-tight">
+                {row.name}
+                {row.isOwner && (
+                  <span className="ml-1.5 text-sm leading-none" aria-label="trainer">👑</span>
+                )}
+              </p>
+              <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 leading-tight mt-0.5">
+                {row.position
+                  ? POSITION_LABEL[row.position]
+                  : "geen positie"}
+                {isOnline && <span className="text-mint ml-1.5">● live</span>}
+              </p>
+            </div>
+          </div>
+        }
+      />
       {canKick && !row.isOwner && (
         <button
           type="button"
           onClick={() => onKick(row.userId, row.name)}
-          className="brut-chip bg-hot text-paper !py-0.5 !px-1.5 text-[10px]
+          aria-label="verkoop speler"
+          className="shrink-0 w-10 border-l-4 border-ink bg-hot text-paper
+                     font-display text-xs uppercase flex items-center justify-center
                      active:translate-x-[1px] active:translate-y-[1px] transition-transform"
         >
           sell
