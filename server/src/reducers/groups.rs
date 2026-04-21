@@ -392,10 +392,12 @@ pub fn rename_group(ctx: &ReducerContext, group_id: u64, name: String) -> Result
 /// Een user vraagt om lid te worden van een bestaand team. Trainer ziet
 /// de request en kan deze approven of rejecten. Max één pending request
 /// per (group, user).
+const MAX_PENDING_REQUESTS_PER_USER: usize = 10;
+
 #[reducer]
 pub fn request_team_invite(ctx: &ReducerContext, group_id: u64) -> Result<(), String> {
     let user = require_user(ctx)?;
-    enforce_rate_limit(ctx, "request_team_invite", 5)?;
+    enforce_rate_limit(ctx, "request_team_invite", 10)?;
 
     let _group = ctx.db.group().id().find(group_id).ok_or("Team niet gevonden")?;
 
@@ -406,11 +408,22 @@ pub fn request_team_invite(ctx: &ReducerContext, group_id: u64) -> Result<(), St
         return Err("Je zit al in dit team".into());
     }
 
-    // Al een pending request?
+    // Al een pending request voor dit team?
     let already_requested = ctx.db.invite_request().iter()
         .any(|r| r.group_id == group_id && r.from_user_id == user.id);
     if already_requested {
         return Err("Je hebt deze al aangevraagd".into());
+    }
+
+    // Cap op totaal aantal pending requests per user — voorkomt dat iemand
+    // 100+ teams tegelijk benadert.
+    let pending_count = ctx.db.invite_request().iter()
+        .filter(|r| r.from_user_id == user.id).count();
+    if pending_count >= MAX_PENDING_REQUESTS_PER_USER {
+        return Err(format!(
+            "Je hebt al {} openstaande aanvragen — wacht op antwoord",
+            MAX_PENDING_REQUESTS_PER_USER,
+        ));
     }
 
     ctx.db.invite_request().insert(InviteRequest {
@@ -433,7 +446,16 @@ pub fn approve_invite_request(ctx: &ReducerContext, request_id: u64) -> Result<(
     if group.owner_user_id != user.id {
         return Err("Alleen de Trainer mag goedkeuren".into());
     }
-    // Check dat die user nog niet lid is geworden inmiddels.
+    // Defense-in-depth: trainer kan zichzelf niet goedkeuren (zou al lid zijn).
+    if req.from_user_id == user.id {
+        return Err("Je bent al de Trainer van dit team".into());
+    }
+
+    // Delete request eerst → tweede concurrent approve krijgt "niet gevonden"
+    // error i.p.v. duplicate-membership proberen in te voegen.
+    ctx.db.invite_request().id().delete(request_id);
+
+    // Alleen toevoegen als nog geen lid (defensieve check).
     let already = ctx.db.group_membership().iter()
         .any(|m| m.group_id == req.group_id && m.user_id == req.from_user_id);
     if !already {
@@ -455,7 +477,6 @@ pub fn approve_invite_request(ctx: &ReducerContext, request_id: u64) -> Result<(
         ensure_membership(ctx, req.from_user_id, club_id);
     }
 
-    ctx.db.invite_request().id().delete(request_id);
     Ok(())
 }
 

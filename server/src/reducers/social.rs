@@ -87,6 +87,7 @@ pub fn send_reaction(
     emoji: String,
 ) -> Result<(), String> {
     let me = require_user(ctx)?;
+    // Zelf-reactie zou de inbox volspammen zonder doel.
     if me.id == to_user_id {
         return Err("Je kan jezelf geen reactie sturen".into());
     }

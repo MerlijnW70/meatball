@@ -54,7 +54,10 @@ export function MatchStartModal({ onClose, preselectHome, preselectAway }: Props
 
   const waitForMatch = async (previousMaxId: bigint): Promise<bigint | null> => {
     if (!me || !home) return null;
-    for (let i = 0; i < 40; i++) {
+    // Exponential backoff: 100, 150, 225, 340, 510, ... tot 1500ms max.
+    // Totaal ~12s wachttijd verdeeld over 20 checks.
+    let delay = 100;
+    for (let i = 0; i < 20; i++) {
       const fresh = Array.from(useStore.getState().matches.values())
         .filter((mt) => mt.created_by === me.id
           && mt.home_club_id === home.id
@@ -62,7 +65,8 @@ export function MatchStartModal({ onClose, preselectHome, preselectAway }: Props
           && mt.id > previousMaxId)
         .sort((a, b) => Number(b.id - a.id))[0];
       if (fresh) return fresh.id;
-      await new Promise((r) => setTimeout(r, 200));
+      await new Promise((r) => setTimeout(r, delay));
+      delay = Math.min(Math.round(delay * 1.5), 1500);
     }
     return null;
   };

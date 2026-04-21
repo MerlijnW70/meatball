@@ -230,6 +230,22 @@ pub fn simulate_match(
     let away_name = entity_name(ctx, away_id, away_is_group)
         .ok_or("Uit-team/kantine niet gevonden")?;
 
+    // Authorization: user moet met minstens één van beide zijden verbonden
+    // zijn (lid van het team óf lid van de kantine). Voorkomt dat random
+    // users server-werk kunnen triggeren voor entiteiten die ze niet kennen.
+    let is_member_of = |id: u64, is_group: bool| -> bool {
+        if is_group {
+            ctx.db.group_membership().iter()
+                .any(|m| m.group_id == id && m.user_id == user.id)
+        } else {
+            ctx.db.club_membership().iter()
+                .any(|m| m.club_id == id && m.user_id == user.id)
+        }
+    };
+    if !is_member_of(home_id, home_is_group) && !is_member_of(away_id, away_is_group) {
+        return Err("Kies minstens één team of kantine waar jij bij hoort".into());
+    }
+
     let now_micros = ctx.timestamp.to_micros_since_unix_epoch();
     let day_ago = now_micros.saturating_sub(86_400 * 1_000_000);
     let todays = ctx.db.football_match().iter()
@@ -707,29 +723,37 @@ fn advance_velocity(
 }
 
 /// Pairwise collision resolution. Spelers worden zachtjes uit elkaar geduwd
-/// als ze binnen COLLISION_RADIUS komen. Symmetrisch: beide bewegen.
+/// als ze binnen COLLISION_RADIUS komen. Geoptimaliseerd: axis-cull + squared
+/// distance comparison skipt sqrt voor niet-botsende pairs (meeste gevallen).
 fn apply_collisions(state: &mut [(u64, f32, f32, f32, f32)]) {
     let n = state.len();
+    let r = COLLISION_RADIUS;
+    let r_sq = r * r;
     for i in 0..n {
         for j in (i + 1)..n {
             let (_, ix, iy, _, _) = state[i];
             let (_, jx, jy, _, _) = state[j];
             let dx = ix - jx;
             let dy = iy - jy;
-            let d = (dx * dx + dy * dy).sqrt();
-            if d < COLLISION_RADIUS && d > 0.01 {
-                let push = (COLLISION_RADIUS - d) * 0.5;
-                let ux = dx / d;
-                let uy = dy / d;
-                state[i].1 += ux * push;
-                state[i].2 += uy * push;
-                state[j].1 -= ux * push;
-                state[j].2 -= uy * push;
-            } else if d <= 0.01 {
+            // Cheap axis-cull: als één dimensie al te ver, skip meteen
+            if dx.abs() > r || dy.abs() > r { continue; }
+            let dist_sq = dx * dx + dy * dy;
+            if dist_sq > r_sq { continue; }
+            if dist_sq <= 0.0001 {
                 // Exact op elkaar — pseudo-random spread
                 state[i].1 += 0.5;
                 state[j].1 -= 0.5;
+                continue;
             }
+            // Alleen nu sqrt berekenen (zeldzame botsing)
+            let d = dist_sq.sqrt();
+            let push = (r - d) * 0.5;
+            let ux = dx / d;
+            let uy = dy / d;
+            state[i].1 += ux * push;
+            state[i].2 += uy * push;
+            state[j].1 -= ux * push;
+            state[j].2 -= uy * push;
         }
     }
     // Clamp na collisions
