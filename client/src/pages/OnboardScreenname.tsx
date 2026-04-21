@@ -72,11 +72,22 @@ export function OnboardScreennamePage() {
 
       // WhatsApp-invite flow: accepteer de code DIRECT hier. Na accept wacht
       // op de nieuwe group_membership via subscription → team-page.
-      const pendingInvite = sessionStorage.getItem("meatball.pendingInvite");
+      // Check beide storages (iOS Safari kan sessionStorage tussen navigates
+      // wipen; localStorage is backup).
+      let pendingInvite: string | null = null;
+      try { pendingInvite = sessionStorage.getItem("meatball.pendingInvite"); } catch {}
+      if (!pendingInvite) {
+        try { pendingInvite = localStorage.getItem("meatball.pendingInvite"); } catch {}
+      }
+      console.log("[onboard] pending invite:", pendingInvite, "me:", meNow?.id?.toString());
       if (pendingInvite) {
-        sessionStorage.removeItem("meatball.pendingInvite");
+        try { sessionStorage.removeItem("meatball.pendingInvite"); } catch {}
+        try { localStorage.removeItem("meatball.pendingInvite"); } catch {}
         let inviteErr: string | null = null;
-        try { await client().acceptGroupInvite(pendingInvite); }
+        try {
+          await client().acceptGroupInvite(pendingInvite);
+          console.log("[onboard] invite accepted");
+        }
         catch (e) {
           inviteErr = friendlyError(e);
           console.warn("[onboard] invite accept failed:", inviteErr);
@@ -90,6 +101,7 @@ export function OnboardScreennamePage() {
             if (latest) { teamId = latest.group_id; break; }
             await new Promise((r) => setTimeout(r, 150));
           }
+          console.log("[onboard] team after invite:", teamId?.toString() ?? "NOT FOUND");
           if (teamId) { go(`/group/${teamId}`); return; }
         }
         if (inviteErr) {

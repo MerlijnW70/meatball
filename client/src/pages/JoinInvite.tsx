@@ -54,9 +54,12 @@ export function JoinInvitePage({ code }: { code: string }) {
             <BrutalButton
               variant="ink" size="md" block className="mt-2"
               onClick={() => {
-                // Bewaar de invite-code zodat we na onboarding hier terugkomen
-                // om alsnog te accepteren (anders blijft de user op /home steken).
-                sessionStorage.setItem("meatball.pendingInvite", code);
+                // Bewaar de invite-code in BEIDE storages: iOS WhatsApp
+                // in-app browser wipet sessionStorage soms tussen page-
+                // navigaties; localStorage is persistent als backup.
+                try { sessionStorage.setItem("meatball.pendingInvite", code); } catch {}
+                try { localStorage.setItem("meatball.pendingInvite", code); } catch {}
+                console.log("[join] stashed pending invite:", code);
                 go("/onboard/name");
               }}
             >
