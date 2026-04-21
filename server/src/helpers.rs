@@ -156,7 +156,7 @@ pub fn current_top_snack(ctx: &ReducerContext, club_id: u64) -> Option<u64> {
     let mut best: Option<(u32, u64, u64)> = None; // (avg_x100, count, snack_id)
     for s in ctx.db.snack_stats().iter().filter(|s| s.club_id == club_id) {
         let key = (s.avg_score_x100, s.rating_count, s.snack_id);
-        if best.map_or(true, |b| key > b) {
+        if best.is_none_or(|b| key > b) {
             best = Some(key);
         }
     }
@@ -221,7 +221,7 @@ pub fn validate_decor(decor: &str) -> Result<(), String> {
         let mut ok = false;
         for c in ALLOWED_ACCENT_COLORS {
             for p in ALLOWED_ACCENT_POSITIONS {
-                if accent == &format!("{}-{}", c, p) { ok = true; break; }
+                if accent == format!("{}-{}", c, p) { ok = true; break; }
             }
             if ok { break; }
         }
@@ -241,7 +241,7 @@ pub fn default_avatar_for(key: &str) -> (&'static str, &'static str, String) {
     let accent_c = ALLOWED_ACCENT_COLORS[((h >> 20) as usize) % ALLOWED_ACCENT_COLORS.len()];
     let accent_p = ALLOWED_ACCENT_POSITIONS[((h >> 22) as usize) % ALLOWED_ACCENT_POSITIONS.len()];
     let rot = ALLOWED_ROTATIONS[((h >> 24) as usize) % ALLOWED_ROTATIONS.len()];
-    let accent = if (h % 4) == 0 {
+    let accent = if h.is_multiple_of(4) {
         "none".to_string()
     } else {
         format!("{}-{}", accent_c, accent_p)

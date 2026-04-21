@@ -334,8 +334,13 @@ pub fn tick_match(ctx: &ReducerContext, tick: MatchTick) -> Result<(), String> {
 
     let mut home_score = match_row.home_score;
     let mut away_score = match_row.away_score;
-    run_minute(ctx, match_id, minute, &home, &away, &mut rng,
-        &mut home_score, &mut away_score);
+    run_minute(ctx, &mut MinuteArgs {
+        match_id, minute,
+        home: &home, away: &away,
+        rng: &mut rng,
+        home_score: &mut home_score,
+        away_score: &mut away_score,
+    });
 
     if home_score != match_row.home_score || away_score != match_row.away_score {
         if let Some(mut upd) = ctx.db.football_match().id().find(match_id) {
@@ -360,11 +365,25 @@ pub fn tick_match(ctx: &ReducerContext, tick: MatchTick) -> Result<(), String> {
     Ok(())
 }
 
-fn run_minute(
-    ctx: &ReducerContext, match_id: u64, minute: u32,
-    home: &Lineup, away: &Lineup, rng: &mut Rng,
-    home_score: &mut u32, away_score: &mut u32,
-) {
+/// Argumenten van `run_minute`, gegroepeerd om arg-count beheersbaar te houden.
+struct MinuteArgs<'a> {
+    match_id: u64,
+    minute: u32,
+    home: &'a Lineup,
+    away: &'a Lineup,
+    rng: &'a mut Rng,
+    home_score: &'a mut u32,
+    away_score: &'a mut u32,
+}
+
+fn run_minute(ctx: &ReducerContext, m: &mut MinuteArgs<'_>) {
+    let match_id = m.match_id;
+    let minute = m.minute;
+    let home = m.home;
+    let away = m.away;
+    let rng = &mut *m.rng;
+    let home_score = &mut *m.home_score;
+    let away_score = &mut *m.away_score;
     let home_att = home.attack_power(); let home_def = home.defense_power();
     let away_att = away.attack_power(); let away_def = away.defense_power();
     if !rng.chance(55) { return; }
@@ -595,7 +614,7 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
 
     // Ball in flight? Intended receiver = dichtsbijzijnde teammate van possession-side
     // die richting bal-target beweegt.
-    let interceptor_id: u64 = if new_carrier == 0 && new_possession != "" {
+    let interceptor_id: u64 = if new_carrier == 0 && !new_possession.is_empty() {
         players.iter()
             .filter(|p| p.side == new_possession && p.slot != "keeper")
             .min_by(|a, b| {
@@ -608,12 +627,20 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
 
     // ── Compute new pos+velocity for each player ─────────────────
     let mut new_state: Vec<(u64, f32, f32, f32, f32)> = Vec::with_capacity(players.len());
+    let tctx = TargetCtx {
+        phase: &new_phase,
+        possession_side: &new_possession,
+        carrier_id: new_carrier,
+        presser_id,
+        interceptor_id,
+        now_micros,
+        players: &players,
+        ball_x: match_row.ball_x,
+        ball_y: match_row.ball_y,
+        ball_target: new_ball_target,
+    };
     for p in &players {
-        let target = compute_target(
-            p, &new_phase, &new_possession, new_carrier, presser_id, interceptor_id,
-            now_micros, &players,
-            match_row.ball_x, match_row.ball_y, new_ball_target,
-        );
+        let target = compute_target(p, &tctx);
         let max_speed = max_speed_for(p, new_carrier, presser_id, interceptor_id);
         let (nvx, nvy) = advance_velocity(p.vx, p.vy, target, (p.x, p.y), max_speed);
         let nx = (p.x + nvx * DT).clamp(1.0, 99.0);
@@ -763,6 +790,21 @@ fn apply_collisions(state: &mut [(u64, f32, f32, f32, f32)]) {
     }
 }
 
+/// Context voor `compute_target` — wordt per tick één keer opgebouwd en
+/// hergebruikt voor alle 22 spelers.
+struct TargetCtx<'a> {
+    phase: &'a str,
+    possession_side: &'a str,
+    carrier_id: u64,
+    presser_id: u64,
+    interceptor_id: u64,
+    now_micros: i64,
+    players: &'a [MatchPlayer],
+    ball_x: f32,
+    ball_y: f32,
+    ball_target: (f32, f32),
+}
+
 /// Target van een speler. Gelaagd:
 ///  - Keeper: lateraal mee met bal, komt van lijn bij diepe aanval
 ///  - Carrier: sprint naar opponent doel
@@ -772,23 +814,21 @@ fn apply_collisions(state: &mut [(u64, f32, f32, f32, f32)]) {
 ///  - Defending team: dipt in richting eigen doel, rest houdt lijn
 ///  - Off-ball aanvaller: maakt runs naar voren (~30% van de tijd)
 ///  - Sine-wander: 1.5u subtiele micro-motion
-fn compute_target(
-    p: &MatchPlayer,
-    phase: &str,
-    possession_side: &str,
-    carrier_id: u64,
-    presser_id: u64,
-    interceptor_id: u64,
-    now_micros: i64,
-    players: &[MatchPlayer],
-    ball_x: f32, ball_y: f32,
-    ball_target: (f32, f32),
-) -> (f32, f32) {
+fn compute_target(p: &MatchPlayer, tc: &TargetCtx<'_>) -> (f32, f32) {
     let (bx, by) = base_coord(&p.side, &p.slot);
     let line = slot_line(&p.slot);
-    let is_carrier = p.id == carrier_id;
-    let we_have_ball = possession_side == p.side;
-    let _ = phase;
+    let is_carrier = p.id == tc.carrier_id;
+    let we_have_ball = tc.possession_side == p.side;
+    let carrier_id = tc.carrier_id;
+    let presser_id = tc.presser_id;
+    let interceptor_id = tc.interceptor_id;
+    let now_micros = tc.now_micros;
+    let players = tc.players;
+    let ball_x = tc.ball_x;
+    let ball_y = tc.ball_y;
+    let ball_target = tc.ball_target;
+    let possession_side = tc.possession_side;
+    let _ = tc.phase;
 
     // Keeper
     if line == "gk" {
