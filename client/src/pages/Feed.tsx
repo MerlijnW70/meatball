@@ -17,6 +17,8 @@ import { RatingModal } from "../components/RatingModal";
 import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { BrutalInput } from "../components/BrutalInput";
 import { FixtureCreateModal } from "../components/FixtureCreateModal";
+import { PredictionModal } from "../components/PredictionModal";
+import type { MatchFixture } from "../types";
 import { go } from "../router";
 import { friendlyError } from "../utils/errors";
 import type { Club, Group, Position, Snack } from "../types";
@@ -370,10 +372,9 @@ function UpcomingFixturesSection() {
             return (
               <FixtureCard
                 key={f.id.toString()}
+                fixture={f}
                 groupName={group?.name ?? "jouw team"}
                 opponentName={opponent?.name ?? "tegenstander"}
-                weAreHome={f.we_are_home}
-                kickoffMicros={Number(f.kickoff_at)}
               />
             );
           })}
@@ -391,32 +392,114 @@ function UpcomingFixturesSection() {
 }
 
 function FixtureCard({
-  groupName, opponentName, weAreHome, kickoffMicros,
+  fixture, groupName, opponentName,
 }: {
+  fixture: MatchFixture;
   groupName: string;
   opponentName: string;
-  weAreHome: boolean;
-  kickoffMicros: number;
 }) {
-  const home = weAreHome ? groupName : opponentName;
-  const away = weAreHome ? opponentName : groupName;
+  const me = useStore((s) => s.session.me);
+  const predictionsMap = useStore((s) => s.matchPredictions);
+  const [predictOpen, setPredictOpen] = useState(false);
+
+  const kickoffMicros = Number(fixture.kickoff_at);
   const kickoff = formatKickoff(kickoffMicros);
+
+  const home = fixture.we_are_home ? groupName : opponentName;
+  const away = fixture.we_are_home ? opponentName : groupName;
+
+  // Mijn eigen voorspelling (als ik er één heb)
+  const myPrediction = useMemo(() => {
+    if (!me) return null;
+    return Array.from(predictionsMap.values())
+      .find((p) => p.fixture_id === fixture.id && p.user_id === me.id) ?? null;
+  }, [predictionsMap, fixture.id, me]);
+
+  // Totaal aantal team-leden dat al heeft voorspeld
+  const totalPredictions = useMemo(() => {
+    return Array.from(predictionsMap.values())
+      .filter((p) => p.fixture_id === fixture.id).length;
+  }, [predictionsMap, fixture.id]);
+
+  const now = Date.now();
+  const kickoffMs = kickoffMicros / 1000;
+  const locked = now > kickoffMs - 60_000;
+
   return (
-    <BrutalCard className="!p-0 overflow-hidden">
-      <div className="bg-ink text-paper px-3 py-1.5 flex items-center justify-between text-[10px] font-display uppercase tracking-widest">
-        <span>{kickoff.when}</span>
-        <span className="opacity-70">{kickoff.relative}</span>
-      </div>
-      <div className="px-3 py-2.5 flex items-center gap-2">
-        <span className="font-display text-base uppercase leading-tight flex-1 min-w-0 truncate">
-          {home}
-        </span>
-        <span className="font-display text-sm opacity-50">vs</span>
-        <span className="font-display text-base uppercase leading-tight flex-1 min-w-0 truncate text-right">
-          {away}
-        </span>
-      </div>
-    </BrutalCard>
+    <>
+      <BrutalCard className="!p-0 overflow-hidden">
+        <div className="bg-ink text-paper px-3 py-1.5 flex items-center justify-between text-[10px] font-display uppercase tracking-widest">
+          <span>{kickoff.when}</span>
+          <span className="opacity-70">{kickoff.relative}</span>
+        </div>
+        <div className="px-3 py-2.5 flex items-center gap-2">
+          <span className="font-display text-base uppercase leading-tight flex-1 min-w-0 truncate">
+            {home}
+          </span>
+          <span className="font-display text-sm opacity-50">vs</span>
+          <span className="font-display text-base uppercase leading-tight flex-1 min-w-0 truncate text-right">
+            {away}
+          </span>
+        </div>
+
+        {/* Voorspel-strook */}
+        <div className="border-t-4 border-ink bg-mint/30 px-3 py-2 flex items-center gap-2">
+          {myPrediction ? (
+            <>
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-70 flex-1">
+                jouw tip:
+                <span className="ml-1 font-display text-sm text-ink">
+                  {myPrediction.home_score}–{myPrediction.away_score}
+                </span>
+              </span>
+              {!locked && (
+                <button
+                  type="button"
+                  onClick={() => setPredictOpen(true)}
+                  className="border-2 border-ink py-1 px-2 bg-paper text-[10px] font-display uppercase
+                             active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+                >
+                  wijzig
+                </button>
+              )}
+            </>
+          ) : (
+            <>
+              <span className="text-[10px] font-bold uppercase tracking-widest opacity-70 flex-1">
+                {locked ? "voorspellingen gesloten" : "jij hebt nog niet voorspeld"}
+              </span>
+              {!locked && (
+                <button
+                  type="button"
+                  onClick={() => setPredictOpen(true)}
+                  className="border-2 border-ink py-1 px-3 bg-hot text-paper text-[10px] font-display uppercase
+                             active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+                >
+                  🎯 voorspel
+                </button>
+              )}
+            </>
+          )}
+        </div>
+        {totalPredictions > 0 && (
+          <div className="bg-paper px-3 py-1 text-[9px] font-bold uppercase tracking-widest opacity-60 text-center border-t-2 border-ink/20">
+            {totalPredictions} {totalPredictions === 1 ? "speler heeft" : "spelers hebben"} voorspeld
+          </div>
+        )}
+      </BrutalCard>
+
+      {predictOpen && (
+        <PredictionModal
+          fixtureId={fixture.id}
+          homeName={home}
+          awayName={away}
+          kickoffMicros={kickoffMicros}
+          initialHome={myPrediction?.home_score ?? null}
+          initialAway={myPrediction?.away_score ?? null}
+          onClose={() => setPredictOpen(false)}
+        />
+      )}
+    </>
   );
 }
 
