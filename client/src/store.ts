@@ -6,8 +6,8 @@
 import { create } from "zustand";
 import type {
   ActivityEvent, City, Club, ClubMembership, ClubMood, FootballMatch, Follow,
-  Group, GroupInvite, GroupInviteReveal, GroupMembership, MatchEvent,
-  MatchPlayer, Province, Rating, RatingIntent,
+  Group, GroupInvite, GroupInviteReveal, GroupMembership, InviteRequest,
+  MatchEvent, MatchPlayer, Province, Rating, RatingIntent,
   RatingTag, RatingVote, Session as LiveSession, Snack, SnackLike, SnackStats,
   User, UserPosition, UserReaction,
 } from "./types";
@@ -48,6 +48,7 @@ interface AppState {
   groupInviteReveals: IdMap<GroupInviteReveal>;
   userPositions: IdMap<UserPosition>;
   memberships: IdMap<ClubMembership>;
+  inviteRequests: IdMap<InviteRequest>;
   matches: IdMap<FootballMatch>;
   matchPlayers: IdMap<MatchPlayer>;
   matchEvents: IdMap<MatchEvent>;
@@ -92,6 +93,8 @@ interface AppState {
   deleteGroupInviteReveal: (inviteId: bigint) => void;
   upsertUserPosition: (p: UserPosition) => void;
   deleteUserPosition: (userId: bigint) => void;
+  upsertInviteRequest: (r: InviteRequest) => void;
+  deleteInviteRequest: (id: bigint) => void;
   upsertMatch: (m: FootballMatch) => void;
   deleteMatch: (id: bigint) => void;
   upsertMatchPlayer: (p: MatchPlayer) => void;
@@ -152,7 +155,7 @@ export const useStore = create<AppState>((set, get) => ({
   likes: m(), sessions: m(), intents: m(), reactions: m(),
   follows: m(), moods: m(), votes: m(), memberships: m(),
   groups: m(), groupMemberships: m(), groupInvites: m(), groupInviteReveals: m(),
-  userPositions: m(),
+  userPositions: m(), inviteRequests: m(),
   matches: m(), matchPlayers: m(), matchEvents: m(),
 
   setSession: (patch) => {
@@ -206,6 +209,8 @@ export const useStore = create<AppState>((set, get) => ({
   deleteGroupInviteReveal: (inviteId) => set((s) => ({ groupInviteReveals: del(s.groupInviteReveals, inviteId) })),
   upsertUserPosition: (p) => set((s) => ({ userPositions: put(s.userPositions, p.user_id, p) })),
   deleteUserPosition: (uid) => set((s) => ({ userPositions: del(s.userPositions, uid) })),
+  upsertInviteRequest: (r) => set((s) => ({ inviteRequests: put(s.inviteRequests, r.id, r) })),
+  deleteInviteRequest: (id) => set((s) => ({ inviteRequests: del(s.inviteRequests, id) })),
   upsertMatch: (mt) => set((s) => ({ matches: put(s.matches, mt.id, mt) })),
   deleteMatch: (id) => set((s) => ({ matches: del(s.matches, id) })),
   upsertMatchPlayer: (p) => set((s) => ({ matchPlayers: put(s.matchPlayers, p.id, p) })),

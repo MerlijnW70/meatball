@@ -16,6 +16,7 @@ import { ProfilePage } from "./pages/Profile";
 import { GroupDetailPage } from "./pages/GroupDetail";
 import { JoinInvitePage } from "./pages/JoinInvite";
 import { MatchPage } from "./pages/Match";
+import { TeamSearchPage } from "./pages/TeamSearch";
 
 export default function App() {
   const [route] = useRoute();
@@ -98,6 +99,7 @@ function RouteSwitch({ path }: { path: string }) {
   }
   if (path === "/clubs/new") return <AddClubPage />;
   if (path === "/home") return <FeedPage />;
+  if (path === "/teams/zoek") return <TeamSearchPage />;
   if (path === "/groups") {
     // Legacy redirect — team-beheer gaat nu via home + /group/:id.
     queueMicrotask(() => { location.hash = "/home"; });

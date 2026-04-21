@@ -148,6 +148,13 @@ export interface GroupInviteReveal {
   expires_at: Timestamp;
 }
 
+export interface InviteRequest {
+  id: bigint;
+  group_id: bigint;
+  from_user_id: bigint;
+  requested_at: Timestamp;
+}
+
 /**
  * 4-3-3 slot-codes. Zelfde volgorde als op het veld van achter naar voren:
  *   keeper

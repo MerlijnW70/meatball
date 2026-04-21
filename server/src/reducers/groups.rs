@@ -9,7 +9,8 @@ use crate::helpers::{
 };
 use crate::tables::{
     club_membership, group, group_invite, group_invite_reveal, group_membership,
-    invite_secret, Group, GroupInvite, GroupInviteReveal, GroupMembership, InviteSecret,
+    invite_request, invite_secret, Group, GroupInvite, GroupInviteReveal, GroupMembership,
+    InviteRequest, InviteSecret,
 };
 
 /// Reveal-plaintext blijft zichtbaar voor de creator voor 5 min.
@@ -385,5 +386,78 @@ pub fn rename_group(ctx: &ReducerContext, group_id: u64, name: String) -> Result
     group.name = trimmed.to_string();
     group.name_key = key;
     ctx.db.group().id().update(group);
+    Ok(())
+}
+
+/// Een user vraagt om lid te worden van een bestaand team. Trainer ziet
+/// de request en kan deze approven of rejecten. Max één pending request
+/// per (group, user).
+#[reducer]
+pub fn request_team_invite(ctx: &ReducerContext, group_id: u64) -> Result<(), String> {
+    let user = require_user(ctx)?;
+    enforce_rate_limit(ctx, "request_team_invite", 5)?;
+
+    let _group = ctx.db.group().id().find(group_id).ok_or("Team niet gevonden")?;
+
+    // Al lid?
+    let already_member = ctx.db.group_membership().iter()
+        .any(|m| m.group_id == group_id && m.user_id == user.id);
+    if already_member {
+        return Err("Je zit al in dit team".into());
+    }
+
+    // Al een pending request?
+    let already_requested = ctx.db.invite_request().iter()
+        .any(|r| r.group_id == group_id && r.from_user_id == user.id);
+    if already_requested {
+        return Err("Je hebt deze al aangevraagd".into());
+    }
+
+    ctx.db.invite_request().insert(InviteRequest {
+        id: 0,
+        group_id,
+        from_user_id: user.id,
+        requested_at: ctx.timestamp,
+    });
+    Ok(())
+}
+
+/// Trainer keurt een invite-request goed → user wordt lid, request verdwijnt.
+#[reducer]
+pub fn approve_invite_request(ctx: &ReducerContext, request_id: u64) -> Result<(), String> {
+    let user = require_user(ctx)?;
+    let req = ctx.db.invite_request().id().find(request_id)
+        .ok_or("Request niet gevonden")?;
+    let group = ctx.db.group().id().find(req.group_id).ok_or("Team verdwenen")?;
+    if group.owner_user_id != user.id {
+        return Err("Alleen de Trainer mag goedkeuren".into());
+    }
+    // Check dat die user nog niet lid is geworden inmiddels.
+    let already = ctx.db.group_membership().iter()
+        .any(|m| m.group_id == req.group_id && m.user_id == req.from_user_id);
+    if !already {
+        ctx.db.group_membership().insert(GroupMembership {
+            id: 0,
+            group_id: req.group_id,
+            user_id: req.from_user_id,
+            joined_at: ctx.timestamp,
+        });
+    }
+    ctx.db.invite_request().id().delete(request_id);
+    Ok(())
+}
+
+/// Trainer wijst een invite-request af. Of de user zelf trekt 'm in.
+#[reducer]
+pub fn reject_invite_request(ctx: &ReducerContext, request_id: u64) -> Result<(), String> {
+    let user = require_user(ctx)?;
+    let req = ctx.db.invite_request().id().find(request_id)
+        .ok_or("Request niet gevonden")?;
+    let group = ctx.db.group().id().find(req.group_id).ok_or("Team verdwenen")?;
+    // Trainer óf de aanvrager zelf mag afwijzen/intrekken.
+    if group.owner_user_id != user.id && req.from_user_id != user.id {
+        return Err("Niet jouw request".into());
+    }
+    ctx.db.invite_request().id().delete(request_id);
     Ok(())
 }

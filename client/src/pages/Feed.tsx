@@ -343,6 +343,14 @@ function CreateTeamCard() {
       >
         {busy ? "aanmaken…" : "+ maak team"}
       </BrutalButton>
+      <button
+        type="button"
+        onClick={() => go("/teams/zoek")}
+        className="text-xs font-bold uppercase tracking-widest opacity-70
+                   hover:opacity-100 underline decoration-2 underline-offset-2 mt-1"
+      >
+        of zoek een bestaand team →
+      </button>
     </div>
   );
 }

@@ -235,6 +235,16 @@ export function GroupManageModal({ group, onClose }: Props) {
           </BrutalButton>
         )}
 
+        {/* Owner: pending invite-requests */}
+        {isOwner && (
+          <PendingRequestsSection
+            groupId={group.id}
+            onError={setErr}
+            busy={busy}
+            setBusy={setBusy}
+          />
+        )}
+
         {err && (
           <p className="brut-card bg-hot text-paper p-2 font-bold">{err}</p>
         )}
@@ -294,5 +304,82 @@ export function GroupManageModal({ group, onClose }: Props) {
         onConfirm={confirmReplace}
       />
     </div>
+  );
+}
+
+/** Lijst van openstaande invite-requests voor dit team; Trainer kan
+ *  per request goedkeuren of afwijzen. */
+function PendingRequestsSection({
+  groupId, onError, busy, setBusy,
+}: {
+  groupId: bigint;
+  onError: (msg: string | null) => void;
+  busy: boolean;
+  setBusy: (v: boolean) => void;
+}) {
+  const requests = useStore((s) => s.inviteRequests);
+  const users = useStore((s) => s.users);
+  const pending = useMemo(
+    () => Array.from(requests.values())
+      .filter((r) => r.group_id === groupId)
+      .sort((a, b) => Number(a.requested_at) - Number(b.requested_at)),
+    [requests, groupId],
+  );
+
+  if (pending.length === 0) return null;
+
+  const approve = async (id: bigint) => {
+    setBusy(true); onError(null);
+    try { await client().approveInviteRequest(id); }
+    catch (e) { onError(friendlyError(e)); }
+    finally { setBusy(false); }
+  };
+  const reject = async (id: bigint) => {
+    setBusy(true); onError(null);
+    try { await client().rejectInviteRequest(id); }
+    catch (e) { onError(friendlyError(e)); }
+    finally { setBusy(false); }
+  };
+
+  return (
+    <section>
+      <p className="text-xs font-bold uppercase tracking-widest mb-2 flex items-center gap-1.5">
+        <span className="inline-block w-2 h-2 bg-hot border border-ink"
+          style={{ animation: "livepulse 1.2s ease-in-out infinite" }} />
+        invite-requests · {pending.length}
+      </p>
+      <div className="flex flex-col gap-1.5">
+        {pending.map((r) => {
+          const u = users.get(r.from_user_id.toString());
+          return (
+            <BrutalCard key={r.id.toString()} className="!p-2 flex items-center gap-2">
+              <p className="flex-1 min-w-0 font-display uppercase truncate">
+                {u?.screen_name ?? "iemand"}
+              </p>
+              <button
+                type="button"
+                onClick={() => reject(r.id)}
+                disabled={busy}
+                aria-label="afwijzen"
+                className="brut-chip bg-ink text-paper !py-0.5 !px-2 text-[10px]
+                           active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+              >
+                ✕ nee
+              </button>
+              <button
+                type="button"
+                onClick={() => approve(r.id)}
+                disabled={busy}
+                aria-label="goedkeuren"
+                className="brut-chip bg-mint !py-0.5 !px-2 text-[10px] font-display
+                           active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+              >
+                ✓ ja
+              </button>
+            </BrutalCard>
+          );
+        })}
+      </div>
+    </section>
   );
 }

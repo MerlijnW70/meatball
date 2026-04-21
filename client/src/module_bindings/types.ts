@@ -142,6 +142,14 @@ export const GroupMembership = __t.object("GroupMembership", {
 });
 export type GroupMembership = __Infer<typeof GroupMembership>;
 
+export const InviteRequest = __t.object("InviteRequest", {
+  id: __t.u64(),
+  groupId: __t.u64(),
+  fromUserId: __t.u64(),
+  requestedAt: __t.timestamp(),
+});
+export type InviteRequest = __Infer<typeof InviteRequest>;
+
 export const InviteSecret = __t.object("InviteSecret", {
   id: __t.u64(),
   code: __t.string(),

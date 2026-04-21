@@ -34,6 +34,9 @@ export interface MeatballClient {
     homeId: bigint, homeIsGroup: boolean,
     awayId: bigint, awayIsGroup: boolean,
   ): Promise<void>;
+  requestTeamInvite(groupId: bigint): Promise<void>;
+  approveInviteRequest(requestId: bigint): Promise<void>;
+  rejectInviteRequest(requestId: bigint): Promise<void>;
 }
 
 export const TOKEN_KEY = "meatball.spacetime.token.v1";

@@ -79,6 +79,9 @@ export function installMockSeed() {
     kickGroupMember: async () => {},
     shareSeasonWithCrew: async () => {},
     simulateMatch: async (_homeId: bigint, _homeIsGroup: boolean, _awayId: bigint, _awayIsGroup: boolean) => {},
+    requestTeamInvite: async () => {},
+    approveInviteRequest: async () => {},
+    rejectInviteRequest: async () => {},
     toggleLike: async (sid) => {
       const me = useStore.getState().session.me;
       if (!me) return;

@@ -49,6 +49,7 @@ export function subscribeGlobal(conn: any) {
       "SELECT * FROM group_invite",
       "SELECT * FROM group_invite_reveal",
       "SELECT * FROM user_position",
+      "SELECT * FROM invite_request",
       "SELECT * FROM football_match",
     ]);
 }

@@ -38,6 +38,7 @@ import AcceptGroupInviteReducer from "./accept_group_invite_reducer";
 import AddCityReducer from "./add_city_reducer";
 import AddClubReducer from "./add_club_reducer";
 import AddSnackReducer from "./add_snack_reducer";
+import ApproveInviteRequestReducer from "./approve_invite_request_reducer";
 import BeginRatingReducer from "./begin_rating_reducer";
 import ClearClubMoodReducer from "./clear_club_mood_reducer";
 import CreateGroupReducer from "./create_group_reducer";
@@ -49,7 +50,9 @@ import LeaveClubReducer from "./leave_club_reducer";
 import LeaveGroupReducer from "./leave_group_reducer";
 import RegenerateGroupInviteReducer from "./regenerate_group_invite_reducer";
 import RegisterUserReducer from "./register_user_reducer";
+import RejectInviteRequestReducer from "./reject_invite_request_reducer";
 import RenameGroupReducer from "./rename_group_reducer";
+import RequestTeamInviteReducer from "./request_team_invite_reducer";
 import RevokeGroupInviteReducer from "./revoke_group_invite_reducer";
 import SeedClubsReducer from "./seed_clubs_reducer";
 import SendReactionReducer from "./send_reaction_reducer";
@@ -77,6 +80,7 @@ import GroupRow from "./group_table";
 import GroupInviteRow from "./group_invite_table";
 import GroupInviteRevealRow from "./group_invite_reveal_table";
 import GroupMembershipRow from "./group_membership_table";
+import InviteRequestRow from "./invite_request_table";
 import MatchEventRow from "./match_event_table";
 import MatchPlayerRow from "./match_player_table";
 import ProvinceRow from "./province_table";
@@ -219,6 +223,17 @@ const tablesSchema = __schema({
       { name: 'group_membership_id_key', constraint: 'unique', columns: ['id'] },
     ],
   }, GroupMembershipRow),
+  invite_request: __table({
+    name: 'invite_request',
+    indexes: [
+      { accessor: 'id', name: 'invite_request_id_idx_btree', algorithm: 'btree', columns: [
+        'id',
+      ] },
+    ],
+    constraints: [
+      { name: 'invite_request_id_key', constraint: 'unique', columns: ['id'] },
+    ],
+  }, InviteRequestRow),
   match_event: __table({
     name: 'match_event',
     indexes: [
@@ -415,6 +430,7 @@ const reducersSchema = __reducers(
   __reducerSchema("add_city", AddCityReducer),
   __reducerSchema("add_club", AddClubReducer),
   __reducerSchema("add_snack", AddSnackReducer),
+  __reducerSchema("approve_invite_request", ApproveInviteRequestReducer),
   __reducerSchema("begin_rating", BeginRatingReducer),
   __reducerSchema("clear_club_mood", ClearClubMoodReducer),
   __reducerSchema("create_group", CreateGroupReducer),
@@ -426,7 +442,9 @@ const reducersSchema = __reducers(
   __reducerSchema("leave_group", LeaveGroupReducer),
   __reducerSchema("regenerate_group_invite", RegenerateGroupInviteReducer),
   __reducerSchema("register_user", RegisterUserReducer),
+  __reducerSchema("reject_invite_request", RejectInviteRequestReducer),
   __reducerSchema("rename_group", RenameGroupReducer),
+  __reducerSchema("request_team_invite", RequestTeamInviteReducer),
   __reducerSchema("revoke_group_invite", RevokeGroupInviteReducer),
   __reducerSchema("seed_clubs", SeedClubsReducer),
   __reducerSchema("send_reaction", SendReactionReducer),

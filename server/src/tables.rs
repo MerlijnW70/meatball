@@ -275,6 +275,18 @@ pub struct GroupInviteReveal {
     pub expires_at: Timestamp,
 }
 
+/// Request van een user om lid te worden van een team. Trainer kan
+/// approve/reject. Eén pending request per (group, from_user).
+#[table(accessor = invite_request, public)]
+pub struct InviteRequest {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    pub group_id: u64,
+    pub from_user_id: u64,
+    pub requested_at: Timestamp,
+}
+
 /// Positie van de speler — één van de 11 slots in het 4-3-3 schema
 /// (keeper, lb, lcb, rcb, rb, lm, cm, rm, lw, st, rw). Eén rij per user;
 /// upsert bij wijziging. Per team wordt uniqueness visueel afgedwongen
