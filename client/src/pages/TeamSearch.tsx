@@ -22,6 +22,8 @@ export function TeamSearchPage() {
   const [busy, setBusy] = useState<bigint | null>(null);
   const [err, setErr] = useState<string | null>(null);
 
+  const totalTeams = groups.size;
+
   const results = useMemo(() => {
     const qq = q.trim().toLowerCase();
     return Array.from(groups.values())
@@ -38,7 +40,12 @@ export function TeamSearchPage() {
         const trainer = users.get(g.owner_user_id.toString());
         return { group: g, memberCount, iAmMember, myRequest, trainerName: trainer?.screen_name };
       })
-      .sort((a, b) => b.memberCount - a.memberCount);
+      // Stabiele sort: eerst meeste spelers, dan jongste id bovenaan zodat
+      // nieuwe teams zichtbaar zijn ook al hebben ze nog geen spelers.
+      .sort((a, b) => {
+        if (b.memberCount !== a.memberCount) return b.memberCount - a.memberCount;
+        return Number(b.group.id - a.group.id);
+      });
   }, [groups, memberships, inviteRequests, users, q, me]);
 
   const request = async (groupId: bigint) => {
@@ -86,17 +93,21 @@ export function TeamSearchPage() {
           <p className="brut-card bg-hot text-paper p-2 font-bold text-sm">{err}</p>
         )}
 
-        {q.trim().length < 2 && results.length > 5 && (
-          <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">
-            Type minimaal 2 letters om te filteren · {results.length} teams
-          </p>
-        )}
+        {/* Altijd duidelijk maken hoeveel teams we ontvangen hebben zodat
+            een lege/kleine lijst niet ambigu is (laadfase vs geen matches). */}
+        <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+          {totalTeams === 0
+            ? "⏳ nog geen teams ontvangen — wacht op verbinding"
+            : q.trim().length < 2
+              ? `${totalTeams} ${totalTeams === 1 ? "team" : "teams"} beschikbaar`
+              : `${results.length} van ${totalTeams} match${results.length === 1 ? "" : "es"}`}
+        </p>
 
-        {results.length === 0 && (
+        {totalTeams > 0 && results.length === 0 && (
           <BrutalCard className="!p-3 text-center">
-            <p className="font-display text-lg uppercase">geen teams gevonden</p>
+            <p className="font-display text-lg uppercase">geen match</p>
             <p className="text-xs font-bold opacity-70 mt-1">
-              Of richt zelf een team op vanaf home.
+              Probeer een andere zoekterm.
             </p>
           </BrutalCard>
         )}
