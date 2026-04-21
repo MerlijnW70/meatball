@@ -12,7 +12,7 @@ import { BrutalCard } from "../components/BrutalCard";
 import { BrutalButton } from "../components/BrutalButton";
 import { ScorePill } from "../components/ScorePill";
 import { Avatar } from "../components/Avatar";
-import { MatchStartModal } from "../components/MatchStartModal";
+import { MatchStartModal, type MatchEntity } from "../components/MatchStartModal";
 import { RatingModal } from "../components/RatingModal";
 import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { go } from "../router";
@@ -24,7 +24,9 @@ export function FeedPage() {
 
   const [confirmLeave, setConfirmLeave] = useState<Club | null>(null);
   const [busy, setBusy] = useState(false);
-  const [matchOpen, setMatchOpen] = useState(false);
+  const [match, setMatch] = useState<{
+    home: MatchEntity; away: MatchEntity | null;
+  } | null>(null);
   const [ratingSnack, setRatingSnack] = useState<Snack | null>(null);
   const ratings = useStore((s) => s.ratings);
   const me = useStore((s) => s.session.me);
@@ -82,20 +84,7 @@ export function FeedPage() {
 
         {/* Seizoen */}
         <section>
-          <div className="flex items-center justify-between mb-1 gap-2">
-            <h3 className="font-display text-lg uppercase">jouw seizoen</h3>
-            {myClubs.length >= 1 && (
-              <button
-                type="button"
-                onClick={() => setMatchOpen(true)}
-                className="brut-btn bg-ink text-paper !py-1.5 !px-3 text-xs uppercase
-                           flex items-center gap-1.5
-                           active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-              >
-                <span aria-hidden>⚽</span> speel wedstrijd
-              </button>
-            )}
-          </div>
+          <h3 className="font-display text-lg uppercase mb-1">jouw seizoen</h3>
           <p className="text-[11px] font-bold uppercase tracking-widest opacity-70 mb-3">
             Voeg alle clubs toe waar je kind dit seizoen tegen voetbalt
           </p>
@@ -128,6 +117,15 @@ export function FeedPage() {
                   onTap={openClub}
                   onLeave={askLeave}
                   onRate={(snack) => setRatingSnack(snack)}
+                  onPlayMatch={(c) => {
+                    const home: MatchEntity = {
+                      kind: "club", id: c.id, name: c.name,
+                    };
+                    const away: MatchEntity | null = myGroups[0]
+                      ? { kind: "group", id: myGroups[0].id, name: myGroups[0].name }
+                      : null;
+                    setMatch({ home, away });
+                  }}
                 />
               ))}
               {/* Subtiel ghost-slot: "volgende kantine toevoegen", past
@@ -156,9 +154,11 @@ export function FeedPage() {
         />
       )}
 
-      {matchOpen && (
+      {match && (
         <MatchStartModal
-          onClose={() => setMatchOpen(false)}
+          preselectHome={match.home}
+          preselectAway={match.away ?? undefined}
+          onClose={() => setMatch(null)}
         />
       )}
 
@@ -177,13 +177,14 @@ export function FeedPage() {
 }
 
 function SeasonClubCard({
-  club, rank, onTap, onLeave, onRate,
+  club, rank, onTap, onLeave, onRate, onPlayMatch,
 }: {
   club: Club;
   rank: number;
   onTap: (c: Club) => void;
   onLeave: (c: Club) => void;
   onRate: (snack: Snack) => void;
+  onPlayMatch: (c: Club) => void;
 }) {
   const snacks = useStore((s) => s.snacks);
   const gehaktbal = Array.from(snacks.values())
@@ -220,6 +221,21 @@ function SeasonClubCard({
                         leading-tight self-center truncate">
             {club.name}
           </p>
+        </button>
+        {/* ⚽ speel-knop — pitch-groen zodat 'ie herkenbaar maar niet aggresief
+            oogt. Distinct van rank (ink) en delete (hot-red). Klik vult
+            deze kantine als thuis + jouw team als uit in de modal. */}
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onPlayMatch(club); }}
+          aria-label={`speel wedstrijd tegen ${club.name}`}
+          title="speel wedstrijd"
+          className="shrink-0 w-10 border-l-4 border-ink bg-mint text-ink
+                     flex items-center justify-center text-lg
+                     active:translate-x-[2px] active:translate-y-[2px] transition-transform
+                     hover:bg-mint/90"
+        >
+          <span aria-hidden>⚽</span>
         </button>
         <button
           type="button"

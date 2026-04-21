@@ -11,24 +11,24 @@ import { friendlyError } from "../utils/errors";
 import { go } from "../router";
 import { BrutalButton } from "./BrutalButton";
 import { BrutalCard } from "./BrutalCard";
-import type { Club } from "../types";
-
-type EntityKind = "club" | "group";
-interface MatchEntity {
-  kind: EntityKind;
+export type MatchEntityKind = "club" | "group";
+export interface MatchEntity {
+  kind: MatchEntityKind;
   id: bigint;
   name: string;
 }
 
 interface Props {
   onClose: () => void;
-  /** Optioneel: thuis-kantine voorkiezen (bv. vanaf kantine-rij). */
-  preselectHome?: Club;
+  /** Optioneel: thuis-zijde voorkiezen (bv. vanaf een kantine-kaart). */
+  preselectHome?: MatchEntity;
+  /** Optioneel: uit-zijde voorkiezen (bv. automatisch je eigen team). */
+  preselectAway?: MatchEntity;
 }
 
 type Step = "idle" | "pick-home" | "pick-away";
 
-export function MatchStartModal({ onClose, preselectHome }: Props) {
+export function MatchStartModal({ onClose, preselectHome, preselectAway }: Props) {
   const me = useStore((s) => s.session.me);
   const myClubs = useMyClubs(200);
   const myGroups = useMyGroups();
@@ -40,14 +40,11 @@ export function MatchStartModal({ onClose, preselectHome }: Props) {
     const groups: MatchEntity[] = myGroups.map((g) => ({
       kind: "group", id: g.id, name: g.name,
     }));
-    // Team eerst — het is "jouw team" en voelt logischer bovenaan.
     return [...groups, ...clubs];
   }, [myClubs, myGroups]);
 
-  const [home, setHome] = useState<MatchEntity | null>(
-    preselectHome ? { kind: "club", id: preselectHome.id, name: preselectHome.name } : null,
-  );
-  const [away, setAway] = useState<MatchEntity | null>(null);
+  const [home, setHome] = useState<MatchEntity | null>(preselectHome ?? null);
+  const [away, setAway] = useState<MatchEntity | null>(preselectAway ?? null);
   const [step, setStep] = useState<Step>("idle");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
