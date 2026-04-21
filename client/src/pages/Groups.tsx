@@ -22,10 +22,21 @@ export function GroupsPage() {
   const [err, setErr] = useState<string | null>(null);
 
   const create = async () => {
+    if (!me) return;
     setBusy(true); setErr(null);
+    const prevMax = Array.from(useStore.getState().groups.values())
+      .reduce((acc, g) => g.id > acc ? g.id : acc, 0n);
     try {
       await client().createGroup(name.trim());
       setName("");
+      // Wacht kort op het nieuwe team via subscription, navigeer dan door.
+      for (let i = 0; i < 30; i++) {
+        const fresh = Array.from(useStore.getState().groups.values())
+          .filter((g) => g.owner_user_id === me.id && g.id > prevMax)
+          .sort((a, b) => Number(b.id - a.id))[0];
+        if (fresh) { go(`/group/${fresh.id}`); return; }
+        await new Promise((r) => setTimeout(r, 100));
+      }
     } catch (e) { setErr(friendlyError(e)); }
     finally { setBusy(false); }
   };
