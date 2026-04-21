@@ -12,12 +12,11 @@ import { BrutalCard } from "../components/BrutalCard";
 import { BrutalButton } from "../components/BrutalButton";
 import { ScorePill } from "../components/ScorePill";
 import { Avatar } from "../components/Avatar";
-import { UserMenu } from "../components/UserMenu";
 import { MatchStartModal } from "../components/MatchStartModal";
 import { RatingModal } from "../components/RatingModal";
 import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { go } from "../router";
-import type { Club, Group, Snack } from "../types";
+import type { Club, Group, Position, Snack } from "../types";
 
 export function FeedPage() {
   const myClubs = useMyClubs(50);
@@ -280,17 +279,23 @@ function SeasonClubCard({
   );
 }
 
-const CREW_VISIBLE = 4;
+// 4-3-3 mini-pitch layout (voorlijn bovenaan, keeper onderaan — hetzelfde
+// perspectief als op de Team-pagina).
+const FORMATION_ROWS: Position[][] = [
+  ["lw", "st", "rw"],
+  ["lm", "cm", "rm"],
+  ["lb", "lcb", "rcb", "rb"],
+  ["keeper"],
+];
 
 function CrewStripCard({ group }: { group: Group }) {
   const me = useStore((s) => s.session.me);
-  const users = useStore((s) => s.users);
   const groupMemberships = useStore((s) => s.groupMemberships);
   const sessions = useStore((s) => s.sessions);
   const userPositions = useStore((s) => s.userPositions);
 
   const {
-    ordered, onlineCount, total, bezetCount, isTrainer,
+    slotOwner, onlineCount, total, bezetCount, isTrainer, onlineSet,
   } = useMemo(() => {
     const onlineUserIds = new Set<string>();
     for (const s of sessions.values()) {
@@ -299,26 +304,23 @@ function CrewStripCard({ group }: { group: Group }) {
     const mine = Array.from(groupMemberships.values())
       .filter((m) => m.group_id === group.id);
     const total = mine.length;
-    const others = me ? mine.filter((m) => m.user_id !== me.id) : mine;
     const isTrainer = !!me && group.owner_user_id === me.id;
 
-    const ownerId = group.owner_user_id;
-    const rankFn = (uid: bigint) => {
-      if (onlineUserIds.has(uid.toString())) return 0;
-      if (uid === ownerId) return 1;
-      return 2;
-    };
-    const ordered = others.slice().sort((a, b) => {
-      const ra = rankFn(a.user_id), rb = rankFn(b.user_id);
-      if (ra !== rb) return ra - rb;
+    // Per-slot claim: eerste member met deze positie krijgt 'm (Trainer eerst,
+    // dan join-volgorde).
+    const sorted = mine.slice().sort((a, b) => {
+      const aIsTr = a.user_id === group.owner_user_id ? 0 : 1;
+      const bIsTr = b.user_id === group.owner_user_id ? 0 : 1;
+      if (aIsTr !== bIsTr) return aIsTr - bIsTr;
       return Number(a.joined_at) - Number(b.joined_at);
     });
 
-    // Hoeveel unieke veld-slots bezet (max 11 in 4-3-3).
-    const slots = new Set<string>();
-    for (const m of mine) {
-      const pos = userPositions.get(m.user_id.toString())?.position;
-      if (pos) slots.add(pos);
+    const slotOwner = new Map<Position, bigint>();
+    for (const m of sorted) {
+      const pos = userPositions.get(m.user_id.toString())?.position as Position | undefined;
+      if (!pos) continue;
+      if (!FORMATION_ROWS.flat().includes(pos)) continue;
+      if (!slotOwner.has(pos)) slotOwner.set(pos, m.user_id);
     }
 
     let online = 0;
@@ -326,83 +328,114 @@ function CrewStripCard({ group }: { group: Group }) {
       if (onlineUserIds.has(m.user_id.toString())) online++;
     }
     return {
-      ordered, onlineCount: online, total,
-      bezetCount: slots.size, isTrainer,
+      slotOwner, onlineCount: online, total,
+      bezetCount: slotOwner.size, isTrainer,
+      onlineSet: onlineUserIds,
     };
   }, [group.id, group.owner_user_id, groupMemberships, sessions, me, userPositions]);
-
-  const overflow = Math.max(0, ordered.length - CREW_VISIBLE);
-  const filledPct = Math.round((bezetCount / 11) * 100);
 
   return (
     <button
       type="button"
       onClick={() => go(`/group/${group.id}`)}
-      className="shrink-0 brut-card !p-0 overflow-hidden min-w-[15rem] max-w-[18rem]
+      className="shrink-0 brut-card !p-0 overflow-hidden w-[18rem] max-w-full
                  bg-paper text-left flex flex-col
                  active:translate-x-[2px] active:translate-y-[2px] transition-transform"
     >
-      {/* Header strip: alleen team-naam */}
+      {/* Header: team-naam + trainer-kroon */}
       <div
-        className={`px-3 py-2 border-b-4 border-ink
+        className={`px-3 py-2 border-b-4 border-ink flex items-center gap-2
           ${isTrainer ? "bg-pop text-ink" : "bg-ink text-paper"}`}
       >
-        <p className="font-display text-lg uppercase leading-tight truncate">
+        <p className="flex-1 min-w-0 font-display text-lg uppercase leading-tight truncate">
           {group.name}
         </p>
-      </div>
-
-      {/* Voortgangs-balk: bezetting van de 11 veld-slots */}
-      <div className="relative h-2 bg-ink/10">
-        <div
-          className="absolute inset-y-0 left-0 bg-mint border-r-2 border-ink"
-          style={{ width: `${filledPct}%` }}
-        />
-      </div>
-
-      {/* Body: spelers row + meta */}
-      <div className="px-3 py-2.5 flex flex-col gap-2">
-        <div className="flex items-center gap-0.5 flex-wrap">
-          {ordered.slice(0, CREW_VISIBLE).map((m) => {
-            const u = users.get(m.user_id.toString());
-            return (
-              <UserMenu
-                key={m.id.toString()}
-                userId={m.user_id}
-                name={u?.screen_name ?? "speler"}
-                trigger={<Avatar userId={m.user_id} size="sm" />}
-                className="active:translate-x-[1px] active:translate-y-[1px] transition-transform"
-              />
-            );
-          })}
-          {overflow > 0 && (
-            <span
-              className="ml-1 brut-chip bg-ink text-paper !py-0.5 !px-1.5 text-[10px]"
-            >
-              +{overflow}
-            </span>
-          )}
-          {ordered.length === 0 && (
-            <span className="text-[10px] font-bold uppercase opacity-60">
-              alleen jij
-            </span>
-          )}
-        </div>
-
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-[10px] font-bold uppercase tracking-widest opacity-70">
-            {bezetCount}/11 opstelling · {total} {total === 1 ? "speler" : "spelers"}
+        {isTrainer && (
+          <span
+            className="shrink-0 text-base leading-none"
+            aria-label="trainer"
+            title="jij bent de trainer"
+          >
+            👑
           </span>
-          {onlineCount > 0 && (
-            <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest">
-              <span
-                className="inline-block w-1.5 h-1.5 bg-mint border border-ink"
-                style={{ animation: "livepulse 1.4s ease-in-out infinite" }}
-              />
-              {onlineCount}
-            </span>
-          )}
-        </div>
+        )}
+      </div>
+
+      {/* Mini-pitch: 4 rijen van de 4-3-3 met avatars of lege dots */}
+      <div
+        className="relative px-2 py-3 flex flex-col gap-2 border-b-4 border-ink"
+        style={{
+          background: "#1FAE6B",
+          backgroundImage: `repeating-linear-gradient(
+            180deg, rgba(255,255,255,0.08) 0 16px, transparent 16px 32px)`,
+        }}
+      >
+        {/* Middencirkel-hint */}
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: "50%", top: "50%", transform: "translate(-50%, -50%)",
+            width: "40px", height: "40px", borderRadius: "50%",
+            border: "1px solid rgba(255,255,255,0.25)",
+          }}
+          aria-hidden
+        />
+        {FORMATION_ROWS.map((row, i) => (
+          <div
+            key={i}
+            className="grid gap-2 relative z-10"
+            style={{ gridTemplateColumns: `repeat(${row.length}, minmax(0, 1fr))` }}
+          >
+            {row.map((pos) => {
+              const userId = slotOwner.get(pos);
+              if (!userId) {
+                return (
+                  <div key={pos} className="flex items-center justify-center h-6">
+                    <div
+                      className="w-3 h-3 rounded-full border-2 border-paper/60"
+                      aria-hidden
+                    />
+                  </div>
+                );
+              }
+              const online = onlineSet.has(userId.toString());
+              return (
+                <div key={pos} className="relative flex items-center justify-center">
+                  <Avatar userId={userId} size="xs" />
+                  {online && (
+                    <span
+                      className="absolute -bottom-0.5 -right-0.5 w-1.5 h-1.5 bg-mint
+                                 border border-ink rounded-full"
+                      style={{ animation: "livepulse 1.4s ease-in-out infinite" }}
+                      aria-hidden
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+
+      {/* Stats-strip */}
+      <div className="px-3 py-2 flex items-center justify-between gap-2">
+        <span className="text-[10px] font-bold uppercase tracking-widest opacity-70">
+          <span className={`font-display ${bezetCount === 11 ? "text-mint" : ""}`}>
+            {bezetCount}/11
+          </span>
+          {" · "}
+          {total} {total === 1 ? "speler" : "spelers"}
+        </span>
+        {onlineCount > 0 && (
+          <span className="flex items-center gap-1 brut-chip bg-mint !py-0.5 !px-1.5
+                           text-[10px] font-display uppercase">
+            <span
+              className="inline-block w-1.5 h-1.5 bg-ink rounded-full"
+              style={{ animation: "livepulse 1.2s ease-in-out infinite" }}
+            />
+            {onlineCount} live
+          </span>
+        )}
       </div>
     </button>
   );
