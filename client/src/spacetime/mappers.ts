@@ -165,6 +165,8 @@ export const toFootballMatch = (r: any): FootballMatch => ({
   created_at: tsToMicros(r.createdAt),
   ball_x: r.ballX,
   ball_y: r.ballY,
+  ball_vx: r.ballVx ?? 0,
+  ball_vy: r.ballVy ?? 0,
   ball_target_x: r.ballTargetX,
   ball_target_y: r.ballTargetY,
   phase: r.phase ?? "neutral",
@@ -190,6 +192,8 @@ export const toMatchPlayer = (r: any): MatchPlayer => ({
   avatar_icon: r.avatarIcon,
   x: r.x,
   y: r.y,
+  vx: r.vx ?? 0,
+  vy: r.vy ?? 0,
 });
 
 export const toMatchEvent = (r: any): MatchEvent => ({

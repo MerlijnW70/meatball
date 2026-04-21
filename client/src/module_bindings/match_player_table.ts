@@ -22,4 +22,6 @@ export default __t.row({
   avatarIcon: __t.string().name("avatar_icon"),
   x: __t.f32(),
   y: __t.f32(),
+  vx: __t.f32(),
+  vy: __t.f32(),
 });

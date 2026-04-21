@@ -262,6 +262,8 @@ export interface FootballMatch {
   created_at: Timestamp;
   ball_x: number;
   ball_y: number;
+  ball_vx: number;
+  ball_vy: number;
   ball_target_x: number;
   ball_target_y: number;
   phase: string;
@@ -287,6 +289,8 @@ export interface MatchPlayer {
   avatar_icon: string;
   x: number;             // 0..100, server-authoritative
   y: number;
+  vx: number;            // u/s — gebruikt voor momentum-rendering (optioneel)
+  vy: number;
 }
 
 export type MatchEventKind =

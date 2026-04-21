@@ -90,6 +90,8 @@ export const FootballMatch = __t.object("FootballMatch", {
   createdAt: __t.timestamp(),
   ballX: __t.f32(),
   ballY: __t.f32(),
+  ballVx: __t.f32(),
+  ballVy: __t.f32(),
   ballTargetX: __t.f32(),
   ballTargetY: __t.f32(),
   phase: __t.string(),
@@ -185,6 +187,8 @@ export const MatchPlayer = __t.object("MatchPlayer", {
   avatarIcon: __t.string(),
   x: __t.f32(),
   y: __t.f32(),
+  vx: __t.f32(),
+  vy: __t.f32(),
 });
 export type MatchPlayer = __Infer<typeof MatchPlayer>;
 

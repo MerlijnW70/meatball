@@ -1,14 +1,13 @@
-//! Voetbalwedstrijd-simulator — server-authoritative met realistic
-//! ball-carrier model.
+//! Voetbalwedstrijd-simulator — server-authoritative, realistic physics.
 //!
-//! Twee scheduled tick-loops:
-//! - `tick_match`  (~333ms = 3Hz): emit highlight-events + update score
-//! - `tick_sim`    (~100ms = 10Hz): continuous sim — wie heeft de bal,
-//!   passen, dribbelen, posities van spelers, positie van bal
-//!
-//! Belangrijk: tick_sim is de continu-actie; tick_match is de hoogtepunten.
-//! Wanneer tick_match een event emit, pauzeert hij tick_sim kort (~700ms)
-//! zodat de dramatische bal-beweging zichtbaar is voordat de sim verder gaat.
+//! Motion-model:
+//! - Momentum: elke speler heeft velocity; accelereert naar desired-velocity
+//!   met beperkte versnelling + max-speed per role.
+//! - Ball physics: constante velocity + friction i.p.v. exponential lerp.
+//! - Line discipline: alleen dichtstbijzijnde opponent prest de carrier;
+//!   rest houdt formatie.
+//! - Collision avoidance: soft repulsion als spelers binnen 3u van elkaar zijn.
+//! - Receiver anticipation: speler dicht bij bal-in-flight loopt ernaar toe.
 
 use sha2::{Digest, Sha256};
 use spacetimedb::{reducer, ReducerContext, ScheduleAt, Table, TimeDuration, Timestamp};
@@ -22,9 +21,22 @@ use crate::tables::{
 
 const MATCH_MINUTES: u32 = 90;
 const MAX_MATCHES_PER_DAY: u64 = 30;
-const TICK_MICROS: i64 = 333_000;       // tick_match (events)
-const POS_TICK_MICROS: i64 = 100_000;    // tick_sim (positions + carrier), 10Hz
-const EVENT_PAUSE_MICROS: i64 = 700_000; // sim-pause na een highlight-event
+const TICK_MICROS: i64 = 333_000;
+const POS_TICK_MICROS: i64 = 100_000;          // 10Hz
+const DT: f32 = 0.1;                            // seconden per tick
+const EVENT_PAUSE_MICROS: i64 = 700_000;
+
+// Motion-parameters
+const MAX_ACCEL: f32 = 55.0;                    // u/s² — hoe snel van stilstand
+const WALK_SPEED: f32 = 10.0;                   // u/s
+const JOG_SPEED: f32 = 16.0;
+const SPRINT_SPEED: f32 = 26.0;
+const COLLISION_RADIUS: f32 = 2.8;              // dichtstbij toegestaan
+const BALL_FRICTION: f32 = 0.90;                // per tick (90% retained = matige drag)
+const BALL_CATCH_RADIUS: f32 = 3.5;             // speler vangt bal binnen deze afstand
+const PASS_BASE_SPEED: f32 = 45.0;              // u/s (short pass)
+const PASS_DIST_SPEED: f32 = 1.2;               // + u/s per afstand-unit
+const PASS_MAX_SPEED: f32 = 90.0;               // u/s cap voor shots
 
 const FIELD_SLOTS: &[&str] = &[
     "keeper",
@@ -33,8 +45,6 @@ const FIELD_SLOTS: &[&str] = &[
     "lw", "st", "rw",
 ];
 
-// Alle bots delen dezelfde look — donker tegen de levendige user-avatars,
-// zodat humans visueel eruit springen.
 const BOT_COLOR: &str = "ink";
 const BOT_ICON: &str = "🤖";
 
@@ -57,7 +67,7 @@ impl Rng {
 
 fn seed_from(home_id: u64, away_id: u64, ts: i64) -> u64 {
     let mut h = Sha256::new();
-    h.update(b"meatball-match-v5");
+    h.update(b"meatball-match-v6");
     h.update(home_id.to_le_bytes()); h.update(away_id.to_le_bytes()); h.update(ts.to_le_bytes());
     let d = h.finalize();
     u64::from_le_bytes([d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]])
@@ -77,11 +87,9 @@ fn seed_for_sim(match_seed: u64, sim_tick_micros: i64) -> u64 {
     u64::from_le_bytes([d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7]])
 }
 
-// ── Veld / slots ────────────────────────────────────────────────
+// ── Coord helpers ───────────────────────────────────────────────
 
-fn slot_index(slot: &str) -> usize {
-    FIELD_SLOTS.iter().position(|s| *s == slot).unwrap_or(0)
-}
+fn slot_index(slot: &str) -> usize { FIELD_SLOTS.iter().position(|s| *s == slot).unwrap_or(0) }
 
 fn slot_line(slot: &str) -> &'static str {
     match slot {
@@ -110,12 +118,11 @@ fn base_coord(side: &str, slot: &str) -> (f32, f32) {
     if side == "home" { HOME[idx] } else { AWAY[idx] }
 }
 
-fn lerp(a: f32, b: f32, t: f32) -> f32 { a + (b - a) * t }
 fn dist(ax: f32, ay: f32, bx: f32, by: f32) -> f32 {
     ((ax - bx).powi(2) + (ay - by).powi(2)).sqrt()
 }
 
-// ── Lineup voor event-simulatie (tick_match) ────────────────────
+// ── Lineup (voor event simulatie) ───────────────────────────────
 
 #[derive(Copy, Clone)]
 struct LineupRow { match_player_id: u64, slot_index: usize }
@@ -153,7 +160,7 @@ fn rebuild_lineup(ctx: &ReducerContext, match_id: u64, side: &str) -> Lineup {
     Lineup { players }
 }
 
-// ── Opbouw lineup + initial positions ───────────────────────────
+// ── Opbouw lineup + initial state ───────────────────────────────
 
 fn build_and_insert_lineup(
     ctx: &ReducerContext, match_id: u64, entity_id: u64, is_group: bool, side: &str,
@@ -188,7 +195,8 @@ fn build_and_insert_lineup(
             ctx.db.match_player().insert(MatchPlayer {
                 id: 0, match_id, side: side.to_string(), slot: (*slot).to_string(),
                 user_id: uid, bot_slot: 0, display_name: name,
-                avatar_color: color, avatar_icon: icon, x, y,
+                avatar_color: color, avatar_icon: icon,
+                x, y, vx: 0.0, vy: 0.0,
             });
         } else {
             bot_counter += 1;
@@ -198,7 +206,7 @@ fn build_and_insert_lineup(
                 display_name: format!("Bot #{}", bot_counter),
                 avatar_color: BOT_COLOR.to_string(),
                 avatar_icon: BOT_ICON.to_string(),
-                x, y,
+                x, y, vx: 0.0, vy: 0.0,
             });
         }
     }
@@ -239,7 +247,9 @@ pub fn simulate_match(
         home_is_group, away_is_group,
         home_score: 0, away_score: 0, seed,
         created_by: user.id, created_at: ctx.timestamp,
-        ball_x: 50.0, ball_y: 50.0, ball_target_x: 50.0, ball_target_y: 50.0,
+        ball_x: 50.0, ball_y: 50.0,
+        ball_vx: 0.0, ball_vy: 0.0,
+        ball_target_x: 50.0, ball_target_y: 50.0,
         phase: "neutral".into(), phase_set_at: ctx.timestamp,
         last_action_player_id: 0, last_action_side: "".into(),
         ball_carrier_id: 0, possession_side: "".into(),
@@ -255,7 +265,7 @@ pub fn simulate_match(
     insert_event(ctx, match_id, 0, MatchEventKind::KickOff, "", 0,
         &format!("Aftrap: {} – {}", home_name, away_name));
 
-    // Geef home team possessie bij aftrap (center mid).
+    // Home center-mid start met de bal.
     if let Some(cm) = ctx.db.match_player().iter()
         .find(|p| p.match_id == match_id && p.side == "home" && p.slot == "cm")
     {
@@ -272,7 +282,7 @@ pub fn simulate_match(
     Ok(())
 }
 
-// ── tick_match — events ──────────────────────────────────────────
+// ── tick_match ──────────────────────────────────────────────────
 
 #[reducer]
 pub fn tick_match(ctx: &ReducerContext, tick: MatchTick) -> Result<(), String> {
@@ -296,9 +306,9 @@ pub fn tick_match(ctx: &ReducerContext, tick: MatchTick) -> Result<(), String> {
         insert_event(ctx, match_id, 45, MatchEventKind::HalfTime, "", 0,
             &format!("Rust: {} {}-{} {}",
                 home_name, match_row.home_score, match_row.away_score, away_name));
-        // Kickoff-reset: center, home has ball weer
         if let Some(mut m) = ctx.db.football_match().id().find(match_id) {
             m.ball_target_x = 50.0; m.ball_target_y = 50.0;
+            m.ball_vx = 0.0; m.ball_vy = 0.0;
             m.phase = "neutral".into(); m.phase_set_at = ctx.timestamp;
             m.ball_carrier_id = 0; m.possession_side = "home".into();
             m.sim_paused_until = ctx.timestamp + TimeDuration::from_micros(EVENT_PAUSE_MICROS);
@@ -331,7 +341,6 @@ pub fn tick_match(ctx: &ReducerContext, tick: MatchTick) -> Result<(), String> {
             ctx.db.football_match().id().update(upd);
         }
     }
-    let _ = club_name; // helper blijft beschikbaar voor andere events
     Ok(())
 }
 
@@ -357,7 +366,6 @@ fn run_minute(
     let opp_side_str = if side_home { "away" } else { "home" };
     let opp_lu = if side_home { away } else { home };
 
-    // Draag bal-attack over aan scorer → sim volgt dat vanzelf.
     if scorer_id != 0 {
         if let Some(mut m) = ctx.db.football_match().id().find(match_id) {
             m.ball_carrier_id = scorer_id;
@@ -371,11 +379,16 @@ fn run_minute(
     if rng.chance(shot_goal_pct) {
         if side_home { *home_score += 1; } else { *away_score += 1; }
         let goal_y = if side_home { 2.0 } else { 98.0 };
-        // Pause sim tijdens goal-animatie.
         if let Some(mut m) = ctx.db.football_match().id().find(match_id) {
+            // Shot = ball vliegt met constante velocity richting doel
+            let dx = 50.0 - m.ball_x;
+            let dy = goal_y - m.ball_y;
+            let dist = (dx * dx + dy * dy).sqrt().max(0.01);
+            m.ball_vx = dx / dist * PASS_MAX_SPEED;
+            m.ball_vy = dy / dist * PASS_MAX_SPEED;
             m.ball_target_x = 50.0; m.ball_target_y = goal_y;
             m.ball_carrier_id = 0;
-            m.possession_side = opp_side_str.into(); // tegenstander gaat aftrap doen
+            m.possession_side = opp_side_str.into();
             m.sim_paused_until = ctx.timestamp + TimeDuration::from_micros(EVENT_PAUSE_MICROS);
             ctx.db.football_match().id().update(m);
         }
@@ -386,11 +399,11 @@ fn run_minute(
         let keeper = opp_lu.keeper();
         let keeper_id = keeper.map(|r| r.match_player_id).unwrap_or(0);
         let kname = player_name(ctx, keeper_id);
-        // Keeper pakt de bal.
         if keeper_id != 0 {
             if let Some(mut m) = ctx.db.football_match().id().find(match_id) {
                 m.ball_carrier_id = keeper_id;
                 m.possession_side = opp_side_str.into();
+                m.ball_vx = 0.0; m.ball_vy = 0.0;
                 m.next_decision_at = ctx.timestamp + TimeDuration::from_micros(700_000);
                 m.sim_paused_until = ctx.timestamp + TimeDuration::from_micros(400_000);
                 ctx.db.football_match().id().update(m);
@@ -412,11 +425,11 @@ fn run_minute(
         let tackler = rng.pick(&defs);
         let tid = tackler.map(|r| r.match_player_id).unwrap_or(0);
         let tname = player_name(ctx, tid);
-        // Tackle: possession flips naar defender.
         if tid != 0 {
             if let Some(mut m) = ctx.db.football_match().id().find(match_id) {
                 m.ball_carrier_id = tid;
                 m.possession_side = opp_side_str.into();
+                m.ball_vx = 0.0; m.ball_vy = 0.0;
                 m.next_decision_at = ctx.timestamp + TimeDuration::from_micros(500_000);
                 ctx.db.football_match().id().update(m);
             }
@@ -427,7 +440,7 @@ fn run_minute(
     }
 }
 
-// ── tick_sim (was tick_positions) — 10Hz continuous sim ──────────
+// ── tick_positions — continuous sim met momentum + physics ──────
 
 #[reducer]
 pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), String> {
@@ -443,68 +456,75 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
     let now_micros = ctx.timestamp.to_micros_since_unix_epoch();
     let paused = now_micros < match_row.sim_paused_until.to_micros_since_unix_epoch();
 
-    // 1. Ball-carrier decisions (alleen als sim niet gepauzeerd)
+    let players: Vec<MatchPlayer> = ctx.db.match_player().iter()
+        .filter(|p| p.match_id == match_id).collect();
+
+    // Carrier / decision state
     let mut new_carrier = match_row.ball_carrier_id;
     let mut new_possession = match_row.possession_side.clone();
-    let mut new_ball_target = (match_row.ball_target_x, match_row.ball_target_y);
     let mut new_next_decision = match_row.next_decision_at;
     let mut new_phase = match_row.phase.clone();
     let mut new_phase_set_at = match_row.phase_set_at;
-
-    let players: Vec<MatchPlayer> = ctx.db.match_player().iter()
-        .filter(|p| p.match_id == match_id).collect();
+    let mut new_ball_vx = match_row.ball_vx;
+    let mut new_ball_vy = match_row.ball_vy;
+    let mut new_ball_target = (match_row.ball_target_x, match_row.ball_target_y);
 
     if !paused {
         let mut rng = Rng::new(seed_for_sim(match_row.seed, now_micros));
 
-        // (a) Als bal in flight → check of 'ie aangekomen is → wijs nieuwe carrier aan
         if match_row.ball_carrier_id == 0 {
-            let arrived = dist(match_row.ball_x, match_row.ball_y,
-                match_row.ball_target_x, match_row.ball_target_y) < 3.5;
-            if arrived {
-                if let Some(nearest) = nearest_player(&players,
-                    match_row.ball_x, match_row.ball_y)
-                {
-                    new_carrier = nearest.id;
-                    new_possession = nearest.side.clone();
+            // Ball in flight — check of een speler dichtbij genoeg is
+            let nearest = players.iter()
+                .filter(|p| p.slot != "keeper" || is_keeper_catch(match_row.ball_x, match_row.ball_y, p))
+                .min_by(|a, b| dist(a.x, a.y, match_row.ball_x, match_row.ball_y)
+                    .partial_cmp(&dist(b.x, b.y, match_row.ball_x, match_row.ball_y))
+                    .unwrap_or(std::cmp::Ordering::Equal));
+            if let Some(n) = nearest {
+                let d = dist(n.x, n.y, match_row.ball_x, match_row.ball_y);
+                let ball_slow = (match_row.ball_vx.powi(2) + match_row.ball_vy.powi(2)).sqrt() < 5.0;
+                // Speler vangt als binnen radius OF bal bijna stilstaat
+                if d < BALL_CATCH_RADIUS || (ball_slow && d < 6.0) {
+                    new_carrier = n.id;
+                    new_possession = n.side.clone();
+                    new_ball_vx = 0.0; new_ball_vy = 0.0;
                     new_next_decision = ctx.timestamp
                         + TimeDuration::from_micros(500_000 + (rng.range(700) as i64 * 1000));
                 }
             }
         } else if now_micros >= match_row.next_decision_at.to_micros_since_unix_epoch() {
-            // (b) Carrier moet beslissen
+            // Carrier beslist
             if let Some(carrier) = players.iter().find(|p| p.id == match_row.ball_carrier_id) {
                 let roll = rng.range(100);
-
-                // Kies actie: 55% pass, 12% turnover, 33% blijven dribbelen
                 if roll < 55 {
-                    // Pass naar nabije teammate (vooruit indien mogelijk).
+                    // Pass richting voorwaartse teammate
                     let mut candidates: Vec<&MatchPlayer> = players.iter()
                         .filter(|p| p.side == carrier.side && p.id != carrier.id
                             && p.slot != "keeper")
                         .filter(|p| dist(carrier.x, carrier.y, p.x, p.y) < 35.0)
                         .collect();
-                    // Geef voorkeur aan vooruit-passes
                     candidates.sort_by(|a, b| {
                         let a_fwd = if carrier.side == "home" { carrier.y - a.y } else { a.y - carrier.y };
                         let b_fwd = if carrier.side == "home" { carrier.y - b.y } else { b.y - carrier.y };
                         b_fwd.partial_cmp(&a_fwd).unwrap_or(std::cmp::Ordering::Equal)
                     });
-                    // Pak bovenste 3 en kies random — mix van doelgericht + variatie
                     let top: Vec<&MatchPlayer> = candidates.into_iter().take(3).collect();
                     if !top.is_empty() {
-                        let pick_idx = rng.range(top.len() as u32) as usize;
-                        let receiver = top[pick_idx];
+                        let receiver = top[rng.range(top.len() as u32) as usize];
+                        let dx = receiver.x - carrier.x;
+                        let dy = receiver.y - carrier.y;
+                        let d = (dx * dx + dy * dy).sqrt().max(0.01);
+                        let pass_speed = (PASS_BASE_SPEED + d * PASS_DIST_SPEED).min(PASS_MAX_SPEED);
+                        new_ball_vx = dx / d * pass_speed;
+                        new_ball_vy = dy / d * pass_speed;
                         new_ball_target = (receiver.x, receiver.y);
-                        new_carrier = 0; // in flight
+                        new_carrier = 0;
                         new_next_decision = ctx.timestamp
                             + TimeDuration::from_micros(400_000);
                     } else {
-                        // Geen kandidaat: blijf dribbelen
                         new_next_decision = ctx.timestamp + TimeDuration::from_micros(400_000);
                     }
                 } else if roll < 67 {
-                    // Turnover: naaste opponent pikt hem af
+                    // Turnover — dichtsbijzijnde opponent tackelt
                     let nearest_opp = players.iter()
                         .filter(|p| p.side != carrier.side && p.slot != "keeper")
                         .min_by(|a, b| {
@@ -516,7 +536,7 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
                         if dist(carrier.x, carrier.y, opp.x, opp.y) < 18.0 {
                             new_carrier = opp.id;
                             new_possession = opp.side.clone();
-                            new_ball_target = (opp.x, opp.y);
+                            new_ball_vx = 0.0; new_ball_vy = 0.0;
                             new_next_decision = ctx.timestamp
                                 + TimeDuration::from_micros(600_000);
                         } else {
@@ -526,13 +546,13 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
                         new_next_decision = ctx.timestamp + TimeDuration::from_micros(500_000);
                     }
                 } else {
-                    // Blijf dribbelen
+                    // Dribbel verder
                     new_next_decision = ctx.timestamp + TimeDuration::from_micros(500_000);
                 }
             }
         }
 
-        // Fase updaten obv possession
+        // Fase updaten
         let desired_phase = match new_possession.as_str() {
             "home" => "home_attack",
             "away" => "away_attack",
@@ -542,48 +562,85 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
             new_phase = desired_phase.to_string();
             new_phase_set_at = ctx.timestamp;
         }
-
-        // Bal-target: follows carrier tijdens dribbel.
-        if new_carrier != 0 {
-            if let Some(c) = players.iter().find(|p| p.id == new_carrier) {
-                new_ball_target = (c.x, c.y);
-            }
-        }
     }
 
-    // 2. Spelers updaten (alleen posities, niet carrier)
+    // ── Bereken closest presser (line discipline) ────────────────
+    let carrier_ref = if new_carrier != 0 {
+        players.iter().find(|p| p.id == new_carrier)
+    } else { None };
+    let presser_id: u64 = if let Some(c) = carrier_ref {
+        players.iter()
+            .filter(|p| p.side != c.side && p.slot != "keeper")
+            .min_by(|a, b| dist(a.x, a.y, c.x, c.y)
+                .partial_cmp(&dist(b.x, b.y, c.x, c.y))
+                .unwrap_or(std::cmp::Ordering::Equal))
+            .map(|p| p.id).unwrap_or(0)
+    } else { 0 };
+
+    // Ball in flight? Intended receiver = dichtsbijzijnde teammate van possession-side
+    // die richting bal-target beweegt.
+    let interceptor_id: u64 = if new_carrier == 0 && new_possession != "" {
+        players.iter()
+            .filter(|p| p.side == new_possession && p.slot != "keeper")
+            .min_by(|a, b| {
+                dist(a.x, a.y, new_ball_target.0, new_ball_target.1)
+                    .partial_cmp(&dist(b.x, b.y, new_ball_target.0, new_ball_target.1))
+                    .unwrap_or(std::cmp::Ordering::Equal)
+            })
+            .map(|p| p.id).unwrap_or(0)
+    } else { 0 };
+
+    // ── Compute new pos+velocity for each player ─────────────────
+    let mut new_state: Vec<(u64, f32, f32, f32, f32)> = Vec::with_capacity(players.len());
     for p in &players {
-        let (tx, ty) = compute_target(
-            p, &new_phase, &new_possession, new_carrier, now_micros, &players,
-            match_row.ball_x, match_row.ball_y,
+        let target = compute_target(
+            p, &new_phase, &new_possession, new_carrier, presser_id, interceptor_id,
+            now_micros, &players,
+            match_row.ball_x, match_row.ball_y, new_ball_target,
         );
-        let dx = tx - p.x; let dy = ty - p.y;
-        let distv = (dx * dx + dy * dy).sqrt();
-        // Carrier + opponents sprinten; rest loopt rustiger.
-        let is_active = p.id == new_carrier
-            || (new_carrier != 0 && p.side != new_possession && distv < 25.0);
-        let factor = if distv > 8.0 {
-            if is_active { 0.30 } else { 0.20 }
-        } else {
-            if is_active { 0.18 } else { 0.10 }
-        };
-        let nx = (p.x + dx * factor).clamp(1.0, 99.0);
-        let ny = (p.y + dy * factor).clamp(1.0, 99.0);
-        if let Some(mut upd) = ctx.db.match_player().id().find(p.id) {
-            upd.x = nx; upd.y = ny;
+        let max_speed = max_speed_for(p, new_carrier, presser_id, interceptor_id);
+        let (nvx, nvy) = advance_velocity(p.vx, p.vy, target, (p.x, p.y), max_speed);
+        let nx = (p.x + nvx * DT).clamp(1.0, 99.0);
+        let ny = (p.y + nvy * DT).clamp(1.0, 99.0);
+        new_state.push((p.id, nx, ny, nvx, nvy));
+    }
+
+    // ── Collision avoidance (pairwise, symmetric) ────────────────
+    apply_collisions(&mut new_state);
+
+    // ── Persist per-player state ─────────────────────────────────
+    for (id, nx, ny, nvx, nvy) in &new_state {
+        if let Some(mut upd) = ctx.db.match_player().id().find(*id) {
+            upd.x = *nx; upd.y = *ny; upd.vx = *nvx; upd.vy = *nvy;
             ctx.db.match_player().id().update(upd);
         }
     }
 
-    // 3. Bal lerpen — in flight sneller dan dribbel.
-    let in_flight = new_carrier == 0;
-    let ball_factor = if in_flight { 0.45 } else { 0.35 };
-    let new_bx = lerp(match_row.ball_x, new_ball_target.0, ball_factor);
-    let new_by = lerp(match_row.ball_y, new_ball_target.1, ball_factor);
+    // ── Ball physics update ──────────────────────────────────────
+    let (new_bx, new_by, final_bvx, final_bvy) = if new_carrier != 0 {
+        // Dribble: bal plakt aan carrier (met lichte voorsprong richting doel)
+        if let Some(c) = new_state.iter().find(|(id, _, _, _, _)| *id == new_carrier) {
+            let (_, cx, cy, _, _) = c;
+            // Lerp ball naar carrier (snelle catch-up)
+            let bx = match_row.ball_x + (cx - match_row.ball_x) * 0.55;
+            let by = match_row.ball_y + (cy - match_row.ball_y) * 0.55;
+            (bx, by, 0.0, 0.0)
+        } else {
+            (match_row.ball_x, match_row.ball_y, 0.0, 0.0)
+        }
+    } else {
+        // Vrije bal: velocity + friction
+        let bx = (match_row.ball_x + new_ball_vx * DT).clamp(1.0, 99.0);
+        let by = (match_row.ball_y + new_ball_vy * DT).clamp(1.0, 99.0);
+        let fvx = new_ball_vx * BALL_FRICTION;
+        let fvy = new_ball_vy * BALL_FRICTION;
+        (bx, by, fvx, fvy)
+    };
 
-    // 4. Alles persisteren
+    // ── Persist match row ────────────────────────────────────────
     if let Some(mut m) = ctx.db.football_match().id().find(match_id) {
         m.ball_x = new_bx; m.ball_y = new_by;
+        m.ball_vx = final_bvx; m.ball_vy = final_bvy;
         m.ball_target_x = new_ball_target.0;
         m.ball_target_y = new_ball_target.1;
         m.ball_carrier_id = new_carrier;
@@ -598,69 +655,152 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
     Ok(())
 }
 
-fn nearest_player<'a>(players: &'a [MatchPlayer], x: f32, y: f32) -> Option<&'a MatchPlayer> {
-    players.iter()
-        .filter(|p| p.slot != "keeper")
-        .min_by(|a, b| {
-            dist(a.x, a.y, x, y)
-                .partial_cmp(&dist(b.x, b.y, x, y))
-                .unwrap_or(std::cmp::Ordering::Equal)
-        })
+fn is_keeper_catch(ball_x: f32, ball_y: f32, keeper: &MatchPlayer) -> bool {
+    // Alleen eigen doel-zone
+    let own_goal_y = if keeper.side == "home" { 95.0 } else { 5.0 };
+    let in_zone = (ball_y - own_goal_y).abs() < 18.0;
+    in_zone && dist(ball_x, ball_y, keeper.x, keeper.y) < 8.0
 }
 
-/// Bepaalt waar een speler heen zou moeten. Gelaagd:
-///  - Keeper: lateraal mee met bal, uit doel bij diepe aanval tegenpartij
+fn max_speed_for(
+    p: &MatchPlayer, carrier_id: u64, presser_id: u64, interceptor_id: u64,
+) -> f32 {
+    if p.slot == "keeper" { return WALK_SPEED; }
+    if p.id == carrier_id { return SPRINT_SPEED; }
+    if p.id == presser_id { return SPRINT_SPEED; }
+    if p.id == interceptor_id { return SPRINT_SPEED; }
+    JOG_SPEED
+}
+
+/// Momentum-model: velocity accelereert naar desired richting met beperkte
+/// acceleration. Zorgt dat spelers niet direct van richting wisselen.
+fn advance_velocity(
+    cur_vx: f32, cur_vy: f32, target: (f32, f32), pos: (f32, f32), max_speed: f32,
+) -> (f32, f32) {
+    let dx = target.0 - pos.0;
+    let dy = target.1 - pos.1;
+    let d = (dx * dx + dy * dy).sqrt();
+
+    // Desired velocity = richting × max_speed (met zachte zone voor dicht-bij)
+    let (dvx, dvy) = if d < 0.5 {
+        (0.0, 0.0)
+    } else if d < 3.0 {
+        // Decelereer als we dichtbij zijn — voorkom overshoot
+        let factor = d / 3.0;
+        (dx / d * max_speed * factor, dy / d * max_speed * factor)
+    } else {
+        (dx / d * max_speed, dy / d * max_speed)
+    };
+
+    // Accelereer naar desired, gecapt op MAX_ACCEL * DT per stap
+    let delta_vx = dvx - cur_vx;
+    let delta_vy = dvy - cur_vy;
+    let delta_mag = (delta_vx * delta_vx + delta_vy * delta_vy).sqrt();
+    let max_delta = MAX_ACCEL * DT;
+    let (final_vx, final_vy) = if delta_mag <= max_delta || delta_mag < 0.001 {
+        (cur_vx + delta_vx, cur_vy + delta_vy)
+    } else {
+        let f = max_delta / delta_mag;
+        (cur_vx + delta_vx * f, cur_vy + delta_vy * f)
+    };
+    (final_vx, final_vy)
+}
+
+/// Pairwise collision resolution. Spelers worden zachtjes uit elkaar geduwd
+/// als ze binnen COLLISION_RADIUS komen. Symmetrisch: beide bewegen.
+fn apply_collisions(state: &mut [(u64, f32, f32, f32, f32)]) {
+    let n = state.len();
+    for i in 0..n {
+        for j in (i + 1)..n {
+            let (_, ix, iy, _, _) = state[i];
+            let (_, jx, jy, _, _) = state[j];
+            let dx = ix - jx;
+            let dy = iy - jy;
+            let d = (dx * dx + dy * dy).sqrt();
+            if d < COLLISION_RADIUS && d > 0.01 {
+                let push = (COLLISION_RADIUS - d) * 0.5;
+                let ux = dx / d;
+                let uy = dy / d;
+                state[i].1 += ux * push;
+                state[i].2 += uy * push;
+                state[j].1 -= ux * push;
+                state[j].2 -= uy * push;
+            } else if d <= 0.01 {
+                // Exact op elkaar — pseudo-random spread
+                state[i].1 += 0.5;
+                state[j].1 -= 0.5;
+            }
+        }
+    }
+    // Clamp na collisions
+    for s in state.iter_mut() {
+        s.1 = s.1.clamp(1.0, 99.0);
+        s.2 = s.2.clamp(1.0, 99.0);
+    }
+}
+
+/// Target van een speler. Gelaagd:
+///  - Keeper: lateraal mee met bal, komt van lijn bij diepe aanval
 ///  - Carrier: sprint naar opponent doel
-///  - Possession team: aanvallers/midden pushen op, defense houdt de lijn
-///  - Defending team: zakt in, pressure op carrier (binnen 22u)
-///  - Support-teammate: loopt richting carrier voor speelopties
-///  - Off-ball aanvallers: random runs naar voren (~30% van de tijd)
-///  - Smooth sine-wander: 2u subtiele micro-motion
+///  - Presser (één per fase): drukt op carrier
+///  - Interceptor (bij bal-in-flight): loopt naar receiver-spot
+///  - Possession team: aanvalsformatie (aanvallers pushen op)
+///  - Defending team: dipt in richting eigen doel, rest houdt lijn
+///  - Off-ball aanvaller: maakt runs naar voren (~30% van de tijd)
+///  - Sine-wander: 1.5u subtiele micro-motion
 fn compute_target(
     p: &MatchPlayer,
     phase: &str,
     possession_side: &str,
     carrier_id: u64,
+    presser_id: u64,
+    interceptor_id: u64,
     now_micros: i64,
     players: &[MatchPlayer],
     ball_x: f32, ball_y: f32,
+    ball_target: (f32, f32),
 ) -> (f32, f32) {
     let (bx, by) = base_coord(&p.side, &p.slot);
     let line = slot_line(&p.slot);
     let is_carrier = p.id == carrier_id;
     let we_have_ball = possession_side == p.side;
-    let _ = phase; // fase is redundant geworden, possession_side drijft dit nu
+    let _ = phase;
 
-    // Keeper logic
+    // Keeper
     if line == "gk" {
-        // Lateraal mee met bal, geclamped op keeper-zone.
         let mut x = bx + (ball_x - bx) * 0.35;
         x = x.clamp(bx - 10.0, bx + 10.0);
-        // Off-line als bal diep in tegenhelft zit (tegenstander in aanval)
-        let ball_deep_opp = if p.side == "home" { ball_y < 30.0 }
-                              else { ball_y > 70.0 };
+        let ball_deep_opp = if p.side == "home" { ball_y < 30.0 } else { ball_y > 70.0 };
         let y = if ball_deep_opp {
-            if p.side == "home" { 88.0 } else { 12.0 } // 7 off the line
+            if p.side == "home" { 88.0 } else { 12.0 }
         } else { by };
         return (x.clamp(2.0, 98.0), y);
     }
 
-    // Ball carrier → sprint naar opponent goal
+    // Carrier → sprint naar opponent goal (met lichte x-afwijking)
     if is_carrier {
         let goal_y = if p.side == "home" { 8.0 } else { 92.0 };
-        let tx = bx * 0.5 + ball_x * 0.5; // lichte neiging naar eigen zone-x
-        let ty = by + (goal_y - by) * 0.4;
-        // Simple sine wander voor natuurlijke dribbel
+        let tx = bx * 0.4 + ball_x * 0.6;
+        let ty = by + (goal_y - by) * 0.45;
+        // Subtiele dribbel-wiggle
         let now_s = (now_micros as f32) / 1_000_000.0;
         let seed = ((p.id % 997) as f32) * 0.137;
-        let wx = 1.5 * (now_s * 1.5 + seed).sin();
+        let wx = 1.2 * (now_s * 2.0 + seed).sin();
         return ((tx + wx).clamp(2.0, 98.0), ty.clamp(2.0, 98.0));
+    }
+
+    // Interceptor → loopt naar ball-target (waar de bal heen gaat)
+    if p.id == interceptor_id {
+        let sine_s = (now_micros as f32) / 1_000_000.0;
+        let seed = ((p.id % 997) as f32) * 0.137;
+        let w = 0.8 * (sine_s * 1.5 + seed).sin();
+        return ((ball_target.0 + w).clamp(2.0, 98.0), ball_target.1.clamp(2.0, 98.0));
     }
 
     let mut tx = bx;
     let mut ty = by;
 
-    // Possession-shift (vervangt oude phase-shift)
+    // Formatie-shift obv possession
     if we_have_ball {
         match line {
             "att" => ty += if p.side == "home" { -10.0 } else { 10.0 },
@@ -668,8 +808,7 @@ fn compute_target(
             "def" => ty += if p.side == "home" { -3.0 } else { 3.0 },
             _ => {}
         }
-    } else if possession_side != "" {
-        // Verdedigen — hele team zakt in richting eigen doel
+    } else if !possession_side.is_empty() {
         match line {
             "att" => ty += if p.side == "home" { 8.0 } else { -8.0 },
             "mid" => ty += if p.side == "home" { 5.0 } else { -5.0 },
@@ -678,49 +817,46 @@ fn compute_target(
         }
     }
 
-    // Pressure op carrier (alleen opponent)
-    if !we_have_ball && carrier_id != 0 {
+    // Line discipline: alleen aangewezen presser knijpt in op carrier.
+    if p.id == presser_id && carrier_id != 0 {
         if let Some(c) = players.iter().find(|pp| pp.id == carrier_id) {
-            let dx = c.x - tx; let dy = c.y - ty;
-            let d = (dx * dx + dy * dy).sqrt();
-            if d < 22.0 {
-                let f = ((22.0 - d) / 22.0) * 0.40;
-                tx += dx * f; ty += dy * f;
-            }
+            tx = c.x; ty = c.y;
         }
     }
 
-    // Support-run: possession-teammate binnen 20u beweegt richting carrier
+    // Support-run: possession-teammate binnen 22u loopt naar carrier
+    // (maar NIET op dezelfde plek gaan staan — minimaal 8u afstand houden).
     if we_have_ball && carrier_id != 0 && p.id != carrier_id {
         if let Some(c) = players.iter().find(|pp| pp.id == carrier_id) {
             let dx = c.x - tx; let dy = c.y - ty;
             let d = (dx * dx + dy * dy).sqrt();
-            if d < 20.0 {
-                tx += dx * 0.18; ty += dy * 0.18;
+            if d > 22.0 {
+                // Te ver — beweeg dichterbij
+                tx += dx * 0.25; ty += dy * 0.25;
+            } else if d < 8.0 {
+                // Te dichtbij — blijf op afstand (push weg)
+                tx -= dx * 0.20; ty -= dy * 0.20;
             }
         }
     }
 
-    // Off-ball attacker runs: als we de bal hebben en speler is aanvaller,
-    // 30% van de tijd een run naar voren (naar opponent goal).
-    if we_have_ball && line == "att" && !is_carrier {
+    // Off-ball attacker runs (niet voor presser/interceptor/carrier)
+    if we_have_ball && line == "att" && !is_carrier && p.id != presser_id {
         let bucket = (now_micros / 1_500_000) as u64;
         let mut h = Sha256::new();
         h.update(b"run"); h.update(p.id.to_le_bytes()); h.update(bucket.to_le_bytes());
         let d = h.finalize();
-        if d[0] < 77 {  // ~30% kans
+        if d[0] < 77 {
             let goal_y = if p.side == "home" { 10.0 } else { 90.0 };
             ty += (goal_y - ty) * 0.28;
         }
     }
 
-    // Continue sine-wander — smooth micro-motion.
+    // Smooth sine-wander — subtiele micro-motion voor leven
     let now_s = (now_micros as f32) / 1_000_000.0;
     let seed = ((p.id % 997) as f32) * 0.137;
-    let wx = 2.0 * ((now_s * 0.45 + seed).sin()
-        + 0.4 * (now_s * 1.3 + seed * 2.1).sin());
-    let wy = 1.6 * ((now_s * 0.35 + seed * 1.3).cos()
-        + 0.4 * (now_s * 0.9 + seed * 2.5).cos());
+    let wx = 1.4 * (now_s * 0.45 + seed).sin();
+    let wy = 1.1 * (now_s * 0.35 + seed * 1.3).cos();
     tx += wx; ty += wy;
 
     (tx.clamp(2.0, 98.0), ty.clamp(2.0, 98.0))
@@ -731,8 +867,7 @@ fn compute_target(
 fn schedule_match_tick(ctx: &ReducerContext, match_id: u64, minute: u32) {
     let next_at = ctx.timestamp + TimeDuration::from_micros(TICK_MICROS);
     ctx.db.match_tick().insert(MatchTick {
-        scheduled_id: 0, scheduled_at: ScheduleAt::Time(next_at),
-        match_id, minute,
+        scheduled_id: 0, scheduled_at: ScheduleAt::Time(next_at), match_id, minute,
     });
 }
 
@@ -756,17 +891,9 @@ fn set_phase(ctx: &ReducerContext, match_id: u64, phase: &str,
     let _ = Timestamp::from_micros_since_unix_epoch;
 }
 
-fn club_name(ctx: &ReducerContext, club_id: u64) -> String {
-    ctx.db.club().id().find(club_id).map(|c| c.name).unwrap_or_else(|| "club".into())
-}
-
-/// Naam van een wedstrijd-entiteit (kantine óf team).
 fn entity_name(ctx: &ReducerContext, id: u64, is_group: bool) -> Option<String> {
-    if is_group {
-        ctx.db.group().id().find(id).map(|g| g.name)
-    } else {
-        ctx.db.club().id().find(id).map(|c| c.name)
-    }
+    if is_group { ctx.db.group().id().find(id).map(|g| g.name) }
+    else { ctx.db.club().id().find(id).map(|c| c.name) }
 }
 
 fn match_entity_name(ctx: &ReducerContext, match_row: &FootballMatch, is_home: bool) -> String {

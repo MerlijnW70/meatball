@@ -23,6 +23,8 @@ export default __t.row({
   createdAt: __t.timestamp().name("created_at"),
   ballX: __t.f32().name("ball_x"),
   ballY: __t.f32().name("ball_y"),
+  ballVx: __t.f32().name("ball_vx"),
+  ballVy: __t.f32().name("ball_vy"),
   ballTargetX: __t.f32().name("ball_target_x"),
   ballTargetY: __t.f32().name("ball_target_y"),
   phase: __t.string(),

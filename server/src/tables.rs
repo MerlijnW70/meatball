@@ -317,9 +317,12 @@ pub struct FootballMatch {
     pub created_by: u64,
     pub created_at: Timestamp,
 
-    // Bal-positie (0..100 in beide dimensies, geinterpoleerd door tick_positions).
+    // Bal-positie + velocity. Tijdens dribble blijft velocity ~0 (bal volgt carrier).
+    // Bij een pass/shot krijgt 'ie een constante snelheid + friction.
     pub ball_x: f32,
     pub ball_y: f32,
+    pub ball_vx: f32,
+    pub ball_vy: f32,
     pub ball_target_x: f32,
     pub ball_target_y: f32,
 
@@ -362,6 +365,9 @@ pub struct MatchPlayer {
     // Live positie op het veld (procent van veld, 0..100).
     pub x: f32,
     pub y: f32,
+    // Velocity (units per second). Gebruikt voor momentum-based motion.
+    pub vx: f32,
+    pub vy: f32,
 }
 
 #[derive(SpacetimeType, Clone)]
