@@ -284,7 +284,6 @@ function SeasonClubCard({
                 <span className="text-hot">♥</span> {likes}
               </>
             )}
-            <span className="ml-1.5 opacity-60">· tik om te beoordelen</span>
           </span>
           <ScorePill x100={stats.avg_score_x100} size="md" />
         </button>
