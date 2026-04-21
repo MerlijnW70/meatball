@@ -130,24 +130,22 @@ export function FeedPage() {
                   onRate={(snack) => setRatingSnack(snack)}
                 />
               ))}
+              {/* Subtiel ghost-slot: "volgende kantine toevoegen", past
+                  visueel in de lijst zonder aandacht te stelen. */}
+              <button
+                type="button"
+                onClick={() => go("/clubs/new")}
+                className="border-4 border-dashed border-ink/30 py-3 px-3 rounded-none
+                           font-display uppercase text-sm tracking-widest opacity-60
+                           hover:opacity-100 hover:border-ink/60
+                           active:translate-x-[2px] active:translate-y-[2px] transition"
+              >
+                + nog een toevoegen
+              </button>
             </div>
           )}
         </section>
       </main>
-
-      {/* Sticky bottom CTA — altijd binnen tap-bereik */}
-      <div
-        className="sticky bottom-0 px-4 pt-3 border-t-4 border-ink bg-paper/95
-                   backdrop-blur-sm z-10"
-        style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
-      >
-        <BrutalButton
-          onClick={() => go("/clubs/new")}
-          variant="hot" block size="lg"
-        >
-          ＋ Kantine toevoegen
-        </BrutalButton>
-      </div>
 
       {confirmLeave && (
         <ConfirmLeaveModal
