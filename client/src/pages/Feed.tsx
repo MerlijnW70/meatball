@@ -16,6 +16,7 @@ import { MatchStartModal, type MatchEntity } from "../components/MatchStartModal
 import { RatingModal } from "../components/RatingModal";
 import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { BrutalInput } from "../components/BrutalInput";
+import { FixtureCreateModal } from "../components/FixtureCreateModal";
 import { go } from "../router";
 import { friendlyError } from "../utils/errors";
 import type { Club, Group, Position, Snack } from "../types";
@@ -65,6 +66,9 @@ export function FeedPage() {
 
         {/* Trainer-notificaties: openstaande invite-requests */}
         <PendingRequestsBanner />
+
+        {/* Komende real-life wedstrijden waar je op kan voorspellen */}
+        <UpcomingFixturesSection />
 
         {/* Team-strip */}
         <section>
@@ -291,6 +295,153 @@ function SeasonClubCard({
       )}
     </div>
   );
+}
+
+/** Komende real-life wedstrijden: toont per team-fixture een card met
+ *  datum + tegenstander. Trainer van het team ziet een 'plan wedstrijd'
+ *  knop om een nieuwe fixture aan te maken. Prediction-actie komt in
+ *  een volgende stap. */
+function UpcomingFixturesSection() {
+  const me = useStore((s) => s.session.me);
+  const groupsMap = useStore((s) => s.groups);
+  const groupMemberships = useStore((s) => s.groupMemberships);
+  const fixturesMap = useStore((s) => s.matchFixtures);
+  const clubsMap = useStore((s) => s.clubs);
+  const [creatingForGroup, setCreatingForGroup] = useState<bigint | null>(null);
+
+  // Groepen waar ik lid van ben.
+  const myGroupIds = useMemo(() => {
+    if (!me) return new Set<string>();
+    const s = new Set<string>();
+    for (const m of groupMemberships.values()) {
+      if (m.user_id === me.id) s.add(m.group_id.toString());
+    }
+    return s;
+  }, [groupMemberships, me]);
+
+  // Open fixtures (niet final_entered) voor mijn teams, gesorteerd op kickoff.
+  const fixtures = useMemo(() => {
+    return Array.from(fixturesMap.values())
+      .filter((f) => !f.final_entered && myGroupIds.has(f.group_id.toString()))
+      .sort((a, b) => Number(a.kickoff_at - b.kickoff_at));
+  }, [fixturesMap, myGroupIds]);
+
+  // Teams waar ik Trainer van ben — mogen fixtures toevoegen.
+  const myTrainerGroups = useMemo(() => {
+    if (!me) return [] as Group[];
+    return Array.from(groupsMap.values())
+      .filter((g) => g.owner_user_id === me.id);
+  }, [groupsMap, me]);
+
+  if (fixtures.length === 0 && myTrainerGroups.length === 0) return null;
+
+  return (
+    <section>
+      <div className="flex items-baseline justify-between gap-2 mb-2">
+        <h3 className="font-display text-lg uppercase">komende wedstrijd</h3>
+        {myTrainerGroups.length === 1 && (
+          <button
+            type="button"
+            onClick={() => setCreatingForGroup(myTrainerGroups[0].id)}
+            className="border-2 border-ink py-1 px-2.5 bg-sky/30 text-ink text-[10px]
+                       font-display uppercase tracking-widest
+                       hover:bg-sky/50
+                       active:translate-x-[1px] active:translate-y-[1px] transition-all"
+          >
+            + plan wedstrijd
+          </button>
+        )}
+      </div>
+      <p className="text-[11px] font-bold uppercase tracking-widest opacity-70 mb-3">
+        Voorspel de uitslag · win kaart-punten voor je team
+      </p>
+
+      {fixtures.length === 0 ? (
+        <BrutalCard className="!p-3 text-center">
+          <p className="text-sm font-bold opacity-60">
+            Nog geen wedstrijden gepland
+          </p>
+        </BrutalCard>
+      ) : (
+        <div className="flex flex-col gap-2">
+          {fixtures.map((f) => {
+            const group = groupsMap.get(f.group_id.toString());
+            const opponent = clubsMap.get(f.opponent_club_id.toString());
+            return (
+              <FixtureCard
+                key={f.id.toString()}
+                groupName={group?.name ?? "jouw team"}
+                opponentName={opponent?.name ?? "tegenstander"}
+                weAreHome={f.we_are_home}
+                kickoffMicros={Number(f.kickoff_at)}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {creatingForGroup !== null && (
+        <FixtureCreateModal
+          groupId={creatingForGroup}
+          onClose={() => setCreatingForGroup(null)}
+        />
+      )}
+    </section>
+  );
+}
+
+function FixtureCard({
+  groupName, opponentName, weAreHome, kickoffMicros,
+}: {
+  groupName: string;
+  opponentName: string;
+  weAreHome: boolean;
+  kickoffMicros: number;
+}) {
+  const home = weAreHome ? groupName : opponentName;
+  const away = weAreHome ? opponentName : groupName;
+  const kickoff = formatKickoff(kickoffMicros);
+  return (
+    <BrutalCard className="!p-0 overflow-hidden">
+      <div className="bg-ink text-paper px-3 py-1.5 flex items-center justify-between text-[10px] font-display uppercase tracking-widest">
+        <span>{kickoff.when}</span>
+        <span className="opacity-70">{kickoff.relative}</span>
+      </div>
+      <div className="px-3 py-2.5 flex items-center gap-2">
+        <span className="font-display text-base uppercase leading-tight flex-1 min-w-0 truncate">
+          {home}
+        </span>
+        <span className="font-display text-sm opacity-50">vs</span>
+        <span className="font-display text-base uppercase leading-tight flex-1 min-w-0 truncate text-right">
+          {away}
+        </span>
+      </div>
+    </BrutalCard>
+  );
+}
+
+/** Format micros naar "ZAT 27 APR · 14:00" + relatieve "over 3 dagen". */
+function formatKickoff(micros: number): { when: string; relative: string } {
+  const d = new Date(micros / 1000);
+  const days = ["ZO", "MA", "DI", "WO", "DO", "VR", "ZA"];
+  const months = ["JAN", "FEB", "MRT", "APR", "MEI", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEC"];
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const when = `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]} · ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+
+  const diffMs = d.getTime() - Date.now();
+  const absHours = Math.abs(diffMs) / (1000 * 60 * 60);
+  let relative: string;
+  if (diffMs < 0) {
+    relative = "wacht op uitslag";
+  } else if (absHours < 1) {
+    relative = "binnen 1 uur";
+  } else if (absHours < 24) {
+    relative = `over ${Math.round(absHours)} uur`;
+  } else {
+    const days = Math.round(absHours / 24);
+    relative = `over ${days} dag${days === 1 ? "" : "en"}`;
+  }
+  return { when, relative };
 }
 
 /** Banner die teamleden direct alerteert als er een live wedstrijd is
