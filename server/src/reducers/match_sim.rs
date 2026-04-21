@@ -21,22 +21,23 @@ use crate::tables::{
 
 const MATCH_MINUTES: u32 = 90;
 const MAX_MATCHES_PER_DAY: u64 = 30;
-const TICK_MICROS: i64 = 333_000;
-const POS_TICK_MICROS: i64 = 100_000;          // 10Hz
-const DT: f32 = 0.1;                            // seconden per tick
-const EVENT_PAUSE_MICROS: i64 = 700_000;
+// Wall-clock: 90 game-minutes in 60s (was 30s) → rustiger tempo.
+const TICK_MICROS: i64 = 666_000;               // ~1.5 events per sec
+const POS_TICK_MICROS: i64 = 100_000;           // 10Hz — motion blijft smooth
+const DT: f32 = 0.1;
+const EVENT_PAUSE_MICROS: i64 = 900_000;        // iets langer pauze na goals
 
-// Motion-parameters
-const MAX_ACCEL: f32 = 55.0;                    // u/s² — hoe snel van stilstand
-const WALK_SPEED: f32 = 10.0;                   // u/s
-const JOG_SPEED: f32 = 16.0;
-const SPRINT_SPEED: f32 = 26.0;
-const COLLISION_RADIUS: f32 = 2.8;              // dichtstbij toegestaan
-const BALL_FRICTION: f32 = 0.90;                // per tick (90% retained = matige drag)
-const BALL_CATCH_RADIUS: f32 = 3.5;             // speler vangt bal binnen deze afstand
-const PASS_BASE_SPEED: f32 = 45.0;              // u/s (short pass)
-const PASS_DIST_SPEED: f32 = 1.2;               // + u/s per afstand-unit
-const PASS_MAX_SPEED: f32 = 90.0;               // u/s cap voor shots
+// Motion-parameters — gehalveerd zodat dots minder rennen, meer realistisch.
+const MAX_ACCEL: f32 = 28.0;                    // u/s²
+const WALK_SPEED: f32 = 5.0;                    // u/s
+const JOG_SPEED: f32 = 8.0;
+const SPRINT_SPEED: f32 = 14.0;
+const COLLISION_RADIUS: f32 = 2.8;
+const BALL_FRICTION: f32 = 0.92;                // iets meer drag = bal rolt rustiger uit
+const BALL_CATCH_RADIUS: f32 = 3.0;
+const PASS_BASE_SPEED: f32 = 25.0;              // zachtere passes
+const PASS_DIST_SPEED: f32 = 0.8;
+const PASS_MAX_SPEED: f32 = 55.0;               // shots nog steeds duidelijk sneller
 
 const FIELD_SLOTS: &[&str] = &[
     "keeper",
