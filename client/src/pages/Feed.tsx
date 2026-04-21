@@ -79,11 +79,11 @@ export function FeedPage() {
 
         {/* Seizoen */}
         <section>
-          <div className="flex items-center justify-between gap-2 mb-1">
+          <div className="flex items-center justify-between gap-2 mb-2">
             <h3 className="font-display text-lg uppercase">kantines</h3>
             <ShareSeasonChip />
           </div>
-          <p className="text-[11px] font-bold uppercase tracking-widest opacity-70 mb-3">
+          <p className="text-[11px] font-bold uppercase tracking-widest opacity-70 mb-4">
             De clubs waar je kind dit seizoen tegen voetbalt
           </p>
 
@@ -339,11 +339,13 @@ function ShareSeasonChip() {
         onClick={share}
         disabled={busy}
         aria-label="deel seizoen met team"
-        className={`brut-btn !py-1 !px-2 text-[10px] flex items-center gap-1.5 uppercase
-          active:translate-x-[1px] active:translate-y-[1px] transition-transform
+        className={`!py-1 !px-2.5 text-[10px] flex items-center gap-1.5
+          uppercase font-display tracking-widest
+          border-2 border-ink rounded-none
+          active:translate-x-[1px] active:translate-y-[1px] transition-all
           ${flash === "ok" ? "bg-mint text-ink"
             : flash === "err" ? "bg-hot text-paper"
-            : "bg-ink text-paper"}`}
+            : "bg-sky/30 text-ink hover:bg-sky/50"}`}
       >
         {flash === "ok" ? "✓ gedeeld" : busy ? "…" : "📋 deel met team"}
       </button>
