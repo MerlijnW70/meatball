@@ -15,7 +15,9 @@ import { Avatar } from "../components/Avatar";
 import { MatchStartModal, type MatchEntity } from "../components/MatchStartModal";
 import { RatingModal } from "../components/RatingModal";
 import { GehaktbalLogo } from "../components/GehaktbalLogo";
+import { BrutalInput } from "../components/BrutalInput";
 import { go } from "../router";
+import { friendlyError } from "../utils/errors";
 import type { Club, Group, Position, Snack } from "../types";
 
 export function FeedPage() {
@@ -62,17 +64,7 @@ export function FeedPage() {
         <section>
           <h3 className="font-display text-lg uppercase mb-3">jouw team</h3>
           {myGroups.length === 0 ? (
-            <button
-              type="button"
-              onClick={() => go("/groups")}
-              className="brut-card bg-pop w-full text-left !p-4
-                         active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-            >
-              <p className="font-display text-xl uppercase">🥩 maak je eerste team</p>
-              <p className="text-xs font-bold mt-1 opacity-80">
-                Nodig spelers uit om samen gehaktballen te raten.
-              </p>
-            </button>
+            <CreateTeamCard />
           ) : (
             <div className="flex gap-2 overflow-x-auto -mx-4 px-4 pb-1">
               {myGroups.map((g) => (
@@ -288,6 +280,68 @@ function SeasonClubCard({
           <ScorePill x100={stats.avg_score_x100} size="md" />
         </button>
       )}
+    </div>
+  );
+}
+
+/** Inline team-create card — verschijnt op Feed wanneer user nog geen
+ *  team heeft. Na aanmaken navigeert naar /group/:id voor de opstelling. */
+function CreateTeamCard() {
+  const me = useStore((s) => s.session.me);
+  const [name, setName] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  const canCreate = !busy && name.trim().length >= 3;
+
+  const create = async () => {
+    if (!me || !canCreate) return;
+    setBusy(true); setErr(null);
+    const prevMax = Array.from(useStore.getState().groups.values())
+      .reduce((acc, g) => g.id > acc ? g.id : acc, 0n);
+    try {
+      await client().createGroup(name.trim());
+      setName("");
+      for (let i = 0; i < 30; i++) {
+        const fresh = Array.from(useStore.getState().groups.values())
+          .filter((g) => g.owner_user_id === me.id && g.id > prevMax)
+          .sort((a, b) => Number(b.id - a.id))[0];
+        if (fresh) { go(`/group/${fresh.id}`); return; }
+        await new Promise((r) => setTimeout(r, 100));
+      }
+    } catch (e) {
+      setErr(friendlyError(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="brut-card bg-pop !p-4 flex flex-col gap-2">
+      <p className="font-display text-xl uppercase leading-tight">
+        🥩 richt jouw team op
+      </p>
+      <p className="text-xs font-bold opacity-80 leading-snug">
+        Nodig mede-ouders uit om samen gehaktballen te raten.
+      </p>
+      <BrutalInput
+        placeholder="bv. VV Gehaktbal"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && canCreate && create()}
+        maxLength={40}
+        className="mt-1"
+      />
+      {err && (
+        <p className="brut-card bg-hot text-paper p-2 font-bold text-xs">{err}</p>
+      )}
+      <BrutalButton
+        variant="ink" size="md" block
+        disabled={!canCreate}
+        onClick={create}
+      >
+        {busy ? "aanmaken…" : "+ maak team"}
+      </BrutalButton>
     </div>
   );
 }

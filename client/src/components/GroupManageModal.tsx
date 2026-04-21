@@ -127,7 +127,7 @@ export function GroupManageModal({ group, onClose }: Props) {
       await client().leaveGroup(group.id);
       setLeaveOpen(false);
       onClose();
-      go("/groups");
+      go("/home");
     } catch (e) { setErr(friendlyError(e)); setLeaveOpen(false); }
     finally { setBusy(false); }
   };

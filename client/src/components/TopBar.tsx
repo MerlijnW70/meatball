@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { go } from "../router";
 import { useStore } from "../store";
-import { useMyGroups, useUnreadReactionsCount } from "../hooks";
+import { useUnreadReactionsCount } from "../hooks";
 import { Avatar } from "./Avatar";
 
 interface Props {
@@ -11,19 +11,15 @@ interface Props {
   right?: ReactNode;
   /** Verberg de standaard profiel-avatar-knop (bv. op de Profile-page zelf). */
   hideProfile?: boolean;
-  /** Verberg de teams-shortcut (bv. op /groups zelf of op team-detail). */
+  /** Legacy prop — de teams-shortcut bestaat niet meer maar sommige callers
+   *  geven 'm nog. Negeren. */
   hideCrews?: boolean;
 }
 
-export function TopBar({ title, sub, back, right, hideProfile, hideCrews }: Props) {
+export function TopBar({ title, sub, back, right, hideProfile, hideCrews: _hideCrews }: Props) {
   const me = useStore((s) => s.session.me);
   const unread = useUnreadReactionsCount();
-  const myGroups = useMyGroups();
   const showAvatar = !hideProfile && me;
-  const crewCount = myGroups.length;
-  // Icoon is alleen nuttig om een team op te richten. Als je er al één hebt
-  // staat je team op de home-page; de shortcut is dan ruis.
-  const showCrews = !hideCrews && me && crewCount === 0;
 
   return (
     <header
@@ -50,30 +46,6 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews }: Prop
         {sub && <p className="text-xs font-bold uppercase tracking-widest truncate">{sub}</p>}
       </div>
       {right}
-      {showCrews && (
-        <button
-          type="button"
-          onClick={() => go("/groups")}
-          aria-label={crewCount > 0 ? `teams (${crewCount})` : "teams"}
-          className="relative shrink-0 w-10 h-10 border-4 border-ink bg-mint text-ink
-                     shadow-brutSm flex items-center justify-center rounded-none
-                     active:translate-x-[2px] active:translate-y-[2px] transition-transform"
-          style={{ transform: "rotate(-3deg)" }}
-        >
-          <span className="text-xl leading-none" aria-hidden>👥</span>
-          {crewCount > 0 && (
-            <span
-              className="absolute -top-2 -right-2 brut-card bg-ink text-paper
-                         text-[10px] font-display px-1.5 py-0 leading-tight
-                         border-2 shadow-brutSm"
-              style={{ transform: "rotate(3deg)" }}
-              aria-hidden
-            >
-              {crewCount > 99 ? "99+" : crewCount}
-            </span>
-          )}
-        </button>
-      )}
       {showAvatar && (
         <button
           type="button"

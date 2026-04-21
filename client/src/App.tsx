@@ -13,7 +13,6 @@ import { AddClubPage } from "./pages/AddClub";
 import { FeedPage } from "./pages/Feed";
 import { ClubViewPage } from "./pages/ClubView";
 import { ProfilePage } from "./pages/Profile";
-import { GroupsPage } from "./pages/Groups";
 import { GroupDetailPage } from "./pages/GroupDetail";
 import { JoinInvitePage } from "./pages/JoinInvite";
 import { MatchPage } from "./pages/Match";
@@ -99,7 +98,11 @@ function RouteSwitch({ path }: { path: string }) {
   }
   if (path === "/clubs/new") return <AddClubPage />;
   if (path === "/home") return <FeedPage />;
-  if (path === "/groups") return <GroupsPage />;
+  if (path === "/groups") {
+    // Legacy redirect — team-beheer gaat nu via home + /group/:id.
+    queueMicrotask(() => { location.hash = "/home"; });
+    return null;
+  }
   if (path === "/me") {
     const me = useStore.getState().session.me;
     if (me) { queueMicrotask(() => { location.hash = `/u/${me.id}`; }); return null; }

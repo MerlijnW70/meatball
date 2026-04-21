@@ -32,7 +32,7 @@ export function JoinInvitePage({ code }: { code: string }) {
               .sort((a, b) => Number(b.joined_at) - Number(a.joined_at))[0]
           : null;
         if (latest) go(`/group/${latest.group_id}`);
-        else go("/groups");
+        else go("/home");
         setState("ok");
       } catch (e) {
         setErr(friendlyError(e));
@@ -70,9 +70,9 @@ export function JoinInvitePage({ code }: { code: string }) {
             <p className="text-xs mt-1">{err}</p>
             <BrutalButton
               variant="ink" size="md" block className="mt-3"
-              onClick={() => go("/groups")}
+              onClick={() => go("/home")}
             >
-              naar teams
+              terug naar home
             </BrutalButton>
           </BrutalCard>
         )}
