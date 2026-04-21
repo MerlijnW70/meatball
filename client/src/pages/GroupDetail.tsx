@@ -219,6 +219,7 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
                         key={m.membership.id.toString()}
                         row={m}
                         isOnline={onlineSet.has(m.userId.toString())}
+                        isSelf={me?.id === m.userId}
                         canKick={isOwner}
                         onKick={(id, name) => setKickTarget({ id, name })}
                       />
@@ -239,6 +240,7 @@ export function GroupDetailPage({ groupId }: { groupId: bigint }) {
                         key={m.membership.id.toString()}
                         row={m}
                         isOnline={onlineSet.has(m.userId.toString())}
+                        isSelf={me?.id === m.userId}
                         canKick={isOwner}
                         onKick={(id, name) => setKickTarget({ id, name })}
                       />
@@ -338,15 +340,16 @@ function SlotTile({
 /** Kaart per speler — hele kaart is tappable → UserMenu popup met
  *  reacties/volg/profiel. Kick-knop blijft apart voor de trainer. */
 function PlayerCard({
-  row, isOnline, canKick, onKick,
+  row, isOnline, isSelf, canKick, onKick,
 }: {
   row: RowWithPos;
   isOnline: boolean;
+  isSelf: boolean;
   canKick: boolean;
   onKick: (id: bigint, name: string) => void;
 }) {
   return (
-    <BrutalCard className="!p-0 flex items-stretch">
+    <BrutalCard className={`!p-0 flex items-stretch ${isSelf ? "bg-mint/30" : ""}`}>
       <UserMenu
         userId={row.userId}
         name={row.name}
@@ -369,6 +372,9 @@ function PlayerCard({
             <div className="flex-1 min-w-0">
               <p className="font-display uppercase truncate leading-tight">
                 {row.name}
+                {isSelf && (
+                  <span className="ml-1.5 text-[10px] font-bold opacity-60">(jij)</span>
+                )}
                 {row.isOwner && (
                   <span className="ml-1.5 text-sm leading-none" aria-label="trainer">👑</span>
                 )}

@@ -107,7 +107,12 @@ export function UserMenu({ userId, name, className = "", bare = false, trigger }
   const toggle = (e: MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    if (isSelf) return; // geen popup voor jezelf (je kan toch niks doen)
+    if (isSelf) {
+      // Op jezelf tikken → direct naar eigen profiel (je kan geen kaart
+      // naar jezelf sturen of jezelf volgen).
+      go(`/u/${userId}`);
+      return;
+    }
     // Sluit álle andere popups eerst zodat alleen de nieuwe open staat.
     closeAllExcept(closeSelf);
     setOpen((v) => !v);
@@ -160,13 +165,11 @@ export function UserMenu({ userId, name, className = "", bare = false, trigger }
             // Trigger-mode (avatar-button): garanteer 44×44 tap-zone met
             // inline-flex centering, zelfs als de avatar zelf kleiner is.
             ? `inline-flex items-center justify-center min-w-[44px] min-h-[44px]
-               touch-manipulation
-               ${isSelf ? "cursor-default opacity-80" : "cursor-pointer"} ${className}`
+               touch-manipulation cursor-pointer ${className}`
             : bare
-              ? `touch-manipulation
-                 ${isSelf ? "cursor-default opacity-80" : "cursor-pointer"} ${className}`
+              ? `touch-manipulation cursor-pointer ${className}`
               : `font-bold underline decoration-2 underline-offset-2 touch-manipulation
-                 ${isSelf ? "cursor-default opacity-80" : "cursor-pointer"} ${className}`
+                 cursor-pointer ${className}`
         }
         aria-haspopup={!isSelf}
         aria-expanded={open}
