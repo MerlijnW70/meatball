@@ -55,7 +55,7 @@ export function FeedPage() {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title="Seizoen" />
+      <TopBar title="Seizoen" hideCrews />
 
       <main className="flex-1 px-4 pt-5 pb-4 flex flex-col gap-6">
         {/* Team-strip */}
