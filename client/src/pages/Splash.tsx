@@ -1,4 +1,5 @@
 import { BrutalButton } from "../components/BrutalButton";
+import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { go } from "../router";
 import { useStore } from "../store";
 
@@ -19,6 +20,7 @@ export function SplashPage() {
             kantine snack ratings
           </span>
         </div>
+        <GehaktbalLogo size={120} className="drop-shadow-[6px_6px_0_#111]" />
         <h1 className="font-display text-7xl sm:text-8xl uppercase text-center leading-none">
           MEAT<br/>BALL
         </h1>
@@ -28,7 +30,7 @@ export function SplashPage() {
         </p>
         <div className="flex flex-col gap-3 w-full max-w-xs">
           <BrutalButton onClick={start} variant="hot" size="lg" block>
-            🥩 start
+            start
           </BrutalButton>
           {session.me && (
             <p className="text-center text-xs uppercase tracking-widest">

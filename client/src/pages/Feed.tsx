@@ -15,6 +15,7 @@ import { Avatar } from "../components/Avatar";
 import { UserMenu } from "../components/UserMenu";
 import { MatchStartModal } from "../components/MatchStartModal";
 import { RatingModal } from "../components/RatingModal";
+import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { go } from "../router";
 import type { Club, Group, Snack } from "../types";
 
@@ -242,11 +243,11 @@ function SeasonClubCard({
           type="button"
           onClick={() => canRate && gehaktbal && onRate(gehaktbal)}
           disabled={!canRate}
-          className="w-full bg-mint text-ink flex items-center gap-2 px-3 py-2.5
+          className="w-full bg-mint text-ink flex items-center gap-2.5 px-3 py-2.5
                      active:translate-x-[2px] active:translate-y-[2px] transition-transform
                      disabled:opacity-50"
         >
-          <span className="text-2xl leading-none" aria-hidden>🥩</span>
+          <GehaktbalLogo size={32} className="shrink-0" />
           <span className="flex-1 text-left font-display text-sm uppercase leading-tight">
             beoordeel de gehaktbal
           </span>
