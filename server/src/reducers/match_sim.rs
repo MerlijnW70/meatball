@@ -33,8 +33,10 @@ const FIELD_SLOTS: &[&str] = &[
     "lw", "st", "rw",
 ];
 
-const BOT_COLORS: &[&str] = &["sky", "bruise", "ink", "mint", "hot", "lime"];
-const BOT_ICONS: &[&str] = &["🤖", "👾", "🛸", "⚙️", "🎯", "🛞"];
+// Alle bots delen dezelfde look — donker tegen de levendige user-avatars,
+// zodat humans visueel eruit springen.
+const BOT_COLOR: &str = "ink";
+const BOT_ICON: &str = "🤖";
 
 // ── RNG ─────────────────────────────────────────────────────────
 
@@ -190,14 +192,12 @@ fn build_and_insert_lineup(
             });
         } else {
             bot_counter += 1;
-            let palette_idx = ((bot_counter as usize) + idx) % BOT_COLORS.len();
-            let icon_idx = ((bot_counter as usize) + idx * 7) % BOT_ICONS.len();
             ctx.db.match_player().insert(MatchPlayer {
                 id: 0, match_id, side: side.to_string(), slot: (*slot).to_string(),
                 user_id: 0, bot_slot: bot_counter,
                 display_name: format!("Bot #{}", bot_counter),
-                avatar_color: BOT_COLORS[palette_idx].to_string(),
-                avatar_icon: BOT_ICONS[icon_idx].to_string(),
+                avatar_color: BOT_COLOR.to_string(),
+                avatar_icon: BOT_ICON.to_string(),
                 x, y,
             });
         }
