@@ -25,7 +25,7 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews }: Prop
 
   return (
     <header
-      className="sticky top-0 z-10 border-b-4 border-ink bg-pop
+      className="sticky top-0 z-30 border-b-4 border-ink bg-pop
                  safe-top px-4 pb-3 flex items-center gap-3"
     >
       {back !== undefined && (

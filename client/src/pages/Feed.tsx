@@ -381,7 +381,7 @@ function CrewStripCard({ group }: { group: Group }) {
         {FORMATION_ROWS.map((row, i) => (
           <div
             key={i}
-            className="grid gap-2 relative z-10"
+            className="grid gap-2 relative"
             style={{ gridTemplateColumns: `repeat(${row.length}, minmax(0, 1fr))` }}
           >
             {row.map((pos) => {
