@@ -79,7 +79,10 @@ export function FeedPage() {
 
         {/* Seizoen */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-1">kantines</h3>
+          <div className="flex items-center justify-between gap-2 mb-1">
+            <h3 className="font-display text-lg uppercase">kantines</h3>
+            <ShareSeasonChip />
+          </div>
           <p className="text-[11px] font-bold uppercase tracking-widest opacity-70 mb-3">
             De clubs waar je kind dit seizoen tegen voetbalt
           </p>
@@ -283,6 +286,68 @@ function SeasonClubCard({
           <ScorePill x100={stats.avg_score_x100} size="md" />
         </button>
       )}
+    </div>
+  );
+}
+
+/** Chip die Trainers laat zien dat ze hun seizoen naar hun team-leden
+ *  kunnen pushen. Alleen zichtbaar als: user is Trainer van een team
+ *  met >1 lid en heeft minstens 1 kantine. Idempotent: tap wanneer je
+ *  wilt — bestaande memberships blijven, nieuwe krijgen de kantines erbij. */
+function ShareSeasonChip() {
+  const me = useStore((s) => s.session.me);
+  const groupsMap = useStore((s) => s.groups);
+  const groupMemberships = useStore((s) => s.groupMemberships);
+  const myClubs = useMyClubs(500);
+  const [busy, setBusy] = useState(false);
+  const [flash, setFlash] = useState<"ok" | "err" | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  const trainerOf = useMemo(() => {
+    if (!me) return null;
+    return Array.from(groupsMap.values()).find((g) => g.owner_user_id === me.id) ?? null;
+  }, [groupsMap, me]);
+
+  const memberCount = useMemo(() => {
+    if (!trainerOf) return 0;
+    return Array.from(groupMemberships.values())
+      .filter((m) => m.group_id === trainerOf.id).length;
+  }, [groupMemberships, trainerOf]);
+
+  if (!trainerOf || memberCount <= 1 || myClubs.length === 0) return null;
+
+  const share = async () => {
+    if (busy) return;
+    setBusy(true); setErr(null);
+    try {
+      await client().shareSeasonWithCrew(trainerOf.id);
+      setFlash("ok");
+      setTimeout(() => setFlash(null), 1500);
+    } catch (e) {
+      setErr(friendlyError(e));
+      setFlash("err");
+      setTimeout(() => setFlash(null), 2500);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-end gap-0.5">
+      <button
+        type="button"
+        onClick={share}
+        disabled={busy}
+        aria-label="deel seizoen met team"
+        className={`brut-btn !py-1 !px-2 text-[10px] flex items-center gap-1.5 uppercase
+          active:translate-x-[1px] active:translate-y-[1px] transition-transform
+          ${flash === "ok" ? "bg-mint text-ink"
+            : flash === "err" ? "bg-hot text-paper"
+            : "bg-ink text-paper"}`}
+      >
+        {flash === "ok" ? "✓ gedeeld" : busy ? "…" : "📋 deel met team"}
+      </button>
+      {err && <span className="text-[9px] font-bold text-hot">{err}</span>}
     </div>
   );
 }
