@@ -89,14 +89,21 @@ export function FeedPage() {
           </div>
 
           {myClubs.length === 0 ? (
-            <BrutalCard tone="pop" tilt className="text-center !p-5">
-              <p className="font-display text-2xl uppercase leading-tight">
-                nog geen kantines
-              </p>
-              <p className="text-sm font-bold mt-2 opacity-80">
-                Voeg je eerste kantine toe en rate de gehaktbal.
-              </p>
-            </BrutalCard>
+            <button
+              type="button"
+              onClick={() => go("/clubs/new")}
+              className="block w-full text-left
+                         active:translate-x-[2px] active:translate-y-[2px] transition-transform"
+            >
+              <BrutalCard tone="pop" tilt className="text-center !p-5 cursor-pointer">
+                <p className="font-display text-2xl uppercase leading-tight">
+                  nog geen kantines
+                </p>
+                <p className="text-sm font-bold mt-2 opacity-80">
+                  Tik om je eerste kantine toe te voegen
+                </p>
+              </BrutalCard>
+            </button>
           ) : (
             <div className="flex flex-col gap-2.5">
               {myClubs.map(({ club }, idx) => (
