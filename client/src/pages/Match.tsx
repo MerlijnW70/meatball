@@ -164,28 +164,33 @@ export function MatchPage({ matchId }: { matchId: bigint }) {
       <TopBar title="wedstrijd" back="/home" />
       <main className="flex-1 px-3 py-4 flex flex-col gap-4 max-w-2xl w-full mx-auto">
         <BrutalCard className="!p-0 overflow-hidden">
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center">
-            <div className="bg-pop px-3 py-3 border-r-4 border-ink">
-              <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">thuis</p>
-              <p className="font-display text-lg uppercase leading-tight truncate">{homeName}</p>
+          {/* Flex met min-w-0 op de buitenste kolommen = truncate werkt, score blijft centraal. */}
+          <div className="flex items-stretch">
+            <div className="flex-1 min-w-0 bg-pop px-2 py-2 border-r-4 border-ink">
+              <p className="text-[9px] font-bold uppercase tracking-widest opacity-70">thuis</p>
+              <p className="font-display text-sm sm:text-base uppercase leading-tight truncate">
+                {homeName}
+              </p>
             </div>
-            <div className="bg-ink text-paper px-4 py-3 flex items-center gap-2">
-              <span className="font-display text-3xl">{homeScore}</span>
-              <span className="font-display text-xl opacity-60">–</span>
-              <span className="font-display text-3xl">{awayScore}</span>
+            <div className="shrink-0 bg-ink text-paper px-3 py-2 flex items-center gap-1.5">
+              <span className="font-display text-2xl sm:text-3xl leading-none">{homeScore}</span>
+              <span className="font-display text-base opacity-60 leading-none">–</span>
+              <span className="font-display text-2xl sm:text-3xl leading-none">{awayScore}</span>
             </div>
-            <div className="bg-sky px-3 py-3 border-l-4 border-ink text-right">
-              <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">uit</p>
-              <p className="font-display text-lg uppercase leading-tight truncate">{awayName}</p>
+            <div className="flex-1 min-w-0 bg-sky px-2 py-2 border-l-4 border-ink text-right">
+              <p className="text-[9px] font-bold uppercase tracking-widest opacity-70">uit</p>
+              <p className="font-display text-sm sm:text-base uppercase leading-tight truncate">
+                {awayName}
+              </p>
             </div>
           </div>
-          <div className="bg-paper border-t-4 border-ink px-3 py-2 flex items-center justify-between text-sm">
+          <div className="bg-paper border-t-4 border-ink px-3 py-1.5 flex items-center justify-between text-xs">
             <span className="font-display uppercase">
               {isFinished ? "afgelopen" : `${currentMinute}'`}
               {!isFinished && currentMinute >= 45 && currentMinute < 90 ? " · 2e helft" : ""}
             </span>
             {!isFinished && (
-              <span className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest">
+              <span className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest">
                 <span
                   className="inline-block w-1.5 h-1.5 bg-hot border border-ink"
                   style={{ animation: "livepulse 1.2s ease-in-out infinite" }}
