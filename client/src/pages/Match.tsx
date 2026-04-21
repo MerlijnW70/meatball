@@ -310,11 +310,9 @@ function Pitch({
   );
 }
 
-/** Welke event-types altijd groot getoond worden. Rest zit achter toggle. */
-const HERO_EVENTS = new Set<MatchEvent["kind"]["tag"]>([
-  "KickOff", "Goal", "SaveByKeeper", "HalfTime", "FullTime",
-]);
-
+/** Verslag toont nu alleen: goals gescoord door echte users (niet door
+ *  bots, niet andere events). Rust + einde als subtiele chips tussendoor.
+ *  Bot-goals en procedurele events worden verborgen — veel minder ruis. */
 function VerslagSection({
   events, players, homeName, awayName,
 }: {
@@ -323,78 +321,52 @@ function VerslagSection({
   homeName: string;
   awayName: string;
 }) {
-  const [showAll, setShowAll] = useState(false);
+  const playerById = useMemo(() => {
+    const m = new Map<string, MatchPlayer>();
+    for (const p of players) m.set(p.id.toString(), p);
+    return m;
+  }, [players]);
 
-  const filtered = useMemo(() => {
-    if (showAll) return events;
-    return events.filter((e) => HERO_EVENTS.has(e.kind.tag));
-  }, [events, showAll]);
-
-  const hiddenCount = events.length - filtered.length;
+  /** Alleen goals door echte users + halftime + fulltime milestone. */
+  const relevant = useMemo(() => {
+    return events.filter((e) => {
+      const kind = e.kind.tag;
+      if (kind === "HalfTime" || kind === "FullTime") return true;
+      if (kind !== "Goal") return false;
+      const scorer = playerById.get(e.match_player_id.toString());
+      return !!scorer && scorer.user_id !== 0n;
+    });
+  }, [events, playerById]);
 
   return (
     <section>
-      <div className="flex items-baseline justify-between mb-3 gap-2">
-        <h3 className="font-display text-lg uppercase">verslag</h3>
-        {hiddenCount > 0 && !showAll && (
-          <button
-            type="button"
-            onClick={() => setShowAll(true)}
-            className="text-[10px] font-bold uppercase tracking-widest opacity-60
-                       hover:opacity-100 underline decoration-2 underline-offset-2"
-          >
-            + {hiddenCount} details
-          </button>
+      <h3 className="font-display text-lg uppercase mb-3">speler-doelpunten</h3>
+      <div className="flex flex-col gap-2.5">
+        {relevant.length === 0 && (
+          <BrutalCard className="!p-3 text-center">
+            <p className="text-sm font-bold opacity-60">
+              nog geen doelpunten van spelers
+            </p>
+          </BrutalCard>
         )}
-        {showAll && (
-          <button
-            type="button"
-            onClick={() => setShowAll(false)}
-            className="text-[10px] font-bold uppercase tracking-widest opacity-60
-                       hover:opacity-100 underline decoration-2 underline-offset-2"
-          >
-            alleen hoogtepunten
-          </button>
-        )}
-      </div>
-      <div className="flex flex-col gap-2">
-        {filtered.length === 0 && (
-          <p className="text-sm opacity-60 font-bold">fluitsignaal volgt…</p>
-        )}
-        {[...filtered].reverse().map((e) => (
-          <EventCard
-            key={e.id.toString()}
-            ev={e}
-            players={players}
-            homeName={homeName}
-            awayName={awayName}
-          />
-        ))}
+        {[...relevant].reverse().map((e) => {
+          const kind = e.kind.tag;
+          if (kind === "HalfTime" || kind === "FullTime") {
+            return <MilestoneChip key={e.id.toString()} ev={e} />;
+          }
+          return (
+            <GoalCard
+              key={e.id.toString()}
+              ev={e}
+              players={players}
+              homeName={homeName}
+              awayName={awayName}
+            />
+          );
+        })}
       </div>
     </section>
   );
-}
-
-function EventCard({
-  ev, players, homeName, awayName,
-}: {
-  ev: MatchEvent;
-  players: MatchPlayer[];
-  homeName: string;
-  awayName: string;
-}) {
-  const kind = ev.kind.tag;
-  if (kind === "Goal") {
-    return <GoalCard ev={ev} players={players} homeName={homeName} awayName={awayName} />;
-  }
-  if (kind === "SaveByKeeper") {
-    return <SaveCard ev={ev} players={players} />;
-  }
-  if (kind === "KickOff" || kind === "HalfTime" || kind === "FullTime") {
-    return <MilestoneCard ev={ev} />;
-  }
-  // Miss / Corner / Tackle → minimale regel (alleen zichtbaar bij "alle details")
-  return <MinorRow ev={ev} />;
 }
 
 /** Scorer krijgt een hero-card. Als de scorer een echte user is kunnen
@@ -433,36 +405,40 @@ function GoalCard({
   };
 
   return (
-    <BrutalCard tone="pop" className="!p-3 flex flex-col gap-2.5">
-      <div className="flex items-baseline justify-between">
-        <span className="font-display text-2xl leading-none">⚽ GOAL</span>
+    <BrutalCard tone="pop" className="!p-0 overflow-hidden">
+      {/* Banner boven: minuut + GOAL */}
+      <div className="bg-ink text-paper px-4 py-2 flex items-baseline justify-between">
+        <span className="font-display text-xl leading-none">⚽ GOAL</span>
         <span className="font-display text-xs uppercase tracking-widest opacity-70">
           {ev.minute}&apos;
         </span>
       </div>
 
       {scorer && (
-        <div className="flex items-center gap-3">
+        <div className="px-4 py-4 flex items-center gap-3">
           <Avatar
             userId={isHuman ? scorer.user_id : null}
             override={!isHuman ? {
               color: scorer.avatar_color, icon: scorer.avatar_icon, decor: "none|none|0",
             } : undefined}
-            size="md"
+            size="lg"
           />
           <div className="flex-1 min-w-0">
-            <p className="font-display text-lg uppercase leading-tight truncate">
+            <p className="font-display text-2xl uppercase leading-tight truncate">
               {isSelf ? "jij scoort!" : scorer.display_name}
             </p>
-            <p className="text-[11px] font-bold uppercase tracking-widest opacity-70">
-              voor {teamName}
+            <p className="text-[11px] font-bold uppercase tracking-widest opacity-70 mt-0.5">
+              scoort voor {teamName}
             </p>
           </div>
         </div>
       )}
 
       {isHuman && !isSelf && (
-        <>
+        <div className="px-4 pb-4 pt-0 flex flex-col gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">
+            stuur een kaart naar {scorer?.display_name}
+          </p>
           <div className="flex gap-1.5">
             {(["⚽", "🏆", "🔥"] as const).map((emo) => (
               <button
@@ -471,7 +447,7 @@ function GoalCard({
                 onClick={() => sendKaart(emo)}
                 disabled={busy || sent !== null}
                 aria-label={`stuur ${emo}`}
-                className={`flex-1 border-2 border-ink py-2 text-xl leading-none
+                className={`flex-1 border-2 border-ink py-2.5 text-2xl leading-none
                   ${sent === emo ? "bg-mint" : "bg-paper"}
                   active:translate-x-[1px] active:translate-y-[1px] transition-transform
                   disabled:opacity-50`}
@@ -490,54 +466,22 @@ function GoalCard({
               {err}
             </p>
           )}
-        </>
+        </div>
       )}
     </BrutalCard>
   );
 }
 
-function SaveCard({ ev, players }: { ev: MatchEvent; players: MatchPlayer[] }) {
-  const keeper = players.find((p) => p.id === ev.match_player_id);
-  const isHuman = !!keeper && keeper.user_id !== 0n;
+/** Rust / einde als compacte centered chip tussen de goal-cards. */
+function MilestoneChip({ ev }: { ev: MatchEvent }) {
+  const label = ev.kind.tag === "HalfTime" ? "rust" : "einde";
   return (
-    <BrutalCard className="!p-2.5 bg-sky text-paper flex items-center gap-3">
-      <span className="font-display text-xs uppercase tracking-widest shrink-0 w-10">
-        {ev.minute}&apos;
+    <div className="flex items-center justify-center gap-3 py-1">
+      <span className="h-0.5 flex-1 bg-ink/20" />
+      <span className="brut-chip bg-ink text-paper !py-1 !px-3 text-[10px] font-display uppercase tracking-widest">
+        {ev.minute}&apos; · {label}
       </span>
-      {keeper && (
-        <Avatar
-          userId={isHuman ? keeper.user_id : null}
-          override={!isHuman ? {
-            color: keeper.avatar_color, icon: keeper.avatar_icon, decor: "none|none|0",
-          } : undefined}
-          size="xs"
-        />
-      )}
-      <p className="text-sm font-bold flex-1 leading-tight">
-        🧤 {keeper?.display_name ?? "keeper"} redt
-      </p>
-    </BrutalCard>
-  );
-}
-
-function MilestoneCard({ ev }: { ev: MatchEvent }) {
-  return (
-    <div className="brut-card bg-ink text-paper !p-2.5 flex items-center gap-3">
-      <span className="font-display text-xs uppercase tracking-widest shrink-0 w-10">
-        {ev.minute}&apos;
-      </span>
-      <span className="text-sm font-bold flex-1 leading-tight">{ev.text}</span>
-    </div>
-  );
-}
-
-function MinorRow({ ev }: { ev: MatchEvent }) {
-  return (
-    <div className="flex items-center gap-3 px-2 py-1 text-xs opacity-60">
-      <span className="font-display uppercase tracking-widest shrink-0 w-10">
-        {ev.minute}&apos;
-      </span>
-      <span className="flex-1 leading-tight">{ev.text}</span>
+      <span className="h-0.5 flex-1 bg-ink/20" />
     </div>
   );
 }
