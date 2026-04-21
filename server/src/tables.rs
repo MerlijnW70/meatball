@@ -287,6 +287,43 @@ pub struct InviteRequest {
     pub requested_at: Timestamp,
 }
 
+/// Een geplande real-life wedstrijd waar team-leden op kunnen
+/// voorspellen. Trainer maakt 'm aan en voert achteraf de uitslag in.
+#[table(accessor = match_fixture, public)]
+pub struct MatchFixture {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    pub group_id: u64,               // ons team
+    pub opponent_club_id: u64,       // tegenstander-kantine (uit seed)
+    pub we_are_home: bool,           // true = tegenstander komt bij ons
+    pub kickoff_at: Timestamp,
+    pub created_by: u64,             // Trainer die de fixture aanmaakte
+    pub created_at: Timestamp,
+    // Uitslag (ingevuld na de wedstrijd door Trainer)
+    pub final_home_score: u32,
+    pub final_away_score: u32,
+    pub final_entered: bool,
+}
+
+/// Voorspelling van één team-lid voor één fixture. Eén per (fixture, user).
+/// `points_awarded` wordt door de server gezet nadat de uitslag is
+/// ingevoerd. Vóór kickoff zijn andere users' voorspellingen verborgen
+/// via een server-hides-rows mechanism.
+#[table(accessor = match_prediction, public)]
+pub struct MatchPrediction {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    pub fixture_id: u64,
+    pub user_id: u64,
+    pub home_score: u32,
+    pub away_score: u32,
+    pub points_awarded: u32,          // 0 tot uitslag is ingevoerd
+    pub scored: bool,                  // true na scoring
+    pub submitted_at: Timestamp,
+}
+
 /// Positie van de speler — één van de 11 slots in het 4-3-3 schema
 /// (keeper, lb, lcb, rcb, rb, lm, cm, rm, lw, st, rw). Eén rij per user;
 /// upsert bij wijziging. Per team wordt uniqueness visueel afgedwongen

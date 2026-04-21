@@ -43,7 +43,10 @@ import BeginRatingReducer from "./begin_rating_reducer";
 import ClearClubMoodReducer from "./clear_club_mood_reducer";
 import CreateGroupReducer from "./create_group_reducer";
 import CreateGroupInviteReducer from "./create_group_invite_reducer";
+import CreateMatchFixtureReducer from "./create_match_fixture_reducer";
+import DeleteMatchFixtureReducer from "./delete_match_fixture_reducer";
 import EndRatingReducer from "./end_rating_reducer";
+import EnterMatchResultReducer from "./enter_match_result_reducer";
 import JoinClubReducer from "./join_club_reducer";
 import KickGroupMemberReducer from "./kick_group_member_reducer";
 import LeaveClubReducer from "./leave_club_reducer";
@@ -60,6 +63,7 @@ import SetAvatarReducer from "./set_avatar_reducer";
 import SetPositionReducer from "./set_position_reducer";
 import ShareSeasonWithCrewReducer from "./share_season_with_crew_reducer";
 import SimulateMatchReducer from "./simulate_match_reducer";
+import SubmitPredictionReducer from "./submit_prediction_reducer";
 import SubmitRatingReducer from "./submit_rating_reducer";
 import ToggleFollowReducer from "./toggle_follow_reducer";
 import ToggleLikeReducer from "./toggle_like_reducer";
@@ -82,7 +86,9 @@ import GroupInviteRevealRow from "./group_invite_reveal_table";
 import GroupMembershipRow from "./group_membership_table";
 import InviteRequestRow from "./invite_request_table";
 import MatchEventRow from "./match_event_table";
+import MatchFixtureRow from "./match_fixture_table";
 import MatchPlayerRow from "./match_player_table";
+import MatchPredictionRow from "./match_prediction_table";
 import ProvinceRow from "./province_table";
 import RateLimitRow from "./rate_limit_table";
 import RatingRow from "./rating_table";
@@ -245,6 +251,17 @@ const tablesSchema = __schema({
       { name: 'match_event_id_key', constraint: 'unique', columns: ['id'] },
     ],
   }, MatchEventRow),
+  match_fixture: __table({
+    name: 'match_fixture',
+    indexes: [
+      { accessor: 'id', name: 'match_fixture_id_idx_btree', algorithm: 'btree', columns: [
+        'id',
+      ] },
+    ],
+    constraints: [
+      { name: 'match_fixture_id_key', constraint: 'unique', columns: ['id'] },
+    ],
+  }, MatchFixtureRow),
   match_player: __table({
     name: 'match_player',
     indexes: [
@@ -256,6 +273,17 @@ const tablesSchema = __schema({
       { name: 'match_player_id_key', constraint: 'unique', columns: ['id'] },
     ],
   }, MatchPlayerRow),
+  match_prediction: __table({
+    name: 'match_prediction',
+    indexes: [
+      { accessor: 'id', name: 'match_prediction_id_idx_btree', algorithm: 'btree', columns: [
+        'id',
+      ] },
+    ],
+    constraints: [
+      { name: 'match_prediction_id_key', constraint: 'unique', columns: ['id'] },
+    ],
+  }, MatchPredictionRow),
   province: __table({
     name: 'province',
     indexes: [
@@ -435,7 +463,10 @@ const reducersSchema = __reducers(
   __reducerSchema("clear_club_mood", ClearClubMoodReducer),
   __reducerSchema("create_group", CreateGroupReducer),
   __reducerSchema("create_group_invite", CreateGroupInviteReducer),
+  __reducerSchema("create_match_fixture", CreateMatchFixtureReducer),
+  __reducerSchema("delete_match_fixture", DeleteMatchFixtureReducer),
   __reducerSchema("end_rating", EndRatingReducer),
+  __reducerSchema("enter_match_result", EnterMatchResultReducer),
   __reducerSchema("join_club", JoinClubReducer),
   __reducerSchema("kick_group_member", KickGroupMemberReducer),
   __reducerSchema("leave_club", LeaveClubReducer),
@@ -452,6 +483,7 @@ const reducersSchema = __reducers(
   __reducerSchema("set_position", SetPositionReducer),
   __reducerSchema("share_season_with_crew", ShareSeasonWithCrewReducer),
   __reducerSchema("simulate_match", SimulateMatchReducer),
+  __reducerSchema("submit_prediction", SubmitPredictionReducer),
   __reducerSchema("submit_rating", SubmitRatingReducer),
   __reducerSchema("toggle_follow", ToggleFollowReducer),
   __reducerSchema("toggle_like", ToggleLikeReducer),

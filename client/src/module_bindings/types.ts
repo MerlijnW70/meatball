@@ -183,6 +183,20 @@ export const MatchEventKind = __t.enum("MatchEventKind", {
 });
 export type MatchEventKind = __Infer<typeof MatchEventKind>;
 
+export const MatchFixture = __t.object("MatchFixture", {
+  id: __t.u64(),
+  groupId: __t.u64(),
+  opponentClubId: __t.u64(),
+  weAreHome: __t.bool(),
+  kickoffAt: __t.timestamp(),
+  createdBy: __t.u64(),
+  createdAt: __t.timestamp(),
+  finalHomeScore: __t.u32(),
+  finalAwayScore: __t.u32(),
+  finalEntered: __t.bool(),
+});
+export type MatchFixture = __Infer<typeof MatchFixture>;
+
 export const MatchPlayer = __t.object("MatchPlayer", {
   id: __t.u64(),
   matchId: __t.u64(),
@@ -206,6 +220,18 @@ export const MatchPosTick = __t.object("MatchPosTick", {
   matchId: __t.u64(),
 });
 export type MatchPosTick = __Infer<typeof MatchPosTick>;
+
+export const MatchPrediction = __t.object("MatchPrediction", {
+  id: __t.u64(),
+  fixtureId: __t.u64(),
+  userId: __t.u64(),
+  homeScore: __t.u32(),
+  awayScore: __t.u32(),
+  pointsAwarded: __t.u32(),
+  scored: __t.bool(),
+  submittedAt: __t.timestamp(),
+});
+export type MatchPrediction = __Infer<typeof MatchPrediction>;
 
 export const MatchTick = __t.object("MatchTick", {
   scheduledId: __t.u64(),
