@@ -246,17 +246,32 @@ function Pitch({
         containerType: "size",
       }}
     >
+      {/* viewBox matcht pitch-aspect (3:5) zodat `preserveAspectRatio=none`
+          SVG-units gelijk schaalt in X én Y — circles blijven rond i.p.v.
+          oval. Coordinaten: 60 breed × 100 hoog. */}
       <svg
-        viewBox="0 0 100 100" preserveAspectRatio="none"
+        viewBox="0 0 60 100" preserveAspectRatio="none"
         className="absolute inset-0 w-full h-full pointer-events-none"
       >
-        <rect x="1" y="1" width="98" height="98" fill="none" stroke="white" strokeWidth="0.4" opacity="0.6" />
-        <line x1="1" y1="50" x2="99" y2="50" stroke="white" strokeWidth="0.4" opacity="0.6" />
-        <circle cx="50" cy="50" r="8" fill="none" stroke="white" strokeWidth="0.4" opacity="0.6" />
-        <rect x="25" y="87" width="50" height="12" fill="none" stroke="white" strokeWidth="0.4" opacity="0.6" />
-        <rect x="25" y="1" width="50" height="12" fill="none" stroke="white" strokeWidth="0.4" opacity="0.6" />
-        <rect x="40" y="99" width="20" height="1" fill="white" opacity="0.8" />
-        <rect x="40" y="0" width="20" height="1" fill="white" opacity="0.8" />
+        {/* Buitenlijn */}
+        <rect x="1" y="1" width="58" height="98" fill="none" stroke="white" strokeWidth="0.3" opacity="0.6" />
+        {/* Middenlijn */}
+        <line x1="1" y1="50" x2="59" y2="50" stroke="white" strokeWidth="0.3" opacity="0.6" />
+        {/* Middencirkel + middenstip */}
+        <circle cx="30" cy="50" r="6" fill="none" stroke="white" strokeWidth="0.3" opacity="0.6" />
+        <circle cx="30" cy="50" r="0.4" fill="white" opacity="0.7" />
+        {/* Strafschopgebieden (home onder / away boven) */}
+        <rect x="18" y="85" width="24" height="14" fill="none" stroke="white" strokeWidth="0.3" opacity="0.6" />
+        <rect x="18" y="1" width="24" height="14" fill="none" stroke="white" strokeWidth="0.3" opacity="0.6" />
+        {/* Doelgebied (kleiner) */}
+        <rect x="24" y="92" width="12" height="7" fill="none" stroke="white" strokeWidth="0.3" opacity="0.5" />
+        <rect x="24" y="1" width="12" height="7" fill="none" stroke="white" strokeWidth="0.3" opacity="0.5" />
+        {/* Strafschopstip */}
+        <circle cx="30" cy="89" r="0.4" fill="white" opacity="0.7" />
+        <circle cx="30" cy="11" r="0.4" fill="white" opacity="0.7" />
+        {/* Doelen (witte streepjes in midden van onder/boven-lijn) */}
+        <rect x="27" y="99" width="6" height="1" fill="white" opacity="0.9" />
+        <rect x="27" y="0" width="6" height="1" fill="white" opacity="0.9" />
       </svg>
 
       {players.map((p) => {
