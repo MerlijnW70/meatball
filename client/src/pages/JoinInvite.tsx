@@ -53,7 +53,12 @@ export function JoinInvitePage({ code }: { code: string }) {
             </p>
             <BrutalButton
               variant="ink" size="md" block className="mt-2"
-              onClick={() => go("/onboard/name")}
+              onClick={() => {
+                // Bewaar de invite-code zodat we na onboarding hier terugkomen
+                // om alsnog te accepteren (anders blijft de user op /home steken).
+                sessionStorage.setItem("meatball.pendingInvite", code);
+                go("/onboard/name");
+              }}
             >
               Naam kiezen
             </BrutalButton>

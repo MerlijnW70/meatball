@@ -61,7 +61,15 @@ export function OnboardScreennamePage() {
           .find((u) => u.identity === id);
         if (me) useStore.getState().setMe(me);
       }
-      go("/home");
+      // Als de user via een WhatsApp-invite hier belandde, terug naar /join
+      // zodat acceptGroupInvite alsnog uitgevoerd wordt nu we een user zijn.
+      const pendingInvite = sessionStorage.getItem("meatball.pendingInvite");
+      if (pendingInvite) {
+        sessionStorage.removeItem("meatball.pendingInvite");
+        go(`/join/${pendingInvite}`);
+      } else {
+        go("/home");
+      }
     } catch (e) {
       setErr(friendlyError(e));
     } finally {
