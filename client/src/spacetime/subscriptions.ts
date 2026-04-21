@@ -44,7 +44,9 @@ export function subscribeGlobal(conn: any) {
       "SELECT * FROM snack_stats",
       "SELECT * FROM rating",
       "SELECT * FROM snack_like",
-      "SELECT * FROM group",
+      // `group` is een reserved SQL keyword — moet geëscaped worden anders
+      // faalt de sub stil en zien andere users geen teams.
+      `SELECT * FROM "group"`,
       "SELECT * FROM group_membership",
       "SELECT * FROM group_invite",
       "SELECT * FROM group_invite_reveal",
