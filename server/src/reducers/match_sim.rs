@@ -626,6 +626,21 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
             .map(|p| p.id).unwrap_or(0)
     } else { 0 };
 
+    // ── Phase-strength: ramp van 0 → 1 over ~1.5s zodat korte
+    //     possession-flips geen full team-swing triggeren (was 'wave-effect').
+    let phase_age_micros = now_micros
+        - new_phase_set_at.to_micros_since_unix_epoch();
+    let phase_age_s = (phase_age_micros as f32) / 1_000_000.0;
+    let phase_strength: f32 = if phase_age_s < 0.4 {
+        0.0 // hele korte flip: nog geen shift
+    } else if phase_age_s < 1.8 {
+        // smoothstep tussen 0.4s en 1.8s
+        let t = (phase_age_s - 0.4) / 1.4;
+        t * t * (3.0 - 2.0 * t)
+    } else {
+        1.0
+    };
+
     // ── Compute new pos+velocity for each player ─────────────────
     let mut new_state: Vec<(u64, f32, f32, f32, f32)> = Vec::with_capacity(players.len());
     let tctx = TargetCtx {
@@ -641,6 +656,7 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
         ball_vx: match_row.ball_vx,
         ball_vy: match_row.ball_vy,
         ball_target: new_ball_target,
+        phase_strength,
     };
     for p in &players {
         let target = compute_target(p, &tctx);
@@ -808,6 +824,10 @@ struct TargetCtx<'a> {
     ball_vx: f32,
     ball_vy: f32,
     ball_target: (f32, f32),
+    /// 0.0 bij vers possession-flip, ramp smooth naar 1.0 over ~1.5s.
+    /// Voorkomt dat korte possession-hikjes het hele team terug-en-weer
+    /// laten deinen ("wave-effect"). Stabiel bezit = volle team-advance.
+    phase_strength: f32,
 }
 
 /// Target van een speler. Gelaagd:
@@ -903,19 +923,22 @@ fn compute_target(p: &MatchPlayer, tc: &TargetCtx<'_>) -> (f32, f32) {
     let mut tx = bx;
     let mut ty = by;
 
-    // ── Formatie-shift op basis van possession ───────────────────
+    // ── Formatie-shift op basis van possession, gedempt door phase_strength.
+    //     Korte possession-flips produceren bijna geen shift (strength ≈ 0).
+    //     Stabiel bezit > 1.8s produceert volle team-advance (strength = 1).
+    let ws = tc.phase_strength;
     if we_have_ball {
         match line {
-            "att" => ty += if p.side == "home" { -10.0 } else { 10.0 },
-            "mid" => ty += if p.side == "home" { -6.0 } else { 6.0 },
-            "def" => ty += if p.side == "home" { -3.0 } else { 3.0 },
+            "att" => ty += ws * if p.side == "home" { -14.0 } else { 14.0 },
+            "mid" => ty += ws * if p.side == "home" { -9.0 } else { 9.0 },
+            "def" => ty += ws * if p.side == "home" { -4.0 } else { 4.0 },
             _ => {}
         }
     } else if !possession_side.is_empty() {
         match line {
-            "att" => ty += if p.side == "home" { 8.0 } else { -8.0 },
-            "mid" => ty += if p.side == "home" { 5.0 } else { -5.0 },
-            "def" => ty += if p.side == "home" { 2.0 } else { -2.0 },
+            "att" => ty += ws * if p.side == "home" { 10.0 } else { -10.0 },
+            "mid" => ty += ws * if p.side == "home" { 6.0 } else { -6.0 },
+            "def" => ty += ws * if p.side == "home" { 3.0 } else { -3.0 },
             _ => {}
         }
     }
@@ -960,14 +983,13 @@ fn compute_target(p: &MatchPlayer, tc: &TargetCtx<'_>) -> (f32, f32) {
         }
     }
 
-    // ── Line cohesion (defense): blijf dicht bij base-y zodat lijn heel blijft ─
+    // ── Line cohesion (defense): blijf dicht bij phase-shifted base-y ─
     if line == "def" {
-        // Harde cap: def target-y mag max 4u afwijken van phase-shifted base
-        let (_, phase_by) = (bx, by + if we_have_ball {
-            if p.side == "home" { -3.0 } else { 3.0 }
+        let phase_by = by + ws * if we_have_ball {
+            if p.side == "home" { -4.0 } else { 4.0 }
         } else if !possession_side.is_empty() {
-            if p.side == "home" { 2.0 } else { -2.0 }
-        } else { 0.0 });
+            if p.side == "home" { 3.0 } else { -3.0 }
+        } else { 0.0 };
         ty = ty.clamp(phase_by - 4.0, phase_by + 4.0);
     }
 
