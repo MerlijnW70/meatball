@@ -60,6 +60,9 @@ export function FeedPage() {
       <TopBar title="Seizoen" hideCrews />
 
       <main className="flex-1 px-4 pt-5 pb-4 flex flex-col gap-6">
+        {/* Trainer-notificaties: openstaande invite-requests */}
+        <PendingRequestsBanner />
+
         {/* Team-strip */}
         <section>
           <h3 className="font-display text-lg uppercase mb-3">jouw team</h3>
@@ -281,6 +284,103 @@ function SeasonClubCard({
         </button>
       )}
     </div>
+  );
+}
+
+/** Banner met openstaande invite-requests voor teams waar jij Trainer van
+ *  bent. Direct approve/reject — komt niet terug tot er een nieuwe request
+ *  binnenkomt. */
+function PendingRequestsBanner() {
+  const me = useStore((s) => s.session.me);
+  const groupsMap = useStore((s) => s.groups);
+  const requests = useStore((s) => s.inviteRequests);
+  const users = useStore((s) => s.users);
+  const [busy, setBusy] = useState<bigint | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  const pending = useMemo(() => {
+    if (!me) return [];
+    return Array.from(requests.values())
+      .filter((r) => {
+        const g = groupsMap.get(r.group_id.toString());
+        return !!g && g.owner_user_id === me.id;
+      })
+      .sort((a, b) => Number(a.requested_at) - Number(b.requested_at));
+  }, [requests, groupsMap, me]);
+
+  if (pending.length === 0) return null;
+
+  const approve = async (id: bigint) => {
+    setBusy(id); setErr(null);
+    try { await client().approveInviteRequest(id); }
+    catch (e) { setErr(friendlyError(e)); }
+    finally { setBusy(null); }
+  };
+  const reject = async (id: bigint) => {
+    setBusy(id); setErr(null);
+    try { await client().rejectInviteRequest(id); }
+    catch (e) { setErr(friendlyError(e)); }
+    finally { setBusy(null); }
+  };
+
+  return (
+    <BrutalCard tone="pop" className="!p-3 flex flex-col gap-2">
+      <p className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-1.5">
+        <span
+          className="inline-block w-2 h-2 bg-hot border border-ink"
+          style={{ animation: "livepulse 1.2s ease-in-out infinite" }}
+        />
+        invite-verzoek · {pending.length}
+      </p>
+      <div className="flex flex-col gap-1.5">
+        {pending.map((r) => {
+          const u = users.get(r.from_user_id.toString());
+          const g = groupsMap.get(r.group_id.toString());
+          const isBusy = busy === r.id;
+          return (
+            <div
+              key={r.id.toString()}
+              className="brut-card bg-paper !p-2 flex items-center gap-2"
+            >
+              <Avatar userId={r.from_user_id} size="sm" />
+              <div className="flex-1 min-w-0">
+                <p className="font-display uppercase leading-tight truncate">
+                  {u?.screen_name ?? "iemand"}
+                </p>
+                <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 leading-tight">
+                  wil bij {g?.name ?? "jouw team"}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => reject(r.id)}
+                disabled={isBusy}
+                aria-label="afwijzen"
+                className="shrink-0 w-9 h-9 border-4 border-ink bg-ink text-paper
+                           flex items-center justify-center font-display text-sm
+                           active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+              >
+                ✕
+              </button>
+              <button
+                type="button"
+                onClick={() => approve(r.id)}
+                disabled={isBusy}
+                aria-label="goedkeuren"
+                className="shrink-0 w-9 h-9 border-4 border-ink bg-mint text-ink
+                           flex items-center justify-center font-display text-base
+                           active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+              >
+                ✓
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      {err && (
+        <p className="brut-card bg-hot text-paper p-2 font-bold text-xs">{err}</p>
+      )}
+    </BrutalCard>
   );
 }
 
