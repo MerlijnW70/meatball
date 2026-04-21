@@ -22,7 +22,8 @@ pub const ALLOWED_TAGS: &[&str] = &[
     "droog", "verrassend goed", "zout", "vettig", "lauw",
 ];
 
-pub const ALLOWED_REACTIONS: &[&str] = &["👍", "❤️", "😡", "😄", "🔥"];
+// Voetbal-thema "kaarten" die spelers naar elkaar sturen.
+pub const ALLOWED_REACTIONS: &[&str] = &["⚽", "🏆", "🔥", "🟨", "🟥"];
 
 pub const ALLOWED_MOODS: &[&str] = &["🔥", "🍺", "🎉", "😴", "😡", "🫠"];
 

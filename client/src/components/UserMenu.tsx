@@ -188,24 +188,42 @@ export function UserMenu({ userId, name, className = "", bare = false, trigger }
           ref={popRef}
           onClick={(e) => e.stopPropagation()}
           style={{ position: "fixed", top: coords.top, left: coords.left, zIndex: 60 }}
-          className="brut-card bg-paper p-2 shadow-brut flex flex-col gap-1"
+          className="brut-card bg-paper p-2 shadow-brut flex flex-col gap-2 min-w-[240px]"
         >
-          <div className="flex gap-1 items-center">
-            {ALLOWED_REACTIONS.map((emo) => (
-              <button
-                key={emo}
-                type="button"
-                disabled={busy}
-                onClick={(e) => send(emo, e)}
-                aria-label={`stuur ${emo}`}
-                className="w-11 h-11 border-2 border-ink bg-paper text-xl
-                           hover:bg-pop active:translate-x-[2px] active:translate-y-[2px]
-                           transition-transform"
-              >
-                {emo}
-              </button>
-            ))}
+          {/* Speler-naam header */}
+          <div className="flex items-center gap-1.5 px-1 pt-0.5">
+            <span
+              className={`inline-block w-1.5 h-1.5 border border-ink
+                ${online ? "bg-mint" : "bg-ink/30"}`}
+              aria-hidden
+            />
+            <p className="font-display uppercase text-sm leading-tight truncate">{name}</p>
           </div>
+
+          {/* Voetbal-kaarten */}
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-widest opacity-60 px-1 mb-1">
+              stuur 'n kaart
+            </p>
+            <div className="flex gap-1">
+              {ALLOWED_REACTIONS.map((emo) => (
+                <button
+                  key={emo}
+                  type="button"
+                  disabled={busy}
+                  onClick={(e) => send(emo, e)}
+                  aria-label={`stuur ${emo}`}
+                  className="flex-1 h-11 border-2 border-ink bg-paper text-xl leading-none
+                             hover:bg-pop active:translate-x-[2px] active:translate-y-[2px]
+                             transition-transform"
+                >
+                  {emo}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Volg + profiel */}
           <div className="flex gap-1">
             <button
               type="button"

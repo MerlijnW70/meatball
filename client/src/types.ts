@@ -208,7 +208,8 @@ export interface UserReaction {
   created_at: Timestamp;
 }
 
-export const ALLOWED_REACTIONS = ["👍", "❤️", "😡", "😄", "🔥"] as const;
+// Voetbal-thema "kaarten" — jouw tokens van waardering of kritiek.
+export const ALLOWED_REACTIONS = ["⚽", "🏆", "🔥", "🟨", "🟥"] as const;
 
 export interface Session {
   identity: Identity;
