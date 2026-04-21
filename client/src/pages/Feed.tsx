@@ -55,7 +55,7 @@ export function FeedPage() {
 
   return (
     <div className="min-h-dvh flex flex-col">
-      <TopBar title="Wedstrijd" />
+      <TopBar title="Seizoen" />
 
       <main className="flex-1 px-4 pt-5 pb-4 flex flex-col gap-6">
         {/* Team-strip */}
@@ -84,9 +84,9 @@ export function FeedPage() {
 
         {/* Seizoen */}
         <section>
-          <h3 className="font-display text-lg uppercase mb-1">jouw seizoen</h3>
+          <h3 className="font-display text-lg uppercase mb-1">kantines</h3>
           <p className="text-[11px] font-bold uppercase tracking-widest opacity-70 mb-3">
-            Voeg alle clubs toe waar je kind dit seizoen tegen voetbalt
+            De clubs waar je kind dit seizoen tegen voetbalt
           </p>
 
           {myClubs.length === 0 ? (
