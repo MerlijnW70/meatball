@@ -208,6 +208,9 @@ export function MatchPage({ matchId }: { matchId: bigint }) {
           playerInterpRef={playerInterpRef}
           ballInterp={ballInterpRef.current}
           scorerPlayerId={scorerCelebrating ? scorerPlayerId : 0n}
+          carrierId={matchRow.ball_carrier_id}
+          ballVx={matchRow.ball_vx}
+          ballVy={matchRow.ball_vy}
           now={now}
         />
 
@@ -223,12 +226,15 @@ export function MatchPage({ matchId }: { matchId: bigint }) {
 }
 
 function Pitch({
-  players, playerInterpRef, ballInterp, scorerPlayerId, now,
+  players, playerInterpRef, ballInterp, scorerPlayerId, carrierId, ballVx, ballVy, now,
 }: {
   players: MatchPlayer[];
   playerInterpRef: React.MutableRefObject<Map<string, Interp>>;
   ballInterp: Interp;
   scorerPlayerId: bigint;
+  carrierId: bigint;
+  ballVx: number;
+  ballVy: number;
   now: number;
 }) {
   return (
@@ -278,23 +284,42 @@ function Pitch({
         const st = playerInterpRef.current.get(p.id.toString());
         const disp = st ? computeDisplay(st, now, SERVER_TICK_MS) : { x: p.x, y: p.y };
         const isScorer = scorerPlayerId !== 0n && p.id === scorerPlayerId;
+        const isCarrier = carrierId !== 0n && p.id === carrierId;
         const isBot = p.user_id === 0n;
+        // Sprint-scale: speler die snel beweegt wordt subtiel groter
+        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+        const speedScale = 1 + Math.min(speed / 35, 0.20);
+        const scale = isScorer ? 1.35 : speedScale;
+        const filter =
+          isScorer ? "drop-shadow(0 0 6px #FFE066)"
+          : isCarrier ? "drop-shadow(0 0 4px #FFD23F)"
+          : undefined;
         return (
           <div
             key={p.id.toString()}
             className="absolute top-0 left-0"
             style={{
-              // GPU-composited transform i.p.v. layout-triggering left/top.
               transform:
                 `translate(${disp.x}cqw, ${disp.y}cqh) ` +
                 `translate(-50%, -50%) ` +
-                `scale(${isScorer ? 1.35 : 1})`,
-              filter: isScorer ? "drop-shadow(0 0 6px #FFE066)" : undefined,
-              zIndex: isScorer ? 4 : 2,
+                `scale(${scale.toFixed(3)})`,
+              filter,
+              zIndex: isScorer ? 5 : isCarrier ? 4 : 2,
               willChange: "transform",
             }}
             title={p.display_name}
           >
+            {/* Gouden ring rond carrier zodat je direct ziet wie de bal heeft */}
+            {isCarrier && (
+              <span
+                className="absolute inset-0 rounded-full pointer-events-none"
+                style={{
+                  boxShadow: "0 0 0 2px #FFD23F, 0 0 8px 2px rgba(255,210,63,0.5)",
+                  margin: "-3px",
+                }}
+                aria-hidden
+              />
+            )}
             <Avatar
               userId={isBot ? null : p.user_id}
               override={isBot ? {
@@ -308,17 +333,39 @@ function Pitch({
 
       {(() => {
         const bd = computeDisplay(ballInterp, now, BALL_TICK_MS);
+        // Ball-speed → subtle scale-up voor shots (suggereert snelheid/hoogte)
+        const ballSpeed = Math.sqrt(ballVx * ballVx + ballVy * ballVy);
+        const ballScale = 1 + Math.min(ballSpeed / 120, 0.35);
+        const liftPx = Math.min(ballSpeed / 15, 3); // hoogte-suggestie
         return (
-          <div
-            className="absolute top-0 left-0 w-3 h-3 rounded-full bg-paper border-2 border-ink shadow"
-            style={{
-              transform:
-                `translate(${bd.x}cqw, ${bd.y}cqh) translate(-50%, -50%)`,
-              zIndex: 5,
-              willChange: "transform",
-            }}
-            aria-hidden
-          />
+          <>
+            {/* Shadow onder de bal — hint naar hoogte tijdens shots */}
+            <div
+              className="absolute top-0 left-0 rounded-full bg-black/40 blur-[1px]"
+              style={{
+                width: "10px",
+                height: "4px",
+                transform:
+                  `translate(${bd.x}cqw, ${bd.y}cqh) translate(-50%, calc(-50% + 3px))`,
+                zIndex: 4,
+                willChange: "transform",
+              }}
+              aria-hidden
+            />
+            {/* Bal zelf — scalet subtiel bij hoge snelheid */}
+            <div
+              className="absolute top-0 left-0 w-3 h-3 rounded-full bg-paper border-2 border-ink shadow"
+              style={{
+                transform:
+                  `translate(${bd.x}cqw, ${bd.y}cqh) `
+                  + `translate(-50%, calc(-50% - ${liftPx}px)) `
+                  + `scale(${ballScale.toFixed(3)})`,
+                zIndex: 5,
+                willChange: "transform",
+              }}
+              aria-hidden
+            />
+          </>
         );
       })()}
     </div>

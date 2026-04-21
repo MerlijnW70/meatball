@@ -638,6 +638,8 @@ pub fn tick_positions(ctx: &ReducerContext, tick: MatchPosTick) -> Result<(), St
         players: &players,
         ball_x: match_row.ball_x,
         ball_y: match_row.ball_y,
+        ball_vx: match_row.ball_vx,
+        ball_vy: match_row.ball_vy,
         ball_target: new_ball_target,
     };
     for p in &players {
@@ -803,6 +805,8 @@ struct TargetCtx<'a> {
     players: &'a [MatchPlayer],
     ball_x: f32,
     ball_y: f32,
+    ball_vx: f32,
+    ball_vy: f32,
     ball_target: (f32, f32),
 }
 
@@ -827,26 +831,60 @@ fn compute_target(p: &MatchPlayer, tc: &TargetCtx<'_>) -> (f32, f32) {
     let players = tc.players;
     let ball_x = tc.ball_x;
     let ball_y = tc.ball_y;
+    let ball_vx = tc.ball_vx;
+    let ball_vy = tc.ball_vy;
     let ball_target = tc.ball_target;
     let possession_side = tc.possession_side;
     let _ = tc.phase;
 
-    // Keeper
+    // ── Keeper: normale lateraal-tracking + duik op shots ────────
     if line == "gk" {
-        let mut x = bx + (ball_x - bx) * 0.35;
-        x = x.clamp(bx - 10.0, bx + 10.0);
-        let ball_deep_opp = if p.side == "home" { ball_y < 30.0 } else { ball_y > 70.0 };
-        let y = if ball_deep_opp {
-            if p.side == "home" { 88.0 } else { 12.0 }
-        } else { by };
+        let own_goal_y = if p.side == "home" { 95.0 } else { 5.0 };
+        // Detecteer een schot: bal beweegt snel richting ons doel.
+        let ball_speed_sq = ball_vx * ball_vx + ball_vy * ball_vy;
+        let approaching_own_goal = if p.side == "home" { ball_vy > 20.0 }
+                                   else { ball_vy < -20.0 };
+        let ball_deep_opp = if p.side == "home" { ball_y < 30.0 }
+                            else { ball_y > 70.0 };
+        let (x, y) = if ball_speed_sq > 900.0 && approaching_own_goal
+            && (ball_y - own_goal_y).abs() < 25.0
+        {
+            // DUIK: volledig committen naar bal-x om shot te blokkeren
+            let projected_x = ball_x + ball_vx * 0.3; // waar de bal heen vliegt
+            (projected_x.clamp(30.0, 70.0), by)
+        } else if ball_deep_opp {
+            // Bal diep in tegenhelft → van doellijn komen voor sweeper-rol
+            let x = bx + (ball_x - bx) * 0.25;
+            let off_line_y = if p.side == "home" { 88.0 } else { 12.0 };
+            (x.clamp(bx - 12.0, bx + 12.0), off_line_y)
+        } else {
+            // Standaard: lateraal mee met bal, op eigen lijn
+            let x = bx + (ball_x - bx) * 0.35;
+            (x.clamp(bx - 10.0, bx + 10.0), by)
+        };
         return (x.clamp(2.0, 98.0), y);
     }
 
-    // Carrier → sprint naar opponent goal (met lichte x-afwijking)
+    // ── Carrier: sprint naar doel + dribble-evasion bij presser ──
     if is_carrier {
         let goal_y = if p.side == "home" { 8.0 } else { 92.0 };
-        let tx = bx * 0.4 + ball_x * 0.6;
-        let ty = by + (goal_y - by) * 0.45;
+        let mut tx = bx * 0.4 + ball_x * 0.6;
+        let mut ty = by + (goal_y - by) * 0.45;
+
+        // Dribble-evasion: als presser dichtbij, zwenk lateraal weg
+        if presser_id != 0 {
+            if let Some(presser) = players.iter().find(|pp| pp.id == presser_id) {
+                let d = dist(p.x, p.y, presser.x, presser.y);
+                if d < 7.0 {
+                    // Swerve weg van presser (kies de kant met meer ruimte)
+                    let away_x = if presser.x > p.x { p.x - 6.0 } else { p.x + 6.0 };
+                    tx = tx * 0.4 + away_x * 0.6;
+                    // Bij zware druk, ga even meer lateraal dan voorwaarts
+                    ty = ty * 0.7 + p.y * 0.3;
+                }
+            }
+        }
+
         // Subtiele dribbel-wiggle
         let now_s = (now_micros as f32) / 1_000_000.0;
         let seed = ((p.id % 997) as f32) * 0.137;
@@ -854,7 +892,7 @@ fn compute_target(p: &MatchPlayer, tc: &TargetCtx<'_>) -> (f32, f32) {
         return ((tx + wx).clamp(2.0, 98.0), ty.clamp(2.0, 98.0));
     }
 
-    // Interceptor → loopt naar ball-target (waar de bal heen gaat)
+    // ── Interceptor: naar ball-target ────────────────────────────
     if p.id == interceptor_id {
         let sine_s = (now_micros as f32) / 1_000_000.0;
         let seed = ((p.id % 997) as f32) * 0.137;
@@ -865,7 +903,7 @@ fn compute_target(p: &MatchPlayer, tc: &TargetCtx<'_>) -> (f32, f32) {
     let mut tx = bx;
     let mut ty = by;
 
-    // Formatie-shift obv possession
+    // ── Formatie-shift op basis van possession ───────────────────
     if we_have_ball {
         match line {
             "att" => ty += if p.side == "home" { -10.0 } else { 10.0 },
@@ -882,42 +920,58 @@ fn compute_target(p: &MatchPlayer, tc: &TargetCtx<'_>) -> (f32, f32) {
         }
     }
 
-    // Line discipline: alleen aangewezen presser knijpt in op carrier.
-    if p.id == presser_id && carrier_id != 0 {
+    // ── Pressure (line-discipline): alleen de aangewezen presser ─
+    // Verdedigers pressen NIET — die houden de lijn, zelfs onder druk.
+    // Midfielder/attacker mag presser-rol wel oppakken.
+    if p.id == presser_id && carrier_id != 0 && line != "def" {
         if let Some(c) = players.iter().find(|pp| pp.id == carrier_id) {
             tx = c.x; ty = c.y;
         }
     }
 
-    // Support-run: possession-teammate binnen 22u loopt naar carrier
-    // (maar NIET op dezelfde plek gaan staan — minimaal 8u afstand houden).
-    if we_have_ball && carrier_id != 0 && p.id != carrier_id {
+    // ── Support-run naar carrier (maar niet door def om lijn niet te breken) ─
+    if we_have_ball && carrier_id != 0 && p.id != carrier_id && line != "def" {
         if let Some(c) = players.iter().find(|pp| pp.id == carrier_id) {
             let dx = c.x - tx; let dy = c.y - ty;
             let d = (dx * dx + dy * dy).sqrt();
             if d > 22.0 {
-                // Te ver — beweeg dichterbij
                 tx += dx * 0.25; ty += dy * 0.25;
             } else if d < 8.0 {
-                // Te dichtbij — blijf op afstand (push weg)
                 tx -= dx * 0.20; ty -= dy * 0.20;
             }
         }
     }
 
-    // Off-ball attacker runs (niet voor presser/interceptor/carrier)
+    // ── Space-aware off-ball runs voor aanvallers ────────────────
+    // In plaats van random naar voren: zoek ruimte aan de kant van het veld
+    // weg van de bal-x, zodat we breedte creëren voor de carrier.
     if we_have_ball && line == "att" && !is_carrier && p.id != presser_id {
         let bucket = (now_micros / 1_500_000) as u64;
         let mut h = Sha256::new();
         h.update(b"run"); h.update(p.id.to_le_bytes()); h.update(bucket.to_le_bytes());
         let d = h.finalize();
         if d[0] < 77 {
+            // Run naar voren
             let goal_y = if p.side == "home" { 10.0 } else { 90.0 };
             ty += (goal_y - ty) * 0.28;
+            // Drijf naar de buitenkant (far van ball_x) voor breedte
+            let wide_x = if ball_x < 50.0 { 80.0 } else { 20.0 };
+            tx += (wide_x - tx) * 0.15;
         }
     }
 
-    // Smooth sine-wander — subtiele micro-motion voor leven
+    // ── Line cohesion (defense): blijf dicht bij base-y zodat lijn heel blijft ─
+    if line == "def" {
+        // Harde cap: def target-y mag max 4u afwijken van phase-shifted base
+        let (_, phase_by) = (bx, by + if we_have_ball {
+            if p.side == "home" { -3.0 } else { 3.0 }
+        } else if !possession_side.is_empty() {
+            if p.side == "home" { 2.0 } else { -2.0 }
+        } else { 0.0 });
+        ty = ty.clamp(phase_by - 4.0, phase_by + 4.0);
+    }
+
+    // ── Smooth sine-wander ───────────────────────────────────────
     let now_s = (now_micros as f32) / 1_000_000.0;
     let seed = ((p.id % 997) as f32) * 0.137;
     let wx = 1.4 * (now_s * 0.45 + seed).sin();
