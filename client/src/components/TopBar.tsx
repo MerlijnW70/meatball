@@ -30,7 +30,9 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews: _hideC
   const showAvatar = !hideProfile && me;
 
   const headerRef = useRef<HTMLElement>(null);
-  const [height, setHeight] = useState(0);
+  // `null` tot eerste meting → spacer gebruikt CSS-calc-fallback zodat er
+  // geen layout-shift is op de eerste paint.
+  const [height, setHeight] = useState<number | null>(null);
 
   useEffect(() => {
     const el = headerRef.current;
@@ -55,6 +57,15 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews: _hideC
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-30 border-b-4 border-ink bg-pop
                    safe-top px-4 pb-3 flex items-center gap-3"
+        style={{
+          // Force GPU-compositing layer: voorkomt dat iOS Safari de header
+          // per scroll-frame opnieuw rasterizeert wat scroll hakkelig voelt.
+          transform: "translateZ(0)",
+          willChange: "transform",
+          // Isoleert layout — scroll re-layouts van content beïnvloeden
+          // de header niet (en vice versa).
+          contain: "layout paint",
+        }}
       >
         {back !== undefined && (
           <button
@@ -99,10 +110,14 @@ export function TopBar({ title, sub, back, right, hideProfile, hideCrews: _hideC
         )}
       </header>
       {/* Spacer — neemt dezelfde hoogte als de fixed header zodat content
-          er netjes onder start. Height = 0 op eerste render (vóór measure);
-          header is dan nog ergens gepositioneerd maar de layout schuift
-          meteen bij. */}
-      <div style={{ height }} aria-hidden />
+          er netjes onder start. CSS-calc fallback (40px knop + top safe-area
+          + bottom padding) voorkomt layout-shift vóór de eerste meting. */}
+      <div
+        aria-hidden
+        style={{
+          height: height ?? "calc(40px + max(0.75rem, env(safe-area-inset-top)) + 0.75rem)",
+        }}
+      />
     </>
   );
 }
