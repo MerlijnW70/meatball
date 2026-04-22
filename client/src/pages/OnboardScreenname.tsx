@@ -184,7 +184,7 @@ export function OnboardScreennamePage() {
         {/* Veldpositie — 4-3-3 pitch */}
         <section>
           <p className="text-xs font-bold uppercase tracking-widest mb-2">
-            Kantine positie
+            je veld positie
           </p>
           <PitchPicker value={position} onChange={setPosition} />
           {!position && (
