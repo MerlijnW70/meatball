@@ -82,6 +82,7 @@ export function ActivityGrid() {
     },
     {
       emoji: "👑",
+      image: "/tiles/team.png",
       label: myGroups.length > 0 ? "jouw team" : "team",
       sub: myGroups.length > 0
         ? myGroups[0]!.name
