@@ -8,12 +8,13 @@
     "dev:local": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host",
-    "generate": "spacetime generate --lang typescript --out-dir src/module_bindings --module-path ../server"
+    "generate": "spacetime generate --lang typescript --out-dir src/module_bindings --module-path ../server",
+    "optimize:images": "node scripts/optimize-tiles.mjs"
   },
   "dependencies": {
-    "spacetimedb": "^2.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "spacetimedb": "^2.1.0",
     "zustand": "^4.5.4"
   },
   "devDependencies": {
@@ -22,6 +23,7 @@
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.39",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.6",
     "typescript": "^5.5.3",
     "vite": "^5.3.4"

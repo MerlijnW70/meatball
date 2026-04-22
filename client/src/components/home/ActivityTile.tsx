@@ -85,15 +85,26 @@ export function ActivityTile({
         </span>
       )}
 
-      {/* Hero — custom image vult volledig, anders emoji centered. */}
+      {/* Hero — custom image vult volledig, anders emoji centered.
+          <picture> laadt WebP waar ondersteund (~70% kleiner), valt
+          terug op PNG. optimize:images script schrijft beide naast
+          elkaar in public/tiles/. */}
       {image ? (
         <div className="flex-1 overflow-hidden">
-          <img
-            src={image}
-            alt=""
-            aria-hidden
-            className="w-full h-full object-cover group-active:scale-95 transition-transform"
-          />
+          <picture>
+            <source
+              srcSet={image.replace(/\.png$/i, ".webp")}
+              type="image/webp"
+            />
+            <img
+              src={image}
+              alt=""
+              aria-hidden
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover group-active:scale-95 transition-transform"
+            />
+          </picture>
         </div>
       ) : (
         <div className="flex-1 flex items-center justify-center">
