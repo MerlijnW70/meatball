@@ -62,19 +62,25 @@ export default function App() {
   if (err) {
     return (
       <div className="min-h-dvh flex items-center justify-center p-6">
-        <div className="brut-card bg-hot text-paper p-5 max-w-md">
+        <div className="brut-card bg-hot text-paper p-5 max-w-md flex flex-col gap-3">
           <h2 className="font-display text-2xl uppercase">Connectie mislukt</h2>
-          <p className="mt-2 text-sm">{err}</p>
-          <p className="mt-3 text-xs opacity-80">
-            Start de server met <code>spacetime publish meatball</code> en
-            draai <code>npm run generate</code>.
+          <p className="text-sm">{err}</p>
+          <button
+            type="button"
+            onClick={() => location.reload()}
+            className="brut-btn bg-paper text-ink !py-2 !px-4 self-start"
+          >
+            opnieuw proberen
+          </button>
+          <p className="text-[11px] opacity-80">
+            Lukt 't niet? Check je internet, of meld 't bij de Trainer.
           </p>
         </div>
       </div>
     );
   }
 
-  if (!connected) return <Loader label="Verbinden met de kantine…" />;
+  if (!connected) return <ConnectingScreen />;
 
   return (
     <>
@@ -83,6 +89,39 @@ export default function App() {
       <ConnectionBanner />
       <ToastHost />
     </>
+  );
+}
+
+/**
+ * Loader-vervanger tijdens de eerste connect. Na 6s tonen we een "trager
+ * dan normaal" hint met een handmatige reload-knop, zodat een dood
+ * WebSocket-handshake (iOS tab-switch / netwerk-handoff) niet meer
+ * resulteert in een eindeloze splash.
+ */
+function ConnectingScreen() {
+  const [slow, setSlow] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setSlow(true), 6_000);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <div className="min-h-dvh flex flex-col items-center justify-center p-6 gap-4">
+      <Loader label="Verbinden met de kantine…" />
+      {slow && (
+        <div className="brut-card bg-paper p-3 max-w-xs text-center flex flex-col gap-2">
+          <p className="text-xs font-bold uppercase tracking-widest opacity-70">
+            duurt langer dan normaal
+          </p>
+          <button
+            type="button"
+            onClick={() => location.reload()}
+            className="brut-btn bg-hot text-paper !py-2 !px-4 text-sm"
+          >
+            opnieuw proberen
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

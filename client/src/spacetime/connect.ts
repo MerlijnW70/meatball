@@ -11,6 +11,11 @@ import { setActiveConnection, subscribeClub, subscribeGlobal, unsubscribeClub } 
 import { wireTables } from "./tables";
 import { TOKEN_KEY } from "./types";
 
+// Hoe lang we wachten op een WS-handshake voordat we 't opgeven. Dood
+// WebSocket-handshake kan anders eindeloos hangen zonder error-event
+// (gezien op iOS Safari na tab-switch / netwerk-handoff).
+const CONNECT_TIMEOUT_MS = 12_000;
+
 export async function connect(): Promise<void> {
   const host = import.meta.env.VITE_STDB_HOST ?? "ws://localhost:3000";
   const dbName = import.meta.env.VITE_STDB_MODULE ?? "meatball";
@@ -34,6 +39,20 @@ export async function connect(): Promise<void> {
 
   return new Promise<void>((resolve, reject) => {
     const savedToken = localStorage.getItem(TOKEN_KEY) ?? undefined;
+    let settled = false;
+    const settle = (fn: () => void) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      fn();
+    };
+
+    const timer = setTimeout(() => {
+      settle(() => {
+        console.error("[spacetime] connect timeout na", CONNECT_TIMEOUT_MS, "ms");
+        reject(new Error("Verbinding duurt te lang — server bereikbaar?"));
+      });
+    }, CONNECT_TIMEOUT_MS);
 
     DbConnection.builder()
       .withUri(host)
@@ -64,11 +83,11 @@ export async function connect(): Promise<void> {
           connected: true,
           identity: identity.toHexString(),
         });
-        resolve();
+        settle(resolve);
       })
       .onConnectError((_ctx: any, err: Error) => {
         console.error("[spacetime] connect error", err);
-        reject(err);
+        settle(() => reject(err));
       })
       .onDisconnect(() => {
         useStore.getState().setSession({ connected: false });
