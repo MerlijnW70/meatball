@@ -347,6 +347,28 @@ function UpcomingFixturesSection() {
       });
   }, [fixturesMap, myGroupIds]);
 
+  // Per team max 2 fixtures default — rest verstopt achter expand-knop.
+  // Voorkomt dat een Trainer met 5 geplande wedstrijden 't hele scherm vult.
+  const fixturesByGroup = useMemo(() => {
+    const map = new Map<string, MatchFixture[]>();
+    for (const f of fixtures) {
+      const key = f.group_id.toString();
+      const arr = map.get(key);
+      if (arr) arr.push(f);
+      else map.set(key, [f]);
+    }
+    return map;
+  }, [fixtures]);
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
+  const toggleExpand = (groupKey: string) => {
+    setExpandedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(groupKey)) next.delete(groupKey);
+      else next.add(groupKey);
+      return next;
+    });
+  };
+
   // Teams waar ik Trainer van ben — mogen fixtures toevoegen.
   const myTrainerGroups = useMemo(() => {
     if (!me) return [] as Group[];
@@ -386,17 +408,40 @@ function UpcomingFixturesSection() {
           </p>
         </BrutalCard>
       ) : (
-        <div className="flex flex-col gap-2">
-          {fixtures.map((f) => {
-            const group = groupsMap.get(f.group_id.toString());
-            const opponent = clubsMap.get(f.opponent_club_id.toString());
+        <div className="flex flex-col gap-3">
+          {Array.from(fixturesByGroup.entries()).map(([groupKey, groupFixtures]) => {
+            const expanded = expandedGroups.has(groupKey);
+            const visible = expanded ? groupFixtures : groupFixtures.slice(0, 2);
+            const hidden = groupFixtures.length - visible.length;
             return (
-              <FixtureCard
-                key={f.id.toString()}
-                fixture={f}
-                groupName={group?.name ?? "jouw team"}
-                opponentName={opponent?.name ?? "tegenstander"}
-              />
+              <div key={groupKey} className="flex flex-col gap-2">
+                {visible.map((f) => {
+                  const group = groupsMap.get(f.group_id.toString());
+                  const opponent = clubsMap.get(f.opponent_club_id.toString());
+                  return (
+                    <FixtureCard
+                      key={f.id.toString()}
+                      fixture={f}
+                      groupName={group?.name ?? "jouw team"}
+                      opponentName={opponent?.name ?? "tegenstander"}
+                    />
+                  );
+                })}
+                {(hidden > 0 || (expanded && groupFixtures.length > 2)) && (
+                  <button
+                    type="button"
+                    onClick={() => toggleExpand(groupKey)}
+                    className="border-2 border-ink py-1.5 px-3 bg-paper text-[10px]
+                               font-display uppercase tracking-widest text-ink/70
+                               hover:bg-ink/5
+                               active:translate-x-[1px] active:translate-y-[1px] transition-all"
+                  >
+                    {expanded
+                      ? "− toon minder"
+                      : `+ ${hidden} ${hidden === 1 ? "wedstrijd" : "wedstrijden"} meer`}
+                  </button>
+                )}
+              </div>
             );
           })}
         </div>
