@@ -3,11 +3,13 @@
 use spacetimedb::{reducer, ReducerContext, Table};
 
 use crate::constants::NL_PROVINCES;
-use crate::helpers::{enforce_rate_limit, require_user};
+use crate::helpers::{
+    default_avatar_for, enforce_rate_limit, generate_auto_screen_name, require_user,
+};
 use crate::seed::seed_cities_and_clubs;
 use crate::tables::{
     province, rating_intent, session, snack, user,
-    Province, RatingIntent, Session,
+    Province, RatingIntent, Session, User,
 };
 
 #[reducer(init)]
@@ -31,9 +33,32 @@ pub fn seed_clubs(ctx: &ReducerContext) -> Result<(), String> {
     Ok(())
 }
 
+/// Nieuwe connectie → zorg dat er een `User` is voor deze identity (auto-
+/// aanmaken met default naam + avatar als 'ie er nog niet is) en zet de
+/// `session`-row. Geen registratie-gate meer voor nieuwe bezoekers; ze
+/// kunnen meteen raten, voorspellen, mee-spelen. Later kunnen ze via
+/// `register_user` hun naam zelf kiezen.
 #[reducer(client_connected)]
 pub fn on_client_connected(ctx: &ReducerContext) {
-    let uid = ctx.db.user().identity().find(ctx.sender()).map(|u| u.id).unwrap_or(0);
+    let uid = match ctx.db.user().identity().find(ctx.sender()) {
+        Some(u) => u.id,
+        None => {
+            let (name, key) = generate_auto_screen_name(ctx);
+            let (color, icon, decor) = default_avatar_for(&key);
+            let u = ctx.db.user().insert(User {
+                id: 0,
+                identity: ctx.sender(),
+                screen_name: name,
+                screen_name_key: key,
+                created_at: ctx.timestamp,
+                avatar_color: color.to_string(),
+                avatar_icon: icon.to_string(),
+                avatar_decor: decor,
+            });
+            u.id
+        }
+    };
+
     if let Some(mut s) = ctx.db.session().identity().find(ctx.sender()) {
         s.user_id = uid;
         s.connected_at = ctx.timestamp;

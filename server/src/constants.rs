@@ -61,3 +61,44 @@ pub const ALLOWED_POSITIONS: &[&str] = &[
 ];
 
 pub const DEDUP_THRESHOLD: f32 = 0.85;
+
+/// Pool van leuke default-namen voor auto-aangemaakte users. Client hoeft
+/// geen registratie meer te doen — op `client_connected` krijgt een
+/// nieuwe identity automatisch een naam in de vorm `Base-NNNN`. User kan
+/// later via `register_user` een echte naam kiezen.
+///
+/// Alle entries: ASCII-only (a-z, 0-9, dash), ≤17 chars zodat met
+/// 4-cijferige suffix het totaal onder de 24-chars screen_name-cap blijft,
+/// en geen collision met RESERVED_NAMES of BLOCKED_SUBSTRINGS.
+pub const DEFAULT_SCREEN_NAMES: &[&str] = &[
+    "Gehaktbal-Genieter",
+    "Frikandel-Fan",
+    "Saus-Specialist",
+    "Kroket-Kenner",
+    "Tafel-8",
+    "Scheids-Hater",
+    "Reservespeler",
+    "Patat-Met-Graag",
+    "Kroket-Koning",
+    "Keeper-in-Rust",
+    "Dugout-Douwer",
+    "Tribune-Tiger",
+    "Veld-3",
+    "Bankzitter",
+    "Koffie-Kenner",
+    "Chocomel-Kenner",
+    "Bitterbal-Baas",
+    "Hogehoofd",
+    "Derde-Helft",
+    "Rust-Stander",
+    "Uitwedstrijd-Uil",
+    "Thuisfan",
+    "Corner-Man",
+    "Vlaggist",
+    "Ref-Hater",
+    "Grasmaaier",
+    "Mosterd-Maniac",
+    "Satesaus-Fan",
+    "Vette-Hap",
+    "Topscoorder",
+];

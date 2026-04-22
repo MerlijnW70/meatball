@@ -5,6 +5,7 @@ use spacetimedb::{ReducerContext, Table};
 use crate::constants::{
     ALLOWED_ACCENT_COLORS, ALLOWED_ACCENT_POSITIONS, ALLOWED_AVATAR_COLORS,
     ALLOWED_AVATAR_ICONS, ALLOWED_PATTERNS, ALLOWED_ROTATIONS,
+    DEFAULT_SCREEN_NAMES,
 };
 use crate::tables::{
     activity_event, club_membership, rate_limit, snack_stats, user,
@@ -168,6 +169,36 @@ fn fnv1a(s: &str) -> u32 {
     s.chars().fold(2166136261u32, |acc, c| {
         (acc ^ c as u32).wrapping_mul(16777619)
     })
+}
+
+/// Genereer een unieke default screen-name voor een nieuwe identity.
+/// Format: `Base-NNNN` waarbij Base uit `DEFAULT_SCREEN_NAMES` komt en
+/// NNNN een 4-cijferige suffix is. Selectie is deterministisch vanuit
+/// fnv1a-hash van de identity (zelfde device → zelfde default), met
+/// een collision-loop die de suffix bumpt bij botsing.
+///
+/// Wordt aangeroepen door `on_client_connected` zodat elke nieuwe user
+/// meteen een naam + avatar heeft zonder registratie-gate.
+pub fn generate_auto_screen_name(ctx: &ReducerContext) -> (String, String) {
+    let sender_hex = ctx.sender().to_hex().to_string();
+    let h = fnv1a(&sender_hex);
+    let base = DEFAULT_SCREEN_NAMES[(h as usize) % DEFAULT_SCREEN_NAMES.len()];
+
+    // Deterministische start-suffix, daarna lineair bumpen bij collision.
+    // 100 tries × 10_000 suffixes = effectief onmogelijke "alles bezet".
+    for offset in 0..100u32 {
+        let suffix = (h >> 16).wrapping_add(offset) % 10_000;
+        let name = format!("{}-{:04}", base, suffix);
+        if ctx.db.user().screen_name().find(name.clone()).is_none() {
+            let key = name.to_ascii_lowercase();
+            return (name, key);
+        }
+    }
+
+    // Extreme fallback — hash-based, maakt exponentiele collision-kans nihil.
+    let fallback = format!("Speler-{:08x}", h);
+    let key = fallback.to_ascii_lowercase();
+    (fallback, key)
 }
 
 /// Crockford-style base32 zonder verwarrende glyphs (geen 0/O/1/I/L).
