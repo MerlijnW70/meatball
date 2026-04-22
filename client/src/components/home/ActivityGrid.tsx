@@ -94,6 +94,7 @@ export function ActivityGrid() {
     },
     {
       emoji: "🏆",
+      image: "/tiles/ranglijst.png",
       label: "ranglijst",
       sub: "top kantines van NL",
       tone: "sky" as const,
