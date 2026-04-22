@@ -306,10 +306,11 @@ pub struct MatchFixture {
     pub final_entered: bool,
 }
 
-/// Voorspelling van één team-lid voor één fixture. Eén per (fixture, user).
-/// `points_awarded` wordt door de server gezet nadat de uitslag is
-/// ingevoerd. Vóór kickoff zijn andere users' voorspellingen verborgen
-/// via een server-hides-rows mechanism.
+/// Publieke metadata van een voorspelling — géén plaintext score vóór reveal.
+/// Eén rij per (fixture, user). `home_score`/`away_score` zijn 0 totdat
+/// de Trainer de uitslag invoert; daarna kopieert de server ze hier vanuit
+/// `MatchPredictionSecret`. Zo kunnen team-leden elkaars tips niet zien
+/// vóór kickoff, maar wordt de reveal realtime gepubliceerd.
 #[table(accessor = match_prediction, public)]
 pub struct MatchPrediction {
     #[primary_key]
@@ -317,11 +318,26 @@ pub struct MatchPrediction {
     pub id: u64,
     pub fixture_id: u64,
     pub user_id: u64,
+    pub home_score: u32,              // 0 tot reveal
+    pub away_score: u32,              // 0 tot reveal
+    pub points_awarded: u32,          // 0 tot uitslag is ingevoerd
+    pub scored: bool,                  // true na scoring — scores zijn nu public
+    pub submitted_at: Timestamp,
+}
+
+/// Private tabel — server-only. Houdt de plaintext voorspelling tot reveal.
+/// Niet `public` dus clients kunnen hier NOOIT op subscriben. Na
+/// `enter_match_result` kopieert de server de scores naar `MatchPrediction`
+/// en verwijdert deze row.
+#[table(accessor = match_prediction_secret)]
+pub struct MatchPredictionSecret {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    #[unique]
+    pub prediction_id: u64,
     pub home_score: u32,
     pub away_score: u32,
-    pub points_awarded: u32,          // 0 tot uitslag is ingevoerd
-    pub scored: bool,                  // true na scoring
-    pub submitted_at: Timestamp,
 }
 
 /// Positie van de speler — één van de 11 slots in het 4-3-3 schema

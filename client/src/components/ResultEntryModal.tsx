@@ -1,69 +1,44 @@
 /**
- * Modal voor team-leden om een score-voorspelling te submitten.
- * Twee number-steppers (0-9) voor thuis/uit, submit knop. Bestaande
- * voorspelling vult de steppers voor en wordt op de server overschreven.
+ * Modal voor Trainer om de echte uitslag van een fixture in te voeren.
+ * Server kent na submit automatisch punten toe aan alle voorspellingen.
  */
 import { useEffect, useState } from "react";
 import { client } from "../spacetime";
 import { friendlyError } from "../utils/errors";
-import { savePredictionCache } from "../utils/predictionCache";
 import { BrutalButton } from "./BrutalButton";
 
 interface Props {
   fixtureId: bigint;
   homeName: string;
   awayName: string;
-  kickoffMicros: number;
-  /** Eerder lokaal gecachede home-score (0..MAX_SCORE). `null` = nog niet voorspeld. */
-  initialHome: number | null;
-  /** Eerder lokaal gecachede away-score (0..MAX_SCORE). `null` = nog niet voorspeld. */
-  initialAway: number | null;
-  /** User-id is nodig om de voorspelling per-user in localStorage te schrijven. */
-  userId: bigint;
   onClose: () => void;
 }
 
-const MAX_SCORE = 9;
+const MAX_SCORE = 15;
 
-/** Clamp naar [0, MAX_SCORE] en rond naar integer — beschermt tegen
- *  corrupte localStorage-waarden (zoals 99 of -5) die anders de steppers
- *  in een rare staat zouden zetten. */
-function clampScore(n: number | null, fallback: number): number {
-  if (n == null || !Number.isFinite(n)) return fallback;
-  return Math.max(0, Math.min(MAX_SCORE, Math.trunc(n)));
-}
-
-export function PredictionModal({
-  fixtureId, homeName, awayName, kickoffMicros,
-  initialHome, initialAway, userId, onClose,
+export function ResultEntryModal({
+  fixtureId, homeName, awayName, onClose,
 }: Props) {
-  const [home, setHome] = useState(() => clampScore(initialHome, 1));
-  const [away, setAway] = useState(() => clampScore(initialAway, 1));
+  const [home, setHome] = useState(0);
+  const [away, setAway] = useState(0);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
     document.body.classList.add("modal-open");
     return () => document.body.classList.remove("modal-open");
   }, []);
 
-  // Lockout: 60s vóór kickoff wordt server ook sluiten.
-  const now = Date.now();
-  const kickoffMs = kickoffMicros / 1000;
-  const msUntilLockout = kickoffMs - now - 60_000;
-  const locked = msUntilLockout <= 0;
-
   const submit = async () => {
-    if (busy || locked) return;
+    if (busy) return;
     setBusy(true); setErr(null);
     try {
-      await client().submitPrediction(fixtureId, home, away);
-      // Cache lokaal zodat de user zijn eigen tip kan blijven zien
-      // (server houdt scores op 0 tot reveal voor privacy).
-      savePredictionCache(userId, fixtureId, home, away);
+      await client().enterMatchResult(fixtureId, home, away);
       onClose();
     } catch (e) {
       setErr(friendlyError(e));
+      setConfirming(false);
     } finally {
       setBusy(false);
     }
@@ -82,22 +57,22 @@ export function PredictionModal({
         style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
       >
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-2xl uppercase">jouw voorspelling</h2>
+          <h2 className="font-display text-2xl uppercase">echte uitslag</h2>
           <button type="button" onClick={onClose} aria-label="sluiten"
             className="brut-btn bg-ink text-paper !py-2 !px-4 text-lg">✕</button>
         </div>
 
         <p className="text-[11px] font-bold uppercase tracking-widest opacity-70">
-          exact: 10 pt · winnaar + goaldiff: 5 pt · winnaar: 3 pt
+          Voer de eindstand in — server rekent punten toe aan alle voorspellingen
         </p>
 
-        {/* Score picker */}
+        {/* Score steppers */}
         <div className="grid grid-cols-2 gap-3 pt-2">
           <ScoreStepper label={homeName} value={home} onChange={setHome} tone="pop" />
           <ScoreStepper label={awayName} value={away} onChange={setAway} tone="sky" />
         </div>
 
-        {/* Grote leesbare preview */}
+        {/* Preview */}
         <div className="flex items-center justify-center gap-3 py-2 font-display text-5xl tabular-nums">
           <span>{home}</span>
           <span className="opacity-40 text-3xl">–</span>
@@ -108,19 +83,34 @@ export function PredictionModal({
           <p className="brut-card bg-hot text-paper p-2 font-bold text-sm">{err}</p>
         )}
 
-        <BrutalButton
-          onClick={submit} disabled={busy || locked}
-          variant="hot" size="lg" block
-        >
-          {locked ? "voorspellingen gesloten"
-            : busy ? "versturen…"
-            : (initialHome !== null ? "update voorspelling" : "voorspel!")}
-        </BrutalButton>
-
-        {!locked && msUntilLockout < 10 * 60_000 && (
-          <p className="text-[10px] font-bold uppercase tracking-widest text-hot text-center">
-            ⏰ sluit over {Math.max(0, Math.ceil(msUntilLockout / 60_000))} min
-          </p>
+        {confirming ? (
+          <div className="flex flex-col gap-2">
+            <p className="brut-card bg-pop p-2 text-xs font-bold uppercase tracking-widest text-center">
+              Weet je zeker dat {home}–{away} de eindstand is? Kan niet meer terug.
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <BrutalButton
+                onClick={() => setConfirming(false)}
+                disabled={busy} variant="paper" size="md"
+              >
+                annuleer
+              </BrutalButton>
+              <BrutalButton
+                onClick={submit} disabled={busy}
+                variant="hot" size="md"
+              >
+                {busy ? "opslaan…" : "ja, klopt"}
+              </BrutalButton>
+            </div>
+          </div>
+        ) : (
+          <BrutalButton
+            onClick={() => setConfirming(true)}
+            disabled={busy}
+            variant="hot" size="lg" block
+          >
+            uitslag vastleggen
+          </BrutalButton>
         )}
       </div>
     </div>

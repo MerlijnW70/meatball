@@ -18,9 +18,14 @@ import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { BrutalInput } from "../components/BrutalInput";
 import { FixtureCreateModal } from "../components/FixtureCreateModal";
 import { PredictionModal } from "../components/PredictionModal";
-import type { MatchFixture } from "../types";
+import { ResultEntryModal } from "../components/ResultEntryModal";
+import type { MatchFixture, MatchPrediction } from "../types";
 import { go } from "../router";
 import { friendlyError } from "../utils/errors";
+import {
+  clearPredictionCache,
+  loadPredictionCache,
+} from "../utils/predictionCache";
 import type { Club, Group, Position, Snack } from "../types";
 
 export function FeedPage() {
@@ -321,11 +326,25 @@ function UpcomingFixturesSection() {
     return s;
   }, [groupMemberships, me]);
 
-  // Open fixtures (niet final_entered) voor mijn teams, gesorteerd op kickoff.
+  // Open fixtures + recent-afgelopen (laatste 7 dagen) voor mijn teams.
+  // Afgelopen fixtures blijven even zichtbaar zodat iedereen de punten ziet.
   const fixtures = useMemo(() => {
+    const sevenDaysAgoMicros = (Date.now() - 7 * 24 * 60 * 60 * 1000) * 1000;
     return Array.from(fixturesMap.values())
-      .filter((f) => !f.final_entered && myGroupIds.has(f.group_id.toString()))
-      .sort((a, b) => Number(a.kickoff_at - b.kickoff_at));
+      .filter((f) => {
+        if (!myGroupIds.has(f.group_id.toString())) return false;
+        if (!f.final_entered) return true;
+        return f.kickoff_at > sevenDaysAgoMicros;
+      })
+      .sort((a, b) => {
+        // Toekomstige fixtures eerst (chronologisch), dan afgelopen (nieuwste eerst).
+        const af = a.final_entered;
+        const bf = b.final_entered;
+        if (af !== bf) return af ? 1 : -1;
+        return af
+          ? Number(b.kickoff_at - a.kickoff_at)  // afgelopen: nieuwste bovenaan
+          : Number(a.kickoff_at - b.kickoff_at); // komend: dichtstbij bovenaan
+      });
   }, [fixturesMap, myGroupIds]);
 
   // Teams waar ik Trainer van ben — mogen fixtures toevoegen.
@@ -340,7 +359,9 @@ function UpcomingFixturesSection() {
   return (
     <section>
       <div className="flex items-baseline justify-between gap-2 mb-2">
-        <h3 className="font-display text-lg uppercase">komende wedstrijd</h3>
+        <h3 className="font-display text-lg uppercase">
+          {fixtures.length === 1 ? "komende wedstrijd" : "komende wedstrijden"}
+        </h3>
         {myTrainerGroups.length === 1 && (
           <button
             type="button"
@@ -399,107 +420,250 @@ function FixtureCard({
   opponentName: string;
 }) {
   const me = useStore((s) => s.session.me);
+  const groupsMap = useStore((s) => s.groups);
   const predictionsMap = useStore((s) => s.matchPredictions);
   const [predictOpen, setPredictOpen] = useState(false);
+  const [resultOpen, setResultOpen] = useState(false);
 
-  const kickoffMicros = Number(fixture.kickoff_at);
+  const group = groupsMap.get(fixture.group_id.toString());
+  const isTrainer = !!me && !!group && group.owner_user_id === me.id;
+
+  const kickoffMicros = fixture.kickoff_at;
   const kickoff = formatKickoff(kickoffMicros);
 
   const home = fixture.we_are_home ? groupName : opponentName;
   const away = fixture.we_are_home ? opponentName : groupName;
 
-  // Mijn eigen voorspelling (als ik er één heb)
   const myPrediction = useMemo(() => {
     if (!me) return null;
     return Array.from(predictionsMap.values())
       .find((p) => p.fixture_id === fixture.id && p.user_id === me.id) ?? null;
   }, [predictionsMap, fixture.id, me]);
 
-  // Totaal aantal team-leden dat al heeft voorspeld
   const totalPredictions = useMemo(() => {
     return Array.from(predictionsMap.values())
       .filter((p) => p.fixture_id === fixture.id).length;
   }, [predictionsMap, fixture.id]);
 
+  // Server-side home_score/away_score zijn 0 vóór reveal (privacy). Pre-reveal
+  // lezen we de eigen tip uit localStorage; post-reveal komt 'ie uit de public
+  // tabel (en ruimen we de cache op).
+  const myTip = useMemo(() => {
+    if (!me || !myPrediction) return null;
+    if (myPrediction.scored) {
+      clearPredictionCache(me.id, fixture.id);
+      return { home: myPrediction.home_score, away: myPrediction.away_score };
+    }
+    return loadPredictionCache(me.id, fixture.id);
+  }, [me, myPrediction, fixture.id]);
+
   const now = Date.now();
   const kickoffMs = kickoffMicros / 1000;
   const locked = now > kickoffMs - 60_000;
+  const kickoffPassed = now > kickoffMs;
+  const finished = fixture.final_entered;
+
+  const topStripBg = finished ? "bg-mint text-ink" : "bg-ink text-paper";
 
   return (
     <>
       <BrutalCard className="!p-0 overflow-hidden">
-        <div className="bg-ink text-paper px-3 py-1.5 flex items-center justify-between text-[10px] font-display uppercase tracking-widest">
+        {/* Header: datum / tijd */}
+        <div className={`${topStripBg} px-3 py-1.5 flex items-center justify-between text-[10px] font-display uppercase tracking-widest`}>
           <span>{kickoff.when}</span>
-          <span className="opacity-70">{kickoff.relative}</span>
+          <span className="opacity-70">
+            {finished ? "afgelopen" : kickoffPassed ? "wacht op uitslag" : kickoff.relative}
+          </span>
         </div>
+
+        {/* Teams + evt. score */}
         <div className="px-3 py-2.5 flex items-center gap-2">
           <span className="font-display text-base uppercase leading-tight flex-1 min-w-0 truncate">
             {home}
           </span>
-          <span className="font-display text-sm opacity-50">vs</span>
+          {finished ? (
+            <span className="font-display text-2xl tabular-nums px-2">
+              {fixture.final_home_score}–{fixture.final_away_score}
+            </span>
+          ) : (
+            <span className="font-display text-sm opacity-50">vs</span>
+          )}
           <span className="font-display text-base uppercase leading-tight flex-1 min-w-0 truncate text-right">
             {away}
           </span>
         </div>
 
-        {/* Voorspel-strook */}
-        <div className="border-t-4 border-ink bg-mint/30 px-3 py-2 flex items-center gap-2">
-          {myPrediction ? (
-            <>
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-70 flex-1">
-                jouw tip:
-                <span className="ml-1 font-display text-sm text-ink">
-                  {myPrediction.home_score}–{myPrediction.away_score}
-                </span>
-              </span>
-              {!locked && (
-                <button
-                  type="button"
-                  onClick={() => setPredictOpen(true)}
-                  className="border-2 border-ink py-1 px-2 bg-paper text-[10px] font-display uppercase
-                             active:translate-x-[1px] active:translate-y-[1px] transition-transform"
-                >
-                  wijzig
-                </button>
-              )}
-            </>
-          ) : (
-            <>
-              <span className="text-[10px] font-bold uppercase tracking-widest opacity-70 flex-1">
-                {locked ? "voorspellingen gesloten" : "jij hebt nog niet voorspeld"}
-              </span>
-              {!locked && (
-                <button
-                  type="button"
-                  onClick={() => setPredictOpen(true)}
-                  className="border-2 border-ink py-1 px-3 bg-hot text-paper text-[10px] font-display uppercase
-                             active:translate-x-[1px] active:translate-y-[1px] transition-transform"
-                >
-                  🎯 voorspel
-                </button>
-              )}
-            </>
-          )}
-        </div>
-        {totalPredictions > 0 && (
+        {/* Bottom-strook verschilt per status */}
+        {finished ? (
+          <ResultStrip prediction={myPrediction} myTip={myTip} />
+        ) : kickoffPassed ? (
+          <AwaitingResultStrip
+            isTrainer={isTrainer}
+            hasPredicted={!!myPrediction}
+            myTip={myTip}
+            onEnterResult={() => setResultOpen(true)}
+          />
+        ) : (
+          <PredictStrip
+            hasPredicted={!!myPrediction}
+            myTip={myTip}
+            locked={locked}
+            onPredict={() => setPredictOpen(true)}
+          />
+        )}
+
+        {!finished && totalPredictions > 0 && (
           <div className="bg-paper px-3 py-1 text-[9px] font-bold uppercase tracking-widest opacity-60 text-center border-t-2 border-ink/20">
             {totalPredictions} {totalPredictions === 1 ? "speler heeft" : "spelers hebben"} voorspeld
           </div>
         )}
       </BrutalCard>
 
-      {predictOpen && (
+      {predictOpen && me && (
         <PredictionModal
           fixtureId={fixture.id}
           homeName={home}
           awayName={away}
           kickoffMicros={kickoffMicros}
-          initialHome={myPrediction?.home_score ?? null}
-          initialAway={myPrediction?.away_score ?? null}
+          userId={me.id}
+          initialHome={myTip?.home ?? null}
+          initialAway={myTip?.away ?? null}
           onClose={() => setPredictOpen(false)}
         />
       )}
+      {resultOpen && (
+        <ResultEntryModal
+          fixtureId={fixture.id}
+          homeName={home}
+          awayName={away}
+          onClose={() => setResultOpen(false)}
+        />
+      )}
     </>
+  );
+}
+
+type MyPrediction = MatchPrediction | null;
+type MyTip = { home: number; away: number } | null;
+
+function PredictStrip({
+  hasPredicted, myTip, locked, onPredict,
+}: {
+  hasPredicted: boolean;
+  myTip: MyTip;
+  locked: boolean;
+  onPredict: () => void;
+}) {
+  return (
+    <div className="border-t-4 border-ink bg-mint/30 px-3 py-2 flex items-center gap-2">
+      {hasPredicted ? (
+        <>
+          <span className="text-[10px] font-bold uppercase tracking-widest opacity-70 flex-1">
+            jouw tip:
+            <span className="ml-1 font-display text-sm text-ink">
+              {myTip ? `${myTip.home}–${myTip.away}` : "ingestuurd ✓"}
+            </span>
+          </span>
+          {!locked && (
+            <button
+              type="button"
+              onClick={onPredict}
+              className="border-2 border-ink py-1 px-2 bg-paper text-[10px] font-display uppercase
+                         active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+            >
+              wijzig
+            </button>
+          )}
+        </>
+      ) : (
+        <>
+          <span className="text-[10px] font-bold uppercase tracking-widest opacity-70 flex-1">
+            {locked ? "voorspellingen gesloten" : "jij hebt nog niet voorspeld"}
+          </span>
+          {!locked && (
+            <button
+              type="button"
+              onClick={onPredict}
+              className="border-2 border-ink py-1 px-3 bg-hot text-paper text-[10px] font-display uppercase
+                         active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+            >
+              🎯 voorspel
+            </button>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+function AwaitingResultStrip({
+  isTrainer, hasPredicted, myTip, onEnterResult,
+}: {
+  isTrainer: boolean;
+  hasPredicted: boolean;
+  myTip: MyTip;
+  onEnterResult: () => void;
+}) {
+  return (
+    <div className="border-t-4 border-ink bg-sky/30 px-3 py-2 flex items-center gap-2">
+      <span className="text-[10px] font-bold uppercase tracking-widest opacity-70 flex-1">
+        {hasPredicted
+          ? <>jouw tip: <span className="font-display text-sm text-ink">
+              {myTip ? `${myTip.home}–${myTip.away}` : "ingestuurd ✓"}
+            </span></>
+          : "wacht op uitslag van de Trainer"}
+      </span>
+      {isTrainer && (
+        <button
+          type="button"
+          onClick={onEnterResult}
+          className="border-2 border-ink py-1 px-3 bg-hot text-paper text-[10px] font-display uppercase
+                     active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+        >
+          voer uitslag in
+        </button>
+      )}
+    </div>
+  );
+}
+
+function ResultStrip({
+  prediction, myTip,
+}: {
+  prediction: MyPrediction;
+  myTip: MyTip;
+}) {
+  if (!prediction) {
+    return (
+      <div className="border-t-4 border-ink bg-paper px-3 py-2">
+        <span className="text-[10px] font-bold uppercase tracking-widest opacity-50">
+          jij hebt niet voorspeld — geen punten
+        </span>
+      </div>
+    );
+  }
+  const pts = prediction.points_awarded;
+  const tone =
+    pts === 10 ? { bg: "bg-mint", label: "EXACT!" } :
+    pts === 5 ? { bg: "bg-pop", label: "winnaar + diff" } :
+    pts === 3 ? { bg: "bg-sky text-paper", label: "winnaar" } :
+    { bg: "bg-ink/10", label: "mis" };
+  // Server heeft na reveal de scores in de public tabel gezet; val terug op
+  // myTip (localStorage) als de reveal-sync nog niet binnen is.
+  const tipHome = prediction.scored ? prediction.home_score : myTip?.home ?? 0;
+  const tipAway = prediction.scored ? prediction.away_score : myTip?.away ?? 0;
+  return (
+    <div className={`border-t-4 border-ink ${tone.bg} px-3 py-2 flex items-center gap-2`}>
+      <span className="text-[10px] font-bold uppercase tracking-widest flex-1">
+        jouw tip: <span className="font-display text-sm">
+          {tipHome}–{tipAway}
+        </span>
+        <span className="ml-2 opacity-70">· {tone.label}</span>
+      </span>
+      <span className="font-display text-xl leading-none tabular-nums">
+        {pts > 0 ? `+${pts}` : "0"} pt
+      </span>
+    </div>
   );
 }
 

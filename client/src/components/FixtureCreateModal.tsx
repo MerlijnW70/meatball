@@ -48,9 +48,16 @@ export function FixtureCreateModal({ groupId, onClose }: Props) {
 
   const submit = async () => {
     if (!canSubmit || !opponent) return;
+    // User kan tussen field-touch en submit alsnog een kickoff in 't verleden
+    // hebben achtergelaten (of een ongeldige datetime). Server rejecteert 't
+    // sowieso, maar dubbelchecken voorkomt een round-trip voor de fout.
+    const kickoffMs = new Date(kickoffStr).getTime();
+    if (!Number.isFinite(kickoffMs) || kickoffMs <= Date.now()) {
+      setErr("Kickoff moet in de toekomst liggen");
+      return;
+    }
     setBusy(true); setErr(null);
     try {
-      const kickoffMs = new Date(kickoffStr).getTime();
       const kickoffMicros = BigInt(kickoffMs) * 1000n;
       await client().createMatchFixture(groupId, opponent.id, weAreHome, kickoffMicros);
       onClose();
