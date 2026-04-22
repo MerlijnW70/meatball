@@ -72,6 +72,7 @@ export function ActivityGrid() {
     },
     {
       emoji: "⚽",
+      image: "/tiles/wedstrijden.png",
       label: "wedstrijden",
       sub: openFixturesCount > 0 ? "voorspel de uitslag" : "plan & voorspel",
       tone: "hot" as const,
