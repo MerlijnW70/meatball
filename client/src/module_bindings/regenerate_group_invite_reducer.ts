@@ -12,4 +12,5 @@ import {
 
 export default {
   groupId: __t.u64(),
+  inviteCode: __t.string(),
 };

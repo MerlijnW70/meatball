@@ -26,6 +26,7 @@ import {
   clearPredictionCache,
   loadPredictionCache,
 } from "../utils/predictionCache";
+import { cacheInviteCode, generateInviteCode } from "../utils/inviteCode";
 import type { Club, Group, Position, Snack } from "../types";
 
 export function FeedPage() {
@@ -1000,13 +1001,29 @@ function CreateTeamCard() {
     const prevMax = Array.from(useStore.getState().groups.values())
       .reduce((acc, g) => g.id > acc ? g.id : acc, 0n);
     try {
-      await client().createGroup(name.trim());
+      // Client genereert de default-invite-code zelf; server slaat 'm
+      // alleen in de private invite_secret tabel op. Retry 1x bij collision.
+      let code = generateInviteCode();
+      try { await client().createGroup(name.trim(), code); }
+      catch (e) {
+        const msg = friendlyError(e);
+        if (msg.toLowerCase().includes("bestaat al")) {
+          code = generateInviteCode();
+          await client().createGroup(name.trim(), code);
+        } else {
+          throw e;
+        }
+      }
       setName("");
       for (let i = 0; i < 30; i++) {
         const fresh = Array.from(useStore.getState().groups.values())
           .filter((g) => g.owner_user_id === me.id && g.id > prevMax)
           .sort((a, b) => Number(b.id - a.id))[0];
-        if (fresh) { go(`/group/${fresh.id}`); return; }
+        if (fresh) {
+          cacheInviteCode(me.id, fresh.id, code);
+          go(`/group/${fresh.id}`);
+          return;
+        }
         await new Promise((r) => setTimeout(r, 100));
       }
     } catch (e) {

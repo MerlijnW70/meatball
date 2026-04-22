@@ -6,7 +6,7 @@
 import type {
   ActivityEvent, ActivityKind, City, Club, ClubMembership, ClubMood,
   FootballMatch, Follow,
-  Group, GroupInvite, GroupInviteReveal, GroupMembership, InviteRequest,
+  Group, GroupInvite, GroupMembership, InviteRequest,
   MatchEvent, MatchEventKind, MatchFixture, MatchPlayer, MatchPrediction,
   Position,
   Province, Rating, RatingIntent, RatingTag, RatingVote,
@@ -140,11 +140,6 @@ export const toGroupInvite = (r: any): GroupInvite => ({
   expires_at: tsToMicros(r.expiresAt),
   max_uses: r.maxUses, uses: r.uses,
   created_at: tsToMicros(r.createdAt),
-});
-
-export const toGroupInviteReveal = (r: any): GroupInviteReveal => ({
-  invite_id: r.inviteId, code: r.code, invited_by: r.invitedBy,
-  expires_at: tsToMicros(r.expiresAt),
 });
 
 export const toInviteRequest = (r: any): InviteRequest => ({

@@ -4,22 +4,21 @@ use spacetimedb::{reducer, ReducerContext, Table, Timestamp};
 
 use crate::constants::DEDUP_THRESHOLD;
 use crate::helpers::{
-    enforce_rate_limit, ensure_membership, gen_invite_code, normalize, require_user,
-    similarity,
+    enforce_rate_limit, ensure_membership, normalize, require_user,
+    similarity, validate_invite_code,
 };
 use crate::tables::{
-    club_membership, group, group_invite, group_invite_reveal, group_membership,
-    invite_request, invite_secret, Group, GroupInvite, GroupInviteReveal, GroupMembership,
+    club_membership, group, group_invite, group_membership,
+    invite_request, invite_secret, Group, GroupInvite, GroupMembership,
     InviteRequest, InviteSecret,
 };
 
-/// Reveal-plaintext blijft zichtbaar voor de creator voor 5 min.
-const REVEAL_TTL_SECS: i64 = 300;
-
-const MAX_INVITE_CODE_RETRIES: u32 = 8;
-
 #[reducer]
-pub fn create_group(ctx: &ReducerContext, name: String) -> Result<(), String> {
+pub fn create_group(
+    ctx: &ReducerContext,
+    name: String,
+    invite_code: String,
+) -> Result<(), String> {
     let user = require_user(ctx)?;
     enforce_rate_limit(ctx, "create_group", 10)?;
     let trimmed = name.trim();
@@ -55,36 +54,30 @@ pub fn create_group(ctx: &ReducerContext, name: String) -> Result<(), String> {
         joined_at: ctx.timestamp,
     });
 
-    // Permanente default-uitnodiging: owner krijgt meteen een code te zien zodat
-    // hij kan delen zonder eerst door een formulier te hoeven.
-    insert_invite(ctx, user.id, group.id, 0, 0)?;
+    // Permanente default-uitnodiging met client-generated code.
+    insert_invite(ctx, user.id, group.id, 0, 0, invite_code)?;
 
     Ok(())
 }
 
-/// Maakt invite + secret + reveal aan. Geen auth-checks — caller is
-/// verantwoordelijk.
+/// Maakt invite + secret aan met de door de client aangeleverde code.
+/// Geen auth-checks — caller is verantwoordelijk. Code wordt server-side
+/// alleen in de private `invite_secret` tabel bewaard zodat andere clients
+/// nooit plaintext zien.
 fn insert_invite(
     ctx: &ReducerContext,
     user_id: u64,
     group_id: u64,
     ttl_secs: i64,
     max_uses: u32,
+    code: String,
 ) -> Result<(), String> {
-    let mut code = String::new();
-    let mut salt: u32 = ctx.db.invite_secret().iter().count() as u32;
-    let mut chosen = false;
-    for _ in 0..MAX_INVITE_CODE_RETRIES {
-        let candidate = gen_invite_code(ctx, group_id, salt);
-        if ctx.db.invite_secret().code().find(candidate.clone()).is_none() {
-            code = candidate;
-            chosen = true;
-            break;
-        }
-        salt = salt.wrapping_add(1);
-    }
-    if !chosen {
-        return Err("Kon geen unieke code genereren — probeer opnieuw".into());
+    let code_upper = code.trim().to_ascii_uppercase();
+    validate_invite_code(&code_upper)?;
+    // Collision met bestaande code → client moet nieuwe genereren en
+    // retryen. Ruim zelden gezien bij 30^6 = 729M mogelijkheden.
+    if ctx.db.invite_secret().code().find(code_upper.clone()).is_some() {
+        return Err("Code bestaat al — probeer opnieuw".into());
     }
 
     let expires_at = if ttl_secs == 0 {
@@ -108,21 +101,8 @@ fn insert_invite(
 
     ctx.db.invite_secret().insert(InviteSecret {
         id: 0,
-        code: code.clone(),
+        code: code_upper,
         invite_id: invite.id,
-    });
-
-    cleanup_stale_reveals(ctx, user_id);
-
-    let now_micros = ctx.timestamp.to_micros_since_unix_epoch();
-    let reveal_expires = Timestamp::from_micros_since_unix_epoch(
-        now_micros.saturating_add(REVEAL_TTL_SECS.saturating_mul(1_000_000)),
-    );
-    ctx.db.group_invite_reveal().insert(GroupInviteReveal {
-        invite_id: invite.id,
-        code,
-        invited_by: user_id,
-        expires_at: reveal_expires,
     });
     Ok(())
 }
@@ -135,6 +115,7 @@ pub fn create_group_invite(
     group_id: u64,
     ttl_secs: i64,
     max_uses: u32,
+    invite_code: String,
 ) -> Result<(), String> {
     let user = require_user(ctx)?;
     enforce_rate_limit(ctx, "create_group_invite", 5)?;
@@ -153,7 +134,7 @@ pub fn create_group_invite(
         return Err("Max-uses te hoog (≤1000)".into());
     }
 
-    insert_invite(ctx, user.id, group_id, ttl_secs, max_uses)
+    insert_invite(ctx, user.id, group_id, ttl_secs, max_uses, invite_code)
 }
 
 /// One-click "vervang code": revoke al je eigen codes voor deze crew en
@@ -162,6 +143,7 @@ pub fn create_group_invite(
 pub fn regenerate_group_invite(
     ctx: &ReducerContext,
     group_id: u64,
+    invite_code: String,
 ) -> Result<(), String> {
     let user = require_user(ctx)?;
     enforce_rate_limit(ctx, "regenerate_group_invite", 5)?;
@@ -182,24 +164,10 @@ pub fn regenerate_group_invite(
         let secret_ids: Vec<u64> = ctx.db.invite_secret().iter()
             .filter(|s| s.invite_id == id).map(|s| s.id).collect();
         for sid in secret_ids { ctx.db.invite_secret().id().delete(sid); }
-        ctx.db.group_invite_reveal().invite_id().delete(id);
         ctx.db.group_invite().id().delete(id);
     }
 
-    insert_invite(ctx, user.id, group_id, 0, 0)
-}
-
-/// Verwijder reveals van deze creator die ouder zijn dan REVEAL_TTL.
-fn cleanup_stale_reveals(ctx: &ReducerContext, user_id: u64) {
-    let now = ctx.timestamp.to_micros_since_unix_epoch();
-    let stale: Vec<u64> = ctx.db.group_invite_reveal().iter()
-        .filter(|r| r.invited_by == user_id
-            && r.expires_at.to_micros_since_unix_epoch() <= now)
-        .map(|r| r.invite_id)
-        .collect();
-    for id in stale {
-        ctx.db.group_invite_reveal().invite_id().delete(id);
-    }
+    insert_invite(ctx, user.id, group_id, 0, 0, invite_code)
 }
 
 #[reducer]
@@ -264,11 +232,10 @@ pub fn revoke_group_invite(ctx: &ReducerContext, invite_id: u64) -> Result<(), S
     if invite.invited_by != user.id && group.owner_user_id != user.id {
         return Err("Niet jouw uitnodiging".into());
     }
-    // Ruim secret (private) + reveal (publiek) mee op.
+    // Ruim secret (private) mee op.
     let secret_ids: Vec<u64> = ctx.db.invite_secret().iter()
         .filter(|s| s.invite_id == invite_id).map(|s| s.id).collect();
     for sid in secret_ids { ctx.db.invite_secret().id().delete(sid); }
-    ctx.db.group_invite_reveal().invite_id().delete(invite_id);
     ctx.db.group_invite().id().delete(invite_id);
     Ok(())
 }
@@ -291,7 +258,7 @@ pub fn leave_group(ctx: &ReducerContext, group_id: u64) -> Result<(), String> {
     if let Some(r) = row {
         ctx.db.group_membership().id().delete(r.id);
     }
-    // Als owner als laatste vertrekt → crew + invites + secrets + reveals opruimen.
+    // Als owner als laatste vertrekt → crew + invites + secrets opruimen.
     if group.owner_user_id == user.id {
         let invite_ids: Vec<u64> = ctx.db.group_invite().iter()
             .filter(|i| i.group_id == group_id).map(|i| i.id).collect();
@@ -299,7 +266,6 @@ pub fn leave_group(ctx: &ReducerContext, group_id: u64) -> Result<(), String> {
             let secret_ids: Vec<u64> = ctx.db.invite_secret().iter()
                 .filter(|s| s.invite_id == id).map(|s| s.id).collect();
             for sid in secret_ids { ctx.db.invite_secret().id().delete(sid); }
-            ctx.db.group_invite_reveal().invite_id().delete(id);
             ctx.db.group_invite().id().delete(id);
         }
         ctx.db.group().id().delete(group_id);

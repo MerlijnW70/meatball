@@ -6,7 +6,7 @@
 import { create } from "zustand";
 import type {
   ActivityEvent, City, Club, ClubMembership, ClubMood, FootballMatch, Follow,
-  Group, GroupInvite, GroupInviteReveal, GroupMembership, InviteRequest,
+  Group, GroupInvite, GroupMembership, InviteRequest,
   MatchEvent, MatchFixture, MatchPlayer, MatchPrediction,
   Province, Rating, RatingIntent,
   RatingTag, RatingVote, Session as LiveSession, Snack, SnackLike, SnackStats,
@@ -46,7 +46,6 @@ interface AppState {
   groups: IdMap<Group>;
   groupMemberships: IdMap<GroupMembership>;
   groupInvites: IdMap<GroupInvite>;
-  groupInviteReveals: IdMap<GroupInviteReveal>;
   userPositions: IdMap<UserPosition>;
   memberships: IdMap<ClubMembership>;
   inviteRequests: IdMap<InviteRequest>;
@@ -92,8 +91,6 @@ interface AppState {
   deleteGroupMembership: (id: bigint) => void;
   upsertGroupInvite: (i: GroupInvite) => void;
   deleteGroupInvite: (id: bigint) => void;
-  upsertGroupInviteReveal: (r: GroupInviteReveal) => void;
-  deleteGroupInviteReveal: (inviteId: bigint) => void;
   upsertUserPosition: (p: UserPosition) => void;
   deleteUserPosition: (userId: bigint) => void;
   upsertInviteRequest: (r: InviteRequest) => void;
@@ -161,7 +158,7 @@ export const useStore = create<AppState>((set, get) => ({
   snacks: m(), ratings: m(), ratingTags: m(), stats: m(), activity: m(),
   likes: m(), sessions: m(), intents: m(), reactions: m(),
   follows: m(), moods: m(), votes: m(), memberships: m(),
-  groups: m(), groupMemberships: m(), groupInvites: m(), groupInviteReveals: m(),
+  groups: m(), groupMemberships: m(), groupInvites: m(),
   userPositions: m(), inviteRequests: m(),
   matches: m(), matchPlayers: m(), matchEvents: m(),
   matchFixtures: m(), matchPredictions: m(),
@@ -213,8 +210,6 @@ export const useStore = create<AppState>((set, get) => ({
   deleteGroupMembership: (id) => set((s) => ({ groupMemberships: del(s.groupMemberships, id) })),
   upsertGroupInvite: (gi) => set((s) => ({ groupInvites: put(s.groupInvites, gi.id, gi) })),
   deleteGroupInvite: (id) => set((s) => ({ groupInvites: del(s.groupInvites, id) })),
-  upsertGroupInviteReveal: (r) => set((s) => ({ groupInviteReveals: put(s.groupInviteReveals, r.invite_id, r) })),
-  deleteGroupInviteReveal: (inviteId) => set((s) => ({ groupInviteReveals: del(s.groupInviteReveals, inviteId) })),
   upsertUserPosition: (p) => set((s) => ({ userPositions: put(s.userPositions, p.user_id, p) })),
   deleteUserPosition: (uid) => set((s) => ({ userPositions: del(s.userPositions, uid) })),
   upsertInviteRequest: (r) => set((s) => ({ inviteRequests: put(s.inviteRequests, r.id, r) })),

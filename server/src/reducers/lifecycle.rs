@@ -6,7 +6,8 @@ use crate::constants::NL_PROVINCES;
 use crate::helpers::{enforce_rate_limit, require_user};
 use crate::seed::seed_cities_and_clubs;
 use crate::tables::{
-    province, rating_intent, session, user, Province, RatingIntent, Session,
+    province, rating_intent, session, snack, user,
+    Province, RatingIntent, Session,
 };
 
 #[reducer(init)]
@@ -55,6 +56,11 @@ pub fn on_client_disconnected(ctx: &ReducerContext) {
 #[reducer]
 pub fn begin_rating(ctx: &ReducerContext, snack_id: u64) -> Result<(), String> {
     let user = require_user(ctx)?;
+    // Snack moet bestaan — anders krijgen we intents die naar ghost-snacks
+    // wijzen (geen crash, wel rommelige presence-data).
+    if ctx.db.snack().id().find(snack_id).is_none() {
+        return Err("Snack niet gevonden".into());
+    }
     // oude intent weg (kan maar één tegelijk)
     ctx.db.rating_intent().identity().delete(ctx.sender());
     ctx.db.rating_intent().insert(RatingIntent {

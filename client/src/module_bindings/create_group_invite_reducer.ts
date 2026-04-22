@@ -14,4 +14,5 @@ export default {
   groupId: __t.u64(),
   ttlSecs: __t.i64(),
   maxUses: __t.u32(),
+  inviteCode: __t.string(),
 };

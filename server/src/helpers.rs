@@ -1,6 +1,5 @@
 //! Shared helpers: normalisatie, validatie, rate-limit, activity, stats-utils.
 
-use sha2::{Digest, Sha256};
 use spacetimedb::{ReducerContext, Table};
 
 use crate::constants::{
@@ -172,42 +171,22 @@ fn fnv1a(s: &str) -> u32 {
 }
 
 /// Crockford-style base32 zonder verwarrende glyphs (geen 0/O/1/I/L).
-const INVITE_ALPHA: &[u8] = b"23456789ABCDEFGHJKMNPQRSTVWXYZ";
+/// Client genereert de code zelf volgens hetzelfde alphabet.
+pub const INVITE_ALPHA: &str = "23456789ABCDEFGHJKMNPQRSTVWXYZ";
+pub const INVITE_CODE_LEN: usize = 6;
 
-/// Module-lokaal "pepper" — niet een security boundary maar maakt het seeden
-/// van de hash uniek voor dit deployment. Als je wil wisselen bij rotatie.
-const INVITE_PEPPER: &[u8] = b"meatball-invite-v1";
-
-/// 6-char invite code afgeleid van SHA-256 over (pepper, sender identity bytes,
-/// timestamp micros, group_id, salt). Cryptografisch moeilijk te raden zelfs
-/// als aanvaller alle publieke inputs observeert: SHA-256 is preimage-resistant,
-/// dus codes lekken niet uit eerdere outputs. Gecombineerd met de private
-/// `invite_secret` tabel + 2s rate-limit op accept, is brute-forcen infeasible.
-pub fn gen_invite_code(ctx: &ReducerContext, group_id: u64, salt: u32) -> String {
-    let sender_hex = ctx.sender().to_hex().to_string();
-    let mut hasher = Sha256::new();
-    hasher.update(INVITE_PEPPER);
-    hasher.update(sender_hex.as_bytes());
-    hasher.update(ctx.timestamp.to_micros_since_unix_epoch().to_le_bytes());
-    hasher.update(group_id.to_le_bytes());
-    hasher.update(salt.to_le_bytes());
-    let digest = hasher.finalize(); // 32 bytes
-
-    // Pak de eerste 15 bytes (120 bits) en map naar 6 chars uit een 30-char alpha.
-    // 6 * log2(30) ≈ 29.4 bits nodig; 120 bits is ruim zat voor een uniforme
-    // distributie.
-    let mut bits: u128 = 0;
-    for (i, b) in digest.iter().take(15).enumerate() {
-        bits |= (*b as u128) << (i * 8);
+/// Valideert een door de client aangeleverde invite-code. Alleen chars
+/// uit `INVITE_ALPHA`, exact `INVITE_CODE_LEN` lang. Voorkomt dat een
+/// kwaadwillende client wildcards of erg lange strings als code slaagt
+/// door te smokkelen.
+pub fn validate_invite_code(code: &str) -> Result<(), String> {
+    if code.chars().count() != INVITE_CODE_LEN {
+        return Err(format!("Code moet {} chars zijn", INVITE_CODE_LEN));
     }
-    let n = INVITE_ALPHA.len() as u128;
-    let mut out = String::with_capacity(6);
-    for _ in 0..6 {
-        let idx = (bits % n) as usize;
-        out.push(INVITE_ALPHA[idx] as char);
-        bits /= n;
+    if !code.chars().all(|c| INVITE_ALPHA.contains(c)) {
+        return Err("Code bevat ongeldige tekens".into());
     }
-    out
+    Ok(())
 }
 
 pub fn validate_decor(decor: &str) -> Result<(), String> {

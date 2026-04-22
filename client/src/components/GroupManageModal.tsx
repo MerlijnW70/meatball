@@ -12,6 +12,7 @@ import { BrutalCard } from "./BrutalCard";
 import { BrutalButton } from "./BrutalButton";
 import { ConfirmModal } from "./ConfirmModal";
 import { friendlyError } from "../utils/errors";
+import { cacheInviteCode, generateInviteCode } from "../utils/inviteCode";
 import type { Group } from "../types";
 
 interface Props {
@@ -24,7 +25,7 @@ export function GroupManageModal({ group, onClose }: Props) {
   const members = useGroupMembers(group.id);
   const myInvite = useMyInviteFor(group.id);
   const myClubs = useMyClubs(500);
-  const reveal = useMyInviteReveal(myInvite?.id ?? null);
+  const revealCode = useMyInviteReveal(group.id);
 
   const isOwner = useMemo(
     () => !!me && group.owner_user_id === me.id,
@@ -38,8 +39,8 @@ export function GroupManageModal({ group, onClose }: Props) {
   const [replaceOpen, setReplaceOpen] = useState(false);
   const [shareSeasonOpen, setShareSeasonOpen] = useState(false);
 
-  const shareUrl = reveal
-    ? `${location.origin}${location.pathname}#/join/${reveal.code}`
+  const shareUrl = revealCode
+    ? `${location.origin}${location.pathname}#/join/${revealCode}`
     : "";
 
   useEffect(() => {
@@ -70,8 +71,8 @@ export function GroupManageModal({ group, onClose }: Props) {
   };
 
   const copyCode = async () => {
-    if (!reveal) return;
-    const ok = await copyText(reveal.code);
+    if (!revealCode) return;
+    const ok = await copyText(revealCode);
     if (ok) { flashCopied("code"); setErr(null); }
     else setErr("Kopiëren lukte niet — selecteer de code handmatig.");
   };
@@ -84,7 +85,7 @@ export function GroupManageModal({ group, onClose }: Props) {
   };
 
   const shareWhatsapp = () => {
-    if (!reveal) return;
+    if (!revealCode) return;
     const msg =
       `⚽ Doe mee met *${group.name}* op Meatball!\n\n` +
       `We beoordelen samen de gehaktballen bij elke kantine waar we tegen ` +
@@ -107,8 +108,23 @@ export function GroupManageModal({ group, onClose }: Props) {
   };
 
   const regenerateInvite = async () => {
+    if (!me) return;
     setBusy(true); setErr(null);
-    try { await client().regenerateGroupInvite(group.id); }
+    try {
+      // Probeer 1x opnieuw bij collision (30^6 = 729M mogelijkheden,
+      // 2 pogingen is ruim genoeg in de praktijk).
+      const attempt = async () => {
+        const code = generateInviteCode();
+        await client().regenerateGroupInvite(group.id, code);
+        cacheInviteCode(me.id, group.id, code);
+      };
+      try { await attempt(); }
+      catch (e) {
+        const msg = friendlyError(e);
+        if (msg.toLowerCase().includes("bestaat al")) await attempt();
+        else throw e;
+      }
+    }
     catch (e) { setErr(friendlyError(e)); }
     finally { setBusy(false); }
   };
@@ -166,13 +182,13 @@ export function GroupManageModal({ group, onClose }: Props) {
         <section>
           <h3 className="font-display text-lg uppercase mb-2">koop speler</h3>
           <BrutalCard tone="pop" className="!p-3">
-            {reveal ? (
+            {revealCode ? (
               <>
                 <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">
                   code
                 </p>
                 <p className="font-display text-4xl tracking-widest select-all">
-                  {reveal.code}
+                  {revealCode}
                 </p>
                 <BrutalButton
                   onClick={shareWhatsapp}
@@ -219,7 +235,7 @@ export function GroupManageModal({ group, onClose }: Props) {
               </>
             )}
 
-            {reveal && (
+            {revealCode && (
               <button
                 type="button"
                 onClick={() => setReplaceOpen(true)}

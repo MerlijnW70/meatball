@@ -263,18 +263,6 @@ pub struct InviteSecret {
     pub invite_id: u64,
 }
 
-/// Korte-levensduur "reveal" — plaintext code die alleen de creator
-/// mag zien, tot `expires_at` (standaard 5 minuten).
-/// Na TTL wordt de rij opgeruimd bij de volgende reducer-call.
-#[table(accessor = group_invite_reveal, public)]
-pub struct GroupInviteReveal {
-    #[primary_key]
-    pub invite_id: u64,
-    pub code: String,
-    pub invited_by: u64,
-    pub expires_at: Timestamp,
-}
-
 /// Request van een user om lid te worden van een team. Trainer kan
 /// approve/reject. Eén pending request per (group, from_user).
 #[table(accessor = invite_request, public)]
@@ -353,8 +341,9 @@ pub struct UserPosition {
 }
 
 /// Per-identity per-action rate limit tracking. Eén rij per (identity, action),
-/// upsert bij elke gerate-limite call.
-#[table(accessor = rate_limit, public)]
+/// upsert bij elke gerate-limite call. Private — clients hoeven andere users'
+/// throttle-state niet te kunnen enumereren.
+#[table(accessor = rate_limit)]
 pub struct RateLimit {
     #[primary_key]
     #[auto_inc]

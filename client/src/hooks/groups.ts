@@ -3,7 +3,8 @@
  */
 import { useMemo } from "react";
 import { useStore } from "../store";
-import type { Group, GroupInvite, GroupInviteReveal, GroupMembership } from "../types";
+import { loadInviteCode } from "../utils/inviteCode";
+import type { Group, GroupInvite, GroupMembership } from "../types";
 
 export function useMyGroups() {
   const me = useStore((s) => s.session.me);
@@ -99,19 +100,21 @@ export function useMyInviteFor(groupId: bigint | null): GroupInvite | null {
 
 /**
  * Korte-levensduur plaintext code die de creator zichzelf laat zien.
- * Null als de reveal is vervallen of als jij niet de creator bent.
+ * Gelezen uit localStorage (server bewaart de code alleen in de private
+ * `invite_secret` tabel, dus andere clients zien 'm niet). `null` als de
+ * TTL (5 min) verstreken is of als je nooit een code hebt aangemaakt op
+ * dit device.
+ *
+ * `groupInvites` wordt meegetriggerd als dep zodat de hook herevalueerd
+ * wordt zodra er een nieuwe invite binnenkomt via de subscription.
  */
-export function useMyInviteReveal(inviteId: bigint | null): GroupInviteReveal | null {
+export function useMyInviteReveal(groupId: bigint | null): string | null {
   const me = useStore((s) => s.session.me);
-  const reveals = useStore((s) => s.groupInviteReveals);
+  const invites = useStore((s) => s.groupInvites);
   return useMemo(() => {
-    if (!inviteId || !me) return null;
-    const r = reveals.get(inviteId.toString());
-    if (!r) return null;
-    if (r.invited_by !== me.id) return null;
-    const now = Date.now() * 1000;
-    if (r.expires_at <= now) return null;
-    return r;
-  }, [inviteId, me, reveals]);
+    if (!groupId || !me) return null;
+    return loadInviteCode(me.id, groupId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [groupId, me, invites]);
 }
 

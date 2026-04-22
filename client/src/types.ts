@@ -136,18 +136,6 @@ export interface GroupInvite {
   created_at: Timestamp;
 }
 
-/**
- * Korte-levensduur reveal met plaintext code. Alleen door de creator
- * bruikbaar, tot `expires_at` (standaard 5 min). Daarna ruimt de server
- * de rij op bij de volgende invite-actie van dezelfde user.
- */
-export interface GroupInviteReveal {
-  invite_id: bigint;
-  code: string;
-  invited_by: bigint;
-  expires_at: Timestamp;
-}
-
 export interface InviteRequest {
   id: bigint;
   group_id: bigint;

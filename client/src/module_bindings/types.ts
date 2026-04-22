@@ -126,14 +126,6 @@ export const GroupInvite = __t.object("GroupInvite", {
 });
 export type GroupInvite = __Infer<typeof GroupInvite>;
 
-export const GroupInviteReveal = __t.object("GroupInviteReveal", {
-  inviteId: __t.u64(),
-  code: __t.string(),
-  invitedBy: __t.u64(),
-  expiresAt: __t.timestamp(),
-});
-export type GroupInviteReveal = __Infer<typeof GroupInviteReveal>;
-
 export const GroupMembership = __t.object("GroupMembership", {
   id: __t.u64(),
   groupId: __t.u64(),
@@ -232,6 +224,14 @@ export const MatchPrediction = __t.object("MatchPrediction", {
   submittedAt: __t.timestamp(),
 });
 export type MatchPrediction = __Infer<typeof MatchPrediction>;
+
+export const MatchPredictionSecret = __t.object("MatchPredictionSecret", {
+  id: __t.u64(),
+  predictionId: __t.u64(),
+  homeScore: __t.u32(),
+  awayScore: __t.u32(),
+});
+export type MatchPredictionSecret = __Infer<typeof MatchPredictionSecret>;
 
 export const MatchTick = __t.object("MatchTick", {
   scheduledId: __t.u64(),

@@ -50,12 +50,15 @@ export function makeClient(conn: any): MeatballClient {
     setPosition: (position) => call("setPosition", { position }),
     joinClub: (clubId) => call("joinClub", { clubId }, false),
     leaveClub: (clubId) => call("leaveClub", { clubId }, false),
-    createGroup: (name) => call("createGroup", { name }),
+    createGroup: (name, inviteCode) =>
+      call("createGroup", { name, inviteCode }),
     renameGroup: (groupId, name) => call("renameGroup", { groupId, name }),
-    createGroupInvite: (groupId, ttlSecs, maxUses) =>
-      call("createGroupInvite", { groupId, ttlSecs: BigInt(ttlSecs), maxUses }),
-    regenerateGroupInvite: (groupId) =>
-      call("regenerateGroupInvite", { groupId }),
+    createGroupInvite: (groupId, ttlSecs, maxUses, inviteCode) =>
+      call("createGroupInvite", {
+        groupId, ttlSecs: BigInt(ttlSecs), maxUses, inviteCode,
+      }),
+    regenerateGroupInvite: (groupId, inviteCode) =>
+      call("regenerateGroupInvite", { groupId, inviteCode }),
     acceptGroupInvite: (code) => call("acceptGroupInvite", { code }),
     revokeGroupInvite: (inviteId) => call("revokeGroupInvite", { inviteId }),
     leaveGroup: (groupId) => call("leaveGroup", { groupId }),

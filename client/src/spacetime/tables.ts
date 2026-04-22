@@ -5,7 +5,7 @@
 import { useStore } from "../store";
 import {
   toActivity, toCity, toClub, toClubMembership, toClubMood, toFollow,
-  toFootballMatch, toGroup, toGroupInvite, toGroupInviteReveal,
+  toFootballMatch, toGroup, toGroupInvite,
   toGroupMembership, toInviteRequest, toMatchEvent, toMatchFixture,
   toMatchPlayer, toMatchPrediction,
   toProvince, toRating, toRatingIntent, toRatingTag, toRatingVote, toSession,
@@ -77,7 +77,6 @@ export function wireTables(conn: any) {
   pipe(db.group, "group", toGroup, s.upsertGroup, (g) => s.deleteGroup(g.id));
   pipe(db.group_membership, "group_membership", toGroupMembership, s.upsertGroupMembership, (m) => s.deleteGroupMembership(m.id));
   pipe(db.group_invite, "group_invite", toGroupInvite, s.upsertGroupInvite, (i) => s.deleteGroupInvite(i.id));
-  pipe(db.group_invite_reveal, "group_invite_reveal", toGroupInviteReveal, s.upsertGroupInviteReveal, (r) => s.deleteGroupInviteReveal(r.invite_id));
   pipe(db.user_position, "user_position", toUserPosition, s.upsertUserPosition, (p) => s.deleteUserPosition(p.user_id));
   pipe(db.invite_request, "invite_request", toInviteRequest, s.upsertInviteRequest, (r) => s.deleteInviteRequest(r.id));
   pipe(db.match_fixture, "match_fixture", toMatchFixture, s.upsertMatchFixture, (f) => s.deleteMatchFixture(f.id));

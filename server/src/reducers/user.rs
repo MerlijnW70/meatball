@@ -117,6 +117,12 @@ pub fn set_avatar(
     if !ALLOWED_AVATAR_ICONS.iter().any(|i| *i == icon) {
         return Err("Ongeldige icon".into());
     }
+    // Hard byte-cap voor vóór-parse — voorkomt dat een zeer lange
+    // string die toevallig "valid|valid|valid" als suffix heeft
+    // alsnog het avatar-decor veld laat exploderen (storage + replication).
+    if decor.len() > 128 {
+        return Err("Decor te lang".into());
+    }
     validate_decor(&decor)?;
     user.avatar_color = color;
     user.avatar_icon = icon;

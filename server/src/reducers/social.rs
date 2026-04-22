@@ -49,6 +49,9 @@ pub fn vote_club_mood(
     }
     require_membership(ctx, me.id, club_id)?;
     enforce_rate_limit(ctx, "vote_club_mood", 3)?;
+    // Per-club cooldown extra: voorkomt dat één user 20 clubs binnen een
+    // minuut met mood-emoji bombardeert (global cd slaagt, per-club niet).
+    enforce_rate_limit(ctx, &format!("vote_club_mood_{}", club_id), 10)?;
     // Eén mood per (user, club) → upsert
     let existing = ctx.db.club_mood().iter()
         .find(|m| m.club_id == club_id && m.user_id == me.id);
@@ -99,6 +102,9 @@ pub fn send_reaction(
     }
     // Globale rate-limit per identity — voorkomt emoji-rotatie spam.
     enforce_rate_limit(ctx, "send_reaction", 2)?;
+    // Per-ontvanger cooldown: 1 user kan niet 30 verschillende targets
+    // binnen een minuut bombarderen door met de globale 2s cd te rotateren.
+    enforce_rate_limit(ctx, &format!("send_reaction_to_{}", to_user_id), 30)?;
 
     ctx.db.user_reaction().insert(UserReaction {
         id: 0,
@@ -115,7 +121,10 @@ pub fn toggle_like(ctx: &ReducerContext, snack_id: u64) -> Result<(), String> {
     let user = require_user(ctx)?;
     let snack = ctx.db.snack().id().find(snack_id).ok_or("Onbekende snack")?;
     require_membership(ctx, user.id, snack.club_id)?;
-    enforce_rate_limit(ctx, "toggle_like", 1)?;
+    // Globale cooldown iets verhoogd (1s was wel heel kort); per-snack
+    // cooldown voorkomt dat iemand alle snacks in de feed kan flip-floppen.
+    enforce_rate_limit(ctx, "toggle_like", 2)?;
+    enforce_rate_limit(ctx, &format!("toggle_like_{}", snack_id), 5)?;
 
     let existing = ctx.db.snack_like().iter()
         .find(|l| l.user_id == user.id && l.snack_id == snack_id);

@@ -24,6 +24,11 @@ use crate::tables::{
 // 60s buffer voor race-conditions (server-clock vs user-device-clock).
 const PREDICTION_LOCKOUT_MICROS: i64 = 60_000_000;
 
+// Minimale tijd tussen now en kickoff — voorkomt dat een Trainer een
+// fixture inplant, laat voorspellen, en 't dan onmiddellijk afwikkelt
+// door direct `enter_match_result` te vuren zonder voorspel-venster.
+const MIN_KICKOFF_DELTA_MICROS: i64 = 60 * 60 * 1_000_000; // 1 uur
+
 // Max dagen vooruit dat een fixture ingepland mag worden (anti-spam).
 const MAX_FIXTURE_FUTURE_DAYS: i64 = 30;
 
@@ -54,11 +59,13 @@ pub fn create_match_fixture(
         return Err("Tegenstander-kantine niet gevonden".into());
     }
 
-    // Kickoff moet in de toekomst liggen en binnen een redelijke horizon.
+    // Kickoff moet minstens MIN_KICKOFF_DELTA vooruit liggen en binnen
+    // een redelijke horizon. Minimum voorkomt "plan-en-direct-afwikkelen"
+    // manipulatie; maximum voorkomt spam ver vooruit.
     let now = ctx.timestamp.to_micros_since_unix_epoch();
     let kickoff = kickoff_at.to_micros_since_unix_epoch();
-    if kickoff <= now {
-        return Err("Kickoff moet in de toekomst liggen".into());
+    if kickoff <= now.saturating_add(MIN_KICKOFF_DELTA_MICROS) {
+        return Err("Kickoff moet minstens 1 uur vooruit liggen".into());
     }
     let max_future = now.saturating_add(MAX_FIXTURE_FUTURE_DAYS * 86_400 * 1_000_000);
     if kickoff > max_future {
@@ -189,7 +196,8 @@ pub fn enter_match_result(
     }
 
     if fixture.final_entered {
-        return Err("Uitslag is al ingevoerd".into());
+        // Idempotent: dubbele click (of netwerk-retry) is geen error.
+        return Ok(());
     }
     if home_score > MAX_RESULT_SCORE || away_score > MAX_RESULT_SCORE {
         return Err(format!("Max {} per team", MAX_RESULT_SCORE));

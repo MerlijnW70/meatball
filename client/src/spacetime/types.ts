@@ -21,10 +21,12 @@ export interface MeatballClient {
   setPosition(position: string): Promise<void>;
   joinClub(clubId: bigint): Promise<void>;
   leaveClub(clubId: bigint): Promise<void>;
-  createGroup(name: string): Promise<void>;
+  createGroup(name: string, inviteCode: string): Promise<void>;
   renameGroup(groupId: bigint, name: string): Promise<void>;
-  createGroupInvite(groupId: bigint, ttlSecs: number, maxUses: number): Promise<void>;
-  regenerateGroupInvite(groupId: bigint): Promise<void>;
+  createGroupInvite(
+    groupId: bigint, ttlSecs: number, maxUses: number, inviteCode: string,
+  ): Promise<void>;
+  regenerateGroupInvite(groupId: bigint, inviteCode: string): Promise<void>;
   acceptGroupInvite(code: string): Promise<void>;
   revokeGroupInvite(inviteId: bigint): Promise<void>;
   leaveGroup(groupId: bigint): Promise<void>;

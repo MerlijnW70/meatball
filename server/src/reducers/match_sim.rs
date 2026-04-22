@@ -21,6 +21,10 @@ use crate::tables::{
 
 const MATCH_MINUTES: u32 = 90;
 const MAX_MATCHES_PER_DAY: u64 = 30;
+/// Max tegelijk-live matches met deze entity (club of team) aan één kant.
+/// Voorkomt dat 10 users samen 100 live wedstrijden tegen één kantine
+/// starten en zo subscription-broadcasts + scheduled-ticks floodden.
+const MAX_ACTIVE_MATCHES_PER_ENTITY: usize = 3;
 // Wall-clock: 90 game-minutes in 60s (was 30s) → rustiger tempo.
 const TICK_MICROS: i64 = 666_000;               // ~1.5 events per sec
 const POS_TICK_MICROS: i64 = 100_000;           // 10Hz — motion blijft smooth
@@ -255,6 +259,21 @@ pub fn simulate_match(
         .count() as u64;
     if todays >= MAX_MATCHES_PER_DAY {
         return Err("Je hebt vandaag al genoeg wedstrijden gespeeld".into());
+    }
+
+    // Per-entity cap op tegelijk-live matches — geldt voor zowel home als away.
+    let count_live = |id: u64, is_group: bool| -> usize {
+        ctx.db.football_match().iter()
+            .filter(|m| m.is_live
+                && ((m.home_club_id == id && m.home_is_group == is_group)
+                    || (m.away_club_id == id && m.away_is_group == is_group)))
+            .count()
+    };
+    if count_live(home_id, home_is_group) >= MAX_ACTIVE_MATCHES_PER_ENTITY {
+        return Err("Thuis-entity zit al in te veel live wedstrijden".into());
+    }
+    if count_live(away_id, away_is_group) >= MAX_ACTIVE_MATCHES_PER_ENTITY {
+        return Err("Uit-entity zit al in te veel live wedstrijden".into());
     }
 
     let seed = seed_from(home_id, away_id, now_micros);

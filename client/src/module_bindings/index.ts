@@ -82,7 +82,6 @@ import FollowRow from "./follow_table";
 import FootballMatchRow from "./football_match_table";
 import GroupRow from "./group_table";
 import GroupInviteRow from "./group_invite_table";
-import GroupInviteRevealRow from "./group_invite_reveal_table";
 import GroupMembershipRow from "./group_membership_table";
 import InviteRequestRow from "./invite_request_table";
 import MatchEventRow from "./match_event_table";
@@ -90,7 +89,6 @@ import MatchFixtureRow from "./match_fixture_table";
 import MatchPlayerRow from "./match_player_table";
 import MatchPredictionRow from "./match_prediction_table";
 import ProvinceRow from "./province_table";
-import RateLimitRow from "./rate_limit_table";
 import RatingRow from "./rating_table";
 import RatingIntentRow from "./rating_intent_table";
 import RatingPingRow from "./rating_ping_table";
@@ -207,17 +205,6 @@ const tablesSchema = __schema({
       { name: 'group_invite_id_key', constraint: 'unique', columns: ['id'] },
     ],
   }, GroupInviteRow),
-  group_invite_reveal: __table({
-    name: 'group_invite_reveal',
-    indexes: [
-      { accessor: 'invite_id', name: 'group_invite_reveal_invite_id_idx_btree', algorithm: 'btree', columns: [
-        'inviteId',
-      ] },
-    ],
-    constraints: [
-      { name: 'group_invite_reveal_invite_id_key', constraint: 'unique', columns: ['inviteId'] },
-    ],
-  }, GroupInviteRevealRow),
   group_membership: __table({
     name: 'group_membership',
     indexes: [
@@ -299,17 +286,6 @@ const tablesSchema = __schema({
       { name: 'province_name_key', constraint: 'unique', columns: ['name'] },
     ],
   }, ProvinceRow),
-  rate_limit: __table({
-    name: 'rate_limit',
-    indexes: [
-      { accessor: 'id', name: 'rate_limit_id_idx_btree', algorithm: 'btree', columns: [
-        'id',
-      ] },
-    ],
-    constraints: [
-      { name: 'rate_limit_id_key', constraint: 'unique', columns: ['id'] },
-    ],
-  }, RateLimitRow),
   rating: __table({
     name: 'rating',
     indexes: [
