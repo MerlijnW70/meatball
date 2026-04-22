@@ -11,8 +11,13 @@ import { go } from "../../router";
 type Tone = "pop" | "hot" | "mint" | "sky" | "bruise" | "paper";
 
 interface Props {
-  /** Emoji bovenaan — een of twee emoji's, grote weergave. */
+  /** Emoji bovenaan — een of twee emoji's, grote weergave.
+   *  Fallback als `image` niet is gegeven. */
   emoji: string;
+  /** Custom image (relatief pad in /public, bv. "/tiles/kantines.png").
+   *  Vult de hero-area volledig — `object-cover` zodat de eigen bg van de
+   *  illustratie naadloos in de tegel komt. Overschrijft emoji. */
+  image?: string;
   /** Korte label, display-uppercase. */
   label: string;
   /** Optionele 2e regel subtitle. */
@@ -46,7 +51,7 @@ const TONE_CLS: Record<Tone, string> = {
 };
 
 export function ActivityTile({
-  emoji, label, sub, tone = "pop",
+  emoji, image, label, sub, tone = "pop",
   badge, badgePulse, tilt = 0, to, onClick, disabled, footer,
 }: Props) {
   const handle = () => {
@@ -80,16 +85,27 @@ export function ActivityTile({
         </span>
       )}
 
-      {/* Emoji hero — neemt de bulk ruimte */}
-      <div className="flex-1 flex items-center justify-center">
-        <span
-          className="text-5xl sm:text-6xl leading-none drop-shadow-[3px_3px_0_rgba(0,0,0,0.15)]
-                     group-active:scale-95 transition-transform"
-          aria-hidden
-        >
-          {emoji}
-        </span>
-      </div>
+      {/* Hero — custom image vult volledig, anders emoji centered. */}
+      {image ? (
+        <div className="flex-1 overflow-hidden">
+          <img
+            src={image}
+            alt=""
+            aria-hidden
+            className="w-full h-full object-cover group-active:scale-95 transition-transform"
+          />
+        </div>
+      ) : (
+        <div className="flex-1 flex items-center justify-center">
+          <span
+            className="text-5xl sm:text-6xl leading-none drop-shadow-[3px_3px_0_rgba(0,0,0,0.15)]
+                       group-active:scale-95 transition-transform"
+            aria-hidden
+          >
+            {emoji}
+          </span>
+        </div>
+      )}
 
       {/* Label onderaan — inverted strip voor contrast */}
       <div className="border-t-4 border-ink px-3 py-2 bg-ink text-paper">

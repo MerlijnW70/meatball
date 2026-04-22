@@ -61,6 +61,7 @@ export function ActivityGrid() {
   const tiles = [
     {
       emoji: "🥩",
+      image: "/tiles/kantines.png",
       label: "kantines",
       sub: myClubs.length > 0
         ? `${myClubs.length} in jouw seizoen`
@@ -139,6 +140,7 @@ export function ActivityGrid() {
           <ActivityTile
             key={t.label}
             emoji={t.emoji}
+            image={"image" in t ? (t as { image?: string }).image : undefined}
             label={t.label}
             sub={t.sub}
             tone={t.tone}
