@@ -1,16 +1,26 @@
-import { BrutalButton } from "../components/BrutalButton";
+import { useEffect } from "react";
 import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { go } from "../router";
 import { useStore } from "../store";
 
+/**
+ * Brand-moment tijdens de WS-handshake. Zodra de server een user heeft
+ * aangemaakt of hergevonden (session.me set) schuift de splash automatisch
+ * door naar Home — geen "tap start" meer.
+ *
+ * Dit matcht de no-auth visie: iedereen komt direct in de app.
+ */
 export function SplashPage() {
-  const session = useStore((s) => s.session);
+  const me = useStore((s) => s.session.me);
 
-  // Geen auto-redirect: iedereen begint hier en tapt zelf "start".
-  const start = () => {
-    if (session.me) go("/home");
-    else go("/onboard/name");
-  };
+  useEffect(() => {
+    if (me) {
+      // Korte delay zodat het logo nog even zichtbaar is — anders voelt 't
+      // alsof de splash skipt en je gelijk in de Feed staat.
+      const t = setTimeout(() => go("/home"), 500);
+      return () => clearTimeout(t);
+    }
+  }, [me]);
 
   return (
     <div className="min-h-dvh flex flex-col">
@@ -28,16 +38,9 @@ export function SplashPage() {
           Welke kantine heeft de <span className="bg-pop px-1">lekkerste gehaktbal</span> van Nederland?
           Vind het uit. Live.
         </p>
-        <div className="flex flex-col gap-3 w-full max-w-xs">
-          <BrutalButton onClick={start} variant="hot" size="lg" block>
-            start
-          </BrutalButton>
-          {session.me && (
-            <p className="text-center text-xs uppercase tracking-widest">
-              welkom terug, {session.me.screen_name}
-            </p>
-          )}
-        </div>
+        <p className="text-center text-xs uppercase tracking-widest opacity-60 animate-pulse">
+          {me ? `welkom ${me.screen_name}…` : "verbinden…"}
+        </p>
       </div>
       <footer className="brut-stripe h-6" />
     </div>

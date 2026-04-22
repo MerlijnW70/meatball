@@ -32,12 +32,16 @@ export default function App() {
     connect().catch((e) => setErr(String(e)));
   }, []);
 
-  // Vind jezelf in de user tabel zodra je identity bekend is.
+  // Houd session.me gesynchroniseerd met de user-row uit de store. Raakt
+  // anders stale na rename / avatar-change (server update komt binnen via
+  // subscription, users-map wordt ge-upsert met nieuwe reference, maar
+  // session.me bleef hangen op de oude snapshot).
   useEffect(() => {
-    if (!identity || session.me) return;
-    const me = Array.from(users.values())
-      .find((u) => u.identity === identity);
-    if (me) setMe(me);
+    if (!identity) return;
+    const fresh = Array.from(users.values()).find((u) => u.identity === identity);
+    if (!fresh) return;
+    if (session.me === fresh) return; // reference-equal na eerder setMe
+    setMe(fresh);
   }, [users, identity, session.me, setMe]);
 
   // Toasts voor realtime events die relevant zijn voor jouw club.

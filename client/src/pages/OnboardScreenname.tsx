@@ -19,17 +19,28 @@ export function OnboardScreennamePage() {
   const [busy, setBusy] = useState(false);
   const session = useStore((s) => s.session);
   const users = useStore((s) => s.users);
+  const userPositions = useStore((s) => s.userPositions);
+
+  // Rename-flow: user bestaat al (dankzij auto-create op connect) en heeft
+  // mogelijk al een positie. Dan slaan we de positie-sectie over.
+  const existingPosition = session.me
+    ? (userPositions.get(session.me.id.toString())?.position as Position | undefined) ?? null
+    : null;
+  const isRename = !!session.me;
 
   const [color, setColor] = useState<string | null>(null);
   const [icon, setIcon] = useState<string | null>(null);
-  const [position, setPosition] = useState<Position | null>(null);
+  const [position, setPosition] = useState<Position | null>(existingPosition);
 
   const validation = useMemo(
     () => validateScreenname(name, users, session.identity),
     [name, users, session.identity],
   );
   const showClientError = touched && validation.kind === "invalid";
-  const canSubmit = validation.kind === "valid" && !!position && !busy;
+  // Positie alleen verplicht voor first-time onboard. Rename-flow heeft al
+  // alles, gebruiker wil alleen een nieuwe naam kiezen.
+  const needsPosition = !isRename && !position;
+  const canSubmit = validation.kind === "valid" && !needsPosition && !busy;
 
   const auto = defaultAvatarFor(name);
   const avatar = {
@@ -181,18 +192,21 @@ export function OnboardScreennamePage() {
           </p>
         </section>
 
-        {/* Veldpositie — 4-3-3 pitch */}
-        <section>
-          <p className="text-xs font-bold uppercase tracking-widest mb-2">
-            je veld positie
-          </p>
-          <PitchPicker value={position} onChange={setPosition} />
-          {!position && (
-            <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-2">
-              kies een positie om door te gaan
+        {/* Veldpositie — 4-3-3 pitch. Voor rename-flow skippen we dit:
+            de user heeft al een positie en wil alleen z'n naam wijzigen. */}
+        {!isRename && (
+          <section>
+            <p className="text-xs font-bold uppercase tracking-widest mb-2">
+              je veld positie
             </p>
-          )}
-        </section>
+            <PitchPicker value={position} onChange={setPosition} />
+            {!position && (
+              <p className="text-[10px] font-bold uppercase tracking-widest opacity-60 mt-2">
+                kies een positie om door te gaan
+              </p>
+            )}
+          </section>
+        )}
 
         {err && (
           <p className="brut-card bg-hot text-paper p-2 font-bold">{err}</p>

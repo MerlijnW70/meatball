@@ -18,9 +18,27 @@ import { ConfirmModal } from "../components/ConfirmModal";
 import { SocialInbox } from "../components/SocialInbox";
 import { fmtRelative } from "../utils/format";
 import { friendlyError } from "../utils/errors";
+import { go } from "../router";
 import {
   FIELD_POSITIONS, POSITION_LABEL, POSITION_SHORT, type Group, type Position,
 } from "../types";
+
+/**
+ * Detecteer of de screen_name een server-gegenereerde default is
+ * (zoals "Gehaktbal-Genieter-4829" of de fallback "Speler-a1b2c3d4").
+ * Heuristisch — als een user exact dit patroon zelf kiest is dat een
+ * acceptabele edge case (banner wordt nadien automatisch verborgen
+ * zodra 'ie een andere naam kiest).
+ */
+function isDefaultScreenName(name: string): boolean {
+  // Pattern 1: "Capitalized-Base-NNNN" (auto-naam uit pool)
+  if (/^[A-Z][A-Za-z0-9-]*-\d{4}$/.test(name)) return true;
+  // Pattern 2: "Speler-xxxxxxxx" (collision fallback)
+  if (/^Speler-[0-9a-f]{8}$/.test(name)) return true;
+  return false;
+}
+
+const DISMISS_KEY = "meatball.rename-banner-dismissed";
 
 export function ProfilePage({ userId }: { userId: bigint }) {
   const me = useStore((s) => s.session.me);
@@ -103,6 +121,8 @@ export function ProfilePage({ userId }: { userId: bigint }) {
       />
       <main className="flex-1 p-4 flex flex-col gap-4">
 
+        {isSelf && <RenameBanner screenName={profile.user.screen_name} />}
+
         {/* Hero — player-card stijl: avatar centraal, naam eronder met
             balanced wrapping, positie-chip + lid-sinds als sub-info. */}
         <BrutalCard
@@ -137,14 +157,32 @@ export function ProfilePage({ userId }: { userId: bigint }) {
           </button>
 
           {/* Naam — text-wrap balance + break-words zodat lange namen netjes
-              over 2 regels kunnen. Responsive text-size voor mobiel. */}
-          <h2
-            className="font-display text-3xl sm:text-4xl uppercase leading-tight
-                       break-words w-full"
-            style={{ textWrap: "balance", overflowWrap: "anywhere" }}
-          >
-            {profile.user.screen_name}
-          </h2>
+              over 2 regels kunnen. Responsive text-size voor mobiel.
+              Voor self: ook tap-baar als rename-entrypoint (los van de
+              banner — die kan gedismist zijn). */}
+          {isSelf ? (
+            <button
+              type="button"
+              onClick={() => go("/onboard/name")}
+              aria-label="wijzig naam"
+              className="font-display text-3xl sm:text-4xl uppercase leading-tight
+                         break-words w-full bg-transparent border-0
+                         active:translate-x-[1px] active:translate-y-[1px] transition-transform
+                         flex items-center justify-center gap-2"
+              style={{ textWrap: "balance", overflowWrap: "anywhere" }}
+            >
+              <span>{profile.user.screen_name}</span>
+              <span className="text-sm opacity-60" aria-hidden>✏️</span>
+            </button>
+          ) : (
+            <h2
+              className="font-display text-3xl sm:text-4xl uppercase leading-tight
+                         break-words w-full"
+              style={{ textWrap: "balance", overflowWrap: "anywhere" }}
+            >
+              {profile.user.screen_name}
+            </h2>
+          )}
 
           {/* Positie-chip als speler op het veld staat */}
           {onField && position && (
@@ -264,6 +302,52 @@ export function ProfilePage({ userId }: { userId: bigint }) {
         onCancel={() => setLeaveTarget(null)}
         onConfirm={confirmLeaveTeam}
       />
+    </div>
+  );
+}
+
+/**
+ * Prompt voor users met een server-gegenereerde default-naam.
+ * Verdwijnt zodra de naam niet meer default is (server-side rename) of
+ * de user 'm handmatig dismisst (localStorage).
+ */
+function RenameBanner({ screenName }: { screenName: string }) {
+  const [dismissed, setDismissed] = useState(() => {
+    try { return localStorage.getItem(DISMISS_KEY) === "1"; }
+    catch { return false; }
+  });
+  if (!isDefaultScreenName(screenName)) return null;
+  if (dismissed) return null;
+  const dismiss = () => {
+    try { localStorage.setItem(DISMISS_KEY, "1"); } catch {}
+    setDismissed(true);
+  };
+  return (
+    <div className="brut-card bg-sky text-paper !p-3 flex items-center gap-2">
+      <div className="flex-1 min-w-0">
+        <p className="font-display text-sm uppercase leading-tight">
+          Je heet nu <span className="bg-paper text-ink px-1">{screenName}</span>
+        </p>
+        <p className="text-[10px] font-bold uppercase tracking-widest opacity-80 mt-1 leading-tight">
+          Kies je eigen naam om op te vallen
+        </p>
+      </div>
+      <BrutalButton
+        onClick={() => go("/onboard/name")}
+        variant="hot" size="sm"
+      >
+        kies →
+      </BrutalButton>
+      <button
+        type="button"
+        onClick={dismiss}
+        aria-label="verberg"
+        className="shrink-0 w-8 h-8 border-2 border-paper bg-transparent text-paper
+                   font-display text-sm leading-none rounded-none
+                   active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+      >
+        ✕
+      </button>
     </div>
   );
 }
