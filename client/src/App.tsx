@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { connect } from "./spacetime";
 import { useStore } from "./store";
 import { match, useRoute } from "./router";
@@ -41,14 +41,26 @@ export default function App() {
   }, [users, identity, session.me, setMe]);
 
   // Toasts voor realtime events die relevant zijn voor jouw club.
+  // `lastSeen` via ref zodat 'ie persist across re-subscriptions (clubId/me
+  // change). Zonder ref resette 'ie bij elke effect-re-run naar 0n, waardoor
+  // bestaande events opnieuw toast'ten na een club-switch.
+  const lastSeenActivityRef = useRef<bigint>(0n);
   useEffect(() => {
     if (!connected) return;
-    let lastSeen = 0n;
+    // Bij eerste run: initialiseer op huidige max-id zodat pre-existing
+    // activity (events van voor deze sessie) niet alsnog als "nieuw" toasten.
+    if (lastSeenActivityRef.current === 0n) {
+      let maxId = 0n;
+      for (const e of useStore.getState().activity.values()) {
+        if (e.id > maxId) maxId = e.id;
+      }
+      lastSeenActivityRef.current = maxId;
+    }
     const unsub = useStore.subscribe((state, prev) => {
       if (state.activity === prev.activity) return;
       for (const e of state.activity.values()) {
-        if (e.id <= lastSeen) continue;
-        lastSeen = e.id;
+        if (e.id <= lastSeenActivityRef.current) continue;
+        lastSeenActivityRef.current = e.id;
         // Alleen toasts voor jouw club (of globaal relevant)
         const ownClub = session.clubId && e.club_id === session.clubId;
         if (e.kind.tag === "SnackClimbed" && ownClub) toast.hot(e.text);

@@ -43,6 +43,12 @@ interface AppState {
   follows: IdMap<Follow>;
   moods: IdMap<ClubMood>;
   votes: IdMap<RatingVote>;
+  /**
+   * Reverse-index van rating_id → lijst van votes voor die rating.
+   * Word door upsertVote/deleteVote onderhouden. Laat `useRatingVotes`
+   * O(votesForThisRating) werken ipv O(totalVotes).
+   */
+  votesByRating: Map<string, RatingVote[]>;
   groups: IdMap<Group>;
   groupMemberships: IdMap<GroupMembership>;
   groupInvites: IdMap<GroupInvite>;
@@ -157,7 +163,7 @@ export const useStore = create<AppState>((set, get) => ({
   users: m(), provinces: m(), cities: m(), clubs: m(),
   snacks: m(), ratings: m(), ratingTags: m(), stats: m(), activity: m(),
   likes: m(), sessions: m(), intents: m(), reactions: m(),
-  follows: m(), moods: m(), votes: m(), memberships: m(),
+  follows: m(), moods: m(), votes: m(), votesByRating: new Map(), memberships: m(),
   groups: m(), groupMemberships: m(), groupInvites: m(),
   userPositions: m(), inviteRequests: m(),
   matches: m(), matchPlayers: m(), matchEvents: m(),
@@ -200,8 +206,36 @@ export const useStore = create<AppState>((set, get) => ({
   deleteFollow: (id) => set((s) => ({ follows: del(s.follows, id) })),
   upsertMood: (mo) => set((s) => ({ moods: put(s.moods, mo.id, mo) })),
   deleteMood: (id) => set((s) => ({ moods: del(s.moods, id) })),
-  upsertVote: (v) => set((s) => ({ votes: put(s.votes, v.id, v) })),
-  deleteVote: (id) => set((s) => ({ votes: del(s.votes, id) })),
+  upsertVote: (v) => set((s) => {
+    const votes = put(s.votes, v.id, v);
+    const index = new Map(s.votesByRating);
+    // Verwijder uit vorige bucket (als rating_id is gewijzigd — zeldzaam
+    // maar defensief). Oude bucket alleen muteren als nodig; zo blijven
+    // ongemoeide buckets referentieel stabiel en re-render selectors niet.
+    const prev = s.votes.get(v.id.toString());
+    if (prev && prev.rating_id !== v.rating_id) {
+      const oldKey = prev.rating_id.toString();
+      const oldArr = (index.get(oldKey) ?? []).filter((x) => x.id !== v.id);
+      if (oldArr.length > 0) index.set(oldKey, oldArr);
+      else index.delete(oldKey);
+    }
+    const newKey = v.rating_id.toString();
+    const existing = (index.get(newKey) ?? []).filter((x) => x.id !== v.id);
+    existing.push(v);
+    index.set(newKey, existing);
+    return { votes, votesByRating: index };
+  }),
+  deleteVote: (id) => set((s) => {
+    const vote = s.votes.get(id.toString());
+    const votes = del(s.votes, id);
+    if (!vote) return { votes };
+    const index = new Map(s.votesByRating);
+    const k = vote.rating_id.toString();
+    const arr = (index.get(k) ?? []).filter((x) => x.id !== id);
+    if (arr.length > 0) index.set(k, arr);
+    else index.delete(k);
+    return { votes, votesByRating: index };
+  }),
   upsertMembership: (mb) => set((s) => ({ memberships: put(s.memberships, mb.id, mb) })),
   deleteMembership: (id) => set((s) => ({ memberships: del(s.memberships, id) })),
   upsertGroup: (g) => set((s) => ({ groups: put(s.groups, g.id, g) })),

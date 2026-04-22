@@ -31,18 +31,39 @@ function emit(text: string, kind: ToastKind) {
   listeners.forEach((l) => l(t));
 }
 
+// Max aantal toasts dat tegelijk in beeld staat. Voorkomt dat bij een
+// crash-loop of subscription-error-storm de UI ondergesneeuwd raakt.
+const MAX_VISIBLE = 3;
+
 export function ToastHost() {
   const [items, setItems] = useState<Toast[]>([]);
   useEffect(() => {
     if (!TOASTS_ENABLED) return;
+    const timers = new Map<number, ReturnType<typeof setTimeout>>();
+    const drop = (id: number) => {
+      const t = timers.get(id);
+      if (t) { clearTimeout(t); timers.delete(id); }
+      setItems((prev) => prev.filter((x) => x.id !== id));
+    };
     const add: Listener = (t) => {
-      setItems((prev) => [...prev, t]);
-      setTimeout(() => {
-        setItems((prev) => prev.filter((x) => x.id !== t.id));
-      }, 5000);
+      setItems((prev) => {
+        // Oudste eraf-drukken wanneer we over de cap zouden gaan.
+        const overflow = prev.slice(0, Math.max(0, prev.length + 1 - MAX_VISIBLE));
+        overflow.forEach((o) => {
+          const tm = timers.get(o.id);
+          if (tm) { clearTimeout(tm); timers.delete(o.id); }
+        });
+        const kept = prev.filter((x) => !overflow.includes(x));
+        return [...kept, t];
+      });
+      timers.set(t.id, setTimeout(() => drop(t.id), 5000));
     };
     listeners.add(add);
-    return () => { listeners.delete(add); };
+    return () => {
+      listeners.delete(add);
+      timers.forEach((tm) => clearTimeout(tm));
+      timers.clear();
+    };
   }, []);
 
   if (!TOASTS_ENABLED) return null;

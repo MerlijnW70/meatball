@@ -17,12 +17,16 @@ export interface RatingVoteSummary {
 
 export function useRatingVotes(ratingId: bigint | null): RatingVoteSummary {
   const me = useStore((s) => s.session.me);
-  const votes = useStore((s) => s.votes);
+  // Lees alleen de bucket voor dit rating_id. Zustand selector vergelijkt
+  // het resultaat referentieel: alleen re-render als JUIST deze bucket
+  // verandert, niet bij elke vote ergens in de app.
+  const bucket = useStore((s) =>
+    ratingId ? s.votesByRating.get(ratingId.toString()) : undefined
+  );
   return useMemo(() => {
     const out: RatingVoteSummary = { up: 0, down: 0, net: 0, myVote: 0 };
-    if (!ratingId) return out;
-    for (const v of votes.values()) {
-      if (v.rating_id !== ratingId) continue;
+    if (!ratingId || !bucket) return out;
+    for (const v of bucket) {
       if (v.value > 0) out.up++;
       else if (v.value < 0) out.down++;
       if (me && v.voter_user_id === me.id) {
@@ -31,7 +35,7 @@ export function useRatingVotes(ratingId: bigint | null): RatingVoteSummary {
     }
     out.net = out.up - out.down;
     return out;
-  }, [ratingId, me, votes]);
+  }, [ratingId, me, bucket]);
 }
 
 // ─── Stats / likes ──────────────────────────────────────────────
@@ -143,7 +147,11 @@ export function useLeaderboard(clubId: bigint | null) {
         if (a.likes !== b.likes) return b.likes - a.likes;
         const ac = Number(a.stats?.rating_count ?? 0n);
         const bc = Number(b.stats?.rating_count ?? 0n);
-        return bc - ac;
+        if (ac !== bc) return bc - ac;
+        // Tiebreaker op snack_id — voorkomt dat rangorde van-render-tot-
+        // render schommelt bij identieke (score, likes, count). bigint
+        // vergelijking via Number alleen veilig voor IDs < 2^53.
+        return Number(a.snack.id - b.snack.id);
       });
   }, [snacks, stats, likes]);
 }
