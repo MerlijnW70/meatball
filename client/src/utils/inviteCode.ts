@@ -13,8 +13,8 @@
  */
 
 // Moet identiek zijn aan server/src/helpers.rs:INVITE_ALPHA + INVITE_CODE_LEN.
-const INVITE_ALPHA = "23456789ABCDEFGHJKMNPQRSTVWXYZ";
-const INVITE_CODE_LEN = 6;
+export const INVITE_ALPHA = "23456789ABCDEFGHJKMNPQRSTVWXYZ";
+export const INVITE_CODE_LEN = 6;
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
 /** Genereer een willekeurige 6-char code uit 30-alpha. Gebruikt
