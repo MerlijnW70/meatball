@@ -14,6 +14,8 @@ import { ActivityTile } from "./ActivityTile";
 
 const TILT_PATTERN = [-1, 1, 1, -1, -1, 1]; // subtiel, alternerend
 
+const MAX_INTENT_AGE_MICROS = 5 * 60 * 1000 * 1000; // 5 min
+
 export function ActivityGrid() {
   const me = useStore((s) => s.session.me);
   const myGroups = useMyGroups();
@@ -21,9 +23,32 @@ export function ActivityGrid() {
   const matches = useStore((s) => s.matches);
   const fixtures = useStore((s) => s.matchFixtures);
   const groupMemberships = useStore((s) => s.groupMemberships);
+  const intents = useStore((s) => s.intents);
+  const snacks = useStore((s) => s.snacks);
 
   // Hoeveel kantines zijn er landelijk in de database? (Discovery-signaal.)
   const totalClubs = useStore((s) => s.clubs.size);
+
+  // Wie is er nu aan 't raten bij een van mijn seizoens-kantines? Geeft
+  // een FOMO-signaal op de kantines-tegel: "er gebeurt nu iets hier".
+  const liveRatingCount = useMemo(() => {
+    if (myClubs.length === 0 || intents.size === 0) return 0;
+    const myClubIds = new Set(myClubs.map((c) => c.club.id.toString()));
+    // snack → club lookup opbouwen voor O(1) check per intent.
+    const snackToClub = new Map<string, string>();
+    for (const s of snacks.values()) {
+      snackToClub.set(s.id.toString(), s.club_id.toString());
+    }
+    const nowMicros = Date.now() * 1000;
+    let count = 0;
+    for (const i of intents.values()) {
+      if (me && i.user_id === me.id) continue; // eigen intent uitsluiten
+      if (nowMicros - Number(i.started_at) > MAX_INTENT_AGE_MICROS) continue;
+      const clubId = snackToClub.get(i.snack_id.toString());
+      if (clubId && myClubIds.has(clubId)) count++;
+    }
+    return count;
+  }, [intents, snacks, myClubs, me]);
 
   // Aantal open voorspellingen voor mijn teams.
   const openFixturesCount = useMemo(() => {
@@ -63,12 +88,20 @@ export function ActivityGrid() {
       emoji: "🥩",
       image: "/tiles/kantines.png",
       label: "kantines",
-      sub: myClubs.length > 0
-        ? `${myClubs.length} in jouw seizoen`
-        : "ontdek & rate",
+      sub: liveRatingCount > 0
+        ? `${liveRatingCount} raten nu`
+        : myClubs.length > 0
+          ? `${myClubs.length} in jouw seizoen`
+          : "ontdek & rate",
       tone: "mint" as const,
       to: "/seizoen",
-      badge: myClubs.length > 0 ? `${myClubs.length}` : null,
+      // Live-rating nu > badge met pulse. Anders: kantine-count.
+      badge: liveRatingCount > 0
+        ? `🔴 ${liveRatingCount}`
+        : myClubs.length > 0
+          ? `${myClubs.length}`
+          : null,
+      badgePulse: liveRatingCount > 0,
     },
     {
       emoji: "⚽",

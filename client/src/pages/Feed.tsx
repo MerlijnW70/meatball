@@ -20,6 +20,7 @@ import { GehaktbalLogo } from "../components/GehaktbalLogo";
 import { LiveMatchBanner } from "../components/feed/LiveMatchBanner";
 import { DailyHeader } from "../components/home/DailyHeader";
 import { ActivityGrid } from "../components/home/ActivityGrid";
+import { OnlineStrip } from "../components/home/OnlineStrip";
 import { go } from "../router";
 import { friendlyError } from "../utils/errors";
 import { cacheInviteCode, generateInviteCode } from "../utils/inviteCode";
@@ -34,6 +35,7 @@ export function FeedPage() {
         <DailyHeader />
         <LiveMatchBanner />
         <PendingRequestsBanner />
+        <OnlineStrip />
         <ActivityGrid />
         {myGroups.length === 0 && <CreateTeamCard />}
       </main>
