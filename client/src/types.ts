@@ -108,6 +108,14 @@ export interface RatingVote {
   created_at: Timestamp;
 }
 
+export interface RatingReaction {
+  id: bigint;
+  rating_id: bigint;
+  user_id: bigint;
+  emoji: string;
+  created_at: Timestamp;
+}
+
 export interface Group {
   id: bigint;
   name: string;

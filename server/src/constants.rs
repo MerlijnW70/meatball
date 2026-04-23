@@ -27,6 +27,11 @@ pub const ALLOWED_REACTIONS: &[&str] = &["⚽", "🏆", "🔥", "🟨", "🟥"];
 
 pub const ALLOWED_MOODS: &[&str] = &["🔥", "🍺", "🎉", "😴", "😡", "🫠"];
 
+// Emoji-reacties die users kunnen plakken onder een rating. Andere set
+// dan ALLOWED_REACTIONS (die is voor user→user DMs): dit is puur
+// review-feedback. Toggle-achtig: tap plakt, nogmaals tap verwijdert.
+pub const ALLOWED_RATING_REACTIONS: &[&str] = &["🔥", "👑", "🤌", "😂", "💀", "🤢"];
+
 pub const ALLOWED_AVATAR_COLORS: &[&str] = &[
     "pop", "hot", "mint", "sky", "bruise", "ink", "paper", "lime",
 ];

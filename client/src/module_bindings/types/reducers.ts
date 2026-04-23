@@ -39,6 +39,7 @@ import SubmitPredictionReducer from "../submit_prediction_reducer";
 import SubmitRatingReducer from "../submit_rating_reducer";
 import ToggleFollowReducer from "../toggle_follow_reducer";
 import ToggleLikeReducer from "../toggle_like_reducer";
+import ToggleRatingReactionReducer from "../toggle_rating_reaction_reducer";
 import VoteClubMoodReducer from "../vote_club_mood_reducer";
 import VoteRatingReducer from "../vote_rating_reducer";
 
@@ -75,6 +76,7 @@ export type SubmitPredictionParams = __Infer<typeof SubmitPredictionReducer>;
 export type SubmitRatingParams = __Infer<typeof SubmitRatingReducer>;
 export type ToggleFollowParams = __Infer<typeof ToggleFollowReducer>;
 export type ToggleLikeParams = __Infer<typeof ToggleLikeReducer>;
+export type ToggleRatingReactionParams = __Infer<typeof ToggleRatingReactionReducer>;
 export type VoteClubMoodParams = __Infer<typeof VoteClubMoodReducer>;
 export type VoteRatingParams = __Infer<typeof VoteRatingReducer>;
 

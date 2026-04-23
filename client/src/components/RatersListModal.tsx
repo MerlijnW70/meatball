@@ -10,6 +10,7 @@ import { BrutalCard } from "./BrutalCard";
 import { BrutalInput } from "./BrutalInput";
 import { UserMenu } from "./UserMenu";
 import { Avatar } from "./Avatar";
+import { RatingReactionBar } from "./RatingReactionBar";
 import { client } from "../spacetime";
 import { fmtRelative, scoreColor } from "../utils/format";
 import { normalizeName } from "../utils/normalize";
@@ -127,51 +128,59 @@ function RaterRow({
 
   return (
     <BrutalCard
-      className={`!p-0 flex items-stretch overflow-hidden ${trollish ? "opacity-50" : ""}`}
+      className={`!p-0 overflow-hidden ${trollish ? "opacity-50" : ""}`}
     >
-      <div
-        className={`shrink-0 w-14 flex items-center justify-center
-                    font-display text-2xl border-r-4 border-ink
-                    ${scoreColor(score * 100)}`}
-      >
-        {score}
-      </div>
-      <div className="flex-1 min-w-0 p-2 flex items-center gap-2">
-        <Avatar userId={userId} size="sm" />
-        <div className="flex-1 min-w-0">
-          <p className="font-display uppercase text-base leading-tight truncate">
-            <UserMenu userId={userId} name={name} />
-          </p>
-          <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">
-            {fmtRelative(at)}{trollish ? " · gemarkeerd" : ""}
-          </p>
+      <div className="flex items-stretch">
+        <div
+          className={`shrink-0 w-14 flex items-center justify-center
+                      font-display text-2xl border-r-4 border-ink
+                      ${scoreColor(score * 100)}`}
+        >
+          {score}
         </div>
+        <div className="flex-1 min-w-0 p-2 flex items-center gap-2">
+          <Avatar userId={userId} size="sm" />
+          <div className="flex-1 min-w-0">
+            <p className="font-display uppercase text-base leading-tight truncate">
+              <UserMenu userId={userId} name={name} />
+            </p>
+            <p className="text-[10px] font-bold uppercase tracking-widest opacity-60">
+              {fmtRelative(at)}{trollish ? " · gemarkeerd" : ""}
+            </p>
+          </div>
+        </div>
+        {/* Vote buttons */}
+        {!isSelf && ratingId !== null && (
+          <div className="shrink-0 flex flex-col border-l-4 border-ink">
+            <button
+              type="button"
+              onClick={(e) => vote(1, e)}
+              aria-label="upvote"
+              aria-pressed={votes.myVote === 1}
+              className={`h-1/2 w-10 text-sm font-display border-b-2 border-ink
+                ${votes.myVote === 1 ? "bg-mint text-ink" : "bg-paper"}
+                active:translate-x-[1px] active:translate-y-[1px]`}
+            >
+              ▲<br/><span className="text-[10px]">{votes.up}</span>
+            </button>
+            <button
+              type="button"
+              onClick={(e) => vote(-1, e)}
+              aria-label="downvote"
+              aria-pressed={votes.myVote === -1}
+              className={`h-1/2 w-10 text-sm font-display
+                ${votes.myVote === -1 ? "bg-hot text-paper" : "bg-paper"}
+                active:translate-x-[1px] active:translate-y-[1px]`}
+            >
+              ▼<br/><span className="text-[10px]">{votes.down}</span>
+            </button>
+          </div>
+        )}
       </div>
-      {/* Vote buttons */}
-      {!isSelf && ratingId !== null && (
-        <div className="shrink-0 flex flex-col border-l-4 border-ink">
-          <button
-            type="button"
-            onClick={(e) => vote(1, e)}
-            aria-label="upvote"
-            aria-pressed={votes.myVote === 1}
-            className={`h-1/2 w-10 text-sm font-display border-b-2 border-ink
-              ${votes.myVote === 1 ? "bg-mint text-ink" : "bg-paper"}
-              active:translate-x-[1px] active:translate-y-[1px]`}
-          >
-            ▲<br/><span className="text-[10px]">{votes.up}</span>
-          </button>
-          <button
-            type="button"
-            onClick={(e) => vote(-1, e)}
-            aria-label="downvote"
-            aria-pressed={votes.myVote === -1}
-            className={`h-1/2 w-10 text-sm font-display
-              ${votes.myVote === -1 ? "bg-hot text-paper" : "bg-paper"}
-              active:translate-x-[1px] active:translate-y-[1px]`}
-          >
-            ▼<br/><span className="text-[10px]">{votes.down}</span>
-          </button>
+      {/* Emoji-reactie-balk onderaan. Eigen rating → disabled. */}
+      {ratingId !== null && (
+        <div className="border-t-2 border-ink/20 px-2 py-1.5 bg-paper/30">
+          <RatingReactionBar ratingId={ratingId} disabled={isSelf} />
         </div>
       )}
     </BrutalCard>

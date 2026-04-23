@@ -8,7 +8,7 @@ import type {
   ActivityEvent, City, Club, ClubMembership, ClubMood, FootballMatch, Follow,
   Group, GroupInvite, GroupMembership, InviteRequest,
   MatchEvent, MatchFixture, MatchPlayer, MatchPrediction,
-  Province, Rating, RatingIntent,
+  Province, Rating, RatingIntent, RatingReaction,
   RatingTag, RatingVote, Session as LiveSession, Snack, SnackLike, SnackStats,
   User, UserPosition, UserReaction,
 } from "./types";
@@ -49,6 +49,9 @@ interface AppState {
    * O(votesForThisRating) werken ipv O(totalVotes).
    */
   votesByRating: Map<string, RatingVote[]>;
+  ratingReactions: IdMap<RatingReaction>;
+  /** Zelfde indexed-lookup pattern als votesByRating. */
+  reactionsByRating: Map<string, RatingReaction[]>;
   groups: IdMap<Group>;
   groupMemberships: IdMap<GroupMembership>;
   groupInvites: IdMap<GroupInvite>;
@@ -89,6 +92,8 @@ interface AppState {
   deleteMood: (id: bigint) => void;
   upsertVote: (v: RatingVote) => void;
   deleteVote: (id: bigint) => void;
+  upsertRatingReaction: (r: RatingReaction) => void;
+  deleteRatingReaction: (id: bigint) => void;
   upsertMembership: (m: ClubMembership) => void;
   deleteMembership: (id: bigint) => void;
   upsertGroup: (g: Group) => void;
@@ -163,7 +168,8 @@ export const useStore = create<AppState>((set, get) => ({
   users: m(), provinces: m(), cities: m(), clubs: m(),
   snacks: m(), ratings: m(), ratingTags: m(), stats: m(), activity: m(),
   likes: m(), sessions: m(), intents: m(), reactions: m(),
-  follows: m(), moods: m(), votes: m(), votesByRating: new Map(), memberships: m(),
+  follows: m(), moods: m(), votes: m(), votesByRating: new Map(),
+  ratingReactions: m(), reactionsByRating: new Map(), memberships: m(),
   groups: m(), groupMemberships: m(), groupInvites: m(),
   userPositions: m(), inviteRequests: m(),
   matches: m(), matchPlayers: m(), matchEvents: m(),
@@ -235,6 +241,33 @@ export const useStore = create<AppState>((set, get) => ({
     if (arr.length > 0) index.set(k, arr);
     else index.delete(k);
     return { votes, votesByRating: index };
+  }),
+  upsertRatingReaction: (r) => set((s) => {
+    const ratingReactions = put(s.ratingReactions, r.id, r);
+    const index = new Map(s.reactionsByRating);
+    const prev = s.ratingReactions.get(r.id.toString());
+    if (prev && prev.rating_id !== r.rating_id) {
+      const oldKey = prev.rating_id.toString();
+      const oldArr = (index.get(oldKey) ?? []).filter((x) => x.id !== r.id);
+      if (oldArr.length > 0) index.set(oldKey, oldArr);
+      else index.delete(oldKey);
+    }
+    const newKey = r.rating_id.toString();
+    const existing = (index.get(newKey) ?? []).filter((x) => x.id !== r.id);
+    existing.push(r);
+    index.set(newKey, existing);
+    return { ratingReactions, reactionsByRating: index };
+  }),
+  deleteRatingReaction: (id) => set((s) => {
+    const reaction = s.ratingReactions.get(id.toString());
+    const ratingReactions = del(s.ratingReactions, id);
+    if (!reaction) return { ratingReactions };
+    const index = new Map(s.reactionsByRating);
+    const k = reaction.rating_id.toString();
+    const arr = (index.get(k) ?? []).filter((x) => x.id !== id);
+    if (arr.length > 0) index.set(k, arr);
+    else index.delete(k);
+    return { ratingReactions, reactionsByRating: index };
   }),
   upsertMembership: (mb) => set((s) => ({ memberships: put(s.memberships, mb.id, mb) })),
   deleteMembership: (id) => set((s) => ({ memberships: del(s.memberships, id) })),

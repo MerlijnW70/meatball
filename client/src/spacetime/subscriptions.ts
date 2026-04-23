@@ -35,6 +35,7 @@ export function subscribeGlobal(conn: any) {
       "SELECT * FROM rating_intent",
       "SELECT * FROM user_reaction",
       "SELECT * FROM rating_vote",
+      "SELECT * FROM rating_reaction",
       "SELECT * FROM club_membership",
       // `snack`, `snack_stats`, `rating` en `snack_like` zijn globaal zodat
       // de seizoens-feed realtime blijft voor alle lid-kantines zonder per-club

@@ -9,7 +9,7 @@ import type {
   Group, GroupInvite, GroupMembership, InviteRequest,
   MatchEvent, MatchEventKind, MatchFixture, MatchPlayer, MatchPrediction,
   Position,
-  Province, Rating, RatingIntent, RatingTag, RatingVote,
+  Province, Rating, RatingIntent, RatingReaction, RatingTag, RatingVote,
   Session as LiveSession, Snack, SnackLike, SnackStats, User, UserPosition,
   UserReaction,
 } from "../types";
@@ -112,6 +112,11 @@ export const toClubMood = (r: any): ClubMood => ({
 export const toRatingVote = (r: any): RatingVote => ({
   id: r.id, rating_id: r.ratingId, voter_user_id: r.voterUserId,
   value: r.value, created_at: tsToMicros(r.createdAt),
+});
+
+export const toRatingReaction = (r: any): RatingReaction => ({
+  id: r.id, rating_id: r.ratingId, user_id: r.userId,
+  emoji: r.emoji, created_at: tsToMicros(r.createdAt),
 });
 
 export const toClubMembership = (r: any): ClubMembership => ({

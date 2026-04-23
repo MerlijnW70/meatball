@@ -2,11 +2,11 @@
 
 use spacetimedb::{reducer, ReducerContext, Table};
 
-use crate::constants::{ALLOWED_MOODS, ALLOWED_REACTIONS};
+use crate::constants::{ALLOWED_MOODS, ALLOWED_RATING_REACTIONS, ALLOWED_REACTIONS};
 use crate::helpers::{enforce_rate_limit, require_membership, require_user};
 use crate::tables::{
-    club, club_mood, follow, snack, snack_like, user, user_reaction, ClubMood, Follow,
-    SnackLike, UserReaction,
+    club, club_mood, follow, rating, rating_reaction, snack, snack_like, user, user_reaction,
+    ClubMood, Follow, RatingReaction, SnackLike, UserReaction,
 };
 
 #[reducer]
@@ -113,6 +113,42 @@ pub fn send_reaction(
         emoji,
         created_at: ctx.timestamp,
     });
+    Ok(())
+}
+
+/// Emoji-reactie onder een rating toggelen. Eén rij per (rating, user,
+/// emoji) combinatie — tweede tap met dezelfde emoji verwijdert 'm.
+/// Users mogen meerdere verschillende emojis op dezelfde rating plakken.
+#[reducer]
+pub fn toggle_rating_reaction(
+    ctx: &ReducerContext,
+    rating_id: u64,
+    emoji: String,
+) -> Result<(), String> {
+    let user = require_user(ctx)?;
+    if !ALLOWED_RATING_REACTIONS.iter().any(|e| *e == emoji) {
+        return Err("Ongeldige reactie".into());
+    }
+    if ctx.db.rating().id().find(rating_id).is_none() {
+        return Err("Rating niet gevonden".into());
+    }
+    enforce_rate_limit(ctx, "toggle_rating_reaction", 1)?;
+    // Per-rating cooldown: voorkomt emoji-spam-rotation op één rating.
+    enforce_rate_limit(ctx, &format!("toggle_rating_reaction_{}", rating_id), 2)?;
+
+    let existing = ctx.db.rating_reaction().iter()
+        .find(|r| r.rating_id == rating_id && r.user_id == user.id && r.emoji == emoji);
+    if let Some(r) = existing {
+        ctx.db.rating_reaction().id().delete(r.id);
+    } else {
+        ctx.db.rating_reaction().insert(RatingReaction {
+            id: 0,
+            rating_id,
+            user_id: user.id,
+            emoji,
+            created_at: ctx.timestamp,
+        });
+    }
     Ok(())
 }
 

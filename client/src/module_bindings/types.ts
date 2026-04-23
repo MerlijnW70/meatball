@@ -284,6 +284,15 @@ export const RatingPing = __t.object("RatingPing", {
 });
 export type RatingPing = __Infer<typeof RatingPing>;
 
+export const RatingReaction = __t.object("RatingReaction", {
+  id: __t.u64(),
+  ratingId: __t.u64(),
+  userId: __t.u64(),
+  emoji: __t.string(),
+  createdAt: __t.timestamp(),
+});
+export type RatingReaction = __Infer<typeof RatingReaction>;
+
 export const RatingTag = __t.object("RatingTag", {
   id: __t.u64(),
   ratingId: __t.u64(),

@@ -129,6 +129,20 @@ pub struct ClubMembership {
     pub joined_at: Timestamp,
 }
 
+/// Emoji-reactie onder een rating (multi-emoji per user toegestaan).
+/// Eén rij per (rating, user, emoji) combinatie — tap plakt, nogmaals
+/// tap verwijdert. Valt-naast de binary up/down uit RatingVote.
+#[table(accessor = rating_reaction, public)]
+pub struct RatingReaction {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    pub rating_id: u64,
+    pub user_id: u64,
+    pub emoji: String,
+    pub created_at: Timestamp,
+}
+
 /// Up- of downvote op iemand anders zijn rating — community-consensus
 /// tegen trolls. Eén stem per (rating, voter); waarde is +1 of -1.
 #[table(accessor = rating_vote, public)]

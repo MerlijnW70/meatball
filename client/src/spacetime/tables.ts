@@ -8,7 +8,7 @@ import {
   toFootballMatch, toGroup, toGroupInvite,
   toGroupMembership, toInviteRequest, toMatchEvent, toMatchFixture,
   toMatchPlayer, toMatchPrediction,
-  toProvince, toRating, toRatingIntent, toRatingTag, toRatingVote, toSession,
+  toProvince, toRating, toRatingIntent, toRatingReaction, toRatingTag, toRatingVote, toSession,
   toSnack, toSnackLike, toSnackStats, toUser, toUserPosition, toUserReaction,
 } from "./mappers";
 
@@ -73,6 +73,8 @@ export function wireTables(conn: any) {
   pipe(db.follow, "follow", toFollow, s.upsertFollow, (f) => s.deleteFollow(f.id));
   pipe(db.club_mood, "club_mood", toClubMood, s.upsertMood, (m) => s.deleteMood(m.id));
   pipe(db.rating_vote, "rating_vote", toRatingVote, s.upsertVote, (v) => s.deleteVote(v.id));
+  pipe(db.rating_reaction, "rating_reaction", toRatingReaction,
+    s.upsertRatingReaction, (r) => s.deleteRatingReaction(r.id));
   pipe(db.club_membership, "club_membership", toClubMembership, s.upsertMembership, (m) => s.deleteMembership(m.id));
   pipe(db.group, "group", toGroup, s.upsertGroup, (g) => s.deleteGroup(g.id));
   pipe(db.group_membership, "group_membership", toGroupMembership, s.upsertGroupMembership, (m) => s.deleteGroupMembership(m.id));

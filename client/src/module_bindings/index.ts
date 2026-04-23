@@ -67,6 +67,7 @@ import SubmitPredictionReducer from "./submit_prediction_reducer";
 import SubmitRatingReducer from "./submit_rating_reducer";
 import ToggleFollowReducer from "./toggle_follow_reducer";
 import ToggleLikeReducer from "./toggle_like_reducer";
+import ToggleRatingReactionReducer from "./toggle_rating_reaction_reducer";
 import VoteClubMoodReducer from "./vote_club_mood_reducer";
 import VoteRatingReducer from "./vote_rating_reducer";
 
@@ -92,6 +93,7 @@ import ProvinceRow from "./province_table";
 import RatingRow from "./rating_table";
 import RatingIntentRow from "./rating_intent_table";
 import RatingPingRow from "./rating_ping_table";
+import RatingReactionRow from "./rating_reaction_table";
 import RatingTagRow from "./rating_tag_table";
 import RatingVoteRow from "./rating_vote_table";
 import SessionRow from "./session_table";
@@ -319,6 +321,17 @@ const tablesSchema = __schema({
       { name: 'rating_ping_id_key', constraint: 'unique', columns: ['id'] },
     ],
   }, RatingPingRow),
+  rating_reaction: __table({
+    name: 'rating_reaction',
+    indexes: [
+      { accessor: 'id', name: 'rating_reaction_id_idx_btree', algorithm: 'btree', columns: [
+        'id',
+      ] },
+    ],
+    constraints: [
+      { name: 'rating_reaction_id_key', constraint: 'unique', columns: ['id'] },
+    ],
+  }, RatingReactionRow),
   rating_tag: __table({
     name: 'rating_tag',
     indexes: [
@@ -463,6 +476,7 @@ const reducersSchema = __reducers(
   __reducerSchema("submit_rating", SubmitRatingReducer),
   __reducerSchema("toggle_follow", ToggleFollowReducer),
   __reducerSchema("toggle_like", ToggleLikeReducer),
+  __reducerSchema("toggle_rating_reaction", ToggleRatingReactionReducer),
   __reducerSchema("vote_club_mood", VoteClubMoodReducer),
   __reducerSchema("vote_rating", VoteRatingReducer),
 );
