@@ -66,6 +66,8 @@ export function installMockSeed() {
     clearClubMood: async () => {},
     voteRating: async () => {},
     toggleRatingReaction: async () => {},
+    createBackupCode: async () => {},
+    redeemBackupCode: async () => {},
     setAvatar: async () => {},
     setPosition: async () => {},
     joinClub: async () => {},

@@ -18,6 +18,8 @@ export interface MeatballClient {
   clearClubMood(clubId: bigint): Promise<void>;
   voteRating(ratingId: bigint, value: 1 | -1): Promise<void>;
   toggleRatingReaction(ratingId: bigint, emoji: string): Promise<void>;
+  createBackupCode(code: string): Promise<void>;
+  redeemBackupCode(code: string): Promise<void>;
   setAvatar(color: string, icon: string, decor: string): Promise<void>;
   setPosition(position: string): Promise<void>;
   joinClub(clubId: bigint): Promise<void>;

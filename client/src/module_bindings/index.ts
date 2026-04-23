@@ -41,6 +41,7 @@ import AddSnackReducer from "./add_snack_reducer";
 import ApproveInviteRequestReducer from "./approve_invite_request_reducer";
 import BeginRatingReducer from "./begin_rating_reducer";
 import ClearClubMoodReducer from "./clear_club_mood_reducer";
+import CreateBackupCodeReducer from "./create_backup_code_reducer";
 import CreateGroupReducer from "./create_group_reducer";
 import CreateGroupInviteReducer from "./create_group_invite_reducer";
 import CreateMatchFixtureReducer from "./create_match_fixture_reducer";
@@ -51,6 +52,7 @@ import JoinClubReducer from "./join_club_reducer";
 import KickGroupMemberReducer from "./kick_group_member_reducer";
 import LeaveClubReducer from "./leave_club_reducer";
 import LeaveGroupReducer from "./leave_group_reducer";
+import RedeemBackupCodeReducer from "./redeem_backup_code_reducer";
 import RegenerateGroupInviteReducer from "./regenerate_group_invite_reducer";
 import RegisterUserReducer from "./register_user_reducer";
 import RejectInviteRequestReducer from "./reject_invite_request_reducer";
@@ -450,6 +452,7 @@ const reducersSchema = __reducers(
   __reducerSchema("approve_invite_request", ApproveInviteRequestReducer),
   __reducerSchema("begin_rating", BeginRatingReducer),
   __reducerSchema("clear_club_mood", ClearClubMoodReducer),
+  __reducerSchema("create_backup_code", CreateBackupCodeReducer),
   __reducerSchema("create_group", CreateGroupReducer),
   __reducerSchema("create_group_invite", CreateGroupInviteReducer),
   __reducerSchema("create_match_fixture", CreateMatchFixtureReducer),
@@ -460,6 +463,7 @@ const reducersSchema = __reducers(
   __reducerSchema("kick_group_member", KickGroupMemberReducer),
   __reducerSchema("leave_club", LeaveClubReducer),
   __reducerSchema("leave_group", LeaveGroupReducer),
+  __reducerSchema("redeem_backup_code", RedeemBackupCodeReducer),
   __reducerSchema("regenerate_group_invite", RegenerateGroupInviteReducer),
   __reducerSchema("register_user", RegisterUserReducer),
   __reducerSchema("reject_invite_request", RejectInviteRequestReducer),

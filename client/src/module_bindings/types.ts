@@ -33,6 +33,14 @@ export const ActivityKind = __t.enum("ActivityKind", {
 });
 export type ActivityKind = __Infer<typeof ActivityKind>;
 
+export const BackupSecret = __t.object("BackupSecret", {
+  id: __t.u64(),
+  codeHash: __t.string(),
+  userId: __t.u64(),
+  createdAt: __t.timestamp(),
+});
+export type BackupSecret = __Infer<typeof BackupSecret>;
+
 export const City = __t.object("City", {
   id: __t.u64(),
   provinceId: __t.u64(),

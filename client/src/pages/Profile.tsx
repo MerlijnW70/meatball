@@ -16,6 +16,7 @@ import { Avatar } from "../components/Avatar";
 import { AvatarPicker } from "../components/AvatarPicker";
 import { ConfirmModal } from "../components/ConfirmModal";
 import { SocialInbox } from "../components/SocialInbox";
+import { BackupCodeCard } from "../components/profile/BackupCodeCard";
 import { fmtRelative } from "../utils/format";
 import { friendlyError } from "../utils/errors";
 import { go } from "../router";
@@ -230,6 +231,9 @@ export function ProfilePage({ userId }: { userId: bigint }) {
 
         {/* Social inbox — alleen op eigen profiel */}
         {isSelf && <SocialInbox />}
+
+        {/* Backup-code voor device-onafhankelijke account-persistence */}
+        {isSelf && <BackupCodeCard />}
 
         {/* Self-only: teams met verlaat-knop per team */}
         {isSelf && myGroups.length > 0 && (

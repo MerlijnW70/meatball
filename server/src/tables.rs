@@ -264,6 +264,25 @@ pub struct GroupInvite {
     pub created_at: Timestamp,
 }
 
+/// Private tabel — server-only. Bewaart een SHA-256 hash van een user-
+/// gekozen backup-code + bijbehorende user_id. Eén actieve backup per
+/// user (nieuwe aanmaak vervangt oude). Bij redeem koppelen we de
+/// sender-identity aan deze user (identity-swap) zodat de user zijn
+/// account behoudt op een nieuw device.
+///
+/// Hash ipv plaintext om leak-impact te beperken zelfs als private-DB
+/// ooit wordt geëxposeerd.
+#[table(accessor = backup_secret)]
+pub struct BackupSecret {
+    #[primary_key]
+    #[auto_inc]
+    pub id: u64,
+    #[unique]
+    pub code_hash: String,
+    pub user_id: u64,
+    pub created_at: Timestamp,
+}
+
 /// Private tabel — server-only. Houdt de plaintext-code van elke invite.
 /// Niet `public` dus clients kunnen hier NOOIT op subscriben.
 /// Reducers gebruiken hem om `accept_group_invite` lookup te doen.

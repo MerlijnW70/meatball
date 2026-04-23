@@ -48,6 +48,8 @@ export function makeClient(conn: any): MeatballClient {
     voteRating: (ratingId, value) => call("voteRating", { ratingId, value }),
     toggleRatingReaction: (ratingId, emoji) =>
       call("toggleRatingReaction", { ratingId, emoji }, false),
+    createBackupCode: (code) => call("createBackupCode", { code }),
+    redeemBackupCode: (code) => call("redeemBackupCode", { code }),
     setAvatar: (color, icon, decor) => call("setAvatar", { color, icon, decor }),
     setPosition: (position) => call("setPosition", { position }),
     joinClub: (clubId) => call("joinClub", { clubId }, false),
