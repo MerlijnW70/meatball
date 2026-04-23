@@ -14,14 +14,18 @@ import { RatingReactionBar } from "./RatingReactionBar";
 import { client } from "../spacetime";
 import { fmtRelative, scoreColor } from "../utils/format";
 import { normalizeName } from "../utils/normalize";
+import { shareRating } from "../utils/shareRating";
 
 interface Props {
   snackId: bigint;
   snackName: string;
+  /** Optional — club-naam voor de share-card. RaterRow valt anders terug
+   *  op "jouw kantine" als 't niet beschikbaar is. */
+  clubName?: string;
   onClose: () => void;
 }
 
-export function RatersListModal({ snackId, snackName, onClose }: Props) {
+export function RatersListModal({ snackId, snackName, clubName, onClose }: Props) {
   const { list, total } = useAllRatersFor(snackId);
   const [q, setQ] = useState("");
 
@@ -87,6 +91,8 @@ export function RatersListModal({ snackId, snackName, onClose }: Props) {
                   key={r.userId.toString()}
                   ratingId={findRatingIdForUser(r.userId, snackId)}
                   userId={r.userId} name={r.name} score={r.score} at={r.at}
+                  snackName={snackName}
+                  clubName={clubName}
                 />
               ))}
             </div>
@@ -106,13 +112,15 @@ function findRatingIdForUser(userId: bigint, snackId: bigint): bigint | null {
 }
 
 function RaterRow({
-  ratingId, userId, name, score, at,
+  ratingId, userId, name, score, at, snackName, clubName,
 }: {
   ratingId: bigint | null;
   userId: bigint;
   name: string;
   score: number;
   at: number;
+  snackName: string;
+  clubName?: string;
 }) {
   const votes = useRatingVotes(ratingId);
   const me = useStore((s) => s.session.me);
@@ -122,6 +130,19 @@ function RaterRow({
     e.stopPropagation();
     if (!ratingId || isSelf) return;
     client().voteRating(ratingId, v).catch(console.error);
+  };
+
+  const share = (e: MouseEvent) => {
+    e.stopPropagation();
+    if (!me) return;
+    shareRating({
+      snackName,
+      clubName: clubName ?? "jouw kantine",
+      score,
+      raterName: name,
+      raterAvatarColor: me.avatar_color,
+      raterAvatarIcon: me.avatar_icon,
+    }).catch(console.error);
   };
 
   const trollish = votes.net <= -2;
@@ -177,10 +198,26 @@ function RaterRow({
           </div>
         )}
       </div>
-      {/* Emoji-reactie-balk onderaan. Eigen rating → disabled. */}
+      {/* Emoji-reactie-balk onderaan. Eigen rating → disabled,
+          inplaats daarvan een share-knop. */}
       {ratingId !== null && (
-        <div className="border-t-2 border-ink/20 px-2 py-1.5 bg-paper/30">
-          <RatingReactionBar ratingId={ratingId} disabled={isSelf} />
+        <div className="border-t-2 border-ink/20 px-2 py-1.5 bg-paper/30
+                        flex items-center gap-2">
+          <div className="flex-1 min-w-0">
+            <RatingReactionBar ratingId={ratingId} disabled={isSelf} />
+          </div>
+          {isSelf && (
+            <button
+              type="button"
+              onClick={share}
+              aria-label="deel je rating"
+              className="shrink-0 inline-flex items-center gap-1 border-2 border-ink
+                         bg-mint text-ink px-2 py-0.5 text-[10px] font-display uppercase
+                         active:translate-x-[1px] active:translate-y-[1px] transition-transform"
+            >
+              💬 deel
+            </button>
+          )}
         </div>
       )}
     </BrutalCard>

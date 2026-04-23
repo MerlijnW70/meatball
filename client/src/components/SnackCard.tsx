@@ -183,6 +183,7 @@ export function SnackCard({ snack, rank, onTap }: Props) {
         <RatersListModal
           snackId={snack.id}
           snackName={snack.name}
+          clubName={useStore.getState().clubs.get(snack.club_id.toString())?.name}
           onClose={() => setShowAllRaters(false)}
         />
       )}

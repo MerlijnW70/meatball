@@ -14,6 +14,7 @@ import { FeedPage } from "./pages/Feed";
 import { SeizoenPage } from "./pages/Seizoen";
 import { WedstrijdenPage } from "./pages/Wedstrijden";
 import { RanglijstPage } from "./pages/Ranglijst";
+import { ActiviteitPage } from "./pages/Activiteit";
 import { ClubViewPage } from "./pages/ClubView";
 import { ProfilePage } from "./pages/Profile";
 import { GroupDetailPage } from "./pages/GroupDetail";
@@ -160,6 +161,7 @@ function RouteSwitch({ path }: { path: string }) {
   if (path === "/seizoen") return <SeizoenPage />;
   if (path === "/wedstrijden") return <WedstrijdenPage />;
   if (path === "/ranglijst") return <RanglijstPage />;
+  if (path === "/activiteit") return <ActiviteitPage />;
   if (path === "/teams/zoek") return <TeamSearchPage />;
   if (path === "/groups") {
     // Legacy redirect — team-beheer gaat nu via home + /group/:id.

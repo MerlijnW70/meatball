@@ -135,13 +135,11 @@ export function ActivityGrid() {
       badge: totalClubs > 0 ? `${totalClubs}` : null,
     },
     {
-      emoji: "🎯",
-      label: "speel",
-      sub: "hoger-lager & quiz",
+      emoji: "📢",
+      label: "activiteit",
+      sub: "wat gebeurt er in NL",
       tone: "bruise" as const,
-      to: "/speel",
-      badge: "BINNENKORT",
-      disabled: true,
+      to: "/activiteit",
     },
     {
       emoji: "🗺️",

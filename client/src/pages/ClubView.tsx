@@ -12,6 +12,7 @@ import { BrutalButton } from "../components/BrutalButton";
 import { SnackCard } from "../components/SnackCard";
 import { RatingModal } from "../components/RatingModal";
 import { MoodStrip } from "../components/club/MoodStrip";
+import { SocialProofStrip } from "../components/club/SocialProofStrip";
 import { fmtScore, scoreColor } from "../utils/format";
 import type { Club, Snack } from "../types";
 
@@ -79,6 +80,8 @@ export function ClubViewPage({ clubId }: { clubId: bigint }) {
 
       <main className="flex-1 px-4 py-5 flex flex-col gap-4">
         <ClubHero club={club} />
+
+        <SocialProofStrip clubId={clubId} />
 
         <MoodStrip clubId={clubId} isMember={isMember} />
 
